@@ -1,5 +1,8 @@
 package controller;
 /**
+ * NOTE: Delete When Finished
+ *
+ * Notes from Requirements:
  *The controller package will hold Controller
  * classes that contain Business Logic for your views.
  *
