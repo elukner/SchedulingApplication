@@ -1,7 +1,12 @@
 package dao;
-
 /**
  *The dao package will hold Utility Classes that handle Database Access.
+ *
+ * Defining DAO or Abstract classes with static methods
+ * that perform CRUD (Create Read Update Delete)
+ * or INSERT, SELECT, UPDATE,
+ * and DELETE operations is highly recommended. For
+ * more info on the DAO pattern
  *
  * These classes interact with the database,
  * perform CRUD operations, and handle data retrieval.
