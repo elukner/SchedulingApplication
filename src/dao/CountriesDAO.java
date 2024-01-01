@@ -1,4 +1,15 @@
 package dao;
+/**
+ * Project: DAODemo2021
+ * Package: sample.DAO
+ * <p>
+ * User: carolyn.sher
+ * Date: 9/15/2021
+ * Time: 9:53 AM
+ * <p>
+ * Created with IntelliJ IDEA
+ * To change this template use File | Settings | File Templates.
+ */
 
 /**
  *The dao package will hold Utility Classes that handle Database Access.
@@ -31,4 +42,26 @@ package dao;
  **/
 
 public class CountriesDAO {
+    public static void createCountries(){
+
+    }
+
+    /**
+     * public static observableList<Countries></Countries> getalicountrlesof0bservableList<Countr1es clist - FXCollections, observableArraycist();
+     * return clist; }
+     * public static void checkDateConversion()f
+     * Systen,out, printla("CREATE DATE TEST");
+     * String sql = "select Create_Date fron countries";
+     * $\operatorname{tey} 1$
+     * PreparedStatement $p s=$ DBConnection.getConnection ().preparestatement (sql);
+     * Resultset rs - ps,executequeryo; I
+     * hhile(rs.next $\mathrm{O})$ (
+     * Tinestanp ts - rs.getTinestanp( calumblabal: "Create_Dete");
+     * Systen.out.println("CD: " + ts.toLocalDateTine().toString());
+     * \}
+     * f catch (SQLException throwables) f
+     * thronables, printstackTrace();
+     * \}
+     * \}
+     */
 }

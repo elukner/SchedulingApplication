@@ -28,6 +28,13 @@ public abstract class JDBC {
         }
     }
 
+    /**
+     * getter for getting connnection once the connection is already open
+     * @return connection Connection Interface
+     */
+    public static Connection getConnection(){
+        return connection;
+    }
     public static void closeConnection() {
         try {
             connection.close();
@@ -35,7 +42,7 @@ public abstract class JDBC {
         }
         catch(Exception e)
         {
-            System.out.println("Error:" + e.getMessage());
+            //according to video just do nothing instead of this: System.out.println("Error:" + e.getMessage());
         }
     }
 }
