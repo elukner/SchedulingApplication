@@ -47,6 +47,27 @@ package helper;
  * Other General Utilities: Any other functions that offer
  * support across different parts of the application
  * but don't specifically belong to the DAO or controller logic.
+ * If you have utility classes containing functional interfaces,
+ * you can employ lambda expressions to implement
+ * these interfaces and enhance their usage.
+ *
+ * // Example of using a functional interface in a helper class method
+ * public class TimeConversionUtil {
+ *     public void performOperation(OperationInterface operation) {
+ *         operation.execute();
+ *     }
+ *
+ *     public void useLambda() {
+ *         // Using lambda expression to implement the functional interface
+ *         performOperation(() -> System.out.println("Performing operation using lambda"));
+ *     }
+ * }
+ *
+ * @FunctionalInterface
+ * interface OperationInterface {
+ *     void execute();
+ * }
+ *
  */
 
 public class TimeProcessing {
