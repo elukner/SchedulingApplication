@@ -71,5 +71,10 @@ package helper;
  *
  */
 
+/**
+ * Write code that provides the ability to track user activity by recording all user log-in attempts, dates, and
+ * time stamps and whether each attempt was successful in a file named login_activity.txt.
+ * Append each new record to the existing file, and save to the root folder of the application.
+ */
 public class FileIOManager {
 }
