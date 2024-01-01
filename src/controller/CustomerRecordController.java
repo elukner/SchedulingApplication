@@ -20,17 +20,18 @@ package controller;
 /**
  * Write code that provides the following customer record functionalities:
  *
- * •  Customer records and appointments can be added, updated, and deleted.
+ * Customer records and appointments can be added, updated, and deleted.
+ *-When deleting a customer record, all of the customer’s appointments must be deleted first,
+ * due to foreign key constraints.
+ *-When adding and updating a customer, text fields are used to collect the following data:
+ * customer name, address, postal code, and phone number.
+ *-Customer IDs are auto-generated, and first-level division (i.e., states, provinces) and
+ * country data are collected using separate combo boxes.
  *
- * -  When deleting a customer record, all of the customer’s appointments must be deleted first, due to foreign key constraints.
- *
- * •  When adding and updating a customer, text fields are used to collect the following data: customer name, address, postal code, and phone number.
- *
- * -  Customer IDs are auto-generated, and first-level division (i.e., states, provinces) and country data are collected using separate combo boxes.
  *
  *
- *
- * Note: The address text field should not include first-level division and country data. Please use the following examples to format addresses:
+ * Note: The address text field should not include first-level division and country data.
+ * Please use the following examples to format addresses:
  *
  * •  U.S. address: 123 ABC Street, White Plains
  *
@@ -40,21 +41,24 @@ package controller;
  *
  *
  *
- * -  When updating a customer, the customer data autopopulates in the form.
+ * When updating a customer, the customer data autopopulates in the form.
  *
  *
  *
- * •  Country and first-level division data is prepopulated in separate combo boxes or lists in the user interface for the user to choose. The first-level list should be filtered by the user’s selection of a country (e.g., when choosing U.S., filter so it only shows states).
+ * Country and first-level division data is prepopulated in separate combo boxes or lists in the user interface for
+ * the user to choose. The first-level list should be filtered by the user’s selection of a country
+ * (e.g., when choosing U.S., filter so it only shows states).
  *
- * •  All of the original customer information is displayed on the update form.
+ *All of the original customer information is displayed on the update form.
+ *Customer_ID must be disabled.
  *
- * -  Customer_ID must be disabled.
+ * All of the fields can be updated except for Customer_ID.
  *
- * •  All of the fields can be updated except for Customer_ID.
+ * Customer data is displayed using a TableView, including first-level division data. A list of all the customers
+ * and their information may be viewed in a TableView, and updates of the data can be performed in text
+ * fields on the form.
  *
- * •  Customer data is displayed using a TableView, including first-level division data. A list of all the customers and their information may be viewed in a TableView, and updates of the data can be performed in text fields on the form.
- *
- * •  When a customer record is deleted, a custom message should display in the user interface.
+ * When a customer record is deleted, a custom message should display in the user interface.
  */
 
 public class CustomerRecordController {
