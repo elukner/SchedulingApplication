@@ -49,5 +49,5 @@ package helper;
  * but don't specifically belong to the DAO or controller logic.
  */
 
-public class FunctionalInterfaces {
+public class TimeProcessing {
 }
