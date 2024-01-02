@@ -53,8 +53,9 @@ public class CountriesDAOTest {
         JDBC.openConnection();
 
         CountriesDAO.selectCountries();
+        CountriesDAO.selectCountries(4); //make this into a full test later
 
-//        if(rowsUpdated.getFetchSize()>0){
+//        if(CountriesDAO.selectCountries.getFetchSize()>0){
 //            for (int i = 0;i<rowsUpdated.getFetchSize();i++ ) {
 //                System.out.println(rowsUpdated.next());
 //            }

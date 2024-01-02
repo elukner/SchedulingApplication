@@ -44,7 +44,7 @@ import java.sql.SQLException;
  * database tables/entities. They map Java objects to
  * database entities and handle the
  * interaction between the application and the database.
- **/
+ */
 
 /**
  *
@@ -91,7 +91,29 @@ public class CountriesDAO {
         while(resultSet.next()){
             int countryID = resultSet.getInt("Country_ID");
             String country = resultSet.getString("Country");
-            System.out.print(countryID + " " +country);
+            System.out.print(countryID + " " + " | ");
+            System.out.println(country);
+        }
+
+
+    }
+
+    /**
+     *
+     * @throws SQLException
+     */
+    public static void selectCountries(int countryID) throws SQLException {
+
+        String sqlStatement = "SELECT * FROM client_schedule.countries WHERE Country_ID = ?";
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+        preparedStatement.setInt(1,countryID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()){
+            countryID = resultSet.getInt("Country_ID");
+            String country = resultSet.getString("Country");
+
+            System.out.print(countryID + " " + " | ");
+            System.out.println(country);
         }
 
 
