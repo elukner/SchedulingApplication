@@ -1,10 +1,32 @@
 package test;
 
+import dao.AppointmentDAO;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import model.Appointments;
+import dao.AppointmentDAO;
+import dao.AppointmentDaoImpl;
 
 public class AppointmentsTest {
+    @Test
+    public void testAppointmentDaoImpl(){
+        AppointmentDAO appointmentsDao = new AppointmentDaoImpl();
+
+        //print all appointments
+        for (Appointments appointments : appointmentsDao.getAllAppointments()) {
+            System.out.println("Appointments: [Appointment_ID : " + appointments.getAppointmentID() + ", Name : " + appointments.getTitle() + " ]");
+        }
+
+
+        //update student
+        Appointments appointments = appointmentsDao.getAllAppointments().get(0);
+        appointments.setTitle("Michael");
+        appointmentsDao.updateAppointment(appointments);
+
+        //get the student
+        appointmentsDao.getAppointment(0);
+        System.out.println("Student: [RollNo : " + appointments.getAppointmentID() + ", Name : " + appointments.getTitle() + " ]");
+    }
     @Test
     public void testGettersAndSetters() {
 
