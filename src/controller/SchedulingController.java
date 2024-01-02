@@ -1,4 +1,27 @@
 package controller;
+
+import javafx.fxml.Initializable;
+
+import java.awt.event.ActionEvent;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import dao.UserDAO;
+import dao.CountriesDAO;
+//import model.Users;
+import model.Countries;
+
+import javax.swing.*;
+
 /**
  * NOTE: Delete When Finished
  *
@@ -117,5 +140,29 @@ package controller;
  * •  an additional report of your choice that is different from the two other required reports in this prompt and
  * from the user log-in date and time stamp that will be tracked in part C
  */
-public class SchedulingController {
+
+//public class SchedulingController {
+//
+//}
+public class SchedulingController implements Initializable {
+    @FXML
+    private TableView<Countries> UserTable;
+    @FXML
+    private TableColumn<?, ?> ID;
+    @FXML
+    private TableColumn<?, ?> UserName;
+    @FXML
+    private TableColumn<?, ?> Password;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+    public void show(ActionEvent actionEvent){
+        ObservableList<Countries> countryList = CountriesDAO.getAllCountries();
+        for(Countries country: countryList){
+            System.out.println("Country ID: " + country.getCountryID() + "Name: " + country.getCountryName());
+        }
+    }
 }

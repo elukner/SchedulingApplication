@@ -13,5 +13,5 @@ public class Countries {
     }
     public int getCountryID(){return countryID;}
 
-    public String countryName(){return countryName;}
+    public String getCountryName(){return countryName;}
 }

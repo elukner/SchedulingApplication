@@ -50,8 +50,23 @@ import java.sql.SQLException;
  **/
 
 public class CountriesDAO {
-    public static void createCountries(){
+    public static int insertCountries(String countryName, int countryID) throws SQLException {
+        String sqlStatement = "INSERT INTO table_name () VALUES (value1, value2, value3, ...)";
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+        //stoped here preparedStatement.setString(1,);
+        return countryID;
+    }
 
+    public static int selectCountries(String countryName, int countryID){
+        return countryID;
+    }
+
+    public static int updateCountries(String countryName, int countryID){
+        return countryID;
+    }
+
+    public static int deleteCountries(String countryName, int countryID){
+        return countryID;
     }
 
     public static ObservableList<Countries> getAllCountries(){

@@ -42,7 +42,8 @@ public abstract class JDBC {
         }
         catch(Exception e)
         {
-            //according to video just do nothing instead of this: System.out.println("Error:" + e.getMessage());
+            //according to video just do nothing instead of this:
+            System.out.println("Error:" + e.getMessage());
         }
     }
 }
