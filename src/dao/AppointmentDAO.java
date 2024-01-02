@@ -7,7 +7,8 @@ package dao;
  * Date: 1/2/2024
  * Time: 1:27 PM
  */
-
+import model.Appointments;
+import java.util.List;
 /**
  *The dao package will hold Utility Classes that handle Database Access.
  *
@@ -37,5 +38,11 @@ package dao;
  * database entities and handle the
  * interaction between the application and the database.
  **/
-public class AppointmentDAO {
+public interface AppointmentDAO {
+    public List<Appointments> getAllAppointments();
+    public Appointments getAppointment(int appointmentID);
+    public void insertAppointment(Appointments appointment);
+    public void selectAppointment(Appointments appointment);
+    public void updateAppointment(Appointments appointment);
+    public void deleteAppointment(Appointments appointment);
 }

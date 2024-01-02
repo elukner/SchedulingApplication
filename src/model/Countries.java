@@ -16,12 +16,17 @@ package model;
  */
 public class Countries {
     private int countryID;
-    private String countryName;
-    public Countries(int countryID, String countryName){
+    private String country;
+    private String createDate;
+    private String createdBy;
+    private String lastUpdate;
+    private String lastUpdatedBy;
+
+    public Countries(int countryID, String country){
         this.countryID=countryID;
-        this.countryName =countryName;
+        this.country =country;
     }
     public int getCountryID(){return countryID;}
 
-    public String getCountryName(){return countryName;}
+    public String getCountryName(){return country;}
 }
