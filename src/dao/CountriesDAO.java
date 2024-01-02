@@ -49,23 +49,52 @@ import java.sql.SQLException;
  * interaction between the application and the database.
  **/
 
+/**
+ *
+ */
 public class CountriesDAO {
-    public static int insertCountries(String countryName, int countryID) throws SQLException {
-        String sqlStatement = "INSERT INTO table_name () VALUES (value1, value2, value3, ...)";
+
+    /**
+     * This method is used to insert new records into the Countries table from client_schedule database
+     * @param countryID
+     * @param country
+     * @param createdBy
+     * @param lastUpdatedBy
+     * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
+     * for SQL statements that return nothing
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     * closed PreparedStatement or the SQL statement returns a ResultSet object
+     * java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     * that was specified by the setQueryTimeout method has been exceeded and
+     * has at least attempted to cancel the currently running Statement
+     */
+    public static int insertCountries(int countryID, String country, String createdBy, String lastUpdatedBy) throws SQLException {
+        String sqlStatement = "INSERT INTO `client_schedule`.`countries` (`Country_ID`, `Country`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`) VALUES (?, ?, NOW(), ?, NOW(), ?);";
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
-        //stoped here preparedStatement.setString(1,);
-        return countryID;
+        preparedStatement.setInt(1,countryID);
+        preparedStatement.setString(2,country);
+        preparedStatement.setString(3,createdBy);
+        preparedStatement.setString(4,lastUpdatedBy);
+
+        //returns rows that were updated
+        return preparedStatement.executeUpdate();
     }
 
-    public static int selectCountries(String countryName, int countryID){
-        return countryID;
+    public static boolean selectCountries() throws SQLException {
+
+        String sqlStatement = "SELECT * FROM client_schedule.countries";
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+        return preparedStatement.execute();
     }
 
     public static int updateCountries(String countryName, int countryID){
+        //UPDATE `client_schedule`.`countries` SET `Country` = 'Poland' WHERE (`Country_ID` = '4');
         return countryID;
     }
 
     public static int deleteCountries(String countryName, int countryID){
+        //DELETE FROM `client_schedule`.`countries` WHERE (`Country_ID` = '4');
         return countryID;
     }
 
