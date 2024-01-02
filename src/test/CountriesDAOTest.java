@@ -43,16 +43,16 @@ public class CountriesDAOTest {
     public void testSelectCountries() throws SQLException {
         JDBC.openConnection();
 
-        ResultSet rowsUpdated = CountriesDAO.selectCountries();
+        CountriesDAO.selectCountries();
 
-        if(rowsUpdated.getFetchSize()>0){
-            for (int i = 0;i<rowsUpdated.getFetchSize();i++ ) {
-                System.out.println(rowsUpdated.next());
-            }
-
-        }else{
-            System.out.println("Select Failed");
-        }
+//        if(rowsUpdated.getFetchSize()>0){
+//            for (int i = 0;i<rowsUpdated.getFetchSize();i++ ) {
+//                System.out.println(rowsUpdated.next());
+//            }
+//
+//        }else{
+//            System.out.println("Select Failed");
+//        }
 
         JDBC.closeConnection();
     }

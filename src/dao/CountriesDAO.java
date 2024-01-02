@@ -84,15 +84,20 @@ public class CountriesDAO {
 
     /**
      *
-     * @return
      * @throws SQLException
      */
-    public static ResultSet selectCountries() throws SQLException {
+    public static void selectCountries() throws SQLException {
 
         String sqlStatement = "SELECT * FROM client_schedule.countries";
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()){
+            int countryID = resultSet.getInt("Country_ID");
+            String country = resultSet.getString("Country");
+            System.out.print(countryID + " " +country);
+        }
 
-        return preparedStatement.executeQuery();
+
     }
 
     /**
