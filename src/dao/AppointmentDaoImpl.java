@@ -4,7 +4,7 @@ import model.Appointments;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppointmentDaoImpl implements AppointmentDAO{
+public class AppointmentDaoImpl {
 
     //list is working as a database
     List<Appointments> appointments;
@@ -23,7 +23,6 @@ public class AppointmentDaoImpl implements AppointmentDAO{
      * retrive list of students from the database
      * @return
      */
-    @Override
     public List<Appointments> getAllAppointments() {
         return appointments;
     }
@@ -33,7 +32,6 @@ public class AppointmentDaoImpl implements AppointmentDAO{
      * @param appointmentID
      * @return
      */
-    @Override
     public Appointments getAppointment(int appointmentID) {
         return appointments.get(appointmentID);
     }
@@ -42,7 +40,6 @@ public class AppointmentDaoImpl implements AppointmentDAO{
      *
      * @param appointment
      */
-    @Override
     public void insertAppointment(Appointments appointment) {
         appointments.get(appointment.getAppointmentID()).setTitle(appointment.getTitle());
         System.out.println("Student: Roll No " + appointment.getAppointmentID() + ", updated in the database");
@@ -52,7 +49,6 @@ public class AppointmentDaoImpl implements AppointmentDAO{
      * TODO
      * @param appointment
      */
-    @Override
     public void selectAppointment(Appointments appointment) {
 
     }
@@ -61,7 +57,6 @@ public class AppointmentDaoImpl implements AppointmentDAO{
      * TODO
      * @param appointment
      */
-    @Override
     public void updateAppointment(Appointments appointment) {
 
     }
@@ -70,7 +65,6 @@ public class AppointmentDaoImpl implements AppointmentDAO{
      *
      * @param appointment
      */
-    @Override
     public void deleteAppointment(Appointments appointment) {
         appointments.remove(appointment.getAppointmentID());
         System.out.println("Appointment: Appointment_ID" + appointment.getAppointmentID() + ", deleted from database");
