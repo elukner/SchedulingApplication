@@ -70,32 +70,64 @@ public class CountriesDAO {
      */
     public static int insertCountries(int countryID, String country, String createdBy, String lastUpdatedBy) throws SQLException {
         String sqlStatement = "INSERT INTO `client_schedule`.`countries` (`Country_ID`, `Country`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`) VALUES (?, ?, NOW(), ?, NOW(), ?);";
+
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
         preparedStatement.setInt(1,countryID);
         preparedStatement.setString(2,country);
         preparedStatement.setString(3,createdBy);
         preparedStatement.setString(4,lastUpdatedBy);
 
-        //returns rows that were updated
         return preparedStatement.executeUpdate();
     }
 
-    public static boolean selectCountries() throws SQLException {
+
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
+    public static ResultSet selectCountries() throws SQLException {
 
         String sqlStatement = "SELECT * FROM client_schedule.countries";
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
-        return preparedStatement.execute();
+        return preparedStatement.executeQuery();
     }
 
-    public static int updateCountries(String countryName, int countryID){
-        //UPDATE `client_schedule`.`countries` SET `Country` = 'Poland' WHERE (`Country_ID` = '4');
-        return countryID;
+    /**
+     *
+     * @param countryID
+     * @param country
+     * @return
+     * @throws SQLException
+     */
+    public static int updateCountries(int countryID, String country) throws SQLException {
+        String sqlStatement = "UPDATE `client_schedule`.`countries` SET `Country` = ? WHERE (`Country_ID` = ?)";
+
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+        preparedStatement.setString(1,country);
+        preparedStatement.setInt(2,countryID);
+
+
+        return preparedStatement.executeUpdate();
     }
 
-    public static int deleteCountries(String countryName, int countryID){
-        //DELETE FROM `client_schedule`.`countries` WHERE (`Country_ID` = '4');
-        return countryID;
+    /**
+     *
+     * @param countryID
+     * @return
+     * @throws SQLException
+     */
+    public static int deleteCountries(int countryID) throws SQLException {
+        String sqlStatement = "DELETE FROM `client_schedule`.`countries` WHERE (`Country_ID` = ?)";
+
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+        preparedStatement.setInt(1,countryID);
+
+        return preparedStatement.executeUpdate();
     }
 
     public static ObservableList<Countries> getAllCountries(){

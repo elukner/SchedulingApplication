@@ -23,24 +23,24 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-//    public static void main(String[] args) {
-//        JDBC.openConnection();
-//        launch(args);
-//        JDBC.closeConnection();
-//    }
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         JDBC.openConnection();
-        //launch(args);
-
-            int rowsUpdated = CountriesDAO.insertCountries(4,"Finland", "Test User", "Test User" );
-
-            if(rowsUpdated>0){
-                System.out.println("Insert Successful");
-            }else{
-                System.out.println("Insert Failed");
-            }
-
-
+        launch(args);
         JDBC.closeConnection();
     }
+//    public static void main(String[] args) throws SQLException {
+//        JDBC.openConnection();
+//        //launch(args);
+//
+//            int rowsUpdated = CountriesDAO.insertCountries(4,"Finland", "Test User", "Test User" );
+//
+//            if(rowsUpdated>0){
+//                System.out.println("Insert Successful");
+//            }else{
+//                System.out.println("Insert Failed");
+//            }
+//
+//
+//        JDBC.closeConnection();
+//    }
 }
