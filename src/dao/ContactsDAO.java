@@ -1,4 +1,12 @@
 package dao;
+/**
+ * Project: SchedulingApplication
+ * Package: dao
+ * <p>
+ * User: Elizabeth Thomas
+ * Date: 1/2/2024
+ * Time: 1:27 PM
+ */
 
 /**
  *The dao package will hold Utility Classes that handle Database Access.

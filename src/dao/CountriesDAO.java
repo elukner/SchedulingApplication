@@ -1,14 +1,11 @@
 package dao;
 /**
- * Project: DAODemo2021
- * Package: sample.DAO
+ * Project: SchedulingApplication
+ * Package: dao
  * <p>
- * User: carolyn.sher
- * Date: 9/15/2021
- * Time: 9:53 AM
- * <p>
- * Created with IntelliJ IDEA
- * To change this template use File | Settings | File Templates.
+ * User: Elizabeth Thomas
+ * Date: 1/2/2024
+ * Time: 1:27 PM
  */
 
 import helper.JDBC;

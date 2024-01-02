@@ -1,5 +1,14 @@
 package test;
 
+/**
+ * Project: SchedulingApplication
+ * Package: dao
+ * <p>
+ * User: Elizabeth Thomas
+ * Date: 1/2/2024
+ * Time: 1:27 PM
+ */
+
 import dao.CountriesDAO;
 import helper.JDBC;
 import org.junit.jupiter.api.Test;
