@@ -5,4 +5,13 @@ package model;
  *  The POJOs are used to Map rows from the database tables
  */
 public class Countries {
+    private int countryID;
+    private String countryName;
+    public Countries(int countryID, String countryName){
+        this.countryID=countryID;
+        this.countryName =countryName;
+    }
+    public int getCountryID(){return countryID;}
+
+    public String countryName(){return countryName;}
 }

@@ -11,6 +11,14 @@ package dao;
  * To change this template use File | Settings | File Templates.
  */
 
+import helper.JDBC;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.Countries;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *The dao package will hold Utility Classes that handle Database Access.
  *
@@ -46,6 +54,26 @@ public class CountriesDAO {
 
     }
 
+    public static ObservableList<Countries> getAllCountries(){
+        ObservableList<Countries> countriesList = FXCollections.observableArrayList();
+        try{
+            String sqlStatement = "SELECT * FROM client_schedule.countries";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                int countryID=resultSet.getInt("Country_ID");
+                String countryName = resultSet.getString("Country");
+                Countries country = new Countries(countryID,countryName);
+                countriesList.add(country);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return countriesList;
+    }
+
     /**
      * public static observableList<Countries></Countries> getalicountrlesof0bservableList<Countr1es clist - FXCollections, observableArraycist();
      * return clist; }
@@ -64,4 +92,5 @@ public class CountriesDAO {
      * \}
      * \}
      */
+
 }
