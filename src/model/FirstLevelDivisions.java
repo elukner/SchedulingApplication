@@ -15,7 +15,7 @@ package model;
  */
 public class FirstLevelDivisions {
 
-  private int division_ID;
+  private int divisionID;
   private String division;
   private String createDate;
   private String createdBy;
@@ -23,11 +23,11 @@ public class FirstLevelDivisions {
   private String lastUpdatedBy;
   private int countryID; //FOREIGN KEY
 
-  public FirstLevelDivisions(int division_ID, String division,
+  public FirstLevelDivisions(int divisionID, String division,
                              String createDate, String createdBy,
                              String lastUpdate, String lastUpdatedBy,
                              int countryID) {
-    this.division_ID = division_ID;
+    this.divisionID = divisionID;
     this.division = division;
     this.createDate = createDate;
     this.createdBy = createdBy;
@@ -36,12 +36,12 @@ public class FirstLevelDivisions {
     this.countryID = countryID;
   }
 
-  public int getDivision_ID() {
-    return division_ID;
+  public int getDivisionID() {
+    return divisionID;
   }
 
-  public void setDivision_ID(int division_ID) {
-    this.division_ID = division_ID;
+  public void setDivisionID(int divisionID) {
+    this.divisionID = divisionID;
   }
 
   public String getDivision() {

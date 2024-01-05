@@ -1,14 +1,12 @@
 package test;
 
-import dao.AppointmentsDaoImpl;
+import dao.*;
 
-import dao.ContactsDaoImpl;
-import dao.CountriesDaoImpl;
-import dao.CustomersDaoImpl;
 import helper.JDBC;
 import model.Appointments;
 import model.Contacts;
 import model.Customers;
+import model.FirstLevelDivisions;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -200,6 +198,29 @@ public class DaoTest {
         CustomersDaoImpl.selectCustomers(4);
         CustomersDaoImpl.updateCustomers(4,"title 2.0");
         CustomersDaoImpl.deleteCustomers(4);
+
+//        int rowsUpdated = AppointmentDaoImpl.deleteAppointment(3);
+//
+//        if(rowsUpdated>0){
+//            System.out.println("Delete Successful");
+//        }else{
+//            System.out.println("Delete Failed");
+//        }
+
+        JDBC.closeConnection();
+    }
+    @Test
+    public void testFirstLevelDivisionsDaoImpl() throws SQLException {
+        JDBC.openConnection();
+        for (FirstLevelDivisions firstLevelDivision : FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisions()) {
+            System.out.println("Customers: [Customer_ID : " + firstLevelDivision.getDivisionID() + ", Name : " + firstLevelDivision.getDivision() + " ]");
+        }
+        FirstLevelDivisionsDaoImpl.deleteFirstLevelDivisions(105);
+        FirstLevelDivisionsDaoImpl.insertFirstLevelDivisions(105, "Alberta", "script","script", 3 );
+        FirstLevelDivisionsDaoImpl.selectFirstLevelDivisions();
+        FirstLevelDivisionsDaoImpl.selectFirstLevelDivisions(105);
+        FirstLevelDivisionsDaoImpl.updateFirstLevelDivisions(105,"title 2.0");
+      FirstLevelDivisionsDaoImpl.deleteFirstLevelDivisions(105);
 
 //        int rowsUpdated = AppointmentDaoImpl.deleteAppointment(3);
 //
