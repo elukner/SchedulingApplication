@@ -1,9 +1,11 @@
 package test;
 
 import dao.AppointmentDaoImpl;
+import dao.ContactsDaoImpl;
 import dao.CountriesDAOImpl;
 import helper.JDBC;
 import model.Appointments;
+import model.Contacts;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -19,14 +21,16 @@ public class DaoTest {
         }
 
 
-        //update student
-        Appointments appointments = appointmentsDaoImpl.getAllAppointments().get(0);
-        appointments.setTitle("Michael");
-        appointmentsDaoImpl.updateAppointment(appointments);
 
-        //get the student
-        appointmentsDaoImpl.getAppointment(0);
-        System.out.println("Student: [RollNo : " + appointments.getAppointmentID() + ", Name : " + appointments.getTitle() + " ]");
+
+//        //update student
+//        Appointments appointments = appointmentsDaoImpl.getAllAppointments().get(0);
+//        appointments.setTitle("Michael");
+//        appointmentsDaoImpl.updateAppointment(appointments);
+//
+//        //get the student
+//        appointmentsDaoImpl.getAppointment(0);
+//        System.out.println("Student: [RollNo : " + appointments.getAppointmentID() + ", Name : " + appointments.getTitle() + " ]");
     }
 
 
@@ -80,6 +84,16 @@ public class DaoTest {
     }
 
     @Test
+    public void testSelectContacts() throws SQLException {
+        JDBC.openConnection();
+
+        ContactsDaoImpl.selectContact();
+        //ContactsDaoImpl.selectContact(3); //make this into a full test later
+
+        JDBC.closeConnection();
+    }
+
+    @Test
     public void testDeleteCountries() throws SQLException {
         JDBC.openConnection();
 
@@ -93,4 +107,30 @@ public class DaoTest {
 
         JDBC.closeConnection();
     }
+
+    @Test
+    public void testContactsDaoImpl()  {
+
+        ContactsDaoImpl contactsDaoImpl = new ContactsDaoImpl();
+
+
+        //print all appointments
+        for (Contacts contact: ContactsDaoImpl.getAllContacts() ) {
+            System.out.println("Contacts: [Contact_ID : " + contact.getContactID() + ", Name : " + contact.getContactName() + ", Email : " + contact.getEmail() + " ]");
+        }
+
+//
+//        //update student
+//        Appointments appointments = appointmentsDaoImpl.getAllAppointments().get(0);
+//        appointments.setTitle("Michael");
+//        appointmentsDaoImpl.updateAppointment(appointments);
+//
+//        //get the student
+//        appointmentsDaoImpl.getAppointment(0);
+//        System.out.println("Student: [RollNo : " + appointments.getAppointmentID() + ", Name : " + appointments.getTitle() + " ]");
+    }
+
+
+
+
 }
