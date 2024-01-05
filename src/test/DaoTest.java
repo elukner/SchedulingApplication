@@ -3,10 +3,7 @@ package test;
 import dao.*;
 
 import helper.JDBC;
-import model.Appointments;
-import model.Contacts;
-import model.Customers;
-import model.FirstLevelDivisions;
+import model.*;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -221,6 +218,30 @@ public class DaoTest {
         FirstLevelDivisionsDaoImpl.selectFirstLevelDivisions(105);
         FirstLevelDivisionsDaoImpl.updateFirstLevelDivisions(105,"title 2.0");
       FirstLevelDivisionsDaoImpl.deleteFirstLevelDivisions(105);
+
+//        int rowsUpdated = AppointmentDaoImpl.deleteAppointment(3);
+//
+//        if(rowsUpdated>0){
+//            System.out.println("Delete Successful");
+//        }else{
+//            System.out.println("Delete Failed");
+//        }
+
+        JDBC.closeConnection();
+    }
+
+    @Test
+    public void testUsersDaoImpl() throws SQLException {
+        JDBC.openConnection();
+        for (Users user : UsersDaoImpl.getAllUsers()) {
+            System.out.println("Customers: [Customer_ID : " + user.getUserID() + ", Name : " + user.getUserName() + " ]");
+        }
+        UsersDaoImpl.deleteUsers(3);
+        UsersDaoImpl.insertUsers(3, "tester", "test", "script","script" );
+        UsersDaoImpl.selectUsers();
+        UsersDaoImpl.selectUsers(3);
+        UsersDaoImpl.updateUsers(3,"title 2.0");
+        UsersDaoImpl.deleteUsers(3);
 
 //        int rowsUpdated = AppointmentDaoImpl.deleteAppointment(3);
 //
