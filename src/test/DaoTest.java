@@ -4,9 +4,11 @@ import dao.AppointmentsDaoImpl;
 
 import dao.ContactsDaoImpl;
 import dao.CountriesDaoImpl;
+import dao.CustomersDaoImpl;
 import helper.JDBC;
 import model.Appointments;
 import model.Contacts;
+import model.Customers;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -165,8 +167,7 @@ public class DaoTest {
     }
 
     @Test
-
-    public void testAppointments() throws SQLException {
+    public void testAppointmentsDaoImpl() throws SQLException {
         JDBC.openConnection();
         for (Appointments appointments : AppointmentsDaoImpl.getAllAppointments()) {
             System.out.println("Appointments: [Appointment_ID : " + appointments.getAppointmentID() + ", Name : " + appointments.getTitle() + " ]");
@@ -177,6 +178,29 @@ public class DaoTest {
         AppointmentsDaoImpl.selectAppointment(3);
         AppointmentsDaoImpl.updateAppointment(3,"title 2.0");
         AppointmentsDaoImpl.deleteAppointment(3);
+//        int rowsUpdated = AppointmentDaoImpl.deleteAppointment(3);
+//
+//        if(rowsUpdated>0){
+//            System.out.println("Delete Successful");
+//        }else{
+//            System.out.println("Delete Failed");
+//        }
+
+        JDBC.closeConnection();
+    }
+    @Test
+    public void testCustomersDaoImpl() throws SQLException {
+        JDBC.openConnection();
+        for (Customers customer : CustomersDaoImpl.getAllCustomers()) {
+            System.out.println("Customers: [Customer_ID : " + customer.getCustomerID() + ", Name : " + customer.getCustomerName() + " ]");
+        }
+        CustomersDaoImpl.deleteCustomers(4);
+        CustomersDaoImpl.insertCustomers(4, "Dudley Do-Right", "48 Horse Manor ", "28198", "874-916-2671", "script", "script", 60);
+        CustomersDaoImpl.selectCustomers();
+        CustomersDaoImpl.selectCustomers(4);
+        CustomersDaoImpl.updateCustomers(4,"title 2.0");
+        CustomersDaoImpl.deleteCustomers(4);
+
 //        int rowsUpdated = AppointmentDaoImpl.deleteAppointment(3);
 //
 //        if(rowsUpdated>0){

@@ -49,15 +49,21 @@ import java.sql.SQLException;
 
 public class CustomersDaoImpl {
 
-    public static int insertCustomers(int countryID, String country, String createdBy, String lastUpdatedBy) throws SQLException {
-        String sqlStatement = "INSERT INTO `client_schedule`.`countries` (`Country_ID`, `Country`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`) VALUES (?, ?, NOW(), ?, NOW(), ?);";
+    public static int insertCustomers(int customerID, String customerName, String address,
+                                      String postalCode,String phone, String createdBy,
+                                      String lastUpdatedBy, int divisionID) throws SQLException {
+        String sqlStatement = "INSERT INTO `client_schedule`.`customers` (`Customer_ID`, `Customer_Name`, `Address`, `Postal_Code`, `Phone`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`, `Division_ID`) VALUES (?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?);";
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
-        preparedStatement.setInt(1,countryID);
-        preparedStatement.setString(2,country);
-        preparedStatement.setString(3,createdBy);
-        preparedStatement.setString(4,lastUpdatedBy);
+        preparedStatement.setInt(1,customerID);
+        preparedStatement.setString(2,customerName);
+        preparedStatement.setString(3,address);
+        preparedStatement.setString(4,postalCode);
+        preparedStatement.setString(5,phone);
+        preparedStatement.setString(6,createdBy);
+        preparedStatement.setString(7,lastUpdatedBy);
+        preparedStatement.setInt(8,divisionID);
 
         return preparedStatement.executeUpdate();
     }
@@ -69,14 +75,30 @@ public class CustomersDaoImpl {
      */
     public static void selectCustomers() throws SQLException {
 
-        String sqlStatement = "SELECT * FROM client_schedule.countries";
+        String sqlStatement = "SELECT * FROM client_schedule.customers";
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
         ResultSet resultSet = preparedStatement.executeQuery();
         while(resultSet.next()){
-            int countryID = resultSet.getInt("Country_ID");
-            String country = resultSet.getString("Country");
-            System.out.print(countryID + " " + " | ");
-            System.out.println(country);
+            int customerID=resultSet.getInt("Customer_ID");
+            String customerName = resultSet.getString("Customer_Name");
+            String address= resultSet.getString("Address");
+            String postalCode= resultSet.getString("Postal_Code");
+            String phone= resultSet.getString("Phone");
+            String createDate= resultSet.getString("Create_Date");
+            String createdBy= resultSet.getString("Created_By");
+            String lastUpdate= resultSet.getString("Last_Update");
+            String lastUpdatedBy= resultSet.getString("Last_Updated_By");
+            int divisionID=resultSet.getInt("Division_ID");
+            System.out.print(customerID + " " + " | ");
+            System.out.print(customerName + " " + " | ");
+            System.out.print(address + " " + " | ");
+            System.out.print(postalCode + " " + " | ");
+            System.out.print(phone + " " + " | ");
+            System.out.print(createDate + " " + " | ");
+            System.out.print(createdBy + " " + " | ");
+            System.out.print(lastUpdate + " " + " | ");
+            System.out.print(lastUpdatedBy + " " + " | ");
+            System.out.println(divisionID);
         }
 
 
@@ -86,77 +108,96 @@ public class CustomersDaoImpl {
      *
      * @throws SQLException
      */
-    public static void selectCustomers(int countryID) throws SQLException {
+    public static void selectCustomers(int customerID) throws SQLException {
 
-        String sqlStatement = "SELECT * FROM client_schedule.countries WHERE Country_ID = ?";
+        String sqlStatement = "SELECT * FROM client_schedule.customers WHERE Customer_ID = ?";
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
-        preparedStatement.setInt(1,countryID);
+        preparedStatement.setInt(1,customerID);
         ResultSet resultSet = preparedStatement.executeQuery();
         while(resultSet.next()){
-            countryID = resultSet.getInt("Country_ID");
-            String country = resultSet.getString("Country");
-
-            System.out.print(countryID + " " + " | ");
-            System.out.println(country);
+            customerID=resultSet.getInt("Customer_ID");
+            String customerName = resultSet.getString("Customer_Name");
+            String address= resultSet.getString("Address");
+            String postalCode= resultSet.getString("Postal_Code");
+            String phone= resultSet.getString("Phone");
+            String createDate= resultSet.getString("Create_Date");
+            String createdBy= resultSet.getString("Created_By");
+            String lastUpdate= resultSet.getString("Last_Update");
+            String lastUpdatedBy= resultSet.getString("Last_Updated_By");
+            int divisionID=resultSet.getInt("Division_ID");
+            System.out.print(customerID + " " + " | ");
+            System.out.print(customerName + " " + " | ");
+            System.out.print(address + " " + " | ");
+            System.out.print(postalCode + " " + " | ");
+            System.out.print(phone + " " + " | ");
+            System.out.print(createDate + " " + " | ");
+            System.out.print(createdBy + " " + " | ");
+            System.out.print(lastUpdate + " " + " | ");
+            System.out.print(lastUpdatedBy + " " + " | ");
+            System.out.println(divisionID);
         }
 
 
     }
 
     /**
-     *
-     * @param countryID
-     * @param country
+     *Comment TODO
+     * @param customerID
+     * @param postalCode
      * @return
      * @throws SQLException
      */
-    public static int updateCustomers(int countryID, String country) throws SQLException {
-        String sqlStatement = "UPDATE `client_schedule`.`countries` SET `Country` = ? WHERE (`Country_ID` = ?)";
+    public static int updateCustomers(int customerID, String postalCode) throws SQLException {
+        String sqlStatement = "UPDATE `client_schedule`.`customers` SET `Postal_Code` = ? WHERE (`Customer_ID` = ?)";
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
-        preparedStatement.setString(1,country);
-        preparedStatement.setInt(2,countryID);
+        preparedStatement.setString(1,postalCode);
+        preparedStatement.setInt(2,customerID);
 
 
         return preparedStatement.executeUpdate();
     }
 
     /**
-     *
-     * @param countryID
+     *Comment TODO
+     * @param customerID
      * @return
      * @throws SQLException
      */
-    public static int deleteCustomers(int countryID) throws SQLException {
-        String sqlStatement = "DELETE FROM `client_schedule`.`countries` WHERE (`Country_ID` = ?)";
+    public static int deleteCustomers(int customerID) throws SQLException {
+        String sqlStatement = "DELETE FROM `client_schedule`.`customers` WHERE (`Customer_ID` = ?)";
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
-        preparedStatement.setInt(1,countryID);
+        preparedStatement.setInt(1,customerID);
 
         return preparedStatement.executeUpdate();
     }
 
+    /**
+     * Comment TODO
+     * @return
+     */
     public static ObservableList<Customers> getAllCustomers(){
         ObservableList<Customers> countriesList = FXCollections.observableArrayList();
         try{
-            String sqlStatement = "SELECT * FROM client_schedule.countries";
+            String sqlStatement = "SELECT * FROM client_schedule.customers";
             PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
-                int customerID=resultSet.getInt("Country_ID");
-                String customerName = resultSet.getString("Country");
-                String address= resultSet.getString("Country");
-                String postalCode= resultSet.getString("Country");
-                String phone= resultSet.getString("Country");
-                String createDate= resultSet.getString("Country");
-                String createdBy= resultSet.getString("Country");
-                String lastUpdate= resultSet.getString("Country");
-                String lastUpdatedBy= resultSet.getString("Country");
-                int divisionID=resultSet.getInt("Country_ID");
+                int customerID=resultSet.getInt("Customer_ID");
+                String customerName = resultSet.getString("Customer_Name");
+                String address= resultSet.getString("Address");
+                String postalCode= resultSet.getString("Postal_Code");
+                String phone= resultSet.getString("Phone");
+                String createDate= resultSet.getString("Create_Date");
+                String createdBy= resultSet.getString("Created_By");
+                String lastUpdate= resultSet.getString("Last_Update");
+                String lastUpdatedBy= resultSet.getString("Last_Updated_By");
+                int divisionID=resultSet.getInt("Division_ID");
                 Customers customer = new Customers(customerID, customerName,
                         address, postalCode, phone,
                         createDate, createdBy,
