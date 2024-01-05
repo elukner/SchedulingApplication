@@ -1,72 +1,208 @@
 package dao;
 
+import helper.JDBC;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.Appointments;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AppointmentDaoImpl {
 
-    //list is working as a database
-    List<Appointments> appointments;
-
-    public AppointmentDaoImpl() {
-        appointments = new ArrayList<Appointments>();
-        Appointments appointment1 = new Appointments(1, "Title1", "Desc", "2023-01-01", "2023-01-02",
-                "2023-01-01", "User1", "2023-01-02", "User2");
-        Appointments appointment2 = new Appointments(2, "Title2", "Desc", "2023-01-01", "2023-01-02",
-                "2023-01-01", "User1", "2023-01-02", "User2");
-        appointments.add(appointment1);
-        appointments.add(appointment1);
-    }
-
     /**
      * retrive list of students from the database
+     *
      * @return
      */
-    public List<Appointments> getAllAppointments() {
-        return appointments;
+    public static ObservableList<Appointments> getAllAppointments() {
+        ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+        try {
+            String sqlStatement = "SELECT * FROM client_schedule.appointments";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int appointmentID = resultSet.getInt("Appointment_ID");
+                String title = resultSet.getString("Title");
+                String description = resultSet.getString("Description");
+                String location = resultSet.getString("Location");
+                String type = resultSet.getString("Type");
+                String start = resultSet.getString("Start");
+                String end = resultSet.getString("End");
+                String createDate = resultSet.getString("Create_Date");
+                String createdBy = resultSet.getString("Created_By");
+                String lastUpdate = resultSet.getString("Last_Update");
+                String lastUpdatedBy = resultSet.getString("Last_Updated_By");
+                int customerID = resultSet.getInt("Customer_ID");
+                int userID = resultSet.getInt("User_ID");
+                int contactID = resultSet.getInt("Contact_ID");
+                Appointments appointment = new Appointments(appointmentID, title, description, location, type, start,
+                        end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+                appointmentsList.add(appointment);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return appointmentsList;
     }
 
     /**
+     * @param appointmentID
+     * @param title
+     * @param description
+     * @param location
+     * @param type
+     * @param start
+     * @param end
+     * @param createdBy
+     * @param lastUpdatedBy
+     * @param customerID
+     * @param userID
+     * @param contactID
+     * @return
+     * @throws SQLException
+     */
+    public static int insertAppointments(int appointmentID, String title, String description, String location, String type, String start,
+                                         String end, String createdBy, String lastUpdatedBy,
+                                         int customerID, int userID, int contactID) throws SQLException {
+        String sqlStatement = "INSERT INTO `client_schedule`.`appointments` " +
+                "(`Appointment_ID`, `Title`, `Description`, `Location`, `Type`, " +
+                "`Start`, `End`, `Create_Date`, `Created_By`, `Last_Update`, " +
+                "`Last_Updated_By`, `Customer_ID`, `User_ID`, `Contact_ID`) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?, ?, ?);";
+
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+        preparedStatement.setInt(1, appointmentID);
+        preparedStatement.setString(2, title);
+        preparedStatement.setString(3, description);
+        preparedStatement.setString(4, location);
+        preparedStatement.setString(5, type);
+        preparedStatement.setString(6, start);
+        preparedStatement.setString(7, end);
+        preparedStatement.setString(8, createdBy);
+        preparedStatement.setString(9, lastUpdatedBy);
+        preparedStatement.setInt(10, customerID);
+        preparedStatement.setInt(11, userID);
+        preparedStatement.setInt(12, contactID);
+
+
+        return preparedStatement.executeUpdate();
+    }
+
+    /**
+     * @throws SQLException
+     */
+    public static void selectAppointment() throws SQLException {
+        String sqlStatement = "SELECT * FROM client_schedule.appointments";
+
+
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int appointmentID = resultSet.getInt("Appointment_ID");
+            String title = resultSet.getString("Title");
+            String description = resultSet.getString("Description");
+            String location = resultSet.getString("Location");
+            String type = resultSet.getString("Type");
+            String start = resultSet.getString("Start");
+            String end = resultSet.getString("End");
+            String createDate = resultSet.getString("Create_Date");
+            String createdBy = resultSet.getString("Created_By");
+            String lastUpdate = resultSet.getString("Last_Update");
+            String lastUpdatedBy = resultSet.getString("Last_Updated_By");
+            int customerID = resultSet.getInt("Customer_ID");
+            int userID = resultSet.getInt("User_ID");
+            int contactID = resultSet.getInt("Contact_ID");
+            System.out.print(appointmentID + " " + " | ");
+            System.out.print(title + " " + " | ");
+            System.out.print(description + " " + " | ");
+            System.out.print(location + " " + " | ");
+            System.out.print(type + " " + " | ");
+            System.out.print(start + " " + " | ");
+            System.out.print(end + " " + " | ");
+            System.out.print(createDate + " " + " | ");
+            System.out.print(createdBy + " " + " | ");
+            System.out.print(lastUpdate + " " + " | ");
+            System.out.print(lastUpdatedBy + " " + " | ");
+            System.out.print(customerID + " " + " | ");
+            System.out.print(userID + " " + " | ");
+            System.out.println(contactID);
+        }
+    }
+
+    /**
+     * @throws SQLException
+     */
+    public static void selectAppointment(int appointmentID) throws SQLException {
+        String sqlStatement = "SELECT * FROM client_schedule.appointments WHERE Appointment_ID = ?";
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+        preparedStatement.setInt(1,appointmentID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            appointmentID = resultSet.getInt("Appointment_ID");
+            String title = resultSet.getString("Title");
+            String description = resultSet.getString("Description");
+            String location = resultSet.getString("Location");
+            String type = resultSet.getString("Type");
+            String start = resultSet.getString("Start");
+            String end = resultSet.getString("End");
+            String createDate = resultSet.getString("Create_Date");
+            String createdBy = resultSet.getString("Created_By");
+            String lastUpdate = resultSet.getString("Last_Update");
+            String lastUpdatedBy = resultSet.getString("Last_Updated_By");
+            int customerID = resultSet.getInt("Customer_ID");
+            int userID = resultSet.getInt("User_ID");
+            int contactID = resultSet.getInt("Contact_ID");
+            System.out.print(appointmentID + " " + " | ");
+            System.out.print(title + " " + " | ");
+            System.out.print(description + " " + " | ");
+            System.out.print(location + " " + " | ");
+            System.out.print(type + " " + " | ");
+            System.out.print(start + " " + " | ");
+            System.out.print(end + " " + " | ");
+            System.out.print(createDate + " " + " | ");
+            System.out.print(createdBy + " " + " | ");
+            System.out.print(lastUpdate + " " + " | ");
+            System.out.print(lastUpdatedBy + " " + " | ");
+            System.out.print(customerID + " " + " | ");
+            System.out.print(userID + " " + " | ");
+            System.out.println(contactID);
+        }
+    }
+
+    /**
+     * TODO
      *
      * @param appointmentID
-     * @return
      */
-    public Appointments getAppointment(int appointmentID) {
-        return appointments.get(appointmentID);
+    public static int updateAppointment(int appointmentID, String title) throws SQLException {
+        String sqlStatement = "UPDATE `client_schedule`.`appointments` SET `Title` = ? WHERE (`Appointment_ID` = ?)";
+
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+        preparedStatement.setString(1,title);
+        preparedStatement.setInt(2,appointmentID);
+
+
+
+        return preparedStatement.executeUpdate();
     }
 
     /**
-     *
-     * @param appointment
+     * @param appointmentID
      */
-    public void insertAppointment(Appointments appointment) {
-        appointments.get(appointment.getAppointmentID()).setTitle(appointment.getTitle());
-        System.out.println("Student: Roll No " + appointment.getAppointmentID() + ", updated in the database");
-    }
+    public static int deleteAppointment(int appointmentID) throws SQLException {
+        String sqlStatement = "DELETE FROM `client_schedule`.`appointments` WHERE (`Appointment_ID` = ?)";
 
-    /**
-     * TODO
-     * @param appointment
-     */
-    public void selectAppointment(Appointments appointment) {
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
-    }
+        preparedStatement.setInt(1, appointmentID);
 
-    /**
-     * TODO
-     * @param appointment
-     */
-    public void updateAppointment(Appointments appointment) {
-
-    }
-
-    /**
-     *
-     * @param appointment
-     */
-    public void deleteAppointment(Appointments appointment) {
-        appointments.remove(appointment.getAppointmentID());
-        System.out.println("Appointment: Appointment_ID" + appointment.getAppointmentID() + ", deleted from database");
+        return preparedStatement.executeUpdate();
     }
 }

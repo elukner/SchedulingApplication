@@ -164,5 +164,27 @@ public class DaoTest {
         JDBC.closeConnection();
     }
 
+    @Test
 
+    public void testAppointments() throws SQLException {
+        JDBC.openConnection();
+        for (Appointments appointments : AppointmentDaoImpl.getAllAppointments()) {
+            System.out.println("Appointments: [Appointment_ID : " + appointments.getAppointmentID() + ", Name : " + appointments.getTitle() + " ]");
+        }
+        AppointmentDaoImpl.deleteAppointment(3);
+        AppointmentDaoImpl.insertAppointments(3, "title", "description", "location", "Planning Session", "2020-05-28 12:00:00", "2020-05-28 13:00:00", "script", "script", 1, 1, 3);
+      AppointmentDaoImpl.selectAppointment();
+        AppointmentDaoImpl.selectAppointment(3);
+        AppointmentDaoImpl.updateAppointment(3,"title 2.0");
+        AppointmentDaoImpl.deleteAppointment(3);
+//        int rowsUpdated = AppointmentDaoImpl.deleteAppointment(3);
+//
+//        if(rowsUpdated>0){
+//            System.out.println("Delete Successful");
+//        }else{
+//            System.out.println("Delete Failed");
+//        }
+
+        JDBC.closeConnection();
+    }
 }
