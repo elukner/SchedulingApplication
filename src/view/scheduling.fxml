@@ -21,9 +21,25 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" text="Scheduling" />
-                  <Button mnemonicParsing="false" text="Customer Record " />
-                  <Button mnemonicParsing="false" text="Reports" />
+                   <MenuBar>
+                       <menus>
+                           <Menu mnemonicParsing="false" text="Scheduling">
+                               <items>
+                                   <MenuItem mnemonicParsing="false" text="Close" />
+                               </items>
+                           </Menu>
+                           <Menu mnemonicParsing="false" text="Customer Record ">
+                               <items>
+                                   <MenuItem mnemonicParsing="false" text="Delete" />
+                               </items>
+                           </Menu>
+                           <Menu mnemonicParsing="false" text="Reports">
+                               <items>
+                                   <MenuItem mnemonicParsing="false" text="About" />
+                               </items>
+                           </Menu>
+                       </menus>
+                   </MenuBar>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
