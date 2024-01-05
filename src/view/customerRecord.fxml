@@ -15,23 +15,64 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerRecordController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerRecordController">
    <children>
-      <VBox prefHeight="400.0" prefWidth="600.0">
+      <VBox prefHeight="600.0" prefWidth="800.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="100.0" prefWidth="800.0">
                <children>
                   <Button mnemonicParsing="false" text="Scheduling" />
                   <Button mnemonicParsing="false" text="Customer Record " />
                   <Button mnemonicParsing="false" text="Reports" />
                </children>
             </HBox>
-            <TextField text="Report 1: Appointment Analysis by Type and Month" />
-            <TextArea prefHeight="200.0" prefWidth="200.0" />
-            <TextField text="Report 2: Contact Schedule Overview" />
-            <TextArea prefHeight="200.0" prefWidth="200.0" />
-            <TextField text="Report 3: " />
-            <TextArea prefHeight="200.0" prefWidth="200.0" />
+            <TableView prefHeight="400.0" prefWidth="800.0">
+               <columns>
+                  <TableColumn prefWidth="75.0" text="Customer_ID" />
+                  <TableColumn prefWidth="75.0" text="Customer_Name" />
+                  <TableColumn prefWidth="75.0" text="Address" />
+                  <TableColumn prefWidth="75.0" text="Postal_Code" />
+                  <TableColumn prefWidth="75.0" text="Phone" />
+                  <TableColumn prefWidth="75.0" text="Create_Date" />
+                  <TableColumn prefWidth="75.0" text="Created_By" />
+                  <TableColumn prefWidth="75.0" text="Last_Update" />
+                  <TableColumn prefWidth="75.0" text="Last_Updated_By" />
+                  <TableColumn prefWidth="75.0" text="Division_ID" />
+               </columns>
+            </TableView>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Customer Name" />
+                        <TextField GridPane.columnIndex="1" />
+                        <Label text="Address" GridPane.rowIndex="1" />
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Postal Code" GridPane.rowIndex="2" />
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Phone Number" GridPane.rowIndex="3" />
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+            <HBox prefHeight="200.0" prefWidth="800.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Add" />
+                  <Button mnemonicParsing="false" text="Update" />
+                  <Button mnemonicParsing="false" text="Delete" />
+               </children>
+            </HBox>
          </children>
       </VBox>
       <Pane prefHeight="400.0" prefWidth="600.0" />

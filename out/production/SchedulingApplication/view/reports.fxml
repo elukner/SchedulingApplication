@@ -8,7 +8,27 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="view.Reports"
+            fx:controller="controller.ReportController"
             prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <VBox prefHeight="400.0" prefWidth="600.0">
+            <children>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Button mnemonicParsing="false" text="Scheduling" />
+                        <Button mnemonicParsing="false" text="Customer Record " />
+                        <Button mnemonicParsing="false" text="Reports" />
+                    </children>
+                </HBox>
+                <TextField text="Report 1: Appointment Analysis by Type and Month" />
+                <TextArea prefHeight="200.0" prefWidth="200.0" />
+                <TextField text="Report 2: Contact Schedule Overview" />
+                <TextArea prefHeight="200.0" prefWidth="200.0" />
+                <TextField text="Report 3: " />
+                <TextArea prefHeight="200.0" prefWidth="200.0" />
+            </children>
+        </VBox>
+        <Pane prefHeight="400.0" prefWidth="600.0" />
+    </children>
 
 </AnchorPane>
