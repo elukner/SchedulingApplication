@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppointmentDaoImpl {
+public class AppointmentsDaoImpl {
 
     /**
      * retrive list of students from the database
