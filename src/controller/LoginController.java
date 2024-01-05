@@ -1,4 +1,7 @@
 package controller;
+
+import model.Users;
+
 /**
  * Project: SchedulingApplication
  * Package: dao
