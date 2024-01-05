@@ -3,8 +3,6 @@ package dao;
 import helper.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Appointments;
-import model.Countries;
 import model.Customers;
 
 import java.sql.PreparedStatement;
@@ -149,10 +147,22 @@ public class CustomersDaoImpl {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
-                int countryID=resultSet.getInt("Country_ID");
-                String countryName = resultSet.getString("Country");
-                Appointments appointment = new Appointments(countryID,countryName);
-                countriesList.add(appointment);
+                int customerID=resultSet.getInt("Country_ID");
+                String customerName = resultSet.getString("Country");
+                String address= resultSet.getString("Country");
+                String postalCode= resultSet.getString("Country");
+                String phone= resultSet.getString("Country");
+                String createDate= resultSet.getString("Country");
+                String createdBy= resultSet.getString("Country");
+                String lastUpdate= resultSet.getString("Country");
+                String lastUpdatedBy= resultSet.getString("Country");
+                int divisionID=resultSet.getInt("Country_ID");
+                Customers customer = new Customers(customerID, customerName,
+                        address, postalCode, phone,
+                        createDate, createdBy,
+                        lastUpdate, lastUpdatedBy,
+                        divisionID);
+                countriesList.add(customer);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

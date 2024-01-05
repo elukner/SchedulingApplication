@@ -18,7 +18,7 @@ public class Customers {
 
 
     private int customerID;
-    private String CustomerName;
+    private String customerName;
     private String address;
     private String postalCode;
     private String phone;
@@ -26,15 +26,15 @@ public class Customers {
     private String createdBy;
     private String lastUpdate;
     private String lastUpdatedBy;
-    private String divisionID; //FOREIGN KEY
+    private int divisionID; //FOREIGN KEY
 
     public Customers(int customerID, String customerName,
                      String address, String postalCode, String phone,
                      String createDate, String createdBy,
                      String lastUpdate, String lastUpdatedBy,
-                     String divisionID) {
+                     int divisionID) {
         this.customerID = customerID;
-        CustomerName = customerName;
+        this.customerName = customerName;
         this.address = address;
         this.postalCode = postalCode;
         this.phone = phone;
@@ -54,11 +54,11 @@ public class Customers {
     }
 
     public String getCustomerName() {
-        return CustomerName;
+        return customerName;
     }
 
     public void setCustomerName(String customerName) {
-        CustomerName = customerName;
+        this.customerName = customerName;
     }
 
     public String getAddress() {
@@ -117,11 +117,11 @@ public class Customers {
         this.lastUpdatedBy = lastUpdatedBy;
     }
 
-    public String getDivisionID() {
+    public int getDivisionID() {
         return divisionID;
     }
 
-    public void setDivisionID(String divisionID) {
+    public void setDivisionID(int divisionID) {
         this.divisionID = divisionID;
     }
 
