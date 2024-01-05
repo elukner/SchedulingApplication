@@ -1,28 +1,40 @@
 package test;
 
-/**
- * Project: SchedulingApplication
- * Package: dao
- * <p>
- * User: Elizabeth Thomas
- * Date: 1/2/2024
- * Time: 1:27 PM
- */
-
-import dao.CountriesDAO;
+import dao.AppointmentDaoImpl;
+import dao.CountriesDAOImpl;
 import helper.JDBC;
+import model.Appointments;
 import org.junit.jupiter.api.Test;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CountriesDAOTest {
+public class DaoTest {
+    @Test
+    public void testAppointmentDaoImpl() {
+        AppointmentDaoImpl appointmentsDaoImpl = new AppointmentDaoImpl();
+
+        //print all appointments
+        for (Appointments appointments : appointmentsDaoImpl.getAllAppointments()) {
+            System.out.println("Appointments: [Appointment_ID : " + appointments.getAppointmentID() + ", Name : " + appointments.getTitle() + " ]");
+        }
+
+
+        //update student
+        Appointments appointments = appointmentsDaoImpl.getAllAppointments().get(0);
+        appointments.setTitle("Michael");
+        appointmentsDaoImpl.updateAppointment(appointments);
+
+        //get the student
+        appointmentsDaoImpl.getAppointment(0);
+        System.out.println("Student: [RollNo : " + appointments.getAppointmentID() + ", Name : " + appointments.getTitle() + " ]");
+    }
+
 
     @Test
     public void testInsertCountries() throws SQLException {
         JDBC.openConnection();
-        CountriesDAO.deleteCountries(4);
-        int rowsUpdated = CountriesDAO.insertCountries(4,"Finland", "Test User", "Test User" );
+        CountriesDAOImpl.deleteCountries(4);
+        int rowsUpdated = CountriesDAOImpl.insertCountries(4,"Finland", "Test User", "Test User" );
 
         if(rowsUpdated>0){
             System.out.println("Insert Successful");
@@ -37,7 +49,7 @@ public class CountriesDAOTest {
     public void testUpdateCountries() throws SQLException {
         JDBC.openConnection();
 
-        int rowsUpdated = CountriesDAO.updateCountries(4,"Finland");
+        int rowsUpdated = CountriesDAOImpl.updateCountries(4,"Finland");
 
         if(rowsUpdated>0){
             System.out.println("Update Successful");
@@ -52,8 +64,8 @@ public class CountriesDAOTest {
     public void testSelectCountries() throws SQLException {
         JDBC.openConnection();
 
-        CountriesDAO.selectCountries();
-        CountriesDAO.selectCountries(4); //make this into a full test later
+        CountriesDAOImpl.selectCountries();
+        CountriesDAOImpl.selectCountries(4); //make this into a full test later
 
 //        if(CountriesDAO.selectCountries.getFetchSize()>0){
 //            for (int i = 0;i<rowsUpdated.getFetchSize();i++ ) {
@@ -71,7 +83,7 @@ public class CountriesDAOTest {
     public void testDeleteCountries() throws SQLException {
         JDBC.openConnection();
 
-        int rowsUpdated = CountriesDAO.deleteCountries(4);
+        int rowsUpdated = CountriesDAOImpl.deleteCountries(4);
 
         if(rowsUpdated>0){
             System.out.println("Delete Successful");
@@ -81,5 +93,4 @@ public class CountriesDAOTest {
 
         JDBC.closeConnection();
     }
-
 }

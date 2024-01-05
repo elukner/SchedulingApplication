@@ -38,5 +38,5 @@ package dao;
  * interaction between the application and the database.
  **/
 
-public class ContactsDAO {
+public class CustomerDAOImpl {
 }

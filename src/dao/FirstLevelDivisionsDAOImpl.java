@@ -39,5 +39,5 @@ package dao;
  * interaction between the application and the database.
  **/
 
-public class FirstLevelDivisionsDAO {
+public class FirstLevelDivisionsDAOImpl {
 }

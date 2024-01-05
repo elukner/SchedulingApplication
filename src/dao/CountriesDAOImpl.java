@@ -49,7 +49,7 @@ import java.sql.SQLException;
 /**
  *
  */
-public class CountriesDAO {
+public class CountriesDAOImpl {
 
     /**
      * This method is used to insert new records into the Countries table from client_schedule database

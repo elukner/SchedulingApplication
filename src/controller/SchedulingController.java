@@ -13,22 +13,15 @@ import javafx.fxml.Initializable;
 import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.collections.FXCollections;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 
-import dao.UserDAO;
-import dao.CountriesDAO;
+import dao.CountriesDAOImpl;
 //import model.Users;
 import model.Countries;
-
-import javax.swing.*;
 
 /**
  * NOTE: Delete When Finished
@@ -168,7 +161,7 @@ public class SchedulingController implements Initializable {
     }
 
     public void show(ActionEvent actionEvent){
-        ObservableList<Countries> countryList = CountriesDAO.getAllCountries();
+        ObservableList<Countries> countryList = CountriesDAOImpl.getAllCountries();
         for(Countries country: countryList){
             System.out.println("Country ID: " + country.getCountryID() + "Name: " + country.getCountryName());
         }
