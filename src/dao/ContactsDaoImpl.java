@@ -52,24 +52,13 @@ import java.util.List;
  **/
 
 /**
- * TODO
+ * Comment TODO
  */
 public class ContactsDaoImpl {
 
 
-
     /**
-     * TODO
-     */
-//    public ContactsDaoImpl() {
-//        contacts = new ArrayList<Contacts>();
-//        Contacts contact1 = new Contacts(1, "John Doe", "johndoe@example.com");
-//        contacts.add(contact1);
-//
-//    }
-
-    /**
-     * retrive list of students from the database
+     * Comment TODO
      * @return
      */
     public static ObservableList<Contacts> getAllContacts() {
@@ -95,27 +84,8 @@ public class ContactsDaoImpl {
 
     }
 
-//    /**
-//     *
-//     * @param contactID
-//     * @return
-//     */
-//    public Contacts getContact(int contactID) {
-//        return contacts.get(contactID);
-//    }
-//
-//    /**
-//     *
-//     * @param contact
-//     */
-//    public void insertContact(Contacts contact) {
-//        contacts.get(contact.getContactID()).setContactName(contact.getContactName());
-//        System.out.println("Student: Roll No " + contact.getContactName() + ", updated in the database");
-//    }
-//
-
     /**
-     *
+     * Comment TODO
      * @throws SQLException
      */
     public static void selectContact() throws SQLException {
@@ -132,21 +102,86 @@ public class ContactsDaoImpl {
         }
 
     }
-//
-//    /**
-//     * TODO
-//     * @param contact
-//     */
-//    public void updateContact(Contacts contact) {
-//        //TODO
-//    }
-//
-//    /**
-//     *
-//     * @param contact
-//     */
-//    public void deleteContact(Contacts contact) {
-//        contacts.remove(contact.getContactID());
-//        System.out.println("Contact: Contact_ID" + contact.getContactID() + ", deleted from database");
-//    }
+
+    /**
+     *Comment TODO
+     * @throws SQLException
+     */
+    public static void selectContact(int contactID) throws SQLException {
+
+        String sqlStatement = "SELECT * FROM client_schedule.contacts WHERE Contact_ID = ?";
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+        preparedStatement.setInt(1,contactID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()){
+            contactID=resultSet.getInt("Contact_ID");
+            String contactName = resultSet.getString("Contact_Name");
+            String email = resultSet.getString("Email");
+            System.out.print(contactID+ " " + " | ");
+            System.out.print(contactName + " " + " | ");
+            System.out.println(email);
+        }
+
+
+    }
+
+    /**
+     * COMMENT TODO
+     * @param contactID
+     * @param contactName
+     * @param email
+     * @return
+     * @throws SQLException
+     */
+    public static int insertContact(int contactID, String contactName, String email) throws SQLException {
+        String sqlStatement = "INSERT INTO `client_schedule`.`contacts` (`Contact_ID`, `Contact_Name`, `Email`) VALUES (?, ?, ?);";
+
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+        preparedStatement.setInt(1,contactID);
+        preparedStatement.setString(2,contactName);
+        preparedStatement.setString(3,email);
+
+        return preparedStatement.executeUpdate();
+    }
+
+
+
+
+
+    /**
+     * COmment TODO
+     * @param contactID
+     * @param contactName
+     * @return
+     * @throws SQLException
+     */
+    public static int updateContact(int contactID, String contactName) throws SQLException {
+        String sqlStatement = "UPDATE `client_schedule`.`contacts` SET `Contact_Name` = ? WHERE (`Contact_ID` = ?)";
+
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+        preparedStatement.setString(1,contactName);
+        preparedStatement.setInt(2,contactID);
+
+
+        return preparedStatement.executeUpdate();
+    }
+
+    /**
+     * COmment TODO
+     * @param contactID
+     * @return
+     * @throws SQLException
+     */
+    public static int deleteContact(int contactID) throws SQLException {
+        String sqlStatement = "DELETE FROM `client_schedule`.`contacts` WHERE (`Contact_ID` = ?)";
+
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+        preparedStatement.setInt(1,contactID);
+
+        return preparedStatement.executeUpdate();
+    }
+
 }

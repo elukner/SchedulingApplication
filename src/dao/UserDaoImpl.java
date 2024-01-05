@@ -1,4 +1,5 @@
 package dao;
+
 /**
  * Project: SchedulingApplication
  * Package: dao
@@ -38,5 +39,5 @@ package dao;
  * interaction between the application and the database.
  **/
 
-public class CustomerDAOImpl {
+public class UserDaoImpl {
 }

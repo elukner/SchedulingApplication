@@ -19,7 +19,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-import dao.CountriesDAOImpl;
+import dao.CountriesDaoImpl;
 //import model.Users;
 import model.Countries;
 
@@ -161,7 +161,7 @@ public class SchedulingController implements Initializable {
     }
 
     public void show(ActionEvent actionEvent){
-        ObservableList<Countries> countryList = CountriesDAOImpl.getAllCountries();
+        ObservableList<Countries> countryList = CountriesDaoImpl.getAllCountries();
         for(Countries country: countryList){
             System.out.println("Country ID: " + country.getCountryID() + "Name: " + country.getCountryName());
         }
