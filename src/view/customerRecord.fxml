@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<?import java.lang.*?>-->
+<!--<?import java.util.*?>-->
+<!--<?import javafx.scene.*?>-->
+<!--<?import javafx.scene.control.*?>-->
+<!--<?import javafx.scene.layout.*?>-->
+<!--<AnchorPane xmlns="http://javafx.com/javafx"-->
+<!--            xmlns:fx="http://javafx.com/fxml"-->
+<!--            fx:controller="controller.CustomerRecordController"-->
+<!--            prefHeight="400.0" prefWidth="600.0">-->
+<!--</AnchorPane>-->
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerRecordController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerRecordController">
    <children>
-      <Pane prefHeight="400.0" prefWidth="600.0">
+      <VBox prefHeight="400.0" prefWidth="600.0">
          <children>
-            <Button layoutX="261.0" layoutY="240.0" mnemonicParsing="false" text="Button" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Scheduling" />
+                  <Button mnemonicParsing="false" text="Customer Record " />
+                  <Button mnemonicParsing="false" text="Reports" />
+               </children>
+            </HBox>
+            <TextField text="Report 1: Appointment Analysis by Type and Month" />
+            <TextArea prefHeight="200.0" prefWidth="200.0" />
+            <TextField text="Report 2: Contact Schedule Overview" />
+            <TextArea prefHeight="200.0" prefWidth="200.0" />
+            <TextField text="Report 3: " />
+            <TextArea prefHeight="200.0" prefWidth="200.0" />
          </children>
-      </Pane>
+      </VBox>
+      <Pane prefHeight="400.0" prefWidth="600.0" />
    </children>
 </AnchorPane>
