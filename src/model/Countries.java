@@ -10,9 +10,9 @@ package model;
  */
 
 /**
- * The model package will hold your POJOs.
- * Define POJO (Plain Old Java Object) classes that Map the ERD.
- * The POJOs are used to Map rows from the database tables
+ * This class represents a POJO (Plain Old Java Object) for Countries retrieved from the client_schedule
+ * database Countries table. This class is utilized for mapping rows obtained from the client_schedule
+ * database Countries table.
  */
 public class Countries {
     private int countryID;

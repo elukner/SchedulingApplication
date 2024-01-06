@@ -10,9 +10,9 @@ package model;
  */
 
 /**
- * The model package will hold your POJOs.
- * Define POJO (Plain Old Java Object) classes that Map the ERD.
- * The POJOs are used to Map rows from the database tables
+ * This class represents a POJO (Plain Old Java Object) for Contacts retrieved from the client_schedule
+ * database Contacts table. This class is utilized for mapping rows obtained from the client_schedule
+ * database Contacts table.
  */
 public class Contacts {
 
