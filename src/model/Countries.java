@@ -10,9 +10,9 @@ package model;
  */
 
 /**
- *  The model package will hold your POJOs.
- *  Define POJO (Plain Old Java Object) classes that Map the ERD.
- *  The POJOs are used to Map rows from the database tables
+ * The model package will hold your POJOs.
+ * Define POJO (Plain Old Java Object) classes that Map the ERD.
+ * The POJOs are used to Map rows from the database tables
  */
 public class Countries {
     private int countryID;
@@ -24,22 +24,27 @@ public class Countries {
 
     /**
      * Class Countries Constructor
+     *
      * @param countryID
      * @param country
      */
-    public Countries(int countryID, String country){
-        this.countryID=countryID;
-        this.country =country;
+    public Countries(int countryID, String country) {
+        this.countryID = countryID;
+        this.country = country;
     }
 
     /**
      * Getter of countryID of country
+     *
      * @return countryID of country
      */
-    public int getCountryID(){return countryID;}
+    public int getCountryID() {
+        return countryID;
+    }
 
     /**
      * Setter of countryID of country
+     *
      * @param countryID of country
      */
     public void setCountryID(int countryID) {
@@ -48,6 +53,7 @@ public class Countries {
 
     /**
      * Getter of country of country
+     *
      * @return country of country
      */
     public String getCountry() {
@@ -56,6 +62,7 @@ public class Countries {
 
     /**
      * Setter of country of country
+     *
      * @param country of country
      */
     public void setCountry(String country) {
@@ -64,6 +71,7 @@ public class Countries {
 
     /**
      * Getter of createDate of country
+     *
      * @return createDate of country
      */
     public String getCreateDate() {
@@ -72,6 +80,7 @@ public class Countries {
 
     /**
      * Setter of createDate of country
+     *
      * @param createDate of country
      */
     public void setCreateDate(String createDate) {
@@ -80,6 +89,7 @@ public class Countries {
 
     /**
      * Getter of createdBy of country
+     *
      * @return of country
      */
     public String getCreatedBy() {
@@ -88,6 +98,7 @@ public class Countries {
 
     /**
      * Setter of createdBy of country
+     *
      * @param createdBy of country
      */
     public void setCreatedBy(String createdBy) {
@@ -96,6 +107,7 @@ public class Countries {
 
     /**
      * Getter of lastUpdate of country
+     *
      * @return lastUpdate of country
      */
     public String getLastUpdate() {
@@ -104,6 +116,7 @@ public class Countries {
 
     /**
      * Setter of lastUpdate of country
+     *
      * @param lastUpdate of country
      */
     public void setLastUpdate(String lastUpdate) {
@@ -112,6 +125,7 @@ public class Countries {
 
     /**
      * Getter of lastUpdatedBy of country
+     *
      * @return lastUpdatedBy of country
      */
     public String getLastUpdatedBy() {
@@ -120,6 +134,7 @@ public class Countries {
 
     /**
      * Setter of lastUpdatedBy of country
+     *
      * @param lastUpdatedBy of country
      */
     public void setLastUpdatedBy(String lastUpdatedBy) {

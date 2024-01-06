@@ -28,6 +28,19 @@ public class Customers {
     private String lastUpdatedBy;
     private int divisionID; //FOREIGN KEY
 
+    /**
+     *Class Constructor of Customers
+     * @param customerID
+     * @param customerName
+     * @param address
+     * @param postalCode
+     * @param phone
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param divisionID
+     */
     public Customers(int customerID, String customerName,
                      String address, String postalCode, String phone,
                      String createDate, String createdBy,
@@ -45,82 +58,162 @@ public class Customers {
         this.divisionID = divisionID;
     }
 
+    /**
+     * Getter of customerID of Customer
+     * @return customerID of Customer
+     */
     public int getCustomerID() {
         return customerID;
     }
 
+    /**
+     * Setter of customerID of Customer
+     * @param customerID of Customer
+     */
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
     }
 
+    /**
+     * Getter of customerName of Customer
+     * @return customerName of Customer
+     */
     public String getCustomerName() {
         return customerName;
     }
 
+    /**
+     * Setter of customerName of Customer
+     * @param customerName of Customer
+     */
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
 
+    /**
+     * Getter of address of Customer
+     * @return address of Customer
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * Setter of address of Customer
+     * @param address of Customer
+     */
     public void setAddress(String address) {
         this.address = address;
     }
 
+    /**
+     * Gettter of postalCode of Customer
+     * @return postalCode of Customer
+     */
     public String getPostalCode() {
         return postalCode;
     }
 
+    /**
+     * Setter of postalCode of Customer
+     * @param postalCode of Customer
+     */
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
+    /**
+     * Getter of phone of Customer
+     * @return phone of Customer
+     */
     public String getPhone() {
         return phone;
     }
 
+    /**
+     * Setter of phone of Customer
+     * @param phone of Customer
+     */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
+    /**
+     * Getter of createDate of Customer
+     * @return createDate of Customer
+     */
     public String getCreateDate() {
         return createDate;
     }
 
+    /**
+     * Setter of createDate of Customer
+     * @param createDate of Customer
+     */
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
 
+    /**
+     * Getter of createdBy of Customer
+     * @return createdBy of Customer
+     */
     public String getCreatedBy() {
         return createdBy;
     }
 
+    /**
+     * Setter of createdBy of Customer
+     * @param createdBy of Customer
+     */
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
+    /**
+     * Getter of lastUpdate of Customer
+     * @return lastUpdate of Customer
+     */
     public String getLastUpdate() {
         return lastUpdate;
     }
 
+    /**
+     * Setter of lastUpdate of Customer
+     * @param lastUpdate of Customer
+     */
     public void setLastUpdate(String lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
+    /**
+     * Getter of lastUpdatedBy of Customer
+     * @return lastUpdatedBy of Customer
+     */
     public String getLastUpdatedBy() {
         return lastUpdatedBy;
     }
 
+    /**
+     * Setter of lastUpdatedBy of Customer
+     * @param lastUpdatedBy of Customer
+     */
     public void setLastUpdatedBy(String lastUpdatedBy) {
         this.lastUpdatedBy = lastUpdatedBy;
     }
 
+    /**
+     * Getter of divisionID of Customer
+     * @return divisionID of Customer
+     */
     public int getDivisionID() {
         return divisionID;
     }
 
+    /**
+     * Setter of divisionID of Customer
+     * @param divisionID of Customer
+     */
     public void setDivisionID(int divisionID) {
         this.divisionID = divisionID;
     }

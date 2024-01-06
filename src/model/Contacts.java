@@ -10,9 +10,9 @@ package model;
  */
 
 /**
- *  The model package will hold your POJOs.
- *  Define POJO (Plain Old Java Object) classes that Map the ERD.
- *  The POJOs are used to Map rows from the database tables
+ * The model package will hold your POJOs.
+ * Define POJO (Plain Old Java Object) classes that Map the ERD.
+ * The POJOs are used to Map rows from the database tables
  */
 public class Contacts {
 
@@ -22,6 +22,7 @@ public class Contacts {
 
     /**
      * Class Contacts constructor
+     *
      * @param contactID
      * @param contactName
      * @param email
@@ -34,7 +35,8 @@ public class Contacts {
 
     /**
      * Getter of contactID of contact
-     * @return contactID
+     *
+     * @return contactID of contact
      */
     public int getContactID() {
         return contactID;
@@ -42,7 +44,8 @@ public class Contacts {
 
     /**
      * Setter of contactID of contact
-     * @param contactID
+     *
+     * @param contactID of contact
      */
     public void setContactID(int contactID) {
         this.contactID = contactID;
@@ -50,7 +53,8 @@ public class Contacts {
 
     /**
      * Getter of contactName of contact
-     * @return contactName
+     *
+     * @return contactName of contact
      */
     public String getContactName() {
         return contactName;
@@ -58,7 +62,8 @@ public class Contacts {
 
     /**
      * Setter of contactName of contact
-     * @param contactName
+     *
+     * @param contactName of contact
      */
     public void setContactName(String contactName) {
         this.contactName = contactName;
@@ -66,7 +71,8 @@ public class Contacts {
 
     /**
      * Getter of email of contact
-     * @return email
+     *
+     * @return email of contact
      */
     public String getEmail() {
         return email;
@@ -74,7 +80,8 @@ public class Contacts {
 
     /**
      * Setter of email of contact
-     * @param email
+     *
+     * @param email of contact
      */
     public void setEmail(String email) {
         this.email = email;
