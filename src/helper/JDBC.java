@@ -2,7 +2,7 @@ package helper;
 
 /**
  * Project: SchedulingApplication
- * Package: dao
+ * Package: helper
  * <p>
  * User: Elizabeth Thomas
  * Date: 1/2/2024
@@ -13,6 +13,21 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
+/**
+ * And the helper package will hold helper classes
+ * that handle tasks such as
+ * Date / Time processing, List management, etc.
+ *
+ * Add a utility or utils package to hold
+ * classes for your; Database Connection,
+ * Query Execution, Collection (ObservarbleArrayList)
+ * Management, Functional Interfaces, and time conversion files.
+ *
+ * Database Connection: Managing connections, executing queries,
+ * and handling database-related tasks that don't fit directly
+ * within DAO classes.
+ */
 public abstract class JDBC {
     private static final String protocol = "jdbc";
     private static final String vendor = ":mysql:";
