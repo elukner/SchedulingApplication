@@ -9,11 +9,11 @@
          <children>
             <Button layoutX="63.0" layoutY="178.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Log in" />
             <Label alignment="CENTER" layoutX="63.0" layoutY="88.0" text="Username " />
-            <Label layoutX="63.0" layoutY="130.0" text="Password" />
             <TextField layoutX="63.0" layoutY="105.0" />
+            <Label layoutX="63.0" layoutY="130.0" text="Password" />
             <TextField layoutX="63.0" layoutY="147.0" />
             <Label layoutX="63.0" layoutY="212.0" text="User's Location:" />
-            <Label layoutX="152.0" layoutY="212.0" text="Label" />
+            <Label fx:id="userLocationLbl" layoutX="152.0" layoutY="212.0" text="Label" />
          </children>
       </Pane>
    </children>
