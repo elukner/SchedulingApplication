@@ -1,22 +1,34 @@
 package dao;
 
+/**
+ * Project: SchedulingApplication
+ * Package: dao
+ * <p>
+ * User: Elizabeth Thomas
+ * Date: 1/2/2024
+ * Time: 1:27 PM
+ */
+
 import helper.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointments;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This utility class AppointmentsDaoImpl interacts with the client_schedule database to
+ * perform CRUD operations and handle data retrieval on the appointments table.
+ **/
 public class AppointmentsDaoImpl {
 
     /**
      * retrive list of students from the database
      *
-     * @return
+     * @return appointmentsList
      */
     public static ObservableList<Appointments> getAllAppointments() {
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();

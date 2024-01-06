@@ -13,41 +13,13 @@ import helper.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Users;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 /**
- *The dao package will hold Utility Classes that handle Database Access.
- *
- * Defining DAO or Abstract classes with static methods
- * that perform CRUD (Create Read Update Delete)
- * or INSERT, SELECT, UPDATE,
- * and DELETE operations is highly recommended. For
- * more info on the DAO pattern
- *
- * These classes interact with the database,
- * perform CRUD operations, and handle data retrieval.
- *
- * Responsibility: The dao package primarily focuses on encapsulating
- * the logic associated with database interactions.
- *
- * Purpose: It contains classes responsible for database-related operations,
- * such as CRUD (Create, Read, Update, Delete)
- * operations, querying the database, and managing
- * data retrieval and storage.
- *
- * Components: Typically includes classes that abstract
- * database operations, handle connections, execute queries,
- * and perform data manipulation.
- *
- * Usage: DAO classes are specific to interacting with your
- * database tables/entities. They map Java objects to
- * database entities and handle the
- * interaction between the application and the database.
+ * This utility class UsersDaoImpl interacts with the client_schedule database to
+ * perform CRUD operations and handle data retrieval on the users table.
  **/
-
 public class UsersDaoImpl {
     public static int insertUsers(int userID, String userName, String password, String createdBy,String lastUpdatedBy) throws SQLException {
         String sqlStatement = "INSERT INTO `client_schedule`.`users` (`User_ID`, `User_Name`, `Password`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`) VALUES (?, ?, ?, NOW(), ?, NOW(), ?);";
