@@ -12,6 +12,8 @@
             <Label layoutX="63.0" layoutY="130.0" text="Password" />
             <TextField layoutX="63.0" layoutY="105.0" />
             <TextField layoutX="63.0" layoutY="147.0" />
+            <Label layoutX="63.0" layoutY="212.0" text="User's Location:" />
+            <Label layoutX="152.0" layoutY="212.0" text="Label" />
          </children>
       </Pane>
    </children>
