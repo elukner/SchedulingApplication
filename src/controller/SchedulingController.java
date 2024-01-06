@@ -81,6 +81,7 @@ import javafx.event.ActionEvent;
  */
 public class SchedulingController implements Initializable {
 
+
 //    //I put these here maybe delete these?
 //    @FXML
 //    private TableView<Countries> UserTable;
@@ -162,20 +163,16 @@ public class SchedulingController implements Initializable {
     private TextField userIDTxt; // Value injected by FXMLLoader
 
     @FXML
-    void onActionAddAppointment(ActionEvent event) {
+    public void onActionAddAppointment(ActionEvent event) {
         System.out.println("Add button clicked");
 
     }
 
     @FXML
-    void onActionDeleteAppointment(ActionEvent event) {
+    public void onActionDeleteAppointment(ActionEvent event) {
         System.out.println("Delete button clicked");
     }
 
-    @FXML
-    void onActionUpdateAppointment(ActionEvent event) {
-        System.out.println("Update button clicked");
-    }
     /**
      * This method initializes this scheduling controller class
      * @param url
@@ -189,6 +186,11 @@ public class SchedulingController implements Initializable {
     public void onActionFilterAppointmentMonthRBtn(ActionEvent actionEvent) {
         System.out.println("Delete button clicked");
     }
+
+    public void onActionUpdateAppointment(ActionEvent actionEvent) {
+        System.out.println("update button clicked");
+    }
+
 
 
 //    //I put this here for some reason maybe delete?

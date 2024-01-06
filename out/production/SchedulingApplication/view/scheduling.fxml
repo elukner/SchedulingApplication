@@ -112,6 +112,6 @@
             </HBox>
          </children>
       </VBox>
-      <Pane prefHeight="600.0" prefWidth="800.0" />
+      <Button mnemonicParsing="false" onAction="#onActionTesterBtn" text="TesterBtn" />
    </children>
 </AnchorPane>
