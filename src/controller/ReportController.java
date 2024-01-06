@@ -1,7 +1,7 @@
 package controller;
 /**
  * Project: SchedulingApplication
- * Package: dao
+ * Package: controller
  * <p>
  * User: Elizabeth Thomas
  * Date: 1/2/2024

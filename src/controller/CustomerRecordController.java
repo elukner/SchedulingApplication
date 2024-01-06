@@ -1,7 +1,7 @@
 package controller;
 /**
  * Project: SchedulingApplication
- * Package: dao
+ * Package: controller
  * <p>
  * User: Elizabeth Thomas
  * Date: 1/2/2024
@@ -9,7 +9,6 @@ package controller;
  */
 
 /**
- * NOTE: Delete When Finished
  *
  * Notes from Requirements:
  *The controller package will hold Controller

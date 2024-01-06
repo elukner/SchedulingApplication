@@ -1,7 +1,7 @@
 package controller;
 /**
  * Project: SchedulingApplication
- * Package: dao
+ * Package: controller
  * <p>
  * User: Elizabeth Thomas
  * Date: 1/2/2024
@@ -163,7 +163,7 @@ public class SchedulingController implements Initializable {
     public void show(ActionEvent actionEvent){
         ObservableList<Countries> countryList = CountriesDaoImpl.getAllCountries();
         for(Countries country: countryList){
-            System.out.println("Country ID: " + country.getCountryID() + "Name: " + country.getCountryName());
+            System.out.println("Country ID: " + country.getCountryID() + "Name: " + country.getCountry());
         }
     }
 }
