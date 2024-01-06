@@ -14,10 +14,6 @@ package model;
  *  Define POJO (Plain Old Java Object) classes that Map the ERD.
  *  The POJOs are used to Map rows from the database tables
  */
-
-/**
- * TODO comment
- */
 public class Contacts {
 
     private int contactID;
@@ -25,7 +21,7 @@ public class Contacts {
     private String email;
 
     /**
-     * TODO comment
+     * Class Contacts constructor
      * @param contactID
      * @param contactName
      * @param email
@@ -37,15 +33,15 @@ public class Contacts {
     }
 
     /**
-     * TODO comment
-     * @return
+     * Getter of contactID of contact
+     * @return contactID
      */
     public int getContactID() {
         return contactID;
     }
 
     /**
-     * TODO comment
+     * Setter of contactID of contact
      * @param contactID
      */
     public void setContactID(int contactID) {
@@ -53,15 +49,15 @@ public class Contacts {
     }
 
     /**
-     * TODO comment
-     * @return
+     * Getter of contactName of contact
+     * @return contactName
      */
     public String getContactName() {
         return contactName;
     }
 
     /**
-     * TODO comment
+     * Setter of contactName of contact
      * @param contactName
      */
     public void setContactName(String contactName) {
@@ -69,15 +65,15 @@ public class Contacts {
     }
 
     /**
-     * TODO comment
-     * @return
+     * Getter of email of contact
+     * @return email
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     * TODO comment
+     * Setter of email of contact
      * @param email
      */
     public void setEmail(String email) {
