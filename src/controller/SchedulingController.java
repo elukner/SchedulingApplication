@@ -9,15 +9,17 @@ package controller;
  */
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.stage.Stage;
 
 
 /**
@@ -162,17 +164,47 @@ public class SchedulingController implements Initializable {
     @FXML // fx:id="userIDTxt"
     private TextField userIDTxt; // Value injected by FXMLLoader
 
+    private Stage stage;
+    private Parent scene;
+
     @FXML
-    public void onActionAddAppointment(ActionEvent event) {
+    void onActionAddAppointment(ActionEvent event) {
         System.out.println("Add button clicked");
 
     }
 
     @FXML
-    public void onActionDeleteAppointment(ActionEvent event) {
+    void onActionUpdateAppointment(ActionEvent actionEvent) {
+        System.out.println("update button clicked");
+    }
+
+    @FXML
+    void onActionDeleteAppointment(ActionEvent event) {
         System.out.println("Delete button clicked");
     }
 
+    @FXML
+    void onActionFilterAppointmentMonthRBtn(ActionEvent actionEvent) {
+        System.out.println("Delete button clicked");
+    }
+
+
+    @FXML
+    void onActionReportsBtn(ActionEvent event) throws IOException {
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("../view/reports.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
+    @FXML
+    void onActionCustomerRecordBtn(ActionEvent event) throws IOException {
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("../view/customerRecord.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+
+    }
     /**
      * This method initializes this scheduling controller class
      * @param url
@@ -183,13 +215,6 @@ public class SchedulingController implements Initializable {
 
     }
 
-    public void onActionFilterAppointmentMonthRBtn(ActionEvent actionEvent) {
-        System.out.println("Delete button clicked");
-    }
-
-    public void onActionUpdateAppointment(ActionEvent actionEvent) {
-        System.out.println("update button clicked");
-    }
 
 
 

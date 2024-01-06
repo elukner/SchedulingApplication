@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="300.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainMenuController">
+   <children>
+      <Pane prefHeight="300.0" prefWidth="275.0">
+         <children>
+            <Button alignment="CENTER" layoutX="100.0" layoutY="74.0" mnemonicParsing="false" text="Scheduling" />
+            <Button alignment="CENTER" layoutX="84.0" layoutY="106.0" mnemonicParsing="false" text="Customer Record" />
+            <Button alignment="CENTER" layoutX="107.0" layoutY="138.0" mnemonicParsing="false" text="Reports " />
+            <Button alignment="CENTER" layoutX="106.0" layoutY="169.0" mnemonicParsing="false" text=" Log-out" />
+            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="120.0" layoutY="203.0" mnemonicParsing="false" text="Exit" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

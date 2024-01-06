@@ -24,6 +24,8 @@ package controller;
  * });
  **/
 
+import javafx.event.ActionEvent;
+
 /**
  * Write code that provides the following customer record functionalities:
  *
@@ -69,4 +71,6 @@ package controller;
  */
 
 public class CustomerRecordController {
+    public void onActionBack(ActionEvent actionEvent) {
+    }
 }
