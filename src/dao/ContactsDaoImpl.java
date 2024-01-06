@@ -95,12 +95,17 @@ public class ContactsDaoImpl {
     }
 
     /**
-     * COMMENT TODO
+     * This method inserts a contact into the contacts table in the client_schedule database.
      * @param contactID
      * @param contactName
      * @param email
-     * @return
-     * @throws SQLException
+     * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
+     * for SQL statements that return nothing
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     * closed PreparedStatement or the SQL statement returns a ResultSet object
+     * java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     * that was specified by the setQueryTimeout method has been exceeded and
+     * has at least attempted to cancel the currently running Statement
      */
     public static int insertContact(int contactID, String contactName, String email) throws SQLException {
         String sqlStatement = "INSERT INTO `client_schedule`.`contacts` (`Contact_ID`, `Contact_Name`, `Email`) VALUES (?, ?, ?);";

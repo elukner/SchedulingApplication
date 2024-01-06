@@ -23,7 +23,7 @@ import java.sql.SQLException;
 public class CountriesDaoImpl {
 
     /**
-     * This method is used to insert new records into the Countries table from client_schedule database
+     * This method is used to insert new records into the Countries table from client_schedule database.
      * @param countryID
      * @param country
      * @param createdBy

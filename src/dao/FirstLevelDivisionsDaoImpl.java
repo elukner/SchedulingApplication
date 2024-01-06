@@ -23,6 +23,21 @@ import java.sql.SQLException;
  * perform CRUD operations and handle data retrieval on the first_level_divisions table.
  **/
 public class FirstLevelDivisionsDaoImpl {
+    /**
+     * This method inserts a first level division into the first_level_divisions table in the client_schedule database.
+     * @param divisionID
+     * @param division
+     * @param createdBy
+     * @param lastUpdatedBy
+     * @param countryID
+     * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
+     * for SQL statements that return nothing
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     * closed PreparedStatement or the SQL statement returns a ResultSet object
+     * java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     * that was specified by the setQueryTimeout method has been exceeded and
+     * has at least attempted to cancel the currently running Statement
+     */
     public static int insertFirstLevelDivisions(int divisionID, String division, String createdBy, String lastUpdatedBy, int countryID) throws SQLException {
         String sqlStatement = "INSERT INTO `client_schedule`.`first_level_divisions` (`Division_ID`, `Division`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`, `COUNTRY_ID`) VALUES (?, ?, NOW(), ?, NOW(), ?, ?);";
 

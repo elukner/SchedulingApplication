@@ -64,6 +64,7 @@ public class AppointmentsDaoImpl {
     }
 
     /**
+     * This method inserts a appointment into the appointments table in the client_schedule database.
      * @param appointmentID
      * @param title
      * @param description
@@ -76,8 +77,13 @@ public class AppointmentsDaoImpl {
      * @param customerID
      * @param userID
      * @param contactID
-     * @return
-     * @throws SQLException
+     * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
+     * for SQL statements that return nothing
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     * closed PreparedStatement or the SQL statement returns a ResultSet object
+     * java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     * that was specified by the setQueryTimeout method has been exceeded and
+     * has at least attempted to cancel the currently running Statement
      */
     public static int insertAppointments(int appointmentID, String title, String description, String location, String type, String start,
                                          String end, String createdBy, String lastUpdatedBy,

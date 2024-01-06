@@ -21,6 +21,21 @@ import java.sql.SQLException;
  * perform CRUD operations and handle data retrieval on the users table.
  **/
 public class UsersDaoImpl {
+    /**
+     * This method inserts a user into the users table in the client_schedule database.
+     * @param userID
+     * @param userName
+     * @param password
+     * @param createdBy
+     * @param lastUpdatedBy
+     * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
+     * for SQL statements that return nothing
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     * closed PreparedStatement or the SQL statement returns a ResultSet object
+     * java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     * that was specified by the setQueryTimeout method has been exceeded and
+     * has at least attempted to cancel the currently running Statement
+     */
     public static int insertUsers(int userID, String userName, String password, String createdBy,String lastUpdatedBy) throws SQLException {
         String sqlStatement = "INSERT INTO `client_schedule`.`users` (`User_ID`, `User_Name`, `Password`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`) VALUES (?, ?, ?, NOW(), ?, NOW(), ?);";
 
