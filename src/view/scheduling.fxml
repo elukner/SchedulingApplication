@@ -45,7 +45,7 @@
             <HBox prefHeight="100.0" prefWidth="900.0">
                <children>
                   <Label text="View appointment schedules by:" />
-                  <RadioButton fx:id="filterAppointmentMonthRBtn" mnemonicParsing="false" text="Month" />
+                  <RadioButton fx:id="filterAppointmentMonthRBtn" mnemonicParsing="false" onAction="#onActionFilterAppointmentMonthRBtn" text="Month" />
                   <RadioButton fx:id="filterAppointmentWeekRBtn" mnemonicParsing="false" text="Week" />
                </children>
             </HBox>
@@ -105,9 +105,9 @@
             </GridPane>
             <HBox prefHeight="400.0" prefWidth="900.0">
                <children>
-                  <Button mnemonicParsing="false" text="Add" />
-                  <Button mnemonicParsing="false" text="Update" />
-                  <Button mnemonicParsing="false" text="Delete" />
+                  <Button mnemonicParsing="false" onAction="#onActionAddAppointment" text="Add" />
+                  <Button mnemonicParsing="false" onAction="#onActionUpdateAppointment" text="Update" />
+                  <Button mnemonicParsing="false" onAction="#onActionDeleteAppointment" text="Delete" />
                </children>
             </HBox>
          </children>

@@ -45,22 +45,22 @@
             <HBox prefHeight="100.0" prefWidth="900.0">
                <children>
                   <Label text="View appointment schedules by:" />
-                  <RadioButton mnemonicParsing="false" text="Month" />
-                  <RadioButton mnemonicParsing="false" text="Week" />
+                  <RadioButton fx:id="filterAppointmentMonthRBtn" mnemonicParsing="false" onAction="#onActionFilterAppointmentMonthRBtn" text="Month" />
+                  <RadioButton fx:id="filterAppointmentWeekRBtn" mnemonicParsing="false" text="Week" />
                </children>
             </HBox>
-            <TableView prefHeight="400.0" prefWidth="900.0">
+            <TableView fx:id="appointmentTblView" prefHeight="400.0" prefWidth="900.0">
               <columns>
-                <TableColumn prefWidth="100.0" text="Appointment_ID" />
-                <TableColumn prefWidth="50.0" text="Title" />
-                  <TableColumn prefWidth="75.0" text="Description" />
-                  <TableColumn prefWidth="75.0" text="Location" />
-                  <TableColumn prefWidth="75.0" text="Contact" />
-                  <TableColumn prefWidth="50.0" text="Type" />
-                  <TableColumn prefWidth="130.0" text=" Start Date and Time" />
-                  <TableColumn prefWidth="120.0" text="End Date and Time" />
-                  <TableColumn prefWidth="100.0" text="Customer_ID" />
-                  <TableColumn prefWidth="75.0" text="User_ID" />
+                <TableColumn fx:id="appointmentIDCol" prefWidth="100.0" text="Appointment_ID" />
+                <TableColumn fx:id="titleCol" prefWidth="50.0" text="Title" />
+                  <TableColumn fx:id="descriptionCol" prefWidth="75.0" text="Description" />
+                  <TableColumn fx:id="locationCol" prefWidth="75.0" text="Location" />
+                  <TableColumn fx:id="contactCol" prefWidth="75.0" text="Contact" />
+                  <TableColumn fx:id="typeCol" prefWidth="50.0" text="Type" />
+                  <TableColumn fx:id="startDateTimeCol" prefWidth="130.0" text="Start Date and Time" />
+                  <TableColumn fx:id="endDateTimeCol" prefWidth="120.0" text="End Date and Time" />
+                  <TableColumn fx:id="customerIDCol" prefWidth="100.0" text="Customer_ID" />
+                  <TableColumn fx:id="userIDCol" prefWidth="75.0" text="User_ID" />
               </columns>
             </TableView>
             <GridPane prefHeight="400.0" prefWidth="900.0">
@@ -82,32 +82,32 @@
               </rowConstraints>
                <children>
                   <Label text="Appointment_ID" />
-                  <TextField GridPane.columnIndex="1" />
+                  <TextField fx:id="appointmentIDTxt" GridPane.columnIndex="1" />
                   <Label text="Title" GridPane.rowIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="titleTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="Description" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="descriptionTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label text="Location" GridPane.rowIndex="3" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="locationTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label text="Type" GridPane.rowIndex="4" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="typeTxt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label text="Start Date and Time" GridPane.rowIndex="5" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <TextField fx:id="startDateAndTimeTxt" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Label text="End Date and Time" GridPane.rowIndex="6" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <TextField fx:id="endDateAndTimeTxt" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                   <Label text="Customer_ID" GridPane.rowIndex="7" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <TextField fx:id="customerIDTxt" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                   <Label text="User_ID" GridPane.rowIndex="8" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <TextField fx:id="userIDTxt" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                   <Label text="Contact Name" GridPane.rowIndex="9" />
-                  <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                  <ComboBox fx:id="contactNameComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                </children>
             </GridPane>
             <HBox prefHeight="400.0" prefWidth="900.0">
                <children>
-                  <Button mnemonicParsing="false" text="Add" />
-                  <Button mnemonicParsing="false" text="Update" />
-                  <Button mnemonicParsing="false" text="Delete" />
+                  <Button mnemonicParsing="false" onAction="#onActionAddAppointment" text="Add" />
+                  <Button mnemonicParsing="false" onAction="#onActionUpdateAppointment" text="Update" />
+                  <Button mnemonicParsing="false" onAction="#onActionDeleteAppointment" text="Delete" />
                </children>
             </HBox>
          </children>

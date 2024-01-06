@@ -1,5 +1,8 @@
 package test;
 
+import org.junit.jupiter.api.Test;
+import controller.SchedulingController;
+
 /**
  * Project: SchedulingApplication
  * Package: dao
@@ -10,4 +13,20 @@ package test;
  */
 
 public class SchedulingControllerTest {
+    @Test
+    void onActionAddAppointmentTest() {
+
+    }
+
+    @Test
+    void onActionDeleteAppointmentTest() {
+    }
+
+    @Test
+    void onActionUpdateAppointmentTest() {
+    }
+
+    @Test
+    void initializeTest() {
+    }
 }

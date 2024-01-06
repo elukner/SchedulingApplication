@@ -7,7 +7,7 @@
    <children>
       <Pane prefHeight="300.0" prefWidth="275.0">
          <children>
-            <Button layoutX="63.0" layoutY="178.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Log in" />
+            <Button layoutX="63.0" layoutY="178.0" mnemonicParsing="false" onAction="#onActionLogInBtn" prefHeight="25.0" prefWidth="149.0" text="Log in" />
             <Label alignment="CENTER" layoutX="63.0" layoutY="88.0" text="Username " />
             <TextField layoutX="63.0" layoutY="105.0" />
             <Label layoutX="63.0" layoutY="130.0" text="Password" />

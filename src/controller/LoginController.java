@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.event.ActionEvent;
 import model.Users;
 
 /**
@@ -53,5 +54,9 @@ public class LoginController {
      */
     public String validateLogin(String username, String password){
         return "appropriate error message";
+    }
+
+    public void onActionLogInBtn(ActionEvent actionEvent) {
+        System.out.println("Here");
     }
 }
