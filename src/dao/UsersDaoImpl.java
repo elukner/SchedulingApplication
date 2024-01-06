@@ -88,7 +88,14 @@ public class UsersDaoImpl {
     }
 
     /**
-     * @throws SQLException
+     * This method selects a user from the users table in the client_schedule database.
+     *
+     * @param userID is the user ID to be selected from the users table
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static void selectUsers(int userID) throws SQLException {
 

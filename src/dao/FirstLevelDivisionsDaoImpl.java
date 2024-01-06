@@ -88,7 +88,14 @@ public class FirstLevelDivisionsDaoImpl {
     }
 
     /**
-     * @throws SQLException
+     * This method selects a first level division from the first_level_divisions table in the client_schedule database.
+     *
+     * @param divisionID first level division ID to be selected from the first_level_divisions table
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static void selectFirstLevelDivisions(int divisionID) throws SQLException {
 

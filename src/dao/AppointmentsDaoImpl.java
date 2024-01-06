@@ -164,8 +164,14 @@ public class AppointmentsDaoImpl {
 
 
     /**
-     * @param appointmentID
-     * @throws SQLException
+     * This method selects an appointment from the appointments table in the client_schedule database.
+     *
+     * @param appointmentID appointment ID to be selected from the appointments table
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static void selectAppointment(int appointmentID) throws SQLException {
         String sqlStatement = "SELECT * FROM client_schedule.appointments WHERE Appointment_ID = ?";

@@ -104,7 +104,14 @@ public class CustomersDaoImpl {
     }
 
     /**
-     * @throws SQLException
+     * This method selects a customer from the customers table in the client_schedule database.
+     *
+     * @param customerID customer ID to be selected from the customers table
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static void selectCustomers(int customerID) throws SQLException {
 

@@ -79,9 +79,14 @@ public class ContactsDaoImpl {
     }
 
     /**
-     * Comment TODO
+     * This method selects a contact from the contacts table in the client_schedule database.
      *
-     * @throws SQLException
+     * @param contactID contact ID to be selected from the contacts table
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static void selectContact(int contactID) throws SQLException {
 
