@@ -13,9 +13,11 @@ import helper.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Users;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 /**
  * This utility class UsersDaoImpl interacts with the client_schedule database to
  * perform CRUD operations and handle data retrieval on the users table.
@@ -23,6 +25,7 @@ import java.sql.SQLException;
 public class UsersDaoImpl {
     /**
      * This method inserts a user into the users table in the client_schedule database.
+     *
      * @param userID
      * @param userName
      * @param password
@@ -31,49 +34,53 @@ public class UsersDaoImpl {
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
-     * closed PreparedStatement or the SQL statement returns a ResultSet object
-     * java.sql.SQLTimeoutException – when the driver has determined that the timeout value
-     * that was specified by the setQueryTimeout method has been exceeded and
-     * has at least attempted to cancel the currently running Statement
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
-    public static int insertUsers(int userID, String userName, String password, String createdBy,String lastUpdatedBy) throws SQLException {
+    public static int insertUsers(int userID, String userName, String password, String createdBy, String lastUpdatedBy) throws SQLException {
         String sqlStatement = "INSERT INTO `client_schedule`.`users` (`User_ID`, `User_Name`, `Password`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`) VALUES (?, ?, ?, NOW(), ?, NOW(), ?);";
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
-        preparedStatement.setInt(1,userID);
-        preparedStatement.setString(2,userName);
-        preparedStatement.setString(3,password);
-        preparedStatement.setString(4,createdBy);
-        preparedStatement.setString(5,lastUpdatedBy);
+        preparedStatement.setInt(1, userID);
+        preparedStatement.setString(2, userName);
+        preparedStatement.setString(3, password);
+        preparedStatement.setString(4, createdBy);
+        preparedStatement.setString(5, lastUpdatedBy);
         return preparedStatement.executeUpdate();
     }
 
-
     /**
+     * This method selects users from the users table in the client_schedule database.
      *
-     * @throws SQLException
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static void selectUsers() throws SQLException {
 
         String sqlStatement = "SELECT * FROM client_schedule.users";
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
         ResultSet resultSet = preparedStatement.executeQuery();
-        while(resultSet.next()){
-            int userID=resultSet.getInt("User_ID");
+        while (resultSet.next()) {
+            int userID = resultSet.getInt("User_ID");
             String userName = resultSet.getString("User_Name");
-            String password= resultSet.getString("Password");
-            String createDate= resultSet.getString("Create_Date");
-            String createdBy= resultSet.getString("Created_By");
-            String lastUpdate= resultSet.getString("Last_Update");
-            String lastUpdatedBy= resultSet.getString("Last_Updated_By");
+            String password = resultSet.getString("Password");
+            String createDate = resultSet.getString("Create_Date");
+            String createdBy = resultSet.getString("Created_By");
+            String lastUpdate = resultSet.getString("Last_Update");
+            String lastUpdatedBy = resultSet.getString("Last_Updated_By");
 
             System.out.print(userID + " " + " | ");
-            System.out.print(userName+ " " + " | ");
-            System.out.print(password+ " " + " | ");
-            System.out.print(createDate+ " " + " | ");
-            System.out.print(createdBy+ " " + " | ");
-            System.out.print(lastUpdate+ " " + " | ");
+            System.out.print(userName + " " + " | ");
+            System.out.print(password + " " + " | ");
+            System.out.print(createDate + " " + " | ");
+            System.out.print(createdBy + " " + " | ");
+            System.out.print(lastUpdate + " " + " | ");
             System.out.println(lastUpdatedBy);
         }
 
@@ -81,30 +88,29 @@ public class UsersDaoImpl {
     }
 
     /**
-     *
      * @throws SQLException
      */
     public static void selectUsers(int userID) throws SQLException {
 
         String sqlStatement = "SELECT * FROM client_schedule.users WHERE User_ID = ?";
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
-        preparedStatement.setInt(1,userID);
+        preparedStatement.setInt(1, userID);
         ResultSet resultSet = preparedStatement.executeQuery();
-        while(resultSet.next()){
-            userID=resultSet.getInt("User_ID");
+        while (resultSet.next()) {
+            userID = resultSet.getInt("User_ID");
             String userName = resultSet.getString("User_Name");
-            String password= resultSet.getString("Password");
-            String createDate= resultSet.getString("Create_Date");
-            String createdBy= resultSet.getString("Created_By");
-            String lastUpdate= resultSet.getString("Last_Update");
-            String lastUpdatedBy= resultSet.getString("Last_Updated_By");
+            String password = resultSet.getString("Password");
+            String createDate = resultSet.getString("Create_Date");
+            String createdBy = resultSet.getString("Created_By");
+            String lastUpdate = resultSet.getString("Last_Update");
+            String lastUpdatedBy = resultSet.getString("Last_Updated_By");
 
             System.out.print(userID + " " + " | ");
-            System.out.print(userName+ " " + " | ");
-            System.out.print(password+ " " + " | ");
-            System.out.print(createDate+ " " + " | ");
-            System.out.print(createdBy+ " " + " | ");
-            System.out.print(lastUpdate+ " " + " | ");
+            System.out.print(userName + " " + " | ");
+            System.out.print(password + " " + " | ");
+            System.out.print(createDate + " " + " | ");
+            System.out.print(createdBy + " " + " | ");
+            System.out.print(lastUpdate + " " + " | ");
             System.out.println(lastUpdatedBy);
         }
 
@@ -113,6 +119,7 @@ public class UsersDaoImpl {
 
     /**
      * TODO COMMENT
+     *
      * @param userID
      * @param password
      * @return
@@ -123,15 +130,16 @@ public class UsersDaoImpl {
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
-        preparedStatement.setString(1,password);
-        preparedStatement.setInt(2,userID);
+        preparedStatement.setString(1, password);
+        preparedStatement.setInt(2, userID);
 
 
         return preparedStatement.executeUpdate();
     }
 
     /**
-     *Comment TODO
+     * Comment TODO
+     *
      * @param userID
      * @return
      * @throws SQLException
@@ -140,7 +148,7 @@ public class UsersDaoImpl {
         String sqlStatement = "DELETE FROM `client_schedule`.`users` WHERE (`User_ID` = ?)";
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
-        preparedStatement.setInt(1,userID);
+        preparedStatement.setInt(1, userID);
 
         return preparedStatement.executeUpdate();
     }
@@ -151,22 +159,22 @@ public class UsersDaoImpl {
      *
      * @return usersList a list of users
      */
-    public static ObservableList<Users> getAllUsers(){
+    public static ObservableList<Users> getAllUsers() {
         ObservableList<Users> usersList = FXCollections.observableArrayList();
-        try{
+        try {
             String sqlStatement = "SELECT * FROM client_schedule.users";
             PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()){
-                int userID=resultSet.getInt("User_ID");
+            while (resultSet.next()) {
+                int userID = resultSet.getInt("User_ID");
                 String userName = resultSet.getString("User_Name");
-                String password= resultSet.getString("Password");
-                String createDate= resultSet.getString("Create_Date");
-                String createdBy= resultSet.getString("Created_By");
-                String lastUpdate= resultSet.getString("Last_Update");
-                String lastUpdatedBy= resultSet.getString("Last_Updated_By");
+                String password = resultSet.getString("Password");
+                String createDate = resultSet.getString("Create_Date");
+                String createdBy = resultSet.getString("Created_By");
+                String lastUpdate = resultSet.getString("Last_Update");
+                String lastUpdatedBy = resultSet.getString("Last_Updated_By");
                 Users user = new Users(userID, userName, password, createDate,
                         createdBy, lastUpdate, lastUpdatedBy);
                 usersList.add(user);

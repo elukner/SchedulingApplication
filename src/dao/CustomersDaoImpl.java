@@ -13,6 +13,7 @@ import helper.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Customers;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +26,7 @@ public class CustomersDaoImpl {
 
     /**
      * This method inserts a customer into the customers table in the client_schedule database.
+     *
      * @param customerID
      * @param customerName
      * @param address
@@ -36,51 +38,56 @@ public class CustomersDaoImpl {
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
-     * closed PreparedStatement or the SQL statement returns a ResultSet object
-     * java.sql.SQLTimeoutException – when the driver has determined that the timeout value
-     * that was specified by the setQueryTimeout method has been exceeded and
-     * has at least attempted to cancel the currently running Statement
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static int insertCustomers(int customerID, String customerName, String address,
-                                      String postalCode,String phone, String createdBy,
+                                      String postalCode, String phone, String createdBy,
                                       String lastUpdatedBy, int divisionID) throws SQLException {
         String sqlStatement = "INSERT INTO `client_schedule`.`customers` (`Customer_ID`, `Customer_Name`, `Address`, `Postal_Code`, `Phone`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`, `Division_ID`) VALUES (?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?);";
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
-        preparedStatement.setInt(1,customerID);
-        preparedStatement.setString(2,customerName);
-        preparedStatement.setString(3,address);
-        preparedStatement.setString(4,postalCode);
-        preparedStatement.setString(5,phone);
-        preparedStatement.setString(6,createdBy);
-        preparedStatement.setString(7,lastUpdatedBy);
-        preparedStatement.setInt(8,divisionID);
+        preparedStatement.setInt(1, customerID);
+        preparedStatement.setString(2, customerName);
+        preparedStatement.setString(3, address);
+        preparedStatement.setString(4, postalCode);
+        preparedStatement.setString(5, phone);
+        preparedStatement.setString(6, createdBy);
+        preparedStatement.setString(7, lastUpdatedBy);
+        preparedStatement.setInt(8, divisionID);
 
         return preparedStatement.executeUpdate();
     }
 
 
     /**
+     * This method selects customers from the customers table in the client_schedule database.
      *
-     * @throws SQLException
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static void selectCustomers() throws SQLException {
 
         String sqlStatement = "SELECT * FROM client_schedule.customers";
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
         ResultSet resultSet = preparedStatement.executeQuery();
-        while(resultSet.next()){
-            int customerID=resultSet.getInt("Customer_ID");
+        while (resultSet.next()) {
+            int customerID = resultSet.getInt("Customer_ID");
             String customerName = resultSet.getString("Customer_Name");
-            String address= resultSet.getString("Address");
-            String postalCode= resultSet.getString("Postal_Code");
-            String phone= resultSet.getString("Phone");
-            String createDate= resultSet.getString("Create_Date");
-            String createdBy= resultSet.getString("Created_By");
-            String lastUpdate= resultSet.getString("Last_Update");
-            String lastUpdatedBy= resultSet.getString("Last_Updated_By");
-            int divisionID=resultSet.getInt("Division_ID");
+            String address = resultSet.getString("Address");
+            String postalCode = resultSet.getString("Postal_Code");
+            String phone = resultSet.getString("Phone");
+            String createDate = resultSet.getString("Create_Date");
+            String createdBy = resultSet.getString("Created_By");
+            String lastUpdate = resultSet.getString("Last_Update");
+            String lastUpdatedBy = resultSet.getString("Last_Updated_By");
+            int divisionID = resultSet.getInt("Division_ID");
             System.out.print(customerID + " " + " | ");
             System.out.print(customerName + " " + " | ");
             System.out.print(address + " " + " | ");
@@ -97,26 +104,25 @@ public class CustomersDaoImpl {
     }
 
     /**
-     *
      * @throws SQLException
      */
     public static void selectCustomers(int customerID) throws SQLException {
 
         String sqlStatement = "SELECT * FROM client_schedule.customers WHERE Customer_ID = ?";
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
-        preparedStatement.setInt(1,customerID);
+        preparedStatement.setInt(1, customerID);
         ResultSet resultSet = preparedStatement.executeQuery();
-        while(resultSet.next()){
-            customerID=resultSet.getInt("Customer_ID");
+        while (resultSet.next()) {
+            customerID = resultSet.getInt("Customer_ID");
             String customerName = resultSet.getString("Customer_Name");
-            String address= resultSet.getString("Address");
-            String postalCode= resultSet.getString("Postal_Code");
-            String phone= resultSet.getString("Phone");
-            String createDate= resultSet.getString("Create_Date");
-            String createdBy= resultSet.getString("Created_By");
-            String lastUpdate= resultSet.getString("Last_Update");
-            String lastUpdatedBy= resultSet.getString("Last_Updated_By");
-            int divisionID=resultSet.getInt("Division_ID");
+            String address = resultSet.getString("Address");
+            String postalCode = resultSet.getString("Postal_Code");
+            String phone = resultSet.getString("Phone");
+            String createDate = resultSet.getString("Create_Date");
+            String createdBy = resultSet.getString("Created_By");
+            String lastUpdate = resultSet.getString("Last_Update");
+            String lastUpdatedBy = resultSet.getString("Last_Updated_By");
+            int divisionID = resultSet.getInt("Division_ID");
             System.out.print(customerID + " " + " | ");
             System.out.print(customerName + " " + " | ");
             System.out.print(address + " " + " | ");
@@ -133,7 +139,8 @@ public class CustomersDaoImpl {
     }
 
     /**
-     *Comment TODO
+     * Comment TODO
+     *
      * @param customerID
      * @param postalCode
      * @return
@@ -144,15 +151,16 @@ public class CustomersDaoImpl {
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
-        preparedStatement.setString(1,postalCode);
-        preparedStatement.setInt(2,customerID);
+        preparedStatement.setString(1, postalCode);
+        preparedStatement.setInt(2, customerID);
 
 
         return preparedStatement.executeUpdate();
     }
 
     /**
-     *Comment TODO
+     * Comment TODO
+     *
      * @param customerID
      * @return
      * @throws SQLException
@@ -162,7 +170,7 @@ public class CustomersDaoImpl {
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
-        preparedStatement.setInt(1,customerID);
+        preparedStatement.setInt(1, customerID);
 
         return preparedStatement.executeUpdate();
     }
@@ -172,25 +180,25 @@ public class CustomersDaoImpl {
      *
      * @return customersList a list of customers
      */
-    public static ObservableList<Customers> getAllCustomers(){
+    public static ObservableList<Customers> getAllCustomers() {
         ObservableList<Customers> customersList = FXCollections.observableArrayList();
-        try{
+        try {
             String sqlStatement = "SELECT * FROM client_schedule.customers";
             PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()){
-                int customerID=resultSet.getInt("Customer_ID");
+            while (resultSet.next()) {
+                int customerID = resultSet.getInt("Customer_ID");
                 String customerName = resultSet.getString("Customer_Name");
-                String address= resultSet.getString("Address");
-                String postalCode= resultSet.getString("Postal_Code");
-                String phone= resultSet.getString("Phone");
-                String createDate= resultSet.getString("Create_Date");
-                String createdBy= resultSet.getString("Created_By");
-                String lastUpdate= resultSet.getString("Last_Update");
-                String lastUpdatedBy= resultSet.getString("Last_Updated_By");
-                int divisionID=resultSet.getInt("Division_ID");
+                String address = resultSet.getString("Address");
+                String postalCode = resultSet.getString("Postal_Code");
+                String phone = resultSet.getString("Phone");
+                String createDate = resultSet.getString("Create_Date");
+                String createdBy = resultSet.getString("Created_By");
+                String lastUpdate = resultSet.getString("Last_Update");
+                String lastUpdatedBy = resultSet.getString("Last_Updated_By");
+                int divisionID = resultSet.getInt("Division_ID");
                 Customers customer = new Customers(customerID, customerName,
                         address, postalCode, phone,
                         createDate, createdBy,

@@ -13,6 +13,7 @@ import helper.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointments;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -65,6 +66,7 @@ public class AppointmentsDaoImpl {
 
     /**
      * This method inserts a appointment into the appointments table in the client_schedule database.
+     *
      * @param appointmentID
      * @param title
      * @param description
@@ -80,10 +82,10 @@ public class AppointmentsDaoImpl {
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
-     * closed PreparedStatement or the SQL statement returns a ResultSet object
-     * java.sql.SQLTimeoutException – when the driver has determined that the timeout value
-     * that was specified by the setQueryTimeout method has been exceeded and
-     * has at least attempted to cancel the currently running Statement
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static int insertAppointments(int appointmentID, String title, String description, String location, String type, String start,
                                          String end, String createdBy, String lastUpdatedBy,
@@ -114,7 +116,13 @@ public class AppointmentsDaoImpl {
     }
 
     /**
-     * @throws SQLException
+     * This method selects appointments from the appointments table in the client_schedule database.
+     *
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static void selectAppointment() throws SQLException {
         String sqlStatement = "SELECT * FROM client_schedule.appointments";
@@ -154,13 +162,15 @@ public class AppointmentsDaoImpl {
         }
     }
 
+
     /**
+     * @param appointmentID
      * @throws SQLException
      */
     public static void selectAppointment(int appointmentID) throws SQLException {
         String sqlStatement = "SELECT * FROM client_schedule.appointments WHERE Appointment_ID = ?";
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
-        preparedStatement.setInt(1,appointmentID);
+        preparedStatement.setInt(1, appointmentID);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
             appointmentID = resultSet.getInt("Appointment_ID");
@@ -203,9 +213,8 @@ public class AppointmentsDaoImpl {
         String sqlStatement = "UPDATE `client_schedule`.`appointments` SET `Title` = ? WHERE (`Appointment_ID` = ?)";
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
-        preparedStatement.setString(1,title);
-        preparedStatement.setInt(2,appointmentID);
-
+        preparedStatement.setString(1, title);
+        preparedStatement.setInt(2, appointmentID);
 
 
         return preparedStatement.executeUpdate();
