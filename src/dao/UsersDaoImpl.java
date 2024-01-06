@@ -125,12 +125,17 @@ public class UsersDaoImpl {
     }
 
     /**
-     * TODO COMMENT
+     * This method updates a user in the users table in the client_schedule database.
      *
      * @param userID
      * @param password
-     * @return
-     * @throws SQLException
+     * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
+     * for SQL statements that return nothing
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static int updateUsers(int userID, String password) throws SQLException {
         String sqlStatement = "UPDATE `client_schedule`.`users` SET `Password` = ? WHERE (`User_ID` = ?);";
@@ -145,11 +150,16 @@ public class UsersDaoImpl {
     }
 
     /**
-     * Comment TODO
+     * This method deletes a user in the users table in the client_schedule database.
      *
      * @param userID
-     * @return
-     * @throws SQLException
+     * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
+     * for SQL statements that return nothing
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static int deleteUsers(int userID) throws SQLException {
         String sqlStatement = "DELETE FROM `client_schedule`.`users` WHERE (`User_ID` = ?)";

@@ -211,9 +211,17 @@ public class AppointmentsDaoImpl {
     }
 
     /**
-     * TODO
+     * This method updates a appointment into the appointments table in the client_schedule database.
      *
      * @param appointmentID
+     * @param title
+     * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
+     * for SQL statements that return nothing
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static int updateAppointment(int appointmentID, String title) throws SQLException {
         String sqlStatement = "UPDATE `client_schedule`.`appointments` SET `Title` = ? WHERE (`Appointment_ID` = ?)";
@@ -227,7 +235,16 @@ public class AppointmentsDaoImpl {
     }
 
     /**
+     * This method deletes a appointment into the appointments table in the client_schedule database.
+     *
      * @param appointmentID
+     * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
+     * for SQL statements that return nothing
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static int deleteAppointment(int appointmentID) throws SQLException {
         String sqlStatement = "DELETE FROM `client_schedule`.`appointments` WHERE (`Appointment_ID` = ?)";

@@ -146,12 +146,17 @@ public class CustomersDaoImpl {
     }
 
     /**
-     * Comment TODO
+     * This method updates a customer into the customers table in the client_schedule database.
      *
      * @param customerID
      * @param postalCode
-     * @return
-     * @throws SQLException
+     * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
+     * for SQL statements that return nothing
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static int updateCustomers(int customerID, String postalCode) throws SQLException {
         String sqlStatement = "UPDATE `client_schedule`.`customers` SET `Postal_Code` = ? WHERE (`Customer_ID` = ?)";
@@ -166,11 +171,16 @@ public class CustomersDaoImpl {
     }
 
     /**
-     * Comment TODO
+     * This method deletes a customer into the customers table in the client_schedule database.
      *
      * @param customerID
-     * @return
-     * @throws SQLException
+     * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
+     * for SQL statements that return nothing
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
      */
     public static int deleteCustomers(int customerID) throws SQLException {
         String sqlStatement = "DELETE FROM `client_schedule`.`customers` WHERE (`Customer_ID` = ?)";
