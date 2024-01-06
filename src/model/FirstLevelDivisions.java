@@ -9,88 +9,169 @@ package model;
  */
 
 /**
- *  The model package will hold your POJOs.
- *  Define POJO (Plain Old Java Object) classes that Map the ERD.
- *  The POJOs are used to Map rows from the database tables
+ * The model package will hold your POJOs.
+ * Define POJO (Plain Old Java Object) classes that Map the ERD.
+ * The POJOs are used to Map rows from the database tables
  */
 public class FirstLevelDivisions {
 
-  private int divisionID;
-  private String division;
-  private String createDate;
-  private String createdBy;
-  private String lastUpdate;
-  private String lastUpdatedBy;
-  private int countryID; //FOREIGN KEY
+    private int divisionID;
+    private String division;
+    private String createDate;
+    private String createdBy;
+    private String lastUpdate;
+    private String lastUpdatedBy;
+    private int countryID; //FOREIGN KEY
 
-  public FirstLevelDivisions(int divisionID, String division,
-                             String createDate, String createdBy,
-                             String lastUpdate, String lastUpdatedBy,
-                             int countryID) {
-    this.divisionID = divisionID;
-    this.division = division;
-    this.createDate = createDate;
-    this.createdBy = createdBy;
-    this.lastUpdate = lastUpdate;
-    this.lastUpdatedBy = lastUpdatedBy;
-    this.countryID = countryID;
-  }
+    /**
+     * Class constructor for FirstLevelDivisions
+     *
+     * @param divisionID
+     * @param division
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param countryID
+     */
+    public FirstLevelDivisions(int divisionID, String division,
+                               String createDate, String createdBy,
+                               String lastUpdate, String lastUpdatedBy,
+                               int countryID) {
+        this.divisionID = divisionID;
+        this.division = division;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.countryID = countryID;
+    }
 
-  public int getDivisionID() {
-    return divisionID;
-  }
+    /**
+     * Getter for divisionID of First Level Division
+     *
+     * @return divisionID of First Level Division
+     */
+    public int getDivisionID() {
+        return divisionID;
+    }
 
-  public void setDivisionID(int divisionID) {
-    this.divisionID = divisionID;
-  }
+    /**
+     * Setter for divisionID of First Level Division
+     *
+     * @param divisionID of First Level Division
+     */
+    public void setDivisionID(int divisionID) {
+        this.divisionID = divisionID;
+    }
 
-  public String getDivision() {
-    return division;
-  }
+    /**
+     * Getter for division of First Level Division
+     *
+     * @return division of First Level Division
+     */
+    public String getDivision() {
+        return division;
+    }
 
-  public void setDivision(String division) {
-    this.division = division;
-  }
+    /**
+     * Setter for division of First Level Division
+     *
+     * @param division of First Level Division
+     */
+    public void setDivision(String division) {
+        this.division = division;
+    }
 
-  public String getCreateDate() {
-    return createDate;
-  }
+    /**
+     * Getter for createDate of First Level Division
+     *
+     * @return createDate of First Level Division
+     */
+    public String getCreateDate() {
+        return createDate;
+    }
 
-  public void setCreateDate(String createDate) {
-    this.createDate = createDate;
-  }
+    /**
+     * Setter for createDate of First Level Division
+     *
+     * @param createDate of First Level Division
+     */
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
 
-  public String getCreatedBy() {
-    return createdBy;
-  }
+    /**
+     * Getter for createdBy of First Level Division
+     *
+     * @return createdBy of First Level Division
+     */
+    public String getCreatedBy() {
+        return createdBy;
+    }
 
-  public void setCreatedBy(String createdBy) {
-    this.createdBy = createdBy;
-  }
+    /**
+     * Setter for createdBy of First Level Division
+     *
+     * @param createdBy of First Level Division
+     */
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
 
-  public String getLastUpdate() {
-    return lastUpdate;
-  }
+    /**
+     * Getter for lastUpdate of First Level Division
+     *
+     * @return lastUpdate of First Level Division
+     */
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
 
-  public void setLastUpdate(String lastUpdate) {
-    this.lastUpdate = lastUpdate;
-  }
+    /**
+     * Setter for lastUpdate of First Level Division
+     *
+     * @param lastUpdate of First Level Division
+     */
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
 
-  public String getLastUpdatedBy() {
-    return lastUpdatedBy;
-  }
+    /**
+     * Getter for lastUpdatedBy of First Level Division
+     *
+     * @return lastUpdatedBy of First Level Division
+     */
+    public String getLastUpdatedBy() {
+        return lastUpdatedBy;
+    }
 
-  public void setLastUpdatedBy(String lastUpdatedBy) {
-    this.lastUpdatedBy = lastUpdatedBy;
-  }
+    /**
+     * Setter for lastUpdatedBy of First Level Division
+     *
+     * @param lastUpdatedBy of First Level Division
+     */
+    public void setLastUpdatedBy(String lastUpdatedBy) {
+        this.lastUpdatedBy = lastUpdatedBy;
+    }
 
-  public int getCountryID() {
-    return countryID;
-  }
+    /**
+     * Getter for countryID  of First Level Division
+     *
+     * @return countryID  of First Level Division
+     */
+    public int getCountryID() {
+        return countryID;
+    }
 
-  public void setCountryID(int countryID) {
-    this.countryID = countryID;
-  }
+    /**
+     * Setter for countryID of First Level Division
+     *
+     * @param countryID of First Level Division
+     */
+    public void setCountryID(int countryID) {
+        this.countryID = countryID;
+    }
 
 
 }

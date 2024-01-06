@@ -10,9 +10,9 @@ package model;
  */
 
 /**
- *  The model package will hold your POJOs.
- *  Define POJO (Plain Old Java Object) classes that Map the ERD.
- *  The POJOs are used to Map rows from the database tables
+ * The model package will hold your POJOs.
+ * Define POJO (Plain Old Java Object) classes that Map the ERD.
+ * The POJOs are used to Map rows from the database tables
  */
 public class Customers {
 
@@ -29,7 +29,8 @@ public class Customers {
     private int divisionID; //FOREIGN KEY
 
     /**
-     *Class Constructor of Customers
+     * Class Constructor of Customers
+     *
      * @param customerID
      * @param customerName
      * @param address
@@ -60,6 +61,7 @@ public class Customers {
 
     /**
      * Getter of customerID of Customer
+     *
      * @return customerID of Customer
      */
     public int getCustomerID() {
@@ -68,6 +70,7 @@ public class Customers {
 
     /**
      * Setter of customerID of Customer
+     *
      * @param customerID of Customer
      */
     public void setCustomerID(int customerID) {
@@ -76,6 +79,7 @@ public class Customers {
 
     /**
      * Getter of customerName of Customer
+     *
      * @return customerName of Customer
      */
     public String getCustomerName() {
@@ -84,6 +88,7 @@ public class Customers {
 
     /**
      * Setter of customerName of Customer
+     *
      * @param customerName of Customer
      */
     public void setCustomerName(String customerName) {
@@ -92,6 +97,7 @@ public class Customers {
 
     /**
      * Getter of address of Customer
+     *
      * @return address of Customer
      */
     public String getAddress() {
@@ -100,6 +106,7 @@ public class Customers {
 
     /**
      * Setter of address of Customer
+     *
      * @param address of Customer
      */
     public void setAddress(String address) {
@@ -108,6 +115,7 @@ public class Customers {
 
     /**
      * Gettter of postalCode of Customer
+     *
      * @return postalCode of Customer
      */
     public String getPostalCode() {
@@ -116,6 +124,7 @@ public class Customers {
 
     /**
      * Setter of postalCode of Customer
+     *
      * @param postalCode of Customer
      */
     public void setPostalCode(String postalCode) {
@@ -124,6 +133,7 @@ public class Customers {
 
     /**
      * Getter of phone of Customer
+     *
      * @return phone of Customer
      */
     public String getPhone() {
@@ -132,6 +142,7 @@ public class Customers {
 
     /**
      * Setter of phone of Customer
+     *
      * @param phone of Customer
      */
     public void setPhone(String phone) {
@@ -140,6 +151,7 @@ public class Customers {
 
     /**
      * Getter of createDate of Customer
+     *
      * @return createDate of Customer
      */
     public String getCreateDate() {
@@ -148,6 +160,7 @@ public class Customers {
 
     /**
      * Setter of createDate of Customer
+     *
      * @param createDate of Customer
      */
     public void setCreateDate(String createDate) {
@@ -156,6 +169,7 @@ public class Customers {
 
     /**
      * Getter of createdBy of Customer
+     *
      * @return createdBy of Customer
      */
     public String getCreatedBy() {
@@ -164,6 +178,7 @@ public class Customers {
 
     /**
      * Setter of createdBy of Customer
+     *
      * @param createdBy of Customer
      */
     public void setCreatedBy(String createdBy) {
@@ -172,6 +187,7 @@ public class Customers {
 
     /**
      * Getter of lastUpdate of Customer
+     *
      * @return lastUpdate of Customer
      */
     public String getLastUpdate() {
@@ -180,6 +196,7 @@ public class Customers {
 
     /**
      * Setter of lastUpdate of Customer
+     *
      * @param lastUpdate of Customer
      */
     public void setLastUpdate(String lastUpdate) {
@@ -188,6 +205,7 @@ public class Customers {
 
     /**
      * Getter of lastUpdatedBy of Customer
+     *
      * @return lastUpdatedBy of Customer
      */
     public String getLastUpdatedBy() {
@@ -196,6 +214,7 @@ public class Customers {
 
     /**
      * Setter of lastUpdatedBy of Customer
+     *
      * @param lastUpdatedBy of Customer
      */
     public void setLastUpdatedBy(String lastUpdatedBy) {
@@ -204,6 +223,7 @@ public class Customers {
 
     /**
      * Getter of divisionID of Customer
+     *
      * @return divisionID of Customer
      */
     public int getDivisionID() {
@@ -212,6 +232,7 @@ public class Customers {
 
     /**
      * Setter of divisionID of Customer
+     *
      * @param divisionID of Customer
      */
     public void setDivisionID(int divisionID) {
