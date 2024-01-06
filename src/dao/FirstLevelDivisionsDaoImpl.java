@@ -132,8 +132,14 @@ public class FirstLevelDivisionsDaoImpl {
         return preparedStatement.executeUpdate();
     }
 
+    /**
+     * This method retrieves a list of first_level_divisions from the first_level_divisions
+     * table in the client_schedule database.
+     *
+     * @return firstLevelDivisionsList a list of first_level_divisions
+     */
     public static ObservableList<FirstLevelDivisions> getAllFirstLevelDivisions(){
-        ObservableList<FirstLevelDivisions> countriesList = FXCollections.observableArrayList();
+        ObservableList<FirstLevelDivisions> firstLevelDivisionsList = FXCollections.observableArrayList();
         try{
             String sqlStatement = "SELECT * FROM client_schedule.first_level_divisions";
             PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
@@ -150,11 +156,11 @@ public class FirstLevelDivisionsDaoImpl {
                 int countryID=resultSet.getInt("Country_ID");
                 FirstLevelDivisions firstLevelDivision = new FirstLevelDivisions(divisionID, division,
                         createDate, createdBy, lastUpdate, lastUpdatedBy, countryID);
-                countriesList.add(firstLevelDivision);
+                firstLevelDivisionsList.add(firstLevelDivision);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return countriesList;
+        return firstLevelDivisionsList;
     }
 }

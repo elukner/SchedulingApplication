@@ -150,11 +150,12 @@ public class CustomersDaoImpl {
     }
 
     /**
-     * Comment TODO
-     * @return
+     * This method retrieves a list of customers from the customers table in the client_schedule database.
+     *
+     * @return customersList a list of customers
      */
     public static ObservableList<Customers> getAllCustomers(){
-        ObservableList<Customers> countriesList = FXCollections.observableArrayList();
+        ObservableList<Customers> customersList = FXCollections.observableArrayList();
         try{
             String sqlStatement = "SELECT * FROM client_schedule.customers";
             PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
@@ -177,11 +178,11 @@ public class CustomersDaoImpl {
                         createDate, createdBy,
                         lastUpdate, lastUpdatedBy,
                         divisionID);
-                countriesList.add(customer);
+                customersList.add(customer);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return countriesList;
+        return customersList;
     }
 }

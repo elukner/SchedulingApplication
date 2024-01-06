@@ -130,12 +130,14 @@ public class UsersDaoImpl {
         return preparedStatement.executeUpdate();
     }
 
+
     /**
-     * Comment TODO
-     * @return
+     * This method retrieves a list of users from the users table in the client_schedule database.
+     *
+     * @return usersList a list of users
      */
     public static ObservableList<Users> getAllUsers(){
-        ObservableList<Users> countriesList = FXCollections.observableArrayList();
+        ObservableList<Users> usersList = FXCollections.observableArrayList();
         try{
             String sqlStatement = "SELECT * FROM client_schedule.users";
             PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
@@ -152,11 +154,11 @@ public class UsersDaoImpl {
                 String lastUpdatedBy= resultSet.getString("Last_Updated_By");
                 Users user = new Users(userID, userName, password, createDate,
                         createdBy, lastUpdate, lastUpdatedBy);
-                countriesList.add(user);
+                usersList.add(user);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return countriesList;
+        return usersList;
     }
 }

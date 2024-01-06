@@ -26,9 +26,9 @@ import java.util.List;
 public class AppointmentsDaoImpl {
 
     /**
-     * retrive list of students from the database
+     * This method retrieves a list of appointments from the appointments table in the client_schedule database.
      *
-     * @return appointmentsList
+     * @return appointmentsList a list of appointments
      */
     public static ObservableList<Appointments> getAllAppointments() {
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();

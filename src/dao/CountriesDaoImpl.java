@@ -125,6 +125,11 @@ public class CountriesDaoImpl {
         return preparedStatement.executeUpdate();
     }
 
+    /**
+     * This method retrieves a list of countries from the countries table in the client_schedule database.
+     *
+     * @return countriesList a list of countries
+     */
     public static ObservableList<Countries> getAllCountries(){
         ObservableList<Countries> countriesList = FXCollections.observableArrayList();
         try{

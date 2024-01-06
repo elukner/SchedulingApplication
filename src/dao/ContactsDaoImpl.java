@@ -25,10 +25,10 @@ import java.util.List;
  **/
 public class ContactsDaoImpl {
 
-
     /**
-     * Comment TODO
-     * @return
+     * This method retrieves a list of contacts from the contacts table in the client_schedule database.
+     *
+     * @return contactsList a list of contacts
      */
     public static ObservableList<Contacts> getAllContacts() {
         ObservableList<Contacts> contactsList = FXCollections.observableArrayList();
