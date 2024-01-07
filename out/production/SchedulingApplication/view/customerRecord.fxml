@@ -19,29 +19,7 @@
    <children>
       <VBox prefHeight="600.0" prefWidth="800.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="800.0">
-               <children>
-                  <MenuBar>
-                    <menus>
-                      <Menu mnemonicParsing="false" text="Scheduling">
-                        <items>
-                          <MenuItem mnemonicParsing="false" text="Close" />
-                        </items>
-                      </Menu>
-                      <Menu mnemonicParsing="false" text="Customer Record ">
-                        <items>
-                          <MenuItem mnemonicParsing="false" text="Delete" />
-                        </items>
-                      </Menu>
-                      <Menu mnemonicParsing="false" text="Reports">
-                        <items>
-                          <MenuItem mnemonicParsing="false" text="About" />
-                        </items>
-                      </Menu>
-                    </menus>
-                  </MenuBar>
-               </children>
-            </HBox>
+            <Button mnemonicParsing="false" onAction="#onActionBack" text="Back" />
             <TableView prefHeight="400.0" prefWidth="800.0">
                <columns>
                   <TableColumn prefWidth="75.0" text="Customer_ID" />
@@ -97,6 +75,5 @@
             </HBox>
          </children>
       </VBox>
-      <Pane prefHeight="400.0" prefWidth="600.0" />
    </children>
 </AnchorPane>

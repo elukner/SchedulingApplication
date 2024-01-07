@@ -19,6 +19,7 @@
    <children>
       <VBox prefHeight="600.0" prefWidth="900.0">
          <children>
+            <Button mnemonicParsing="false" onAction="#onActionBack" text="Back" />
             <HBox prefHeight="100.0" prefWidth="900.0">
                <children>
                   <Label text="View appointment schedules by:" />
@@ -26,7 +27,7 @@
                      <toggleGroup>
                         <ToggleGroup fx:id="appViewTG" />
                      </toggleGroup></RadioButton>
-                  <RadioButton fx:id="filterAppointmentWeekRBtn" mnemonicParsing="false" text="Week" toggleGroup="$appViewTG" />
+                  <RadioButton fx:id="filterAppointmentWeekRBtn" mnemonicParsing="false" onAction="#onActionFilterAppointmentWeekRBtn" text="Week" toggleGroup="$appViewTG" />
                </children>
             </HBox>
             <TableView fx:id="appointmentTblView" prefHeight="400.0" prefWidth="900.0">
@@ -80,22 +81,17 @@
                   <Label text="User_ID" GridPane.rowIndex="8" />
                   <TextField fx:id="userIDTxt" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                   <Label text="Contact Name" GridPane.rowIndex="9" />
-                  <ComboBox fx:id="contactNameComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                  <ComboBox fx:id="contactNameComboBox" onAction="#onActionContactNameComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                </children>
             </GridPane>
-            <HBox prefHeight="400.0" prefWidth="900.0">
+            <HBox prefHeight="100.0" prefWidth="900.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#onActionAddAppointment" text="Add" />
                   <Button mnemonicParsing="false" onAction="#onActionUpdateAppointment" text="Update" />
                   <Button mnemonicParsing="false" onAction="#onActionDeleteAppointment" text="Delete" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#onActionCustomerRecordBtn" text="Customer Record " />
-                  <Button mnemonicParsing="false" onAction="#onActionReportsBtn" text="Reports" />
-               </children>
-            </HBox>
+            <Label fx:id="customMessageTxt" prefWidth="900.0" />
          </children>
       </VBox>
    </children>

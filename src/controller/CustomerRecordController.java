@@ -7,6 +7,18 @@ package controller;
  * Date: 1/2/2024
  * Time: 1:27 PM
  */
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.stage.Stage;
 
 /**
  *
@@ -24,7 +36,6 @@ package controller;
  * });
  **/
 
-import javafx.event.ActionEvent;
 
 /**
  * Write code that provides the following customer record functionalities:
@@ -70,7 +81,29 @@ import javafx.event.ActionEvent;
  * When a customer record is deleted, a custom message should display in the user interface.
  */
 
-public class CustomerRecordController {
-    public void onActionBack(ActionEvent actionEvent) {
+/**
+ * This FXML class is the Customer Record controller that contains business logic for the Customer Record view.
+ */
+public class CustomerRecordController implements Initializable {
+
+    private Stage stage;
+    private Parent scene;
+
+    @FXML
+    void onActionBack(ActionEvent event) throws IOException {
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
+    /**
+     * This method initializes this Customer Record controller class
+     * @param url
+     * @param resourceBundle
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 }
