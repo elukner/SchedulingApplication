@@ -1,12 +1,24 @@
 package controller;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import dao.UsersDaoImpl;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 import model.Users;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.Scene;
 
 /**
  * Project: SchedulingApplication
@@ -18,10 +30,7 @@ import java.util.ResourceBundle;
  */
 
 /**
- * NOTE: Delete When Finished
- *
- * Notes from Requirements:
- *
+ * NOTES
  *The controller package will hold Controller
  * classes that contain Business Logic for your views.
  *
@@ -36,21 +45,51 @@ import java.util.ResourceBundle;
  */
 
 /**
- * Create a log-in form with the following capabilities:
- *
- * -accepts username and password and provides an appropriate error message
- *
- * -determines the user’s location (i.e., ZoneId) and displays it in a label on the log-in form
- *
- * -displays the log-in form in English or French based on the user’s computer language setting to translate all the text, labels, buttons, and errors on the form
- *
- * -automatically translates error control messages into English or French based on the user’s computer language setting
- *
- *
- * Note: Some operating systems require a reboot when changing the language settings.
+ * This FXML class is the login controller that contains business logic for the login view.
  */
 public class LoginController implements Initializable {
 
+    @FXML // fx:id="passwordLbl"
+    private Label passwordLbl; // Value injected by FXMLLoader
+
+    @FXML // fx:id="passwordTxt"
+    private TextField passwordTxt; // Value injected by FXMLLoader
+
+    @FXML // fx:id="userLocationLbl"
+    private Label userLocationLbl; // Value injected by FXMLLoader
+
+    @FXML // fx:id="usernameLbl"
+    private Label usernameLbl; // Value injected by FXMLLoader
+
+    @FXML // fx:id="usernamerTxt"
+    private TextField usernameTxt; // Value injected by FXMLLoader
+
+    private Stage stage;
+    private Parent scene;
+
+    /**
+     * TODO comment
+     * @param event
+     */
+    @FXML
+    void onActionLogInBtn(ActionEvent event) throws IOException {
+
+//    -accepts username and password and provides an appropriate error message
+       if( validateLogin(usernameTxt.getText(),passwordTxt.getText())){
+       stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+       scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+       }
+
+//      -determines the user’s location (i.e., ZoneId) and displays it in a label on the log-in form
+//
+//      -displays the log-in form in English or French based on the user’s computer language setting to translate all the text, labels, buttons, and errors on the form
+//
+//      -automatically translates error control messages into English or French based on the user’s computer language setting
+//  Note: Some operating systems require a reboot when changing the language settings.
+
+    }
 
     /**
      * This method accepts username and password and provides an appropriate error message.
@@ -59,12 +98,86 @@ public class LoginController implements Initializable {
      * @param password the user's password that is used to log in
      * @return appropriate error message if user logs in with incorrect username and password
      */
-    public String validateLogin(String username, String password){
-        return "appropriate error message";
+    public Boolean validateLogin(String username, String password) {
+
+
+        ObservableList<Users> userList = UsersDaoImpl.getUser(username,password);
+
+        checkIfTxtEmpty();
+
+        if(!userList.isEmpty() && !usernameTxt.getText().isEmpty() && !passwordTxt.getText().isEmpty()) {
+            Users user = new Users(userList.get(0).getUserID(), userList.get(0).getUserName(), userList.get(0).getPassword(), userList.get(0).getCreateDate(),
+                    userList.get(0).getCreatedBy(), userList.get(0).getLastUpdate(), userList.get(0).getLastUpdatedBy());
+
+            if(!password.equals(user.getPassword())) {
+                showAlert(Alert.AlertType.ERROR, "Form Error!",
+                        "Please enter correct password");
+                return false;
+
+            }
+            if(!username.equals(user.getUserName())) {
+                showAlert(Alert.AlertType.ERROR, "Form Error!",
+                        "Please enter correct username");
+                return false;
+            }
+
+        }else {
+            showAlert(Alert.AlertType.ERROR, "Form Error!",
+                    "Please enter correct username and password.");
+            return false;
+        }
+        return true;
+
+
+
     }
 
-    public void onActionLogInBtn(ActionEvent actionEvent) {
-        System.out.println("Here");
+    private void checkIfTxtEmpty() {
+        if(usernameTxt.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!",
+                    "Please enter a username");
+
+        }
+        if(passwordTxt.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!",
+                    "Please enter a password");
+
+        }
+    }
+
+    @FXML
+    public void onActionUsernameTxt(ActionEvent actionEvent) {
+//        // action event
+//        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent e)
+//            {
+//                usernamerTxt.getText();
+//            }
+//        };
+//
+//        // when enter is pressed
+//        usernamerTxt.setOnAction(event);
+
+
+    }
+    private static void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.show();
+    }
+
+
+    /**
+     * construct and set scenes in the application
+     * @param stage
+     */
+    public void start(Stage stage) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("../view/login.fxml"));
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     /**
@@ -76,4 +189,5 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+
 }

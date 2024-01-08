@@ -124,6 +124,7 @@ public class UsersDaoImpl {
 
     }
 
+
     /**
      * This method updates a user in the users table in the client_schedule database.
      *
@@ -201,4 +202,39 @@ public class UsersDaoImpl {
         }
         return usersList;
     }
+
+
+
+    /**
+     * This method retrieves a list of users from the users table in the client_schedule database.
+     *
+     * @return usersList a list of users
+     */
+    public static ObservableList<Users> getUser(String userName, String password) {
+        ObservableList<Users> usersList = FXCollections.observableArrayList();
+        try {
+            String sqlStatement = "SELECT * FROM client_schedule.users WHERE User_Name = ? OR Password = ?";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+            preparedStatement.setString(1, userName);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int userID = resultSet.getInt("User_ID");
+                userName = resultSet.getString("User_Name");
+                password = resultSet.getString("Password");
+                String createDate = resultSet.getString("Create_Date");
+                String createdBy = resultSet.getString("Created_By");
+                String lastUpdate = resultSet.getString("Last_Update");
+                String lastUpdatedBy = resultSet.getString("Last_Updated_By");
+                Users user = new Users(userID, userName, password, createDate,
+                        createdBy, lastUpdate, lastUpdatedBy);
+                usersList.add(user);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return usersList;
+    }
+
 }
