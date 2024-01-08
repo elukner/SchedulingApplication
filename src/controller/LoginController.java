@@ -59,6 +59,9 @@ public class LoginController implements Initializable {
     @FXML // fx:id="userLocationLbl"
     private Label userLocationLbl; // Value injected by FXMLLoader
 
+    @FXML // fx:id="userLocationIDLbl"
+    private Label userLocationIDLbl; // Value injected by FXMLLoader
+
     @FXML // fx:id="usernameLbl"
     private Label usernameLbl; // Value injected by FXMLLoader
 
@@ -91,10 +94,7 @@ public class LoginController implements Initializable {
 
 //      -determines the user’s location (i.e., ZoneId) and displays it in a label on the log-in form
 //
-//      -displays the log-in form in English or French based on the user’s computer language setting to translate all the text, labels, buttons, and errors on the form
 //
-//      -automatically translates error control messages into English or French based on the user’s computer language setting
-//  Note: Some operating systems require a reboot when changing the language settings.
 
     }
 
@@ -110,27 +110,46 @@ public class LoginController implements Initializable {
 
         ObservableList<Users> userList = UsersDaoImpl.getUser(username, password);
 
-        checkIfTxtEmpty();
+        if(usernameTxt.getText().isEmpty()&&passwordTxt.getText().isEmpty()){
+            showAlert(Alert.AlertType.ERROR, "Form",
+                    "eUsernamePassword");
+            return false;
+        }
+        if (usernameTxt.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Form",
+                    "eUsername");
+            return false;
+
+        }
+        if (passwordTxt.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Form",
+                    "ePassword");
+            return false;
+
+        }
+
+
+
 
         if (!userList.isEmpty() && !usernameTxt.getText().isEmpty() && !passwordTxt.getText().isEmpty()) {
             Users user = new Users(userList.get(0).getUserID(), userList.get(0).getUserName(), userList.get(0).getPassword(), userList.get(0).getCreateDate(),
                     userList.get(0).getCreatedBy(), userList.get(0).getLastUpdate(), userList.get(0).getLastUpdatedBy());
 
             if (!password.equals(user.getPassword())) {
-                showAlert(Alert.AlertType.ERROR, "Form Error!",
-                        "Please enter correct password");
+                showAlert(Alert.AlertType.ERROR, "Form",
+                        "cPassword");
                 return false;
 
             }
             if (!username.equals(user.getUserName())) {
-                showAlert(Alert.AlertType.ERROR, "Form Error!",
-                        "Please enter correct username");
+                showAlert(Alert.AlertType.ERROR, "Form",
+                        "cUsername");
                 return false;
             }
 
         } else {
-            showAlert(Alert.AlertType.ERROR, "Form Error!",
-                    "Please enter correct username and password.");
+            showAlert(Alert.AlertType.ERROR, "Form",
+                    "cUserPassword");
             return false;
         }
         return true;
@@ -138,18 +157,6 @@ public class LoginController implements Initializable {
 
     }
 
-    private void checkIfTxtEmpty() {
-        if (usernameTxt.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Form Error!",
-                    "Please enter a username");
-
-        }
-        if (passwordTxt.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Form Error!",
-                    "Please enter a password");
-
-        }
-    }
 
     @FXML
     public void onActionUsernameTxt(ActionEvent actionEvent) {
@@ -168,10 +175,15 @@ public class LoginController implements Initializable {
     }
 
     private static void showAlert(Alert.AlertType alertType, String title, String message) {
+        //      -automatically translates error control messages into English or French based on the user’s computer language setting
+//  Note: Some operating systems require a reboot when changing the language settings.
+        ResourceBundle resourceBundle= ResourceBundle.getBundle("Nat", Locale.getDefault());
+
+
         Alert alert = new Alert(alertType);
-        alert.setTitle(title);
+        alert.setTitle(resourceBundle.getString(title));
         alert.setHeaderText(null);
-        alert.setContentText(message);
+        alert.setContentText(resourceBundle.getString(message));
         alert.show();
     }
 
@@ -196,10 +208,16 @@ public class LoginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        resourceBundle = ResourceBundle.getBundle("Nat", Locale.getDefault());
-        if(Locale.getDefault().getLanguage().equals("fr")||Locale.getDefault().getLanguage().equals("en")){
-            usernameLbl.setText(resourceBundle.getString("hello"));
-        }
+        resourceBundle= ResourceBundle.getBundle("Nat", Locale.getDefault());
+
+        //      -displays the log-in form in English or French based on the user’s computer language setting to translate all the text, labels, buttons, and errors on the form
+
+            loginBtn.setText(resourceBundle.getString("Log")+" "+ resourceBundle.getString("in"));
+            usernameLbl.setText(resourceBundle.getString("Username"));
+            passwordLbl.setText(resourceBundle.getString("Password"));
+            userLocationLbl.setText(resourceBundle.getString("Location"));
+            userLocationIDLbl.setText(resourceBundle.getString("Label"));
+
         //Locale.setDefault(france);
         //loginBtn.setText(resourceBundle.getString("hello"));
 
