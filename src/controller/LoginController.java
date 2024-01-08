@@ -106,56 +106,50 @@ public class LoginController implements Initializable {
      * @return appropriate error message if user logs in with incorrect username and password
      */
     public Boolean validateLogin(String username, String password) {
-
-
         ObservableList<Users> userList = UsersDaoImpl.getUser(username, password);
 
-        if(usernameTxt.getText().isEmpty()&&passwordTxt.getText().isEmpty()){
-            showAlert(Alert.AlertType.ERROR, "Form",
-                    "eUsernamePassword");
+        if (isEmptyField(usernameTxt, passwordTxt)) {
+            showAlert(Alert.AlertType.ERROR, "Form", "eUsernamePassword");
             return false;
         }
+
         if (usernameTxt.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Form",
-                    "eUsername");
+            showAlert(Alert.AlertType.ERROR, "Form", "eUsername");
             return false;
-
         }
+
         if (passwordTxt.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Form",
-                    "ePassword");
+            showAlert(Alert.AlertType.ERROR, "Form", "ePassword");
             return false;
-
         }
-
-
-
 
         if (!userList.isEmpty() && !usernameTxt.getText().isEmpty() && !passwordTxt.getText().isEmpty()) {
-            Users user = new Users(userList.get(0).getUserID(), userList.get(0).getUserName(), userList.get(0).getPassword(), userList.get(0).getCreateDate(),
-                    userList.get(0).getCreatedBy(), userList.get(0).getLastUpdate(), userList.get(0).getLastUpdatedBy());
-
+            Users user = userList.get(0);
             if (!password.equals(user.getPassword())) {
-                showAlert(Alert.AlertType.ERROR, "Form",
-                        "cPassword");
+                showAlert(Alert.AlertType.ERROR, "Form", "cPassword");
                 return false;
-
             }
             if (!username.equals(user.getUserName())) {
-                showAlert(Alert.AlertType.ERROR, "Form",
-                        "cUsername");
+                showAlert(Alert.AlertType.ERROR, "Form", "cUsername");
                 return false;
             }
-
         } else {
-            showAlert(Alert.AlertType.ERROR, "Form",
-                    "cUserPassword");
+            showAlert(Alert.AlertType.ERROR, "Form", "cUserPassword");
             return false;
         }
         return true;
-
-
     }
+
+    /**
+     *
+     * @param usernameTxt
+     * @param passwordTxt
+     * @return
+     */
+    private boolean isEmptyField(TextField usernameTxt, TextField passwordTxt) {
+        return usernameTxt.getText().isEmpty() && passwordTxt.getText().isEmpty();
+    }
+
 
 
     @FXML
