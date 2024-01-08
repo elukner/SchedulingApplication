@@ -1,7 +1,12 @@
 package controller;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
+import dao.UsersDaoImpl;
 import model.Users;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Project: SchedulingApplication
@@ -44,7 +49,9 @@ import model.Users;
  *
  * Note: Some operating systems require a reboot when changing the language settings.
  */
-public class LoginController {
+public class LoginController implements Initializable {
+
+
     /**
      * This method accepts username and password and provides an appropriate error message.
      *
@@ -58,5 +65,15 @@ public class LoginController {
 
     public void onActionLogInBtn(ActionEvent actionEvent) {
         System.out.println("Here");
+    }
+
+    /**
+     * This method initializes this login controller class
+     * @param url
+     * @param resourceBundle
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 }

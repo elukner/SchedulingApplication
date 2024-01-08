@@ -25,6 +25,15 @@ package controller;
  * });
  **/
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
 /**
  * Write code that generates accurate information in each of the following reports and will display the
  * reports in the user interface:
@@ -37,4 +46,13 @@ package controller;
  * in this prompt and from the user log-in date and time stamp that will be tracked in part C
  */
 public class ReportController {
+    private Stage stage;
+    private Parent scene;
+
+    public void onActionBackBtn(ActionEvent actionEvent) throws IOException {
+        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
 }
