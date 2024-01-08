@@ -92,10 +92,6 @@ public class LoginController implements Initializable {
             stage.show();
         }
 
-//      -determines the user’s location (i.e., ZoneId) and displays it in a label on the log-in form
-//
-//
-
     }
 
     /**
@@ -205,6 +201,7 @@ public class LoginController implements Initializable {
         resourceBundle= ResourceBundle.getBundle("Nat", Locale.getDefault());
 
         //      -displays the log-in form in English or French based on the user’s computer language setting to translate all the text, labels, buttons, and errors on the form
+        //      -determines the user’s location (i.e., ZoneId) and displays it in a label on the log-in form
 
             loginBtn.setText(resourceBundle.getString("Log")+" "+ resourceBundle.getString("in"));
             usernameLbl.setText(resourceBundle.getString("Username"));

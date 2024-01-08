@@ -12,8 +12,12 @@
             <TextField fx:id="usernameTxt" layoutX="63.0" layoutY="105.0" onAction="#onActionUsernameTxt" />
             <Label fx:id="passwordLbl" layoutX="63.0" layoutY="130.0" text="Password" />
             <TextField fx:id="passwordTxt" layoutX="63.0" layoutY="147.0" />
-            <Label fx:id="userLocationLbl" layoutX="63.0" layoutY="212.0" text="User's Location:" />
-            <Label fx:id="userLocationIDLbl" layoutX="152.0" layoutY="212.0" text="Label" />
+            <HBox layoutX="65.0" layoutY="211.0" prefHeight="42.0" prefWidth="208.0" spacing="10.0">
+               <children>
+                  <Label fx:id="userLocationLbl" text="User's Location:" />
+                  <Label fx:id="userLocationIDLbl" text="Label" />
+               </children>
+            </HBox>
          </children>
       </Pane>
    </children>
