@@ -13,6 +13,7 @@ import model.Users;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -64,23 +65,29 @@ public class LoginController implements Initializable {
     @FXML // fx:id="usernamerTxt"
     private TextField usernameTxt; // Value injected by FXMLLoader
 
+    @FXML // fx:id="loginBtn"
+    private Button loginBtn;// Value injected by FXMLLoader
+
     private Stage stage;
     private Parent scene;
 
+    Locale france = new Locale("fr", "FR");
+
     /**
      * TODO comment
+     *
      * @param event
      */
     @FXML
     void onActionLogInBtn(ActionEvent event) throws IOException {
 
 //    -accepts username and password and provides an appropriate error message
-       if( validateLogin(usernameTxt.getText(),passwordTxt.getText())){
-       stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-       scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
-       }
+        if (validateLogin(usernameTxt.getText(), passwordTxt.getText())) {
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
 
 //      -determines the user’s location (i.e., ZoneId) and displays it in a label on the log-in form
 //
@@ -101,27 +108,27 @@ public class LoginController implements Initializable {
     public Boolean validateLogin(String username, String password) {
 
 
-        ObservableList<Users> userList = UsersDaoImpl.getUser(username,password);
+        ObservableList<Users> userList = UsersDaoImpl.getUser(username, password);
 
         checkIfTxtEmpty();
 
-        if(!userList.isEmpty() && !usernameTxt.getText().isEmpty() && !passwordTxt.getText().isEmpty()) {
+        if (!userList.isEmpty() && !usernameTxt.getText().isEmpty() && !passwordTxt.getText().isEmpty()) {
             Users user = new Users(userList.get(0).getUserID(), userList.get(0).getUserName(), userList.get(0).getPassword(), userList.get(0).getCreateDate(),
                     userList.get(0).getCreatedBy(), userList.get(0).getLastUpdate(), userList.get(0).getLastUpdatedBy());
 
-            if(!password.equals(user.getPassword())) {
+            if (!password.equals(user.getPassword())) {
                 showAlert(Alert.AlertType.ERROR, "Form Error!",
                         "Please enter correct password");
                 return false;
 
             }
-            if(!username.equals(user.getUserName())) {
+            if (!username.equals(user.getUserName())) {
                 showAlert(Alert.AlertType.ERROR, "Form Error!",
                         "Please enter correct username");
                 return false;
             }
 
-        }else {
+        } else {
             showAlert(Alert.AlertType.ERROR, "Form Error!",
                     "Please enter correct username and password.");
             return false;
@@ -129,16 +136,15 @@ public class LoginController implements Initializable {
         return true;
 
 
-
     }
 
     private void checkIfTxtEmpty() {
-        if(usernameTxt.getText().isEmpty()) {
+        if (usernameTxt.getText().isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Form Error!",
                     "Please enter a username");
 
         }
-        if(passwordTxt.getText().isEmpty()) {
+        if (passwordTxt.getText().isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Form Error!",
                     "Please enter a password");
 
@@ -160,6 +166,7 @@ public class LoginController implements Initializable {
 
 
     }
+
     private static void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -171,6 +178,7 @@ public class LoginController implements Initializable {
 
     /**
      * construct and set scenes in the application
+     *
      * @param stage
      */
     public void start(Stage stage) throws IOException {
@@ -182,12 +190,25 @@ public class LoginController implements Initializable {
 
     /**
      * This method initializes this login controller class
+     *
      * @param url
      * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        resourceBundle = ResourceBundle.getBundle("Nat", Locale.getDefault());
+        if(Locale.getDefault().getLanguage().equals("fr")||Locale.getDefault().getLanguage().equals("en")){
+            usernameLbl.setText(resourceBundle.getString("hello"));
+        }
+        //Locale.setDefault(france);
+        //loginBtn.setText(resourceBundle.getString("hello"));
 
+//        if (Locale.getDefault().getLanguage().equals("fr")) {
+//            System.out.println(resourceBundle.getString("hello"));
+//            System.out.println("hello");
+//
+//        }
     }
-
 }
+
+
