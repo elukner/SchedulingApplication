@@ -97,6 +97,15 @@ public class CustomerRecordController implements Initializable {
     @FXML // fx:id="addItem"
     private MenuItem addItem; // Value injected by FXMLLoader
 
+    private TextField customerID = new TextField();
+    private TextField customerName = new TextField();
+    private TextField address = new TextField();
+    private TextField postalCode = new TextField();
+    private TextField phoneNumber = new TextField();
+    private ComboBox<String> countryBox = new ComboBox<>();
+    private ComboBox<String> firstLevelDivisionBox = new ComboBox<>();
+
+
 
     private Stage stage;
     private Parent scene;
@@ -146,16 +155,44 @@ public class CustomerRecordController implements Initializable {
 
     @FXML
     public void onActionAdd(ActionEvent actionEvent) throws IOException {
-        showModifyWindow("add","Add Customer","Please enter new customer information");
+        // Customer records and appointments can be added, updated, and deleted.
+
+        // When adding and updating a customer, text fields are used to collect the following data: customer name, address, postal code, and phone number.
+//-  Customer IDs are auto-generated, and first-level division (i.e., states, provinces) and country data are collected using separate combo boxes.
+//Note: The address text field should not include first-level division and country data. Please use the following examples to format addresses:
+// •  U.S. address: 123 ABC Street, White Plains
+//•  Canadian address: 123 ABC Street, Newmarket
+//•  UK address: 123 ABC Street, Greenwich, London
+//-  When updating a customer, the customer data autopopulates in the form.
+        showModifyWindow("Add","Add Customer","Please enter new customer information");
 
     }
     @FXML
     public void onActionUpdate(ActionEvent actionEvent) throws IOException {
-        showModifyWindow("update","Add Customer","Please enter new customer information");
+        // Customer records and appointments can be added, updated, and deleted.
+
+        // When adding and updating a customer, text fields are used to collect the following data: customer name, address, postal code, and phone number.
+//-  Customer IDs are auto-generated, and first-level division (i.e., states, provinces) and country data are collected using separate combo boxes.
+//Note: The address text field should not include first-level division and country data. Please use the following examples to format addresses:
+// •  U.S. address: 123 ABC Street, White Plains
+//•  Canadian address: 123 ABC Street, Newmarket
+//•  UK address: 123 ABC Street, Greenwich, London
+//-  When updating a customer, the customer data autopopulates in the form.
+
+        // All of the original customer information is displayed on the update form.
+//-  Customer_ID must be disabled.
+
+
+//All of the fields can be updated except for Customer_ID.
+        showModifyWindow("Update","Update Customer","Please enter new customer information");
     }
     @FXML
     public void onActionDelete(ActionEvent actionEvent) throws IOException {
-        showModifyWindow("delete","Add Customer","Please enter new customer information");
+        // Customer records and appointments can be added, updated, and deleted.
+//-  When deleting a customer record, all of the customer’s appointments must be deleted first, due to foreign key constraints.
+
+// When a customer record is deleted, a custom message should display in the user interface.
+        showModifyWindow("Delete","Delete Customer","Please enter new customer information");
     }
 
     private void showModifyWindow(String modifyType, String title, String message) {
@@ -168,7 +205,7 @@ public class CustomerRecordController implements Initializable {
 
 
 // Set the button types.
-        ButtonType loginButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        ButtonType loginButtonType = new ButtonType(modifyType, ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
 
 // Create the username and password labels and fields.
@@ -178,35 +215,32 @@ public class CustomerRecordController implements Initializable {
         grid.setPadding(new Insets(20, 150, 10, 10));
 
         // Customer IDs are auto-generated
-        TextField customerID = new TextField();
+//        TextField customerID = new TextField();
         switch (modifyType){
-            case "add":
+            case "Add":
                 customerID.setEditable(false);
                 customerID.setText(Integer.toString(CustomersDaoImpl.getAllCustomers().size()+1));
                 break;
-            case "update":
+            case "Update":
                 customerID.setText("");
                 break;
-            case "delete":
+            case "Delete":
                 customerID.setText(Integer.toString(CustomersDaoImpl.getAllCustomers().size()+1));
                 break;
 
         }
-        TextField customerName = new TextField();
-        TextField address = new TextField();
-        TextField postalCode = new TextField();
-        TextField phoneNumber = new TextField();
+
 //        Country and first-level division data is prepopulated in separate combo boxes or
 //        lists in the user interface for the user to choose. The first-level list
 //        should be filtered by the user’s
 //        selection of a country (e.g., when choosing U.S., filter so it only shows states).
-        ComboBox<String> countryBox = new ComboBox<>();
+
         for(Countries country : CountriesDaoImpl.getAllCountries()){
 
             countryBox.getItems().add(country.getCountry());
         }
 
-        ComboBox<String> firstLevelDivisionBox = new ComboBox<>();
+
         for(FirstLevelDivisions firstLevelDivision : FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisions()){
 
             firstLevelDivisionBox.getItems().add(firstLevelDivision.getDivision());
@@ -226,34 +260,25 @@ public class CustomerRecordController implements Initializable {
         grid.add(countryBox, 1, 5);
         grid.add(new Label("First-level division:"), 0, 6);
         grid.add(firstLevelDivisionBox, 1, 6);
-
-// Enable/Disable login button depending on whether a username was entered.
-        Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
-        loginButton.setDisable(true);
-
-// Do some validation (using the Java 8 lambda syntax).
-        customerID.textProperty().addListener((observable, oldValue, newValue) -> {
-            loginButton.setDisable(newValue.trim().isEmpty());
-        });
-
         dialog.getDialogPane().setContent(grid);
 
-// Request focus on the username field by default.
-        Platform.runLater(() -> customerID.requestFocus());
 
-// Convert the result to a username-password-pair when the login button is clicked.
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == loginButtonType) {
-                return new Pair<>(customerID.getText(), customerName.getText());
-            }
-            return null;
-        });
 
-        Optional<Pair<String, String>> result = dialog.showAndWait();
+//// Convert the result to a username-password-pair when the login button is clicked.
+//        dialog.setResultConverter(dialogButton -> {
+//            if (dialogButton == loginButtonType) {
+//                return new Pair<>(customerID.getText(), customerName.getText());
+//            }
+//            return null;
+//        });
 
-        result.ifPresent(usernamePassword -> {
-            System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
-        });
+
+        dialog.show();
+     //   Optional<Pair<String, String>> result = dialog.showAndWait();
+
+//        result.ifPresent(usernamePassword -> {
+//            System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
+//        });
 
     }
     /**
