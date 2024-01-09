@@ -112,6 +112,7 @@ public class FirstLevelDivisionsDaoImpl {
             String lastUpdatedBy = resultSet.getString("Last_Updated_By");
             int countryID = resultSet.getInt("Country_ID");
             System.out.print(divisionID + " " + " | ");
+
             System.out.print(division + " " + " | ");
             System.out.print(createDate + " " + " | ");
             System.out.print(createdBy + " " + " | ");
@@ -182,6 +183,36 @@ public class FirstLevelDivisionsDaoImpl {
             String sqlStatement = "SELECT * FROM client_schedule.first_level_divisions";
             PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int divisionID = resultSet.getInt("Division_ID");
+                String division = resultSet.getString("Division");
+                String createDate = resultSet.getString("Create_Date");
+                String createdBy = resultSet.getString("Created_By");
+                String lastUpdate = resultSet.getString("Last_Update");
+                String lastUpdatedBy = resultSet.getString("Last_Updated_By");
+                int countryID = resultSet.getInt("Country_ID");
+                FirstLevelDivisions firstLevelDivision = new FirstLevelDivisions(divisionID, division,
+                        createDate, createdBy, lastUpdate, lastUpdatedBy, countryID);
+                firstLevelDivisionsList.add(firstLevelDivision);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return firstLevelDivisionsList;
+    }
+    //        Country and first-level division data is prepopulated in separate combo boxes or
+//        lists in the user interface for the user to choose. The first-level list
+//        should be filtered by the user’s
+//        selection of a country (e.g., when choosing U.S., filter so it only shows states).
+
+    public static ObservableList<FirstLevelDivisions> getAllFirstLevelDivisionsFilteredCountry(int countryIDWanted) {
+        ObservableList<FirstLevelDivisions> firstLevelDivisionsList = FXCollections.observableArrayList();
+        try {
+            String sqlStatement = "SELECT * FROM client_schedule.first_level_divisions WHERE COUNTRY_ID = ?";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+            preparedStatement.setInt(1, countryIDWanted);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

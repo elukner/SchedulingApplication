@@ -175,6 +175,26 @@ public class CountriesDaoImpl {
         return countriesList;
     }
 
+    public static ObservableList<Countries> getAllCountries(String countryWanted) {
+        ObservableList<Countries> countriesList = FXCollections.observableArrayList();
+        try {
+            String sqlStatement = "SELECT * FROM client_schedule.countries WHERE Country = ?";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+            preparedStatement.setString(1, countryWanted);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int countryID = resultSet.getInt("Country_ID");
+                String countryName = resultSet.getString("Country");
+                Countries country = new Countries(countryID, countryName);
+                countriesList.add(country);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return countriesList;
+    }
+
     /**
      * public static observableList<Countries></Countries> getalicountrlesof0bservableList<Countr1es clist - FXCollections, observableArraycist();
      * return clist; }

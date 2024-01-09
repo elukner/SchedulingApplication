@@ -12,21 +12,17 @@ package controller;
 import dao.CountriesDaoImpl;
 import dao.CustomersDaoImpl;
 import dao.FirstLevelDivisionsDaoImpl;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,7 +32,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import javafx.util.Pair;
 import model.Countries;
 import model.Customers;
 import model.FirstLevelDivisions;
@@ -97,18 +92,40 @@ public class CustomerRecordController implements Initializable {
     @FXML // fx:id="addItem"
     private MenuItem addItem; // Value injected by FXMLLoader
 
-    private TextField customerID = new TextField();
-    private TextField customerName = new TextField();
-    private TextField address = new TextField();
-    private TextField postalCode = new TextField();
-    private TextField phoneNumber = new TextField();
+    @FXML
+    private TextField customerIDTxt = new TextField();
+
+    @FXML
+    private TextField customerNameTxt = new TextField();
+
+    @FXML
+    private TextField addressTxt = new TextField();
+
+    @FXML
+    private TextField postalCodeTxt = new TextField();
+
+    @FXML
+    private TextField phoneNumberTxt = new TextField();
+
+    @FXML
     private ComboBox<String> countryBox = new ComboBox<>();
+
+    @FXML
     private ComboBox<String> firstLevelDivisionBox = new ComboBox<>();
 
+    @FXML
+    private GridPane modifyGrid;
 
+    @FXML
+    private Button modifyBtn;
+
+    @FXML
+    private Button cancelBtn;
 
     private Stage stage;
     private Parent scene;
+
+
 
     @FXML
     void onActionBack(ActionEvent event) throws IOException {
@@ -164,7 +181,7 @@ public class CustomerRecordController implements Initializable {
 //•  Canadian address: 123 ABC Street, Newmarket
 //•  UK address: 123 ABC Street, Greenwich, London
 //-  When updating a customer, the customer data autopopulates in the form.
-        showModifyWindow("Add","Add Customer","Please enter new customer information");
+        showModify("Add","Add Customer","Please enter new customer information");
 
     }
     @FXML
@@ -184,7 +201,8 @@ public class CustomerRecordController implements Initializable {
 
 
 //All of the fields can be updated except for Customer_ID.
-        showModifyWindow("Update","Update Customer","Please enter new customer information");
+        showModify("Update","Update Customer","Please enter new customer information");
+
     }
     @FXML
     public void onActionDelete(ActionEvent actionEvent) throws IOException {
@@ -192,94 +210,79 @@ public class CustomerRecordController implements Initializable {
 //-  When deleting a customer record, all of the customer’s appointments must be deleted first, due to foreign key constraints.
 
 // When a customer record is deleted, a custom message should display in the user interface.
-        showModifyWindow("Delete","Delete Customer","Please enter new customer information");
+        showModify("Delete","Delete Customer","Please enter new customer information");
     }
 
-    private void showModifyWindow(String modifyType, String title, String message) {
-
-//Create the custom dialog.
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
-        dialog.setTitle(title);
-        dialog.setHeaderText(message);
-
-
-
-// Set the button types.
-        ButtonType loginButtonType = new ButtonType(modifyType, ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
-
-// Create the username and password labels and fields.
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
+    private void showModify(String modifyType, String title, String message) {
 
         // Customer IDs are auto-generated
 //        TextField customerID = new TextField();
+        makeTxtBtnsVisible(true);
+
         switch (modifyType){
             case "Add":
-                customerID.setEditable(false);
-                customerID.setText(Integer.toString(CustomersDaoImpl.getAllCustomers().size()+1));
+                customerIDTxt.setEditable(false);
+                customerIDTxt.setText(Integer.toString(CustomersDaoImpl.getAllCustomers().size()+1));
                 break;
             case "Update":
-                customerID.setText("");
+                customerIDTxt.setText("");
                 break;
             case "Delete":
-                customerID.setText(Integer.toString(CustomersDaoImpl.getAllCustomers().size()+1));
+                customerIDTxt.setText(Integer.toString(CustomersDaoImpl.getAllCustomers().size()+1));
                 break;
 
         }
 
 //        Country and first-level division data is prepopulated in separate combo boxes or
-//        lists in the user interface for the user to choose. The first-level list
-//        should be filtered by the user’s
-//        selection of a country (e.g., when choosing U.S., filter so it only shows states).
+//        lists in the user interface for the user to choose.
 
         for(Countries country : CountriesDaoImpl.getAllCountries()){
 
             countryBox.getItems().add(country.getCountry());
         }
 
-
         for(FirstLevelDivisions firstLevelDivision : FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisions()){
 
             firstLevelDivisionBox.getItems().add(firstLevelDivision.getDivision());
         }
 
-        grid.add(new Label("Customer ID:"), 0, 0);
-        grid.add(customerID, 1, 0);
-        grid.add(new Label("Customer Name:"), 0, 1);
-        grid.add(customerName, 1, 1);
-        grid.add(new Label("Address:"), 0, 2);
-        grid.add(address, 1, 2);
-        grid.add(new Label("Postal Code:"), 0, 3);
-        grid.add(postalCode, 1, 3);
-        grid.add(new Label("Phone Number:"), 0, 4);
-        grid.add(phoneNumber, 1, 4);
-        grid.add(new Label("Country:"), 0, 5);
-        grid.add(countryBox, 1, 5);
-        grid.add(new Label("First-level division:"), 0, 6);
-        grid.add(firstLevelDivisionBox, 1, 6);
-        dialog.getDialogPane().setContent(grid);
 
+    }
 
+    /**
+     * The first-level list
+     * should be filtered by the user’s
+     * selection of a country (e.g., when choosing U.S., filter so it only shows states).
+     * @param actionEvent
+     */
+    @FXML
+    public void onSelect(ActionEvent actionEvent) {
 
-//// Convert the result to a username-password-pair when the login button is clicked.
-//        dialog.setResultConverter(dialogButton -> {
-//            if (dialogButton == loginButtonType) {
-//                return new Pair<>(customerID.getText(), customerName.getText());
-//            }
-//            return null;
-//        });
+        Countries countriesModel = CountriesDaoImpl.getAllCountries(countryBox.getValue()).get(0);
 
+        firstLevelDivisionBox.getItems().clear();
 
-        dialog.show();
-     //   Optional<Pair<String, String>> result = dialog.showAndWait();
+        for(FirstLevelDivisions firstLevelDivision : FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID())){
 
-//        result.ifPresent(usernamePassword -> {
-//            System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
-//        });
+            firstLevelDivisionBox.getItems().add(firstLevelDivision.getDivision());
+        }
 
+    }
+
+    private void makeTxtBtnsVisible(boolean b) {
+        modifyGrid.setVisible(b);
+        modifyBtn.setVisible(b);
+        cancelBtn.setVisible(b);
+    }
+
+    @FXML
+    public void onActionModify(ActionEvent actionEvent) {
+        makeTxtBtnsVisible(false);
+    }
+
+    @FXML
+    public void onActionCancel(ActionEvent actionEvent) {
+        makeTxtBtnsVisible(false);
     }
     /**
      * This method initializes this Customer Record controller class
@@ -288,7 +291,10 @@ public class CustomerRecordController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        makeTxtBtnsVisible(false);
         updateCustomerRecordTableView();
 
     }
+
+
 }
