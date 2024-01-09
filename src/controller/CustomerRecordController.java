@@ -9,29 +9,37 @@ package controller;
  */
 
 
+import dao.CountriesDaoImpl;
 import dao.CustomersDaoImpl;
+import dao.FirstLevelDivisionsDaoImpl;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import javafx.event.ActionEvent;
+import javafx.util.Pair;
+import model.Countries;
 import model.Customers;
+import model.FirstLevelDivisions;
 
 /**
  * Notes from Requirements:
@@ -138,25 +146,115 @@ public class CustomerRecordController implements Initializable {
 
     @FXML
     public void onActionAdd(ActionEvent actionEvent) throws IOException {
-        stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../view/modifyCustomerRecord.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        showModifyWindow("add","Add Customer","Please enter new customer information");
 
     }
     @FXML
     public void onActionUpdate(ActionEvent actionEvent) throws IOException {
-        stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../view/modifyCustomerRecord.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        showModifyWindow("update","Add Customer","Please enter new customer information");
     }
     @FXML
     public void onActionDelete(ActionEvent actionEvent) throws IOException {
-        stage = (Stage) ((MenuButton) actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../view/modifyCustomerRecord.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        showModifyWindow("delete","Add Customer","Please enter new customer information");
+    }
+
+    private void showModifyWindow(String modifyType, String title, String message) {
+
+//Create the custom dialog.
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle(title);
+        dialog.setHeaderText(message);
+
+
+
+// Set the button types.
+        ButtonType loginButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+
+// Create the username and password labels and fields.
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        // Customer IDs are auto-generated
+        TextField customerID = new TextField();
+        switch (modifyType){
+            case "add":
+                customerID.setEditable(false);
+                customerID.setText(Integer.toString(CustomersDaoImpl.getAllCustomers().size()+1));
+                break;
+            case "update":
+                customerID.setText("");
+                break;
+            case "delete":
+                customerID.setText(Integer.toString(CustomersDaoImpl.getAllCustomers().size()+1));
+                break;
+
+        }
+        TextField customerName = new TextField();
+        TextField address = new TextField();
+        TextField postalCode = new TextField();
+        TextField phoneNumber = new TextField();
+//        Country and first-level division data is prepopulated in separate combo boxes or
+//        lists in the user interface for the user to choose. The first-level list
+//        should be filtered by the user’s
+//        selection of a country (e.g., when choosing U.S., filter so it only shows states).
+        ComboBox<String> countryBox = new ComboBox<>();
+        for(Countries country : CountriesDaoImpl.getAllCountries()){
+
+            countryBox.getItems().add(country.getCountry());
+        }
+
+        ComboBox<String> firstLevelDivisionBox = new ComboBox<>();
+        for(FirstLevelDivisions firstLevelDivision : FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisions()){
+
+            firstLevelDivisionBox.getItems().add(firstLevelDivision.getDivision());
+        }
+
+        grid.add(new Label("Customer ID:"), 0, 0);
+        grid.add(customerID, 1, 0);
+        grid.add(new Label("Customer Name:"), 0, 1);
+        grid.add(customerName, 1, 1);
+        grid.add(new Label("Address:"), 0, 2);
+        grid.add(address, 1, 2);
+        grid.add(new Label("Postal Code:"), 0, 3);
+        grid.add(postalCode, 1, 3);
+        grid.add(new Label("Phone Number:"), 0, 4);
+        grid.add(phoneNumber, 1, 4);
+        grid.add(new Label("Country:"), 0, 5);
+        grid.add(countryBox, 1, 5);
+        grid.add(new Label("First-level division:"), 0, 6);
+        grid.add(firstLevelDivisionBox, 1, 6);
+
+// Enable/Disable login button depending on whether a username was entered.
+        Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
+        loginButton.setDisable(true);
+
+// Do some validation (using the Java 8 lambda syntax).
+        customerID.textProperty().addListener((observable, oldValue, newValue) -> {
+            loginButton.setDisable(newValue.trim().isEmpty());
+        });
+
+        dialog.getDialogPane().setContent(grid);
+
+// Request focus on the username field by default.
+        Platform.runLater(() -> customerID.requestFocus());
+
+// Convert the result to a username-password-pair when the login button is clicked.
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == loginButtonType) {
+                return new Pair<>(customerID.getText(), customerName.getText());
+            }
+            return null;
+        });
+
+        Optional<Pair<String, String>> result = dialog.showAndWait();
+
+        result.ifPresent(usernamePassword -> {
+            System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
+        });
+
     }
     /**
      * This method initializes this Customer Record controller class
