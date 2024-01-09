@@ -13,6 +13,7 @@ import model.Users;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -207,7 +208,7 @@ public class LoginController implements Initializable {
             usernameLbl.setText(resourceBundle.getString("Username"));
             passwordLbl.setText(resourceBundle.getString("Password"));
             userLocationLbl.setText(resourceBundle.getString("Location"));
-            userLocationIDLbl.setText(resourceBundle.getString("Label"));
+            userLocationIDLbl.setText(ZoneId.systemDefault().toString());
 
         //Locale.setDefault(france);
         //loginBtn.setText(resourceBundle.getString("hello"));
