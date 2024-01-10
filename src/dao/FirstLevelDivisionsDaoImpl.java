@@ -232,4 +232,30 @@ public class FirstLevelDivisionsDaoImpl {
         }
         return firstLevelDivisionsList;
     }
+
+    public static ObservableList<FirstLevelDivisions> getFirstLevelDivision(String divisionWanted) {
+        ObservableList<FirstLevelDivisions> firstLevelDivisionsList = FXCollections.observableArrayList();
+        try {
+            String sqlStatement = "SELECT * FROM client_schedule.first_level_divisions WHERE Division = ?";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+            preparedStatement.setString(1, divisionWanted);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int divisionID = resultSet.getInt("Division_ID");
+                String division = resultSet.getString("Division");
+                String createDate = resultSet.getString("Create_Date");
+                String createdBy = resultSet.getString("Created_By");
+                String lastUpdate = resultSet.getString("Last_Update");
+                String lastUpdatedBy = resultSet.getString("Last_Updated_By");
+                int countryID = resultSet.getInt("Country_ID");
+                FirstLevelDivisions firstLevelDivision = new FirstLevelDivisions(divisionID, division,
+                        createDate, createdBy, lastUpdate, lastUpdatedBy, countryID);
+                firstLevelDivisionsList.add(firstLevelDivision);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return firstLevelDivisionsList;
+    }
 }

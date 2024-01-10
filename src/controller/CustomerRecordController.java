@@ -12,6 +12,7 @@ package controller;
 import dao.CountriesDaoImpl;
 import dao.CustomersDaoImpl;
 import dao.FirstLevelDivisionsDaoImpl;
+import helper.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,6 +24,8 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -125,6 +128,9 @@ public class CustomerRecordController implements Initializable {
     private Stage stage;
     private Parent scene;
 
+    private Customers customerModel;
+    private FirstLevelDivisions divisionModel;
+
 
 
     @FXML
@@ -171,7 +177,8 @@ public class CustomerRecordController implements Initializable {
     }
 
     @FXML
-    public void onActionAdd(ActionEvent actionEvent) throws IOException {
+    public void onActionAdd(ActionEvent actionEvent) throws SQLException {
+
         // Customer records and appointments can be added, updated, and deleted.
 
         // When adding and updating a customer, text fields are used to collect the following data: customer name, address, postal code, and phone number.
@@ -182,6 +189,8 @@ public class CustomerRecordController implements Initializable {
 //•  UK address: 123 ABC Street, Greenwich, London
 //-  When updating a customer, the customer data autopopulates in the form.
         showModify("Add","Add Customer","Please enter new customer information");
+        modifyBtn.setText("Add");
+
 
     }
     @FXML
@@ -202,6 +211,7 @@ public class CustomerRecordController implements Initializable {
 
 //All of the fields can be updated except for Customer_ID.
         showModify("Update","Update Customer","Please enter new customer information");
+        modifyBtn.setText("Update");
 
     }
     @FXML
@@ -211,6 +221,7 @@ public class CustomerRecordController implements Initializable {
 
 // When a customer record is deleted, a custom message should display in the user interface.
         showModify("Delete","Delete Customer","Please enter new customer information");
+        modifyBtn.setText("Delete");
     }
 
     private void showModify(String modifyType, String title, String message) {
@@ -225,6 +236,7 @@ public class CustomerRecordController implements Initializable {
                 customerIDTxt.setText(Integer.toString(CustomersDaoImpl.getAllCustomers().size()+1));
                 break;
             case "Update":
+                customerIDTxt.setDisable(false);
                 customerIDTxt.setText("");
                 break;
             case "Delete":
@@ -256,7 +268,7 @@ public class CustomerRecordController implements Initializable {
      * @param actionEvent
      */
     @FXML
-    public void onSelect(ActionEvent actionEvent) {
+    public void onSelectCountry(ActionEvent actionEvent) {
 
         Countries countriesModel = CountriesDaoImpl.getAllCountries(countryBox.getValue()).get(0);
 
@@ -269,6 +281,17 @@ public class CustomerRecordController implements Initializable {
 
     }
 
+    /**
+     * @param actionEvent
+     */
+    @FXML
+    public void onSelectDivision(ActionEvent actionEvent) {
+
+        divisionModel = FirstLevelDivisionsDaoImpl.getFirstLevelDivision(firstLevelDivisionBox.getValue()).get(0);
+
+
+    }
+
     private void makeTxtBtnsVisible(boolean b) {
         modifyGrid.setVisible(b);
         modifyBtn.setVisible(b);
@@ -276,8 +299,45 @@ public class CustomerRecordController implements Initializable {
     }
 
     @FXML
-    public void onActionModify(ActionEvent actionEvent) {
+    public void onActionModify(ActionEvent actionEvent) throws SQLException {
+//        customerModel = new Customers((CustomersDaoImpl.getAllCustomers().size()+1),customerNameTxt.getText(),
+//                addressTxt.getText(),postalCodeTxt.getText(),phoneNumberTxt.getText(), LocalDateTime.now().toString(),
+//                "PleaseFixLater", LocalDateTime.now().toString(), divisionModel.getDivisionID());
+       switch (modifyBtn.getText()){
+           case "Add":
+               addCustomer();
+               break;
+           case "Update":
+               updateCustomer();
+               break;
+           case "Delete":
+               deleteCustomer();
+               break;
+       }
+
+
         makeTxtBtnsVisible(false);
+
+    }
+
+    private void addCustomer() throws SQLException {
+        JDBC.openConnection();
+        CustomersDaoImpl.insertCustomers(CustomersDaoImpl.getAllCustomers().size()+1,customerNameTxt.getText(),
+                addressTxt.getText(),postalCodeTxt.getText(),phoneNumberTxt.getText(),"FixLater",
+                "FixLater", divisionModel.getDivisionID());
+        JDBC.closeConnection();
+    }
+
+    private void updateCustomer() throws SQLException {
+        JDBC.openConnection();
+        CustomersDaoImpl.updateCustomers(CustomersDaoImpl.getAllCustomers().size(),postalCodeTxt.getText());
+        JDBC.closeConnection();
+    }
+
+    private void deleteCustomer() throws SQLException {
+        JDBC.openConnection();
+        CustomersDaoImpl.deleteCustomers(CustomersDaoImpl.getAllCustomers().size());
+        JDBC.closeConnection();
     }
 
     @FXML
