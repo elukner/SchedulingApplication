@@ -77,7 +77,7 @@ public class LoginController implements Initializable {
     private Stage stage;
     private Parent scene;
 
-//    private Users user;
+    private Users user;
 //    private UsersDaoImpl usersDao;
 
     Locale france = new Locale("fr", "FR");
@@ -92,13 +92,21 @@ public class LoginController implements Initializable {
 
 //    -accepts username and password and provides an appropriate error message
         if (validateLogin(usernameTxt.getText(), passwordTxt.getText())) {
-           // user = UsersDaoImpl.getUser(usernameTxt.getText(), passwordTxt.getText()).get(0);
+            setUserLoggedIn();
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
             stage.setScene(new Scene(scene));
             stage.show();
         }
 
+    }
+
+    private void setUserLoggedIn() {
+        user = UsersDaoImpl.getUser(usernameTxt.getText(), passwordTxt.getText()).get(0);
+    }
+
+    public Users getUserLoggedIn() {
+        return user;
     }
 
     /**

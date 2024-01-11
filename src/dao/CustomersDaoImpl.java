@@ -46,8 +46,8 @@ public class CustomersDaoImpl {
     public static int insertCustomers(int customerID, String customerName, String address,
                                       String postalCode, String phone, String createdBy,
                                       String lastUpdatedBy, int divisionID) throws SQLException {
+        //String sqlStatement = "INSERT INTO `client_schedule`.`customers` (`Customer_ID`, `Customer_Name`, `Address`, `Postal_Code`, `Phone`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`, `Division_ID`) VALUES (?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?);";
         String sqlStatement = "INSERT INTO `client_schedule`.`customers` (`Customer_ID`, `Customer_Name`, `Address`, `Postal_Code`, `Phone`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`, `Division_ID`) VALUES (?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?);";
-
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
         preparedStatement.setInt(1, customerID);
