@@ -62,7 +62,12 @@
                   <Label fx:id="customerNameLbl" text="Customer Name" GridPane.rowIndex="2" />
                   <TextField fx:id="customerNameTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label fx:id="addressLbl" text="Address" GridPane.rowIndex="3" />
-                  <TextField fx:id="addressTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <children>
+                        <TextField fx:id="addressTxt" promptText="Street Address" />
+                        <TextField fx:id="cityTxt" promptText="City" />
+                     </children>
+                  </HBox>
                   <Label fx:id="postalCodeLbl" text="Postal Code" GridPane.rowIndex="4" />
                   <TextField fx:id="postalCodeTxt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label fx:id="phoneNumberLbl" text="Phone Number" GridPane.rowIndex="5" />

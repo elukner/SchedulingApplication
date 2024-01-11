@@ -24,7 +24,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
-import java.awt.event.WindowListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -131,6 +130,9 @@ public class CustomerRecordController extends Application implements Initializab
 
     @FXML
     private TextField addressTxt;
+
+    @FXML
+    private TextField cityTxt;
 
     @FXML
     private TextField postalCodeTxt;
@@ -363,24 +365,19 @@ public class CustomerRecordController extends Application implements Initializab
 
     @FXML
     public void onActionModify(ActionEvent actionEvent) throws SQLException, FileNotFoundException {
-//        customerModel = new Customers((CustomersDaoImpl.getAllCustomers().size()+1),customerNameTxt.getText(),
-//                addressTxt.getText(),postalCodeTxt.getText(),phoneNumberTxt.getText(), LocalDateTime.now().toString(),
-//                "PleaseFixLater", LocalDateTime.now().toString(), divisionModel.getDivisionID());
+
        switch (modifyBtn.getText()){
            case "Add":
-               DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-               customerModel = new Customers(CustomersDaoImpl.getAllCustomers().size()+1,customerNameTxt.getText(),
-                       addressTxt.getText(),postalCodeTxt.getText(),phoneNumberTxt.getText(), dtf.format(LocalDateTime.now()),FileIOManager.readFile(),
-                       dtf.format(LocalDateTime.now()), FileIOManager.readFile(), divisionModel.getDivisionID());
+               addCustomer();
                addCustomerDatabase();
                modifyBtn.setText("Modify");
               //TODO updateCustomerRecordTableView();
                break;
            case "Update":
-               updateCustomer();
+               updateCustomerDatabase();
                break;
            case "Delete":
-               deleteCustomer();
+               deleteCustomerDatabase();
                break;
        }
 
@@ -389,19 +386,31 @@ public class CustomerRecordController extends Application implements Initializab
 
     }
 
+    /**
+     *  When adding and updating a customer, text fields are used to collect the following data: customer name,
+     *  address, postal code, and phone number.
+     *  Customer IDs are auto-generated, and first-level division (i.e., states, provinces) and
+     *  country data are collected using separate combo boxes.
+     *  The address text field should not include first-level division and country data.
+     *  Please use the following examples to format addresses: U.S. address: 123 ABC Street, White Plains
+     * @throws FileNotFoundException
+     */
+    private void addCustomer() throws FileNotFoundException {
+        String formatedAddress = addressTxt.getText()+", "+cityTxt.getText();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        customerModel = new Customers(CustomersDaoImpl.getAllCustomers().size()+1,customerNameTxt.getText(),
+                formatedAddress,postalCodeTxt.getText(),phoneNumberTxt.getText(), dateTimeFormatter.format(LocalDateTime.now()),FileIOManager.readFile(),
+                dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(), divisionModel.getDivisionID());
+    }
 
-//    @FXML
+
+    //    @FXML
 //    void handleAdd(ActionEvent event) {
 //        isAdd = true;
 //        handleSceneChange();
 //    }
     private void addCustomerDatabase() throws SQLException, FileNotFoundException {
-        // When adding and updating a customer, text fields are used to collect the following data: customer name, address, postal code, and phone number.
-//-  Customer IDs are auto-generated, and first-level division (i.e., states, provinces) and country data are collected using separate combo boxes.
-//Note: The address text field should not include first-level division and country data. Please use the following examples to format addresses:
-// •  U.S. address: 123 ABC Street, White Plains
-//•  Canadian address: 123 ABC Street, Newmarket
-//•  UK address: 123 ABC Street, Greenwich, London
+
         
         JDBC.openConnection();
         CustomersDaoImpl.insertCustomers(customerModel.getCustomerID(),customerModel.getCustomerName(),
@@ -413,13 +422,13 @@ public class CustomerRecordController extends Application implements Initializab
 
     }
 
-    private void updateCustomer() throws SQLException {
+    private void updateCustomerDatabase() throws SQLException {
         JDBC.openConnection();
         CustomersDaoImpl.updateCustomers(CustomersDaoImpl.getAllCustomers().size(),postalCodeTxt.getText());
         JDBC.closeConnection();
     }
 
-    private void deleteCustomer() throws SQLException {
+    private void deleteCustomerDatabase() throws SQLException {
         JDBC.openConnection();
         CustomersDaoImpl.deleteCustomers(CustomersDaoImpl.getAllCustomers().size());
         JDBC.closeConnection();
