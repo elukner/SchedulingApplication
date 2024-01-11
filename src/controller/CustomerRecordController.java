@@ -153,7 +153,7 @@ public class CustomerRecordController implements Initializable {
 
     private Customers customerModel;
     private FirstLevelDivisions divisionModel;
-    private Users userLoggedIn;
+    private LoginController loginController;
 
 
 

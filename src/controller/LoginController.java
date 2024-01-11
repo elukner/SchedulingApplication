@@ -1,5 +1,7 @@
 package controller;
 
+import helper.FileIOManager;
+import helper.TimeProcessing;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,9 @@ import model.Users;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -23,6 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.Scene;
 import model.Users;
 import dao.UsersDaoImpl;
+import helper.TimeProcessing;
 
 /**
  * Project: SchedulingApplication
@@ -78,6 +84,13 @@ public class LoginController implements Initializable {
     private Parent scene;
 
     private Users user;
+
+
+    private int timesClicked;
+
+
+    private Boolean loginSuccess;
+
 //    private UsersDaoImpl usersDao;
 
     Locale france = new Locale("fr", "FR");
@@ -89,24 +102,49 @@ public class LoginController implements Initializable {
      */
     @FXML
     void onActionLogInBtn(ActionEvent event) throws IOException {
-
+        timesClicked++;
 //    -accepts username and password and provides an appropriate error message
         if (validateLogin(usernameTxt.getText(), passwordTxt.getText())) {
+            loginSuccess=true;
             setUserLoggedIn();
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
             stage.setScene(new Scene(scene));
             stage.show();
+        }else {
+            loginSuccess=false;
+            setUserLoggedIn();
         }
 
     }
 
-    private void setUserLoggedIn() {
-        user = UsersDaoImpl.getUser(usernameTxt.getText(), passwordTxt.getText()).get(0);
+    public Boolean getLoginSuccess() {
+        return loginSuccess;
     }
 
-    public Users getUserLoggedIn() {
-        return user;
+    public void setLoginSuccess(Boolean loginSuccess) {
+        this.loginSuccess = loginSuccess;
+    }
+
+    public int getTimesClicked() {
+        return timesClicked;
+    }
+
+    public void setTimesClicked(int timesClicked) {
+        this.timesClicked = timesClicked;
+    }
+
+    private void setUserLoggedIn() {
+
+        user = UsersDaoImpl.getUser(usernameTxt.getText(), passwordTxt.getText()).get(0);
+        if(!loginSuccess){
+            FileIOManager.writeToFile(user.getUserName(),getTimesClicked(), LocalDate.now().toString(), TimeProcessing.createTimeStamp(),"fail");
+        }
+        FileIOManager.writeToFile(user.getUserName(),getTimesClicked(), LocalDate.now().toString(), TimeProcessing.createTimeStamp(),"success");
+    }
+
+    public String getUserLoggedIn() {
+        return usernameTxt.getText();
     }
 
     /**
