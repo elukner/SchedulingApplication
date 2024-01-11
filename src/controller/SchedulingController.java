@@ -9,6 +9,7 @@ package controller;
  */
 
 import dao.AppointmentsDaoImpl;
+import helper.FileIOManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,12 +31,13 @@ import model.Appointments;
 import dao.AppointmentsDaoImpl;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.logging.Level;
+import javafx.application.Application;
 
 
 /**
  * This FXML class is the scheduling controller that contains business logic for the scheduling view.
  */
-public class SchedulingController implements Initializable {
+public class SchedulingController extends Application implements Initializable {
 
     @FXML // fx:id="appointmentIDCol"
     private TableColumn<?, ?> appointmentIDCol; // Value injected by FXMLLoader
@@ -265,6 +267,21 @@ public class SchedulingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         updateSchedulingTableView();
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("view/scheduling.fxml"));
+        //   primaryStage.setTitle("Scheduling Application");
+        stage.setScene(new Scene(root));
+        stage.show();
+
+    }
+
+    @Override
+    public void stop() throws Exception{
+        FileIOManager.deleteCurrentFile();
+
     }
 
 }

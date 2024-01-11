@@ -190,7 +190,7 @@ public class DaoTest {
             System.out.println("Customers: [Customer_ID : " + customer.getCustomerID() + ", Name : " + customer.getCustomerName() + " ]");
         }
         CustomersDaoImpl.deleteCustomers(4);
-        CustomersDaoImpl.insertCustomers(4, "Dudley Do-Right", "48 Horse Manor ", "28198", "874-916-2671", "script", "script", 60);
+        //CustomersDaoImpl.insertCustomers(4, "Dudley Do-Right", "48 Horse Manor ", "28198", "874-916-2671", "script", "script", 60);
         CustomersDaoImpl.selectCustomers();
         CustomersDaoImpl.selectCustomers(4);
         CustomersDaoImpl.updateCustomers(4,"title 2.0");

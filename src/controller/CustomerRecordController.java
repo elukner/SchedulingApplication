@@ -12,6 +12,8 @@ package controller;
 import dao.CountriesDaoImpl;
 import dao.CustomersDaoImpl;
 import dao.FirstLevelDivisionsDaoImpl;
+import dao.UsersDaoImpl;
+import helper.FileIOManager;
 import helper.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +24,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
+import java.awt.event.WindowListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -40,6 +44,7 @@ import model.Countries;
 import model.Customers;
 import model.FirstLevelDivisions;
 import model.Users;
+import javafx.application.Application;
 
 /**
  * Notes from Requirements:
@@ -59,7 +64,7 @@ import model.Users;
 /**
  * This FXML class is the Customer Record controller that contains business logic for the Customer Record view.
  */
-public class CustomerRecordController implements Initializable {
+public class CustomerRecordController extends Application implements Initializable {
 
     @FXML // fx:id="addressCol"
     private TableColumn<?, ?> addressCol; // Value injected by FXMLLoader
@@ -153,16 +158,18 @@ public class CustomerRecordController implements Initializable {
 
     private Customers customerModel;
     private FirstLevelDivisions divisionModel;
-    private LoginController loginController;
+    private Users currentUser;
 
 
 
     @FXML
     void onActionBack(ActionEvent event) throws IOException {
+        FileIOManager.deleteCurrentFile();
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
+
     }
 
 
@@ -355,16 +362,16 @@ public class CustomerRecordController implements Initializable {
 
 
     @FXML
-    public void onActionModify(ActionEvent actionEvent) throws SQLException {
+    public void onActionModify(ActionEvent actionEvent) throws SQLException, FileNotFoundException {
 //        customerModel = new Customers((CustomersDaoImpl.getAllCustomers().size()+1),customerNameTxt.getText(),
 //                addressTxt.getText(),postalCodeTxt.getText(),phoneNumberTxt.getText(), LocalDateTime.now().toString(),
 //                "PleaseFixLater", LocalDateTime.now().toString(), divisionModel.getDivisionID());
        switch (modifyBtn.getText()){
            case "Add":
-//               DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-//               customerModel = new Customers(CustomersDaoImpl.getAllCustomers().size()+1,customerNameTxt.getText(),
-//                       addressTxt.getText(),postalCodeTxt.getText(),phoneNumberTxt.getText(), dtf.format(LocalDateTime.now()),userLoggedIn.getUserName(),
-//                       dtf.format(LocalDateTime.now()), userLoggedIn.getUserName(), divisionModel.getDivisionID());
+               DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+               customerModel = new Customers(CustomersDaoImpl.getAllCustomers().size()+1,customerNameTxt.getText(),
+                       addressTxt.getText(),postalCodeTxt.getText(),phoneNumberTxt.getText(), dtf.format(LocalDateTime.now()),FileIOManager.readFile(),
+                       dtf.format(LocalDateTime.now()), FileIOManager.readFile(), divisionModel.getDivisionID());
                addCustomerDatabase();
                modifyBtn.setText("Modify");
               //TODO updateCustomerRecordTableView();
@@ -388,7 +395,7 @@ public class CustomerRecordController implements Initializable {
 //        isAdd = true;
 //        handleSceneChange();
 //    }
-    private void addCustomerDatabase() throws SQLException {
+    private void addCustomerDatabase() throws SQLException, FileNotFoundException {
         // When adding and updating a customer, text fields are used to collect the following data: customer name, address, postal code, and phone number.
 //-  Customer IDs are auto-generated, and first-level division (i.e., states, provinces) and country data are collected using separate combo boxes.
 //Note: The address text field should not include first-level division and country data. Please use the following examples to format addresses:
@@ -397,9 +404,11 @@ public class CustomerRecordController implements Initializable {
 //•  UK address: 123 ABC Street, Greenwich, London
         
         JDBC.openConnection();
-        CustomersDaoImpl.insertCustomers(CustomersDaoImpl.getAllCustomers().size()+1,customerNameTxt.getText(),
-                addressTxt.getText(),postalCodeTxt.getText(),phoneNumberTxt.getText(),"test",
-                "test", divisionModel.getDivisionID());
+        CustomersDaoImpl.insertCustomers(customerModel.getCustomerID(),customerModel.getCustomerName(),
+                customerModel.getAddress(),customerModel.getPostalCode(),customerModel.getPhone(),
+                customerModel.getCreateDate(),customerModel.getCreatedBy(),
+                customerModel.getLastUpdate(),
+                customerModel.getLastUpdatedBy(), divisionModel.getDivisionID());
         JDBC.closeConnection();
 
     }
@@ -420,6 +429,9 @@ public class CustomerRecordController implements Initializable {
     public void onActionCancel(ActionEvent actionEvent) {
         makeTxtBtnsVisible(false);
     }
+
+
+
     /**
      * This method initializes this Customer Record controller class
      * @param url
@@ -427,10 +439,31 @@ public class CustomerRecordController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        try {
+            currentUser= UsersDaoImpl.getUser(FileIOManager.readFile(),FileIOManager.readFile()).get(0);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         makeTxtBtnsVisible(false);
         showCustomerRecordTableView();
 
     }
 
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("view/customerRecord.fxml"));
+        //   primaryStage.setTitle("Scheduling Application");
+        stage.setScene(new Scene(root));
+        stage.show();
+
+    }
+
+    @Override
+    public void stop() throws Exception{
+        FileIOManager.deleteCurrentFile();
+
+    }
 
 }

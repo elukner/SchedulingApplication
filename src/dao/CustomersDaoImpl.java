@@ -44,10 +44,10 @@ public class CustomersDaoImpl {
      *                      has at least attempted to cancel the currently running Statement
      */
     public static int insertCustomers(int customerID, String customerName, String address,
-                                      String postalCode, String phone, String createdBy,
+                                      String postalCode, String phone, String createdDate, String createdBy, String lastUpdated,
                                       String lastUpdatedBy, int divisionID) throws SQLException {
         //String sqlStatement = "INSERT INTO `client_schedule`.`customers` (`Customer_ID`, `Customer_Name`, `Address`, `Postal_Code`, `Phone`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`, `Division_ID`) VALUES (?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?);";
-        String sqlStatement = "INSERT INTO `client_schedule`.`customers` (`Customer_ID`, `Customer_Name`, `Address`, `Postal_Code`, `Phone`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`, `Division_ID`) VALUES (?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?);";
+        String sqlStatement = "INSERT INTO `client_schedule`.`customers` (`Customer_ID`, `Customer_Name`, `Address`, `Postal_Code`, `Phone`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`, `Division_ID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
         preparedStatement.setInt(1, customerID);
@@ -55,9 +55,11 @@ public class CustomersDaoImpl {
         preparedStatement.setString(3, address);
         preparedStatement.setString(4, postalCode);
         preparedStatement.setString(5, phone);
-        preparedStatement.setString(6, createdBy);
-        preparedStatement.setString(7, lastUpdatedBy);
-        preparedStatement.setInt(8, divisionID);
+        preparedStatement.setString(6, createdDate);
+        preparedStatement.setString(7, createdBy);
+        preparedStatement.setString(8, lastUpdated);
+        preparedStatement.setString(9, lastUpdatedBy);
+        preparedStatement.setInt(10, divisionID);
 
         return preparedStatement.executeUpdate();
     }

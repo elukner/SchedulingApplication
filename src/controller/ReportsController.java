@@ -25,6 +25,8 @@ package controller;
  * });
  **/
 
+import helper.FileIOManager;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -45,7 +47,7 @@ import java.io.IOException;
  *-an additional report of your choice that is different from the two other required reports
  * in this prompt and from the user log-in date and time stamp that will be tracked in part C
  */
-public class ReportController {
+public class ReportsController extends Application {
     private Stage stage;
     private Parent scene;
 
@@ -54,5 +56,19 @@ public class ReportController {
         scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
+    }
+    @Override
+    public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("view/reports.fxml"));
+        //   primaryStage.setTitle("Scheduling Application");
+        stage.setScene(new Scene(root));
+        stage.show();
+
+    }
+
+    @Override
+    public void stop() throws Exception{
+        FileIOManager.deleteCurrentFile();
+
     }
 }

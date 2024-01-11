@@ -1,3 +1,4 @@
+import helper.FileIOManager;
 import helper.JDBC;
 
 import javafx.application.Application;
@@ -14,6 +15,12 @@ public class SchedulingApplication extends Application {
         //   primaryStage.setTitle("Scheduling Application");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+    }
+
+    @Override
+    public void stop() throws Exception{
+        FileIOManager.deleteCurrentFile();
+
     }
 
     public static void main(String[] args) {

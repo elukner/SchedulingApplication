@@ -134,7 +134,7 @@ public class LoginController implements Initializable {
         this.timesClicked = timesClicked;
     }
 
-    private void setUserLoggedIn() {
+    private void setUserLoggedIn() throws IOException {
 
         user = UsersDaoImpl.getUser(usernameTxt.getText(), passwordTxt.getText()).get(0);
         if(!loginSuccess){
