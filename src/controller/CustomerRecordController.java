@@ -36,6 +36,7 @@ import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -161,6 +162,7 @@ public class CustomerRecordController extends Application implements Initializab
     private Customers customerModel;
     private FirstLevelDivisions divisionModel;
     private Users currentUser;
+    private Countries countriesModel;
 
 
 
@@ -298,8 +300,10 @@ public class CustomerRecordController extends Application implements Initializab
                 customerIDTxt.setVisible(false);
                 break;
             case "Update":
-                customerIDTxt.setDisable(false);
-                customerIDTxt.setText("");
+                customerIDLbl.setVisible(true);
+                customerIDTxt.setVisible(true);
+                customerIDTxt.setPromptText("Type Customer ID and press enter");
+                modifyBtn.setText("Update");
                 break;
             case "Delete":
                 customerIDTxt.setText(Integer.toString(CustomersDaoImpl.getAllCustomers().size()+1));
@@ -323,6 +327,34 @@ public class CustomerRecordController extends Application implements Initializab
 
     }
 
+    @FXML
+    void onKeyPressedCustomerIDEnter(KeyEvent event) {
+        try {
+            customerModel = CustomersDaoImpl.getAllCustomers().get(Integer.parseInt(customerIDTxt.getText()) - 1);
+            customerNameTxt.setText(customerModel.getCustomerName());
+
+            if (!customerModel.getAddress().contains(",")) {
+                addressTxt.setText(customerModel.getAddress());
+            } else {
+                String addressString = customerModel.getAddress();
+                String[] arrayAddress = addressString.split(",", 2);
+                addressTxt.setText(arrayAddress[0]);
+                cityTxt.setText(arrayAddress[1]);
+            }
+
+            postalCodeTxt.setText(customerModel.getPostalCode());
+            phoneNumberTxt.setText(customerModel.getPhone());
+            divisionModel = FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisions().get(customerModel.getDivisionID() - 1);
+            countriesModel = CountriesDaoImpl.getAllCountries().get(divisionModel.getCountryID() - 1);
+            countryBox.getItems().clear();
+            countryBox.setValue(countriesModel.getCountry());
+            firstLevelDivisionBox.getItems().clear();
+            firstLevelDivisionBox.setValue(divisionModel.getDivision());
+            customerIDTxt.setDisable(true);
+        }catch (NumberFormatException n){
+
+        }
+    }
 
 
     /**
@@ -334,7 +366,7 @@ public class CustomerRecordController extends Application implements Initializab
     @FXML
     public void onSelectCountry(ActionEvent actionEvent) {
 
-        Countries countriesModel = CountriesDaoImpl.getAllCountries(countryBox.getValue()).get(0);
+        countriesModel = CountriesDaoImpl.getAllCountries(countryBox.getValue()).get(0);
 
         firstLevelDivisionBox.getItems().clear();
 
@@ -374,7 +406,9 @@ public class CustomerRecordController extends Application implements Initializab
               //TODO updateCustomerRecordTableView();
                break;
            case "Update":
+               updateCustomer();
                updateCustomerDatabase();
+               modifyBtn.setText("Modify");
                break;
            case "Delete":
                deleteCustomerDatabase();
@@ -403,6 +437,14 @@ public class CustomerRecordController extends Application implements Initializab
                 dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(), divisionModel.getDivisionID());
     }
 
+    private void updateCustomer() throws FileNotFoundException {
+        String formatedAddress = addressTxt.getText()+", "+cityTxt.getText();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        customerModel = new Customers(CustomersDaoImpl.getAllCustomers().size()+1,customerNameTxt.getText(),
+                formatedAddress,postalCodeTxt.getText(),phoneNumberTxt.getText(), dateTimeFormatter.format(LocalDateTime.now()),FileIOManager.readFile(),
+                dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(), divisionModel.getDivisionID());
+
+    }
 
     //    @FXML
 //    void handleAdd(ActionEvent event) {
