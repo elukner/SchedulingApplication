@@ -46,7 +46,6 @@ public class CustomersDaoImpl {
     public static int insertCustomers(int customerID, String customerName, String address,
                                       String postalCode, String phone, String createdDate, String createdBy, String lastUpdated,
                                       String lastUpdatedBy, int divisionID) throws SQLException {
-        //String sqlStatement = "INSERT INTO `client_schedule`.`customers` (`Customer_ID`, `Customer_Name`, `Address`, `Postal_Code`, `Phone`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`, `Division_ID`) VALUES (?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?);";
         String sqlStatement = "INSERT INTO `client_schedule`.`customers` (`Customer_ID`, `Customer_Name`, `Address`, `Postal_Code`, `Phone`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`, `Division_ID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
@@ -160,14 +159,21 @@ public class CustomersDaoImpl {
      *                      that was specified by the setQueryTimeout method has been exceeded and
      *                      has at least attempted to cancel the currently running Statement
      */
-    public static int updateCustomers(int customerID, String postalCode) throws SQLException {
-        String sqlStatement = "UPDATE `client_schedule`.`customers` SET `Postal_Code` = ? WHERE (`Customer_ID` = ?)";
+    public static int updateCustomers(int customerID, String customerName, String address,
+                                      String postalCode, String phone,String lastUpdated,
+                                      String lastUpdatedBy, int divisionID) throws SQLException {
+        String sqlStatement = "UPDATE `client_schedule`.`customers` SET `Customer_Name` = ?, `Address` = ?, `Postal_Code` = ?, `Phone` = ?, `Last_Update` = ?, `Last_Updated_By` = ?, `Division_ID` = ? WHERE (`Customer_ID` = ?)";
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
-        preparedStatement.setString(1, postalCode);
-        preparedStatement.setInt(2, customerID);
-
+        preparedStatement.setString(1, customerName);
+        preparedStatement.setString(2, address);
+        preparedStatement.setString(3, postalCode);
+        preparedStatement.setString(4, phone);
+        preparedStatement.setString(5, lastUpdated);
+        preparedStatement.setString(6, lastUpdatedBy);
+        preparedStatement.setInt(7, divisionID);
+        preparedStatement.setInt(8, customerID);
 
         return preparedStatement.executeUpdate();
     }

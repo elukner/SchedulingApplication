@@ -333,11 +333,11 @@ public class CustomerRecordController extends Application implements Initializab
             customerModel = CustomersDaoImpl.getAllCustomers().get(Integer.parseInt(customerIDTxt.getText()) - 1);
             customerNameTxt.setText(customerModel.getCustomerName());
 
-            if (!customerModel.getAddress().contains(",")) {
+            if (!customerModel.getAddress().contains(", ")) {
                 addressTxt.setText(customerModel.getAddress());
             } else {
                 String addressString = customerModel.getAddress();
-                String[] arrayAddress = addressString.split(",", 2);
+                String[] arrayAddress = addressString.split(", ", 2);
                 addressTxt.setText(arrayAddress[0]);
                 cityTxt.setText(arrayAddress[1]);
             }
@@ -440,9 +440,15 @@ public class CustomerRecordController extends Application implements Initializab
     private void updateCustomer() throws FileNotFoundException {
         String formatedAddress = addressTxt.getText()+", "+cityTxt.getText();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        customerModel = new Customers(CustomersDaoImpl.getAllCustomers().size()+1,customerNameTxt.getText(),
-                formatedAddress,postalCodeTxt.getText(),phoneNumberTxt.getText(), dateTimeFormatter.format(LocalDateTime.now()),FileIOManager.readFile(),
-                dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(), divisionModel.getDivisionID());
+        customerModel.setCustomerName(customerNameTxt.getText());
+        customerModel.setAddress(formatedAddress);
+        customerModel.setPostalCode( postalCodeTxt.getText());
+        customerModel.setPhone(phoneNumberTxt.getText());
+        customerModel.setLastUpdate(dateTimeFormatter.format(LocalDateTime.now()));
+        customerModel.setLastUpdatedBy(FileIOManager.readFile());
+
+        //       customerModel.getDivisionID();
+
 
     }
 
@@ -466,7 +472,10 @@ public class CustomerRecordController extends Application implements Initializab
 
     private void updateCustomerDatabase() throws SQLException {
         JDBC.openConnection();
-        CustomersDaoImpl.updateCustomers(CustomersDaoImpl.getAllCustomers().size(),postalCodeTxt.getText());
+        CustomersDaoImpl.updateCustomers(customerModel.getCustomerID(),customerModel.getCustomerName(),
+                customerModel.getAddress(),customerModel.getPostalCode(),customerModel.getPhone(),
+                customerModel.getLastUpdate(),
+                customerModel.getLastUpdatedBy(), divisionModel.getDivisionID());
         JDBC.closeConnection();
     }
 

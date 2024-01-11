@@ -193,7 +193,7 @@ public class DaoTest {
         //CustomersDaoImpl.insertCustomers(4, "Dudley Do-Right", "48 Horse Manor ", "28198", "874-916-2671", "script", "script", 60);
         CustomersDaoImpl.selectCustomers();
         CustomersDaoImpl.selectCustomers(4);
-        CustomersDaoImpl.updateCustomers(4,"title 2.0");
+      //  CustomersDaoImpl.updateCustomers(4,"title 2.0");
         CustomersDaoImpl.deleteCustomers(4);
 
 //        int rowsUpdated = AppointmentDaoImpl.deleteAppointment(3);
