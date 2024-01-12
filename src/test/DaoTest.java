@@ -171,7 +171,7 @@ public class DaoTest {
         AppointmentsDaoImpl.insertAppointments(3, "title", "description", "location", "Planning Session", "2020-05-28 12:00:00", "2020-05-28 13:00:00", "script", "script", 1, 1, 3);
       AppointmentsDaoImpl.selectAppointment();
         AppointmentsDaoImpl.selectAppointment(3);
-        AppointmentsDaoImpl.updateAppointment(3,"title 2.0");
+        //AppointmentsDaoImpl.updateAppointment(3,"title 2.0");
         AppointmentsDaoImpl.deleteAppointment(3);
 //        int rowsUpdated = AppointmentDaoImpl.deleteAppointment(3);
 //

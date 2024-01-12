@@ -290,14 +290,29 @@ public class AppointmentsDaoImpl {
      *                      that was specified by the setQueryTimeout method has been exceeded and
      *                      has at least attempted to cancel the currently running Statement
      */
-    public static int updateAppointment(int appointmentID, String title) throws SQLException {
+    public static int updateAppointment(int appointmentID, String title, String description, String location,String type,
+                                        String start,
+                                        String end, String lastUpdated, String lastUpdatedBy,
+                                        int customerID, int userID, int contactID) throws SQLException {
 //        String sqlStatement = "UPDATE `client_schedule`.`appointments` SET `Title` = ? WHERE (`Appointment_ID` = ?)";
 
-        String sqlStatement = "UPDATE `client_schedule`.`appointments` SET `Title` = ? WHERE (`Appointment_ID` = ?)";
+        String sqlStatement = "UPDATE `client_schedule`.`appointments` SET `Title` = ?, `Description` = ?, " +
+                "`Location` = ?, `Type` = ?, `Start` = ?, `End` = ?, `Last_Update` = ?, `Last_Updated_By` = ?, " +
+                "`Customer_ID` = ?, `User_ID` = ?, `Contact_ID` = ? WHERE (`Appointment_ID` = ?)";
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
         preparedStatement.setString(1, title);
-        preparedStatement.setInt(2, appointmentID);
+        preparedStatement.setString(2, description);
+        preparedStatement.setString(3, location);
+        preparedStatement.setString(4, type);
+        preparedStatement.setString(5, start);
+        preparedStatement.setString(6, end);
+        preparedStatement.setString(7, lastUpdated);
+        preparedStatement.setString(8, lastUpdatedBy);
+        preparedStatement.setInt(9, customerID);
+        preparedStatement.setInt(10, userID);
+        preparedStatement.setInt(11, contactID);
+        preparedStatement.setInt(12, appointmentID);
 
 
         return preparedStatement.executeUpdate();

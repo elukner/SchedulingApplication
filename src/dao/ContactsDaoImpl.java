@@ -55,6 +55,34 @@ public class ContactsDaoImpl {
     }
 
     /**
+     * This method retrieves a list of contacts from the contacts table in the client_schedule database.
+     *
+     * @return contactsList a list of contacts
+     */
+    public static ObservableList<Contacts> getContact(String contactName) {
+        ObservableList<Contacts> contactsList = FXCollections.observableArrayList();
+        try {
+            String sqlStatement = "SELECT * FROM client_schedule.contacts WHERE Contact_Name = ?";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+            preparedStatement.setString(1, contactName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int contactID = resultSet.getInt("Contact_ID");
+                contactName = resultSet.getString("Contact_Name");
+                String email = resultSet.getString("Email");
+                Contacts contact = new Contacts(contactID, contactName, email);
+                contactsList.add(contact);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return contactsList;
+
+
+    }
+
+    /**
      * This method selects contacts from the contacts table in the client_schedule database.
      *
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a

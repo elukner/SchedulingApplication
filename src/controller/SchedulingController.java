@@ -8,10 +8,7 @@ package controller;
  * Time: 1:27 PM
  */
 
-import dao.AppointmentsDaoImpl;
-import dao.ContactsDaoImpl;
-import dao.CustomersDaoImpl;
-import dao.FirstLevelDivisionsDaoImpl;
+import dao.*;
 import helper.FileIOManager;
 import helper.JDBC;
 import javafx.collections.FXCollections;
@@ -23,9 +20,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
@@ -37,6 +37,7 @@ import java.util.logging.Level;
 import javafx.application.Application;
 import model.Contacts;
 import model.FirstLevelDivisions;
+import model.Users;
 
 
 /**
@@ -221,9 +222,20 @@ public class SchedulingController extends Application implements Initializable {
 
     }
 
-    private void updateCustomerDatabase() throws SQLException {
+    /**
+     * TODO startDateAndTimeTxt.getText(),endDateAndTimeTxt.getText() on update
+     * @throws SQLException
+     * @throws FileNotFoundException
+     */
+    private void updateCustomerDatabase() throws SQLException, FileNotFoundException {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
         JDBC.openConnection();
-        AppointmentsDaoImpl.updateAppointment(Integer.parseInt(appointmentIDTxt.getText()),titleTxt.getText());
+        AppointmentsDaoImpl.updateAppointment(Integer.parseInt(appointmentIDTxt.getText()),
+                titleTxt.getText(),descriptionTxt.getText(),locationTxt.getText(),
+                typeTxt.getText(),startDateAndTimeTxt.getText(),endDateAndTimeTxt.getText(),
+                dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(),
+                Integer.parseInt(customerIDTxt.getText()), Integer.parseInt(userIDTxt.getText()), contactsModel.getContactID());
         JDBC.closeConnection();
     }
 
@@ -242,7 +254,7 @@ public class SchedulingController extends Application implements Initializable {
      * @param event
      */
     @FXML
-    void onActionDone(ActionEvent event) throws SQLException {
+    void onActionDone(ActionEvent event) throws SQLException, FileNotFoundException {
         switch (doneBtn.getText()){
             case "Update":
                 updateCustomerDatabase();
@@ -308,12 +320,13 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * TODO
+     * A contact name is assigned to an appointment using a drop-down menu or combo box.
      * @param actionEvent
      */
     @FXML
     void onActionContactNameComboBox(ActionEvent actionEvent) {
-        // TODO -A contact name is assigned to an appointment using a drop-down menu or combo box.
+
+        contactsModel= ContactsDaoImpl.getContact(contactNameComboBox.getValue()).get(0);
         }
 
     /**
