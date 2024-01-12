@@ -201,6 +201,28 @@ public class CustomersDaoImpl {
     }
 
     /**
+     * This method deletes a customer into the customers table in the client_schedule database.
+     *
+     * @param customerName
+     * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
+     * for SQL statements that return nothing
+     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
+     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
+     *                      that was specified by the setQueryTimeout method has been exceeded and
+     *                      has at least attempted to cancel the currently running Statement
+     */
+    public static int deleteCustomers(String customerName) throws SQLException {
+        String sqlStatement = "DELETE FROM `client_schedule`.`customers` WHERE (`Customer_Name` = ?)";
+
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+        preparedStatement.setString(1, customerName);
+
+        return preparedStatement.executeUpdate();
+    }
+
+    /**
      * This method retrieves a list of customers from the customers table in the client_schedule database.
      *
      * @return customersList a list of customers

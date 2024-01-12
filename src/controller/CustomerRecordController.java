@@ -9,10 +9,7 @@ package controller;
  */
 
 
-import dao.CountriesDaoImpl;
-import dao.CustomersDaoImpl;
-import dao.FirstLevelDivisionsDaoImpl;
-import dao.UsersDaoImpl;
+import dao.*;
 import helper.FileIOManager;
 import helper.JDBC;
 import javafx.collections.FXCollections;
@@ -30,6 +27,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,10 +38,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import model.Countries;
-import model.Customers;
-import model.FirstLevelDivisions;
-import model.Users;
+import model.*;
 import javafx.application.Application;
 
 /**
@@ -163,6 +158,7 @@ public class CustomerRecordController extends Application implements Initializab
     private FirstLevelDivisions divisionModel;
     private Users currentUser;
     private Countries countriesModel;
+    private Appointments appointmentsModel;
 
 
     @FXML
@@ -286,16 +282,55 @@ public class CustomerRecordController extends Application implements Initializab
                 modifyBtn.setText("Add");
                 customerIDLbl.setVisible(false);
                 customerIDTxt.setVisible(false);
+                customerNameLbl.setVisible(true);
+                customerNameTxt.setVisible(true);
+                addressLbl.setVisible(true);
+                addressTxt.setVisible(true);
+                cityTxt.setVisible(true);
+                postalCodeLbl.setVisible(true);
+                postalCodeTxt.setVisible(true);
+                phoneNumberLbl.setVisible(true);
+                phoneNumberTxt.setVisible(true);
+                countryLbl.setVisible(true);
+                countryBox.setVisible(true);
+                firstLevelDivisionLbl.setVisible(true);
+                firstLevelDivisionBox.setVisible(true);
                 break;
             case "Update":
                 customerIDLbl.setVisible(true);
                 customerIDTxt.setVisible(true);
+                customerNameLbl.setVisible(true);
+                customerNameTxt.setVisible(true);
+                addressLbl.setVisible(true);
+                addressTxt.setVisible(true);
+                cityTxt.setVisible(true);
+                postalCodeLbl.setVisible(true);
+                postalCodeTxt.setVisible(true);
+                phoneNumberLbl.setVisible(true);
+                phoneNumberTxt.setVisible(true);
+                countryLbl.setVisible(true);
+                countryBox.setVisible(true);
+                firstLevelDivisionLbl.setVisible(true);
+                firstLevelDivisionBox.setVisible(true);
                 customerIDTxt.setPromptText("Type Customer ID and press enter");
                 modifyBtn.setText("Update");
                 break;
             case "Delete":
                 customerIDLbl.setVisible(true);
                 customerIDTxt.setVisible(true);
+                customerNameLbl.setVisible(true);
+                customerNameTxt.setVisible(true);
+                addressLbl.setVisible(false);
+                addressTxt.setVisible(false);
+                cityTxt.setVisible(false);
+                postalCodeLbl.setVisible(false);
+                postalCodeTxt.setVisible(false);
+                phoneNumberLbl.setVisible(false);
+                phoneNumberTxt.setVisible(false);
+                countryLbl.setVisible(false);
+                countryBox.setVisible(false);
+                firstLevelDivisionLbl.setVisible(false);
+                firstLevelDivisionBox.setVisible(false);
                 modifyBtn.setText("Delete");
                 break;
 
@@ -412,7 +447,7 @@ public class CustomerRecordController extends Application implements Initializab
                 updateCustomerDatabase();
                 break;
             case "Delete":
-                deleteCustomerDatabase();
+                deleteCustomer();
                 break;
         }
 
@@ -453,6 +488,31 @@ public class CustomerRecordController extends Application implements Initializab
 
     }
 
+    /**
+     *Customer records and appointments can be added, updated, and deleted.
+     * @throws FileNotFoundException
+     */
+    private void deleteCustomer() throws FileNotFoundException, SQLException {
+
+        if(!CustomersDaoImpl.getAllCustomers().isEmpty()){
+            customerModel = CustomersDaoImpl.getAllCustomers().get(Integer.parseInt(customerIDTxt.getText())-1);
+        }
+
+        // When deleting a customer record, all of the customer’s appointments must be deleted first, due to foreign key constraints.
+        if(AppointmentsDaoImpl.getAllAppointmentsCustomerID(customerModel.getCustomerID()).isEmpty()){
+
+            deleteCustomerDatabase();
+            //        When a customer record is deleted, a custom message should display in the user interface.
+            showAlert(Alert.AlertType.CONFIRMATION, "Customer Record is Deleted", customerModel.getCustomerName()+  "'s record has been successfully deleted");
+
+        }
+
+
+
+
+
+    }
+
     //    @FXML
 //    void handleAdd(ActionEvent event) {
 //        isAdd = true;
@@ -482,7 +542,18 @@ public class CustomerRecordController extends Application implements Initializab
 
     private void deleteCustomerDatabase() throws SQLException {
         JDBC.openConnection();
-        CustomersDaoImpl.deleteCustomers(Integer.parseInt(customerIDTxt.getText()));
+        //customer id txt is filled out
+        if((!customerIDTxt.getText().isEmpty()) && (customerNameTxt.getText().isEmpty())){
+            CustomersDaoImpl.deleteCustomers(Integer.parseInt(customerIDTxt.getText()));
+        }
+        //customer name is the only one filled out
+        if((!customerNameTxt.getText().isEmpty())&&(customerIDTxt.getText().isEmpty())){
+            showAlert(Alert.AlertType.ERROR, "Customer ID Empty", "Please fill out customer ID text box");
+        }
+        //both text boxes are filled out
+        if((!customerNameTxt.getText().isEmpty())&&(!customerIDTxt.getText().isEmpty())){
+            CustomersDaoImpl.deleteCustomers(Integer.parseInt(customerIDTxt.getText()));
+        }
         JDBC.closeConnection();
     }
 
@@ -505,6 +576,20 @@ public class CustomerRecordController extends Application implements Initializab
         firstLevelDivisionBox.getItems().clear();
     }
 
+    /**
+     * When a customer record is deleted, a custom message should display in the user interface.
+     * @param alertType
+     * @param title
+     * @param message
+     */
+    private static void showAlert(Alert.AlertType alertType, String title, String message) {
+
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.show();
+    }
 
     /**
      * This method initializes this Customer Record controller class
