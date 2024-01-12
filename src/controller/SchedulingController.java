@@ -9,7 +9,11 @@ package controller;
  */
 
 import dao.AppointmentsDaoImpl;
+import dao.ContactsDaoImpl;
+import dao.CustomersDaoImpl;
+import dao.FirstLevelDivisionsDaoImpl;
 import helper.FileIOManager;
+import helper.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -31,6 +35,8 @@ import model.Appointments;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.logging.Level;
 import javafx.application.Application;
+import model.Contacts;
+import model.FirstLevelDivisions;
 
 
 /**
@@ -51,7 +57,7 @@ public class SchedulingController extends Application implements Initializable {
     private TableColumn<?, ?> contactCol; // Value injected by FXMLLoader
 
     @FXML // fx:id="contactNameComboBox"
-    private ComboBox<?> contactNameComboBox; // Value injected by FXMLLoader
+    private ComboBox<String> contactNameComboBox; // Value injected by FXMLLoader
 
     @FXML // fx:id="customerIDCol"
     private TableColumn<?, ?> customerIDCol; // Value injected by FXMLLoader
@@ -110,8 +116,13 @@ public class SchedulingController extends Application implements Initializable {
     @FXML
     private Label customMessageTxt;
 
+    @FXML // fx:id="doneBtn"
+    private Button doneBtn; // Value injected by FXMLLoader
+
     private Stage stage;
     private Parent scene;
+
+    private Contacts contactsModel;
 
 
     /**
@@ -168,7 +179,7 @@ public class SchedulingController extends Application implements Initializable {
      * @param event
      */
     @FXML
-    void onActionAddAppointment(ActionEvent event) {
+    void onActionAdd(ActionEvent event) {
         // TODO  Write code that enables the user to add, update, and delete appointments.
         // TODO When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
         //  contact, type, start date and time, end date and time, Customer_ID, and User_ID.
@@ -177,17 +188,43 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * TODO
+     * Write code that enables the user to update appointments.
+     * TODO All of the original appointment information is displayed on the update form in local time zone.
      * @param actionEvent
      */
     @FXML
-    void onActionUpdateAppointment(ActionEvent actionEvent) {
-        // TODO  Write code that enables the user to add, update, and delete appointments.
-        // TODO When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
+    void onActionUpdate(ActionEvent actionEvent) {
+
+        //When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
         //  contact, type, start date and time, end date and time, Customer_ID, and User_ID.
-        // TODO All of the original appointment information is displayed on the update form in local time zone.
-        //TODO All of the appointment fields can be updated except Appointment_ID, which must be disabled.
-        System.out.println("update button clicked");
+        doneBtn.setText("Update");
+        Appointments selectedAppointments = appointmentTblView.getSelectionModel().getSelectedItem();
+        //All of the appointment fields can be updated except Appointment_ID, which must be disabled.
+        // The Appointment_ID is disabled throughout the application.
+        appointmentIDTxt.setDisable(true);
+        appointmentIDTxt.setText(String.valueOf(selectedAppointments.getAppointmentID()));
+        titleTxt.setText(selectedAppointments.getTitle());
+        descriptionTxt.setText(selectedAppointments.getDescription());
+        locationTxt.setText(selectedAppointments.getLocation());
+        contactsModel = ContactsDaoImpl.getAllContacts().get(selectedAppointments.getContactID()-1);
+        contactNameComboBox.setValue(contactsModel.getContactName());
+        for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
+
+            contactNameComboBox.getItems().add(contact.getContactName());
+        }
+        typeTxt.setText(selectedAppointments.getType());
+        startDateAndTimeTxt.setText(selectedAppointments.getStart());
+        endDateAndTimeTxt.setText(selectedAppointments.getEnd());
+        customerIDTxt.setText(String.valueOf(selectedAppointments.getCustomerID()));
+        userIDTxt.setText(String.valueOf(selectedAppointments.getUserID()));
+
+
+    }
+
+    private void updateCustomerDatabase() throws SQLException {
+        JDBC.openConnection();
+        AppointmentsDaoImpl.updateAppointment(Integer.parseInt(appointmentIDTxt.getText()),titleTxt.getText());
+        JDBC.closeConnection();
     }
 
     /**
@@ -195,9 +232,23 @@ public class SchedulingController extends Application implements Initializable {
      * @param event
      */
     @FXML
-    void onActionDeleteAppointment(ActionEvent event) {
+    void onActionDelete(ActionEvent event) {
         // TODO  Write code that enables the user to add, update, and delete appointments.
         System.out.println("Delete button clicked");
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    void onActionDone(ActionEvent event) throws SQLException {
+        switch (doneBtn.getText()){
+            case "Update":
+                updateCustomerDatabase();
+
+        }
+
     }
 
     /**

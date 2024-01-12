@@ -291,6 +291,8 @@ public class AppointmentsDaoImpl {
      *                      has at least attempted to cancel the currently running Statement
      */
     public static int updateAppointment(int appointmentID, String title) throws SQLException {
+//        String sqlStatement = "UPDATE `client_schedule`.`appointments` SET `Title` = ? WHERE (`Appointment_ID` = ?)";
+
         String sqlStatement = "UPDATE `client_schedule`.`appointments` SET `Title` = ? WHERE (`Appointment_ID` = ?)";
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
