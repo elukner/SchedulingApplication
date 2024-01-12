@@ -66,6 +66,34 @@ public class AppointmentsDaoImpl {
     }
 
     /**
+     * TODO This method retrieves a list of appointments from the appointments table in the client_schedule database.
+     *  by the total number of customer appointments by type and month
+     *
+     * @return appointmentsList a list of appointments
+     */
+    public static ObservableList<String> getAllAppointmentsCustomerIDMT() {
+        ObservableList<String> appointmentsList = FXCollections.observableArrayList();
+        try {
+            String sqlStatement = "SELECT MONTH(Start) AS Month, Type, COUNT(*) AS Total_Appointments FROM client_schedule.appointments GROUP BY MONTH(Start), Type;";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String type = resultSet.getString("Type");
+                String start = resultSet.getString("Month");
+                int totalAppointments = resultSet.getInt("Total_Appointments");
+                appointmentsList.add(type+" "+start+" "+totalAppointments);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return appointmentsList;
+    }
+
+
+    /**
      * This method retrieves a list of appointments from the appointments table in the client_schedule database.
      *
      * @return appointmentsList a list of appointments

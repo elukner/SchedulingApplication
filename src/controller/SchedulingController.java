@@ -28,7 +28,6 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import model.Appointments;
-import dao.AppointmentsDaoImpl;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.logging.Level;
 import javafx.application.Application;
@@ -114,6 +113,56 @@ public class SchedulingController extends Application implements Initializable {
     private Stage stage;
     private Parent scene;
 
+
+    /**
+     * TODO the total number of customer appointments by type and month
+     * @param event
+     */
+    @FXML
+    void onActionReport1(ActionEvent event) {
+
+//        appointmentTblView.getItems().clear();
+//
+//        ObservableList<String> appointmentsList = AppointmentsDaoImpl.getAllAppointmentsCustomerIDMT();
+//
+//        typeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
+//        startDateTimeCol.setText("Month");
+//        startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("Month"));
+//        descriptionCol.setText("Total_Appointments");
+//        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("Total_Appointments"));
+//
+//
+//        try {
+//            appointmentsList.addAll(AppointmentsDaoImpl.getAllAppointmentsCustomerIDMT());
+//
+//        } catch (Exception ex) {
+//            Logger.getLogger(SchedulingController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        appointmentTblView.setItems(appointmentsList);
+    }
+
+    /**
+     * TODO a schedule for each contact in your organization that includes appointment ID, title, type and description,
+     *  start date and time, end date and time, and customer ID
+     * @param event
+     */
+    @FXML
+    void onActionReport2(ActionEvent event) {
+    // SELECT a.appointment_id, a.title, a.appointment_type, a.description, a.start_date, a.end_date,
+        // a.customer_id FROM appointments_table a JOIN contacts_table c ON a.contact_id = c.contact_id;
+
+    }
+
+    /**
+     * TODO an additional report of your choice that is different from the two other required reports in this prompt
+     *  and from the user log-in date and time stamp that will be tracked in part C
+     * @param event
+     */
+    @FXML
+    void onActionReport3(ActionEvent event) {
+
+    }
+
     /**
      * TODO
      * @param event
@@ -176,17 +225,25 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * TODO
+     * Write code that enables the user to view appointment schedules using a TableView
      */
     @FXML
-    void updateSchedulingTableView(){
-        // TODO Please include each of the following requirements as columns: Appointment_ID, Title, Description,
-        //  Location, Contact, Type, Start Date and Time, End Date and Time, Customer_ID, User_ID
+    void showSchedulingTableView(){
+        // TODO
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
 
+        //Please include each of the following requirements as columns: Appointment_ID, Title, Description, Location,
+        // Contact, Type, Start Date and Time, End Date and Time, Customer_ID, User_ID
         appointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        contactCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("start"));
+        endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("end"));
+        customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        userIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
 
 
         try {
@@ -266,7 +323,7 @@ public class SchedulingController extends Application implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        updateSchedulingTableView();
+        showSchedulingTableView();
     }
 
     @Override

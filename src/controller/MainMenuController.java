@@ -56,16 +56,6 @@ public class MainMenuController extends Application implements Initializable {
         loadPage(event,viewPath);
     }
 
-    /**
-     *
-     * @param event
-     * @throws IOException
-     */
-    @FXML
-    void onActionReportsBtn(ActionEvent event)throws IOException  {
-        String viewPath = "../view/reports.fxml";
-        loadPage(event,viewPath);
-    }
 
     /**
      *

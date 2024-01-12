@@ -1,5 +1,6 @@
 package test;
 
+import helper.DateProcessing;
 import org.junit.jupiter.api.Test;
 import helper.FileIOManager;
 
@@ -15,6 +16,13 @@ public class HelperTest {
     @Test
     public void testWriteToCurrentFile() throws IOException {
         //FileIOManager.writeToCurrentFile();
+
+    }
+
+
+    @Test
+    public void testGetMonth() {
+        System.out.println(DateProcessing.getMonth("2020-05-29 12:00:00"));
 
     }
 }
