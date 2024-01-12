@@ -165,7 +165,6 @@ public class CustomerRecordController extends Application implements Initializab
     private Countries countriesModel;
 
 
-
     @FXML
     void onActionBack(ActionEvent event) throws IOException {
         FileIOManager.deleteCurrentFile();
@@ -175,8 +174,6 @@ public class CustomerRecordController extends Application implements Initializab
         stage.show();
 
     }
-
-
 
 
     /**
@@ -220,7 +217,7 @@ public class CustomerRecordController extends Application implements Initializab
     void updateCustomerRecordTableView() {
 
 
-
+        customerRecordTbl.getItems().clear();
         ObservableList<Customers> customersList = FXCollections.observableArrayList();
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
         createDateCol.setCellValueFactory(new PropertyValueFactory<>("createDate"));
@@ -244,47 +241,38 @@ public class CustomerRecordController extends Application implements Initializab
     }
 
 
-
     /**
      * Customer records and appointments can be added, updated, and deleted.
+     *
      * @param actionEvent
      * @throws SQLException
      */
     @FXML
-    public void onActionAdd(ActionEvent actionEvent) throws SQLException {
+    public void onActionAdd(ActionEvent actionEvent) {
 
+        clearAllFields();
         showModify("Add");
 
+
     }
+
     @FXML
-    public void onActionUpdate(ActionEvent actionEvent) throws IOException {
-        // Customer records and appointments can be added, updated, and deleted.
-
-        // When adding and updating a customer, text fields are used to collect the following data: customer name, address, postal code, and phone number.
-//-  Customer IDs are auto-generated, and first-level division (i.e., states, provinces) and country data are collected using separate combo boxes.
-//Note: The address text field should not include first-level division and country data. Please use the following examples to format addresses:
-// •  U.S. address: 123 ABC Street, White Plains
-//•  Canadian address: 123 ABC Street, Newmarket
-//•  UK address: 123 ABC Street, Greenwich, London
-//-  When updating a customer, the customer data autopopulates in the form.
-
-        // All of the original customer information is displayed on the update form.
-//-  Customer_ID must be disabled.
+    public void onActionUpdate(ActionEvent actionEvent) {
 
 
-//All of the fields can be updated except for Customer_ID.
+        clearAllFields();
         showModify("Update");
-        modifyBtn.setText("Update");
-
     }
+
     @FXML
-    public void onActionDelete(ActionEvent actionEvent) throws IOException {
+    public void onActionDelete(ActionEvent actionEvent) {
         // Customer records and appointments can be added, updated, and deleted.
 //-  When deleting a customer record, all of the customer’s appointments must be deleted first, due to foreign key constraints.
 
 // When a customer record is deleted, a custom message should display in the user interface.
+
+        clearAllFields();
         showModify("Delete");
-        modifyBtn.setText("Delete");
     }
 
     private void showModify(String modifyType) {
@@ -293,7 +281,7 @@ public class CustomerRecordController extends Application implements Initializab
 //        TextField customerID = new TextField();
         makeTxtBtnsVisible(true);
 
-        switch (modifyType){
+        switch (modifyType) {
             case "Add":
                 modifyBtn.setText("Add");
                 customerIDLbl.setVisible(false);
@@ -306,7 +294,9 @@ public class CustomerRecordController extends Application implements Initializab
                 modifyBtn.setText("Update");
                 break;
             case "Delete":
-                customerIDTxt.setText(Integer.toString(CustomersDaoImpl.getAllCustomers().size()+1));
+                customerIDLbl.setVisible(true);
+                customerIDTxt.setVisible(true);
+                modifyBtn.setText("Delete");
                 break;
 
         }
@@ -314,23 +304,31 @@ public class CustomerRecordController extends Application implements Initializab
 //        Country and first-level division data is prepopulated in separate combo boxes or
 //        lists in the user interface for the user to choose.
 
-        for(Countries country : CountriesDaoImpl.getAllCountries()){
+        populateComboBoxes();
+
+
+    }
+
+    private void populateComboBoxes() {
+
+        for (Countries country : CountriesDaoImpl.getAllCountries()) {
 
             countryBox.getItems().add(country.getCountry());
         }
 
-        for(FirstLevelDivisions firstLevelDivision : FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisions()){
+        for (FirstLevelDivisions firstLevelDivision : FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisions()) {
 
             firstLevelDivisionBox.getItems().add(firstLevelDivision.getDivision());
         }
-
 
     }
 
     @FXML
     void onKeyPressedCustomerIDEnter(KeyEvent event) {
+
         try {
             customerModel = CustomersDaoImpl.getAllCustomers().get(Integer.parseInt(customerIDTxt.getText()) - 1);
+
             customerNameTxt.setText(customerModel.getCustomerName());
 
             if (!customerModel.getAddress().contains(", ")) {
@@ -344,16 +342,19 @@ public class CustomerRecordController extends Application implements Initializab
 
             postalCodeTxt.setText(customerModel.getPostalCode());
             phoneNumberTxt.setText(customerModel.getPhone());
+
             divisionModel = FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisions().get(customerModel.getDivisionID() - 1);
             countriesModel = CountriesDaoImpl.getAllCountries().get(divisionModel.getCountryID() - 1);
             countryBox.getItems().clear();
             countryBox.setValue(countriesModel.getCountry());
             firstLevelDivisionBox.getItems().clear();
             firstLevelDivisionBox.setValue(divisionModel.getDivision());
+            populateComboBoxes();
             customerIDTxt.setDisable(true);
-        }catch (NumberFormatException n){
+        } catch (NumberFormatException | IndexOutOfBoundsException n) {
 
         }
+
     }
 
 
@@ -361,6 +362,7 @@ public class CustomerRecordController extends Application implements Initializab
      * The first-level list
      * should be filtered by the user’s
      * selection of a country (e.g., when choosing U.S., filter so it only shows states).
+     *
      * @param actionEvent
      */
     @FXML
@@ -368,9 +370,10 @@ public class CustomerRecordController extends Application implements Initializab
 
         countriesModel = CountriesDaoImpl.getAllCountries(countryBox.getValue()).get(0);
 
+
         firstLevelDivisionBox.getItems().clear();
 
-        for(FirstLevelDivisions firstLevelDivision : FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID())){
+        for (FirstLevelDivisions firstLevelDivision : FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID())) {
 
             firstLevelDivisionBox.getItems().add(firstLevelDivision.getDivision());
         }
@@ -382,6 +385,7 @@ public class CustomerRecordController extends Application implements Initializab
      */
     @FXML
     public void onSelectDivision(ActionEvent actionEvent) {
+
 
         divisionModel = FirstLevelDivisionsDaoImpl.getFirstLevelDivision(firstLevelDivisionBox.getValue()).get(0);
 
@@ -396,59 +400,56 @@ public class CustomerRecordController extends Application implements Initializab
 
 
     @FXML
-    public void onActionModify(ActionEvent actionEvent) throws SQLException, FileNotFoundException {
+    public void onActionModify(ActionEvent actionEvent) throws FileNotFoundException, SQLException {
 
-       switch (modifyBtn.getText()){
-           case "Add":
-               addCustomer();
-               addCustomerDatabase();
-               modifyBtn.setText("Modify");
-              //TODO updateCustomerRecordTableView();
-               break;
-           case "Update":
-               updateCustomer();
-               updateCustomerDatabase();
-               modifyBtn.setText("Modify");
-               break;
-           case "Delete":
-               deleteCustomerDatabase();
-               break;
-       }
+        switch (modifyBtn.getText()) {
+            case "Add":
+                addCustomer();
+                addCustomerDatabase();
+                break;
+            case "Update":
+                updateCustomer();
+                updateCustomerDatabase();
+                break;
+            case "Delete":
+                deleteCustomerDatabase();
+                break;
+        }
 
 
         makeTxtBtnsVisible(false);
 
+
     }
 
     /**
-     *  When adding and updating a customer, text fields are used to collect the following data: customer name,
-     *  address, postal code, and phone number.
-     *  Customer IDs are auto-generated, and first-level division (i.e., states, provinces) and
-     *  country data are collected using separate combo boxes.
-     *  The address text field should not include first-level division and country data.
-     *  Please use the following examples to format addresses: U.S. address: 123 ABC Street, White Plains
+     * When adding and updating a customer, text fields are used to collect the following data: customer name,
+     * address, postal code, and phone number.
+     * Customer IDs are auto-generated, and first-level division (i.e., states, provinces) and
+     * country data are collected using separate combo boxes.
+     * The address text field should not include first-level division and country data.
+     * Please use the following examples to format addresses: U.S. address: 123 ABC Street, White Plains
+     *
      * @throws FileNotFoundException
      */
     private void addCustomer() throws FileNotFoundException {
-        String formatedAddress = addressTxt.getText()+", "+cityTxt.getText();
+        String formatedAddress = addressTxt.getText() + ", " + cityTxt.getText();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        customerModel = new Customers(CustomersDaoImpl.getAllCustomers().size()+1,customerNameTxt.getText(),
-                formatedAddress,postalCodeTxt.getText(),phoneNumberTxt.getText(), dateTimeFormatter.format(LocalDateTime.now()),FileIOManager.readFile(),
+        customerModel = new Customers(CustomersDaoImpl.getAllCustomers().size() + 1, customerNameTxt.getText(),
+                formatedAddress, postalCodeTxt.getText(), phoneNumberTxt.getText(), dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(),
                 dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(), divisionModel.getDivisionID());
     }
 
     private void updateCustomer() throws FileNotFoundException {
-        String formatedAddress = addressTxt.getText()+", "+cityTxt.getText();
+        String formatedAddress = addressTxt.getText() + ", " + cityTxt.getText();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         customerModel.setCustomerName(customerNameTxt.getText());
         customerModel.setAddress(formatedAddress);
-        customerModel.setPostalCode( postalCodeTxt.getText());
+        customerModel.setPostalCode(postalCodeTxt.getText());
         customerModel.setPhone(phoneNumberTxt.getText());
         customerModel.setLastUpdate(dateTimeFormatter.format(LocalDateTime.now()));
         customerModel.setLastUpdatedBy(FileIOManager.readFile());
-
-        //       customerModel.getDivisionID();
-
+        customerModel.setDivisionID(divisionModel.getDivisionID());
 
     }
 
@@ -457,13 +458,13 @@ public class CustomerRecordController extends Application implements Initializab
 //        isAdd = true;
 //        handleSceneChange();
 //    }
-    private void addCustomerDatabase() throws SQLException, FileNotFoundException {
+    private void addCustomerDatabase() throws SQLException {
 
-        
+
         JDBC.openConnection();
-        CustomersDaoImpl.insertCustomers(customerModel.getCustomerID(),customerModel.getCustomerName(),
-                customerModel.getAddress(),customerModel.getPostalCode(),customerModel.getPhone(),
-                customerModel.getCreateDate(),customerModel.getCreatedBy(),
+        CustomersDaoImpl.insertCustomers(customerModel.getCustomerID(), customerModel.getCustomerName(),
+                customerModel.getAddress(), customerModel.getPostalCode(), customerModel.getPhone(),
+                customerModel.getCreateDate(), customerModel.getCreatedBy(),
                 customerModel.getLastUpdate(),
                 customerModel.getLastUpdatedBy(), divisionModel.getDivisionID());
         JDBC.closeConnection();
@@ -472,8 +473,8 @@ public class CustomerRecordController extends Application implements Initializab
 
     private void updateCustomerDatabase() throws SQLException {
         JDBC.openConnection();
-        CustomersDaoImpl.updateCustomers(customerModel.getCustomerID(),customerModel.getCustomerName(),
-                customerModel.getAddress(),customerModel.getPostalCode(),customerModel.getPhone(),
+        CustomersDaoImpl.updateCustomers(customerModel.getCustomerID(), customerModel.getCustomerName(),
+                customerModel.getAddress(), customerModel.getPostalCode(), customerModel.getPhone(),
                 customerModel.getLastUpdate(),
                 customerModel.getLastUpdatedBy(), divisionModel.getDivisionID());
         JDBC.closeConnection();
@@ -481,19 +482,33 @@ public class CustomerRecordController extends Application implements Initializab
 
     private void deleteCustomerDatabase() throws SQLException {
         JDBC.openConnection();
-        CustomersDaoImpl.deleteCustomers(CustomersDaoImpl.getAllCustomers().size());
+        CustomersDaoImpl.deleteCustomers(Integer.parseInt(customerIDTxt.getText()));
         JDBC.closeConnection();
     }
 
     @FXML
     public void onActionCancel(ActionEvent actionEvent) {
         makeTxtBtnsVisible(false);
+        clearAllFields();
     }
 
+    private void clearAllFields() {
+        customerIDTxt.setDisable(false);
+        customerIDTxt.clear();
+        customerNameTxt.clear();
+        phoneNumberTxt.clear();
+        addressTxt.clear();
+        cityTxt.clear();
+        postalCodeTxt.clear();
+        phoneNumberTxt.clear();
+        countryBox.getItems().clear();
+        firstLevelDivisionBox.getItems().clear();
+    }
 
 
     /**
      * This method initializes this Customer Record controller class
+     *
      * @param url
      * @param resourceBundle
      */
@@ -501,7 +516,7 @@ public class CustomerRecordController extends Application implements Initializab
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
-            currentUser= UsersDaoImpl.getUser(FileIOManager.readFile(),FileIOManager.readFile()).get(0);
+            currentUser = UsersDaoImpl.getUser(FileIOManager.readFile(), FileIOManager.readFile()).get(0);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -521,7 +536,7 @@ public class CustomerRecordController extends Application implements Initializab
     }
 
     @Override
-    public void stop() throws Exception{
+    public void stop() throws Exception {
         FileIOManager.deleteCurrentFile();
 
     }

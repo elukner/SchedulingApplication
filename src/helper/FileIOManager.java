@@ -62,7 +62,7 @@ public class FileIOManager {
     }
 
     public static void writeToCurrentFile(String user, int loginAttempts, String date, Timestamp timeStamps, String success ) throws IOException {
-        File file = new File("C:\\Users\\elukn\\IdeaProjects\\SchedulingApplication\\login_activity.txt");
+        File file = new File("login_activity.txt");
         FileWriter fileWriter = new FileWriter(file, true);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         bufferedWriter.write(user+" "+loginAttempts+" "+date+" "+timeStamps+" "+success+"\n");
@@ -73,7 +73,7 @@ public class FileIOManager {
     }
 
     public static void deleteCurrentFile() throws IOException {
-        File file = new File("C:\\Users\\elukn\\IdeaProjects\\SchedulingApplication\\login_activity.txt");
+        File file = new File("login_activity.txt");
         if(file.exists()){
             file.delete();
         }
@@ -81,7 +81,7 @@ public class FileIOManager {
     }
     public static String readFile() throws FileNotFoundException {
         // pass the path to the file as a parameter
-        File file = new File("C:\\Users\\elukn\\IdeaProjects\\SchedulingApplication\\login_activity.txt");
+        File file = new File("login_activity.txt");
         Scanner sc = new Scanner(file);
 
         ArrayList<String> currentActivity = new ArrayList<>();

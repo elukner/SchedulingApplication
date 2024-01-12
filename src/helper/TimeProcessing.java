@@ -46,36 +46,36 @@ public class TimeProcessing {
 
     public static Timestamp createTimeStamp(){
         //Getting the LocalDateTime Objects from String values
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd kk:mm:ss.S");
-        String txtStartTime = "2017-03-29 12:00:00.0";
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd kk:mm:ss.S");
+        String startTimeTxt = dateTimeFormatter.format(LocalDateTime.now());
 
-        LocalDateTime ldtStart = LocalDateTime.parse(txtStartTime, df);
+        LocalDateTime ldtStart = LocalDateTime.parse(startTimeTxt, dateTimeFormatter);
 
 
         //Showing how to parse the Date/Time String
         DateTimeFormatter dFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate localDate = LocalDate.parse(txtStartTime.substring(0, 10), dFormatter);
-        System.out.println("The local date is " + localDate);
+        LocalDate localDate = LocalDate.parse(startTimeTxt.substring(0, 10), dFormatter);
+       // System.out.println("The local date is " + localDate);
 
         DateTimeFormatter tFormatter = DateTimeFormatter.ofPattern("kk:mm:ss.S");
-        LocalTime localTime = LocalTime.parse(txtStartTime.substring(11), tFormatter);
-        System.out.println("The local time is " + localTime);
+        LocalTime localTime = LocalTime.parse(startTimeTxt.substring(11), tFormatter);
+        //System.out.println("The local time is " + localTime);
 
         //Getting the day of the week
-        System.out.println(ldtStart.getDayOfWeek());
+        //System.out.println(ldtStart.getDayOfWeek());
 
         //Convert to a ZonedDate Time in UTC
         ZoneId zid = ZoneId.systemDefault();
 
         ZonedDateTime zdtStart = ldtStart.atZone(zid);
-        System.out.println("Local Time: " + zdtStart);
+        //System.out.println("Local Time: " + zdtStart);
         ZonedDateTime utcStart = zdtStart.withZoneSameInstant(ZoneId.of("UTC"));
-        System.out.println("Zoned time: " + utcStart);
+       // System.out.println("Zoned time: " + utcStart);
         ldtStart = utcStart.toLocalDateTime();
-        System.out.println("Zoned time with zone stripped:" + ldtStart);
+        //System.out.println("Zoned time with zone stripped:" + ldtStart);
         //Create Timestamp values from Instants to update database
         Timestamp startsqlts = Timestamp.valueOf(ldtStart); //this value can be inserted into database
-        System.out.println("Timestamp to be inserted: " +startsqlts);
+        //System.out.println("Timestamp to be inserted: " +startsqlts);
         return startsqlts;
     }
 
