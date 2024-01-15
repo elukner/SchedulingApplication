@@ -156,7 +156,7 @@ public class AppointmentsDaoImpl {
      *                      that was specified by the setQueryTimeout method has been exceeded and
      *                      has at least attempted to cancel the currently running Statement
      */
-    public static int insertAppointments(int appointmentID, String title, String description, String location, String type, String start,
+    public static int insertAppointments(int appointmentID, StringProperty title, String description, String location, String type, String start,
                                          String end, String createdBy, String lastUpdatedBy,
                                          int customerID, int userID, int contactID) throws SQLException {
         String sqlStatement = "INSERT INTO `client_schedule`.`appointments` " +
@@ -168,7 +168,7 @@ public class AppointmentsDaoImpl {
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
         preparedStatement.setInt(1, appointmentID);
-        preparedStatement.setString(2, title);
+        preparedStatement.setString(2, title.getValue());
         preparedStatement.setString(3, description);
         preparedStatement.setString(4, location);
         preparedStatement.setString(5, type);

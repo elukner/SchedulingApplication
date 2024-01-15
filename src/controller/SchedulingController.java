@@ -180,17 +180,59 @@ public class SchedulingController extends Application implements Initializable {
 
     }
 
+
+    /**
+     *
+     * @param event
+     * @throws SQLException
+     */
+    @FXML
+    void onActionAppointment(ActionEvent event) throws SQLException {
+        clearSelectionAndFormFields();
+
+        appointmentIDTxt.setText(Integer.toString(autoGenerateAppointmentID()));
+        appointmentIDTxt.setDisable(true);
+
+        // A contact name is assigned to an appointment using a drop-down menu or combo box.
+        if(!ContactsDaoImpl.getAllContacts().isEmpty()) {
+            for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
+
+                contactNameComboBox.getItems().add(contact.getContactName());
+            }
+        }
+
+    }
+
     /**
      * TODO
      * @param event
      */
     @FXML
-    void onActionAdd(ActionEvent event) {
+    void onActionAdd(ActionEvent event) throws FileNotFoundException, SQLException {
         // TODO  Write code that enables the user to add, update, and delete appointments.
         // TODO When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
         //  contact, type, start date and time, end date and time, Customer_ID, and User_ID.
-        System.out.println("Add button clicked");
 
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
+
+        appointmentsModel = new Appointments(autoGenerateAppointmentID(),(new ReadOnlyStringWrapper(titleTxt.getText())),
+                descriptionTxt.getText(),locationTxt.getText(),typeTxt.getText(),startDateAndTimeTxt.getText(),
+                endDateAndTimeTxt.getText(),dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),
+                dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),Integer.parseInt(customerIDTxt.getText()),
+                Integer.parseInt(userIDTxt.getText()),contactsModel.getContactID());
+        addCustomerDatabase();
+        clearSelectionAndFormFields();
+        showSchedulingTableView();
+
+    }
+
+    private void addCustomerDatabase() throws SQLException {
+        AppointmentsDaoImpl.insertAppointments(appointmentsModel.getAppointmentID(),
+                appointmentsModel.getTitle(),appointmentsModel.getDescription(),appointmentsModel.getLocation(),
+                appointmentsModel.getType(),appointmentsModel.getStart(),appointmentsModel.getEnd(),
+                appointmentsModel.getLastUpdate(), appointmentsModel.getLastUpdatedBy(),
+                appointmentsModel.getCustomerID(), appointmentsModel.getUserID(), appointmentsModel.getContactID());
     }
 
     /**
@@ -254,7 +296,9 @@ public class SchedulingController extends Application implements Initializable {
     @FXML
     void onActionDelete(ActionEvent event) {
         // TODO  Write code that enables the user to add, update, and delete appointments.
-        System.out.println("Delete button clicked");
+
+        setCustomMessage(Alert.AlertType.CONFIRMATION,"Appointment Canceled","A custom message is displayed in the user interface with the Appointment_ID and type of appointment canceled.");
+
     }
 
 
@@ -338,20 +382,27 @@ public class SchedulingController extends Application implements Initializable {
      * TODO
      * @param customMessage
      */
-    void setCustomMessage(String customMessage) {
+    void setCustomMessage(Alert.AlertType alertType, String title, String customMessage) {
         // TODO A custom message is displayed in the user interface with the Appointment_ID and type of appointment canceled.
+
+        Alert a = new Alert(alertType);
+        a.setTitle(title);
+        a.setContentText(customMessage);
+        a.showAndWait();
+
 
     }
 
-    /**
-     * TODO
-     * @param appointmentID
-     */
-    void autoGenerateAppointmentID(int appointmentID) throws SQLException {
-       //Appointments.setAppID();
-       // AppointmentsDaoImpl.selectAppointment(appointmentID);
 
-        // TODO The Appointment_ID is auto-generated and disabled throughout the application.
+    /**
+     * TODO comment
+     * @return
+     * @throws SQLException
+     */
+    private int autoGenerateAppointmentID() throws SQLException {
+
+        // The Appointment_ID is auto-generated and disabled throughout the application.
+        return AppointmentsDaoImpl.getAllAppointments().size()+1;
 
     }
 
