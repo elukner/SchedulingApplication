@@ -229,10 +229,10 @@ public class SchedulingController extends Application implements Initializable {
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
-
+        String endDateAndTime = endDateSelected + " " + endTimeSelected;
         appointmentsModel = new Appointments(autoGenerateAppointmentID(),(new ReadOnlyStringWrapper(titleTxt.getText())),
                 descriptionTxt.getText(),locationTxt.getText(),typeTxt.getText(),startDateAndTimeTxt.getText(),
-                endDateAndTimeTxt.getText(),dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),
+                endDateAndTime,dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),
                 dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),Integer.parseInt(customerIDTxt.getText()),
                 Integer.parseInt(userIDTxt.getText()),contactsModel.getContactID());
         addCustomerDatabase();
