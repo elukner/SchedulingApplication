@@ -10,10 +10,8 @@ package controller;
 
 import dao.*;
 import helper.FileIOManager;
-import helper.JDBC;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +26,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
@@ -39,7 +36,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.logging.Level;
 import javafx.application.Application;
 import model.Contacts;
-import model.FirstLevelDivisions;
 import model.Users;
 
 
@@ -62,6 +58,13 @@ public class SchedulingController extends Application implements Initializable {
 
     @FXML // fx:id="contactNameComboBox"
     private ComboBox<String> contactNameComboBox; // Value injected by FXMLLoader
+
+    @FXML // fx:id="timeComboBox"
+    private ComboBox<String> endTimeComboBox; // Value injected by FXMLLoader
+
+
+    @FXML // fx:id="datePicker"
+    private DatePicker endDatePicker; // Value injected by FXMLLoader
 
     @FXML // fx:id="customerIDCol"
     private TableColumn<?, ?> customerIDCol; // Value injected by FXMLLoader
@@ -130,6 +133,9 @@ public class SchedulingController extends Application implements Initializable {
     private static Appointments selectedAppointments; //new
     private static ObservableList<Appointments> appointmentsList; //new
 
+    private String endTimeSelected;
+    private String endDateSelected;
+
 
     /**
      * TODO the total number of customer appointments by type and month
@@ -193,6 +199,14 @@ public class SchedulingController extends Application implements Initializable {
         appointmentIDTxt.setText(Integer.toString(autoGenerateAppointmentID()));
         appointmentIDTxt.setDisable(true);
 
+        ObservableList<String> time = FXCollections.observableArrayList();
+        time.addAll("00:00:00", "01:00:00", "02:00:00", "03:00:00", "04:00:00", "05:00:00", "06:00:00", "07:00:00",
+                "08:00:00", "09:00:00", "10:00:00", "11:00:00",
+                "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00");
+
+        endTimeComboBox.setItems(time);
+        endTimeComboBox.setEditable(true);
+
         // A contact name is assigned to an appointment using a drop-down menu or combo box.
         if(!ContactsDaoImpl.getAllContacts().isEmpty()) {
             for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
@@ -224,6 +238,7 @@ public class SchedulingController extends Application implements Initializable {
         addCustomerDatabase();
         clearSelectionAndFormFields();
         showSchedulingTableView();
+
 
     }
 
@@ -362,6 +377,21 @@ public class SchedulingController extends Application implements Initializable {
 
 
         appointmentTblView.setItems(appointmentsList);
+
+
+    }
+
+    @FXML
+    void onEndTimeSelected(ActionEvent event) {
+        endTimeSelected = endTimeComboBox.getEditor().getText();
+
+
+    }
+
+    @FXML
+    void onActionEndDate(ActionEvent event) {
+
+        endDateSelected = endDatePicker.getValue().toString();
 
 
     }
