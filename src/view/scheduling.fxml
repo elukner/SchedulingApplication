@@ -51,13 +51,7 @@
                   <TableColumn fx:id="userIDCol" prefWidth="75.0" text="User_ID" />
               </columns>
             </TableView>
-            <MenuButton mnemonicParsing="false" text="Modify">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#onActionAdd" text="Add" />
-                <MenuItem mnemonicParsing="false" onAction="#onActionUpdate" text="Update" />
-                  <MenuItem mnemonicParsing="false" onAction="#onActionDelete" text="Delete" />
-              </items>
-            </MenuButton>
+            <MenuButton mnemonicParsing="false" text="Modify" />
             <GridPane prefHeight="400.0" prefWidth="900.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -100,6 +94,9 @@
             </GridPane>
             <HBox prefHeight="100.0" prefWidth="900.0">
                <children>
+                  <Button mnemonicParsing="false" onAction="#onActionAdd" text="Add" />
+                  <Button mnemonicParsing="false" onAction="#onActionUpdate" text="Update" />
+                  <Button mnemonicParsing="false" onAction="#onActionDelete" text="Delete" />
                   <Button mnemonicParsing="false" onAction="#onActionCancel" text="Cancel" />
                </children>
             </HBox>
