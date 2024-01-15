@@ -117,8 +117,6 @@ public class SchedulingController extends Application implements Initializable {
     @FXML
     private Label customMessageTxt;
 
-    @FXML // fx:id="doneBtn"
-    private Button doneBtn; // Value injected by FXMLLoader
 
     private Stage stage;
     private Parent scene;
@@ -198,7 +196,6 @@ public class SchedulingController extends Application implements Initializable {
 
         //When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
         //  contact, type, start date and time, end date and time, Customer_ID, and User_ID.
-        doneBtn.setText("Update");
         Appointments selectedAppointments = appointmentTblView.getSelectionModel().getSelectedItem();
         //All of the appointment fields can be updated except Appointment_ID, which must be disabled.
         // The Appointment_ID is disabled throughout the application.
@@ -304,6 +301,7 @@ public class SchedulingController extends Application implements Initializable {
         }
         appointmentTblView.setItems(appointmentsList);
 
+
     }
 
     /**
@@ -356,6 +354,7 @@ public class SchedulingController extends Application implements Initializable {
      */
     @FXML
     void onActionCancel(ActionEvent event) {
+        appointmentTblView.getSelectionModel().clearSelection();
         appointmentIDTxt.setDisable(true);
         appointmentIDTxt.clear();
         titleTxt.clear();
@@ -392,6 +391,31 @@ public class SchedulingController extends Application implements Initializable {
 // outside of business hours, your alerts must be robust enough to trigger an appointment within 15 minutes of the
 // local time set on the user’s computer, which may or may not be ET.
 
+private void tbleViewSelectionListener() {
+    appointmentTblView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection)->
+    {if(newSelection !=null) {
+        Appointments selectedAppointments = appointmentTblView.getSelectionModel().getSelectedItem();
+        //All of the appointment fields can be updated except Appointment_ID, which must be disabled.
+        // The Appointment_ID is disabled throughout the application.
+        appointmentIDTxt.setDisable(true);
+        appointmentIDTxt.setText(String.valueOf(selectedAppointments.getAppointmentID()));
+        titleTxt.setText(selectedAppointments.getTitle());
+        descriptionTxt.setText(selectedAppointments.getDescription());
+        locationTxt.setText(selectedAppointments.getLocation());
+        contactsModel = ContactsDaoImpl.getAllContacts().get(selectedAppointments.getContactID() - 1);
+        contactNameComboBox.setValue(contactsModel.getContactName());
+        for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
+
+            contactNameComboBox.getItems().add(contact.getContactName());
+        }
+        typeTxt.setText(selectedAppointments.getType());
+        startDateAndTimeTxt.setText(selectedAppointments.getStart());
+        endDateAndTimeTxt.setText(selectedAppointments.getEnd());
+        customerIDTxt.setText(String.valueOf(selectedAppointments.getCustomerID()));
+        userIDTxt.setText(String.valueOf(selectedAppointments.getUserID()));
+    }
+    });
+}
 
     /**
      * This method initializes this scheduling controller class
@@ -401,7 +425,11 @@ public class SchedulingController extends Application implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showSchedulingTableView();
+        tbleViewSelectionListener();
+
     }
+
+
 
     @Override
     public void start(Stage stage) throws Exception {
