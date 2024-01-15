@@ -357,6 +357,22 @@ public class SchedulingController extends Application implements Initializable {
         stage.show();
     }
 
+    @FXML
+    void onActionCancel(ActionEvent event) {
+        appointmentIDTxt.setDisable(true);
+        appointmentIDTxt.clear();
+        titleTxt.clear();
+        descriptionTxt.clear();
+        locationTxt.clear();
+        contactNameComboBox.getItems().clear();
+        typeTxt.clear();
+        startDateAndTimeTxt.clear();
+        endDateAndTimeTxt.clear();
+        customerIDTxt.clear();
+        userIDTxt.clear();
+
+    }
+
 //c.  Write code that enables the user to adjust appointment times. While the appointment times should be stored in
 // Coordinated Universal Time (UTC), they should be automatically and consistently updated according to the local
 // time zone set on the user’s computer wherever appointments are displayed in the application..Note: There are up to

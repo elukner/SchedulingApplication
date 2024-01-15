@@ -101,7 +101,7 @@
             <HBox prefHeight="100.0" prefWidth="900.0">
                <children>
                   <Button fx:id="doneBtn" mnemonicParsing="false" onAction="#onActionDone" text="Done" />
-                  <Button mnemonicParsing="false" text="Cancel" />
+                  <Button mnemonicParsing="false" onAction="#onActionCancel" text="Cancel" />
                </children>
             </HBox>
             <Label fx:id="customMessageTxt" prefWidth="900.0" />
