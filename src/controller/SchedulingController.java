@@ -204,7 +204,7 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * TODO
+     * TODO startDateAndTimeTxt.getText(),endDateAndTimeTxt.getText()
      * @param event
      */
     @FXML
