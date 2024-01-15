@@ -122,6 +122,7 @@ public class SchedulingController extends Application implements Initializable {
     private Parent scene;
 
     private Contacts contactsModel;
+    private Appointments appointmentsModel;
 
 
     /**
@@ -192,30 +193,13 @@ public class SchedulingController extends Application implements Initializable {
      * @param actionEvent
      */
     @FXML
-    void onActionUpdate(ActionEvent actionEvent) {
+    void onActionUpdate(ActionEvent actionEvent) throws SQLException, FileNotFoundException {
 
         //When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
         //  contact, type, start date and time, end date and time, Customer_ID, and User_ID.
-        Appointments selectedAppointments = appointmentTblView.getSelectionModel().getSelectedItem();
-        //All of the appointment fields can be updated except Appointment_ID, which must be disabled.
-        // The Appointment_ID is disabled throughout the application.
-        appointmentIDTxt.setDisable(true);
-        appointmentIDTxt.setText(String.valueOf(selectedAppointments.getAppointmentID()));
-        titleTxt.setText(selectedAppointments.getTitle());
-        descriptionTxt.setText(selectedAppointments.getDescription());
-        locationTxt.setText(selectedAppointments.getLocation());
-        contactsModel = ContactsDaoImpl.getAllContacts().get(selectedAppointments.getContactID()-1);
-        contactNameComboBox.setValue(contactsModel.getContactName());
-        for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
 
-            contactNameComboBox.getItems().add(contact.getContactName());
-        }
-        typeTxt.setText(selectedAppointments.getType());
-        startDateAndTimeTxt.setText(selectedAppointments.getStart());
-        endDateAndTimeTxt.setText(selectedAppointments.getEnd());
-        customerIDTxt.setText(String.valueOf(selectedAppointments.getCustomerID()));
-        userIDTxt.setText(String.valueOf(selectedAppointments.getUserID()));
-
+        updateCustomerDatabase();
+        onActionCancel(actionEvent);
 
     }
 
