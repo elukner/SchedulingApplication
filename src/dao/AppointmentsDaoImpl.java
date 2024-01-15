@@ -10,6 +10,8 @@ package dao;
  */
 
 import helper.JDBC;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointments;
@@ -55,7 +57,7 @@ public class AppointmentsDaoImpl {
                 customerID = resultSet.getInt("Customer_ID");
                 int userID = resultSet.getInt("User_ID");
                 int contactID = resultSet.getInt("Contact_ID");
-                Appointments appointment = new Appointments(appointmentID, title, description, location, type, start,
+                Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title), description, location, type, start,
                         end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
                 appointmentsList.add(appointment);
             }
@@ -121,7 +123,7 @@ public class AppointmentsDaoImpl {
                 int customerID = resultSet.getInt("Customer_ID");
                 int userID = resultSet.getInt("User_ID");
                 int contactID = resultSet.getInt("Contact_ID");
-                Appointments appointment = new Appointments(appointmentID, title, description, location, type, start,
+                Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title), description, location, type, start,
                         end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
                 appointmentsList.add(appointment);
             }
@@ -290,7 +292,7 @@ public class AppointmentsDaoImpl {
      *                      that was specified by the setQueryTimeout method has been exceeded and
      *                      has at least attempted to cancel the currently running Statement
      */
-    public static int updateAppointment(int appointmentID, String title, String description, String location,String type,
+    public static int updateAppointment(int appointmentID, StringProperty title, String description, String location, String type,
                                         String start,
                                         String end, String lastUpdate, String lastUpdatedBy,
                                         int customerID, int userID, int contactID) throws SQLException {
@@ -301,7 +303,7 @@ public class AppointmentsDaoImpl {
                 "`Customer_ID` = ?, `User_ID` = ?, `Contact_ID` = ? WHERE (`Appointment_ID` = ?)";
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
-        preparedStatement.setString(1, title);
+        preparedStatement.setString(1, title.getValue());
         preparedStatement.setString(2, description);
         preparedStatement.setString(3, location);
         preparedStatement.setString(4, type);

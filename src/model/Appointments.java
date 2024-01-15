@@ -7,7 +7,11 @@ package model;
  * Date: 1/2/2024
  * Time: 1:27 PM
  */
-
+import java.time.LocalDateTime;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 /**
  * This class represents a POJO (Plain Old Java Object) for Appointments retrieved from the client_schedule
  * database Appointments table. This class is utilized for mapping rows obtained from the client_schedule
@@ -16,7 +20,7 @@ package model;
 public class Appointments {
 
     private int appointmentID;
-    private String title;
+    private StringProperty title;
     private String description;
     private String location;
     private String type;
@@ -48,7 +52,7 @@ public class Appointments {
      * @param userID
      * @param contactID
      */
-    public Appointments(int appointmentID, String title, String description, String location, String type, String start,
+    public Appointments(int appointmentID, StringProperty title, String description, String location, String type, String start,
                         String end, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy,
                         int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
@@ -90,7 +94,7 @@ public class Appointments {
      *
      * @return title of appointment
      */
-    public String getTitle() {
+    public StringProperty getTitle() {
         return title;
     }
 
@@ -99,7 +103,7 @@ public class Appointments {
      *
      * @param title of appointment
      */
-    public void setTitle(String title) {
+    public void setTitle(StringProperty title) {
         this.title = title;
     }
 
