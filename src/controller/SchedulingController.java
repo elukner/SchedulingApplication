@@ -204,6 +204,7 @@ public class SchedulingController extends Application implements Initializable {
         Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
         //When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
         //  contact, type, start date and time, end date and time, Customer_ID, and User_ID.
+
         appointmentsModel = appointmentTblView.getSelectionModel().getSelectedItem();
         appointmentsModel.setAppointmentID(Integer.parseInt(appointmentIDTxt.getText()));
         appointmentsModel.setTitle(new ReadOnlyStringWrapper(titleTxt.getText()));
@@ -219,6 +220,7 @@ public class SchedulingController extends Application implements Initializable {
         appointmentsModel.setContactID(contactsModel.getContactID());
         updateCustomerDatabase();
         clearSelectionAndFormFields();
+        showSchedulingTableView();
 
     }
 
@@ -456,20 +458,6 @@ private void tbleViewSelectionListener() {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showSchedulingTableView();
         tbleViewSelectionListener();
-        appointmentTblView.getSelectionModel().getSelectedItems().addListener(new ListChangeListener<Appointments>() {
-
-            @Override
-            public void onChanged(Change<? extends Appointments> change) {
-                while(change.next()) {
-                    if (change.wasUpdated()) {
-                        System.out.println("test");
-
-                    }
-                }
-
-
-            }
-        });
 
     }
 
