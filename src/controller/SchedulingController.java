@@ -249,19 +249,6 @@ public class SchedulingController extends Application implements Initializable {
         System.out.println("Delete button clicked");
     }
 
-    /**
-     *
-     * @param event
-     */
-    @FXML
-    void onActionDone(ActionEvent event) throws SQLException, FileNotFoundException {
-        switch (doneBtn.getText()){
-            case "Update":
-                updateCustomerDatabase();
-
-        }
-
-    }
 
     /**
      * TODO
@@ -349,6 +336,12 @@ public class SchedulingController extends Application implements Initializable {
         // TODO The Appointment_ID is auto-generated and disabled throughout the application.
 
     }
+
+    /**
+     * TODO comment
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void onActionBack(ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -357,6 +350,10 @@ public class SchedulingController extends Application implements Initializable {
         stage.show();
     }
 
+    /**
+     * TODO comment
+     * @param event
+     */
     @FXML
     void onActionCancel(ActionEvent event) {
         appointmentIDTxt.setDisable(true);
