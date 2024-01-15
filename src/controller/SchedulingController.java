@@ -194,13 +194,25 @@ public class SchedulingController extends Application implements Initializable {
      */
     @FXML
     void onActionUpdate(ActionEvent actionEvent) throws SQLException, FileNotFoundException {
-
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
         //When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
         //  contact, type, start date and time, end date and time, Customer_ID, and User_ID.
-
+        appointmentsModel = appointmentTblView.getSelectionModel().getSelectedItem();
+        appointmentsModel.setAppointmentID(Integer.parseInt(appointmentIDTxt.getText()));
+        appointmentsModel.setTitle(titleTxt.getText());
+        appointmentsModel.setDescription(descriptionTxt.getText());
+        appointmentsModel.setLocation(locationTxt.getText());
+        appointmentsModel.setType(typeTxt.getText());
+        appointmentsModel.setStart(startDateAndTimeTxt.getText());
+        appointmentsModel.setEnd(endDateAndTimeTxt.getText());
+        appointmentsModel.setLastUpdate(dateTimeFormatter.format(LocalDateTime.now()));
+        appointmentsModel.setLastUpdatedBy(user.getUserName());
+        appointmentsModel.setCustomerID(Integer.parseInt(customerIDTxt.getText()));
+        appointmentsModel.setUserID(Integer.parseInt(userIDTxt.getText()));
+        appointmentsModel.setContactID(contactsModel.getContactID());
         updateCustomerDatabase();
-        onActionCancel(actionEvent);
-
+        clearSelectionAndFormFields();
     }
 
     /**
@@ -209,14 +221,20 @@ public class SchedulingController extends Application implements Initializable {
      * @throws FileNotFoundException
      */
     private void updateCustomerDatabase() throws SQLException, FileNotFoundException {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
+//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+//        Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
+
         JDBC.openConnection();
-        AppointmentsDaoImpl.updateAppointment(Integer.parseInt(appointmentIDTxt.getText()),
-                titleTxt.getText(),descriptionTxt.getText(),locationTxt.getText(),
-                typeTxt.getText(),startDateAndTimeTxt.getText(),endDateAndTimeTxt.getText(),
-                dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(),
-                Integer.parseInt(customerIDTxt.getText()), Integer.parseInt(userIDTxt.getText()), contactsModel.getContactID());
+//        AppointmentsDaoImpl.updateAppointment(Integer.parseInt(appointmentIDTxt.getText()),
+//                titleTxt.getText(),descriptionTxt.getText(),locationTxt.getText(),
+//                typeTxt.getText(),startDateAndTimeTxt.getText(),endDateAndTimeTxt.getText(),
+//                dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(),
+//                Integer.parseInt(customerIDTxt.getText()), Integer.parseInt(userIDTxt.getText()), contactsModel.getContactID());
+        AppointmentsDaoImpl.updateAppointment(appointmentsModel.getAppointmentID(),
+                appointmentsModel.getTitle(),appointmentsModel.getDescription(),appointmentsModel.getLocation(),
+                appointmentsModel.getType(),appointmentsModel.getStart(),appointmentsModel.getEnd(),
+                appointmentsModel.getLastUpdate(), appointmentsModel.getLastUpdatedBy(),
+                appointmentsModel.getCustomerID(), appointmentsModel.getUserID(), appointmentsModel.getContactID());
         JDBC.closeConnection();
     }
 
@@ -338,6 +356,11 @@ public class SchedulingController extends Application implements Initializable {
      */
     @FXML
     void onActionCancel(ActionEvent event) {
+        clearSelectionAndFormFields();
+
+    }
+
+    private void clearSelectionAndFormFields() {
         appointmentTblView.getSelectionModel().clearSelection();
         appointmentIDTxt.setDisable(true);
         appointmentIDTxt.clear();
@@ -350,7 +373,6 @@ public class SchedulingController extends Application implements Initializable {
         endDateAndTimeTxt.clear();
         customerIDTxt.clear();
         userIDTxt.clear();
-
     }
 
 //c.  Write code that enables the user to adjust appointment times. While the appointment times should be stored in
@@ -379,6 +401,7 @@ private void tbleViewSelectionListener() {
     appointmentTblView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection)->
     {if(newSelection !=null) {
         Appointments selectedAppointments = appointmentTblView.getSelectionModel().getSelectedItem();
+
         //All of the appointment fields can be updated except Appointment_ID, which must be disabled.
         // The Appointment_ID is disabled throughout the application.
         appointmentIDTxt.setDisable(true);

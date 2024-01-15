@@ -292,7 +292,7 @@ public class AppointmentsDaoImpl {
      */
     public static int updateAppointment(int appointmentID, String title, String description, String location,String type,
                                         String start,
-                                        String end, String lastUpdated, String lastUpdatedBy,
+                                        String end, String lastUpdate, String lastUpdatedBy,
                                         int customerID, int userID, int contactID) throws SQLException {
 //        String sqlStatement = "UPDATE `client_schedule`.`appointments` SET `Title` = ? WHERE (`Appointment_ID` = ?)";
 
@@ -307,7 +307,7 @@ public class AppointmentsDaoImpl {
         preparedStatement.setString(4, type);
         preparedStatement.setString(5, start);
         preparedStatement.setString(6, end);
-        preparedStatement.setString(7, lastUpdated);
+        preparedStatement.setString(7, lastUpdate);
         preparedStatement.setString(8, lastUpdatedBy);
         preparedStatement.setInt(9, customerID);
         preparedStatement.setInt(10, userID);
