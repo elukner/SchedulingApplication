@@ -124,6 +124,9 @@ public class SchedulingController extends Application implements Initializable {
     private Contacts contactsModel;
     private Appointments appointmentsModel;
 
+    private static Appointments selectedAppointments; //new
+    private static ObservableList<Appointments> appointmentsList; //new
+
 
     /**
      * TODO the total number of customer appointments by type and month
@@ -279,7 +282,8 @@ public class SchedulingController extends Application implements Initializable {
     @FXML
     void showSchedulingTableView(){
         // TODO
-        ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+        //ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList(); new
+        appointmentsList = FXCollections.observableArrayList();
 
         //Please include each of the following requirements as columns: Appointment_ID, Title, Description, Location,
         // Contact, Type, Start Date and Time, End Date and Time, Customer_ID, User_ID
@@ -400,7 +404,9 @@ public class SchedulingController extends Application implements Initializable {
 private void tbleViewSelectionListener() {
     appointmentTblView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection)->
     {if(newSelection !=null) {
-        Appointments selectedAppointments = appointmentTblView.getSelectionModel().getSelectedItem();
+        //Appointments selectedAppointments = appointmentTblView.getSelectionModel().getSelectedItem(); new
+
+        selectedAppointments = appointmentTblView.getSelectionModel().getSelectedItem();
 
         //All of the appointment fields can be updated except Appointment_ID, which must be disabled.
         // The Appointment_ID is disabled throughout the application.
