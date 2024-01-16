@@ -91,7 +91,6 @@
                      <children>
                         <DatePicker fx:id="endDatePicker" onAction="#onActionEndDate" />
                         <ComboBox fx:id="endTimeComboBox" onAction="#onEndTimeSelected" prefWidth="150.0" />
-                        <TextField fx:id="endDateAndTimeTxt" prefHeight="25.0" prefWidth="163.0" />
                      </children>
                   </HBox>
                   <Label text="Customer_ID" GridPane.rowIndex="8" />

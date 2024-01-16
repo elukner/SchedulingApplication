@@ -81,9 +81,6 @@ public class SchedulingController extends Application implements Initializable {
     @FXML // fx:id="descriptionTxt"
     private TextField descriptionTxt; // Value injected by FXMLLoader
 
-    @FXML // fx:id="endDateAndTimeTxt"
-    private TextField endDateAndTimeTxt; // Value injected by FXMLLoader
-
     @FXML // fx:id="endDateTimeCol"
     private TableColumn<?, ?> endDateTimeCol; // Value injected by FXMLLoader
 
@@ -138,6 +135,7 @@ public class SchedulingController extends Application implements Initializable {
 
     private String endTimeSelected;
     private String endDateSelected;
+
 
 
     /**
@@ -233,12 +231,12 @@ public class SchedulingController extends Application implements Initializable {
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
-        String endDateAndTime = endDateSelected + " " + endTimeSelected;
+
 
 
         appointmentsModel = new Appointments(autoGenerateAppointmentID(),(new ReadOnlyStringWrapper(titleTxt.getText())),
                 descriptionTxt.getText(),locationTxt.getText(),typeTxt.getText(),startDateAndTimeTxt.getText(),
-                endDateAndTime,dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),
+                getEndTime(),dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),
                 dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),Integer.parseInt(customerIDTxt.getText()),
                 Integer.parseInt(userIDTxt.getText()),contactsModel.getContactID());
         addCustomerDatabase();
@@ -246,6 +244,11 @@ public class SchedulingController extends Application implements Initializable {
         showSchedulingTableView();
 
 
+    }
+
+
+    private String getEndTime() {
+        return endDateSelected + " " + endTimeSelected;
     }
 
     private void addCustomerDatabase() throws SQLException {
@@ -275,7 +278,7 @@ public class SchedulingController extends Application implements Initializable {
         appointmentsModel.setLocation(locationTxt.getText());
         appointmentsModel.setType(typeTxt.getText());
         appointmentsModel.setStart(startDateAndTimeTxt.getText());
-        appointmentsModel.setEnd(endDateAndTimeTxt.getText());
+        appointmentsModel.setEnd(getEndTime());
         appointmentsModel.setLastUpdate(dateTimeFormatter.format(LocalDateTime.now()));
         appointmentsModel.setLastUpdatedBy(user.getUserName());
         appointmentsModel.setCustomerID(Integer.parseInt(customerIDTxt.getText()));
@@ -475,7 +478,8 @@ public class SchedulingController extends Application implements Initializable {
         contactNameComboBox.getItems().clear();
         typeTxt.clear();
         startDateAndTimeTxt.clear();
-        endDateAndTimeTxt.clear();
+        endDatePicker.getEditor().clear();
+        endTimeComboBox.getItems().clear();
         customerIDTxt.clear();
         userIDTxt.clear();
     }
@@ -542,7 +546,7 @@ private void tbleViewSelectionListener() {
         endTimeComboBox.setEditable(true);
         endDatePicker.setValue(DateProcessing.getDate(selectedAppointments.getEnd()));
 
-        endDateAndTimeTxt.setText(selectedAppointments.getEnd());
+
         customerIDTxt.setText(String.valueOf(selectedAppointments.getCustomerID()));
         userIDTxt.setText(String.valueOf(selectedAppointments.getUserID()));
     }
