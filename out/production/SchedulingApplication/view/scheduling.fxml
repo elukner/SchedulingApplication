@@ -89,7 +89,6 @@
                      <children>
                         <DatePicker fx:id="startDatePicker" onAction="#onActionStartDate" />
                         <ComboBox fx:id="startTimeComboBox" onAction="#onStartTimeSelected" prefWidth="150.0" />
-                        <TextField fx:id="startDateAndTimeTxt" />
                      </children>
                   </HBox>
                   <Label text="End Date and Time" GridPane.rowIndex="7" />

@@ -1,6 +1,7 @@
 package test;
 
 import helper.DateProcessing;
+import helper.DateTimeProcessing;
 import helper.TimeProcessing;
 import org.junit.jupiter.api.Test;
 import helper.FileIOManager;
@@ -36,6 +37,24 @@ public class HelperTest {
     @Test
     public void testGetTime() {
         System.out.println(TimeProcessing.getTime("2020-05-29 12:00:09"));
+
+    }
+
+    @Test
+    public void testGetCurrentLocalDateTimeString() {
+        System.out.println(DateTimeProcessing.getCurrentLocalDateTimeString());
+
+    }
+
+    @Test
+    public void testGetFormatedTime() {
+        System.out.println(DateProcessing.getFormatedDate("1/17/2024").toString());
+
+    }
+
+    @Test
+    public void testGetFormatedDate() {
+        System.out.println(DateTimeProcessing.getCurrentLocalDateTimeString());
 
     }
 }

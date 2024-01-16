@@ -80,6 +80,7 @@ public class TimeProcessing {
         //System.out.println("Timestamp to be inserted: " +startsqlts);
         return startsqlts;
     }
+
     public static LocalTime getTime(String dateTime){
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 //        DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss")
@@ -100,6 +101,19 @@ public class TimeProcessing {
         }
 
         return (time) +":00";
+    }
+
+    public static LocalTime getFormatedTime(String dateTime){
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+//        DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss")
+//                .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
+//                .toFormatter();
+        LocalTime localTime = LocalTime.parse(dateTime, timeFormatter);
+        //System.out.println("The local time is " + localTime);
+
+        //Getting the day of the week
+        //System.out.println(ldtStart.getDayOfWeek());
+        return localTime;
     }
 
 }

@@ -10,6 +10,7 @@ package controller;
 
 import dao.*;
 import helper.DateProcessing;
+import helper.DateTimeProcessing;
 import helper.FileIOManager;
 import helper.TimeProcessing;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -26,8 +27,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -101,9 +102,6 @@ public class SchedulingController extends Application implements Initializable {
 
     @FXML // fx:id="locationTxt"
     private TextField locationTxt; // Value injected by FXMLLoader
-
-    @FXML // fx:id="startDateAndTimeTxt"
-    private TextField startDateAndTimeTxt; // Value injected by FXMLLoader
 
     @FXML // fx:id="startDateTimeCol"
     private TableColumn<?, ?> startDateTimeCol; // Value injected by FXMLLoader
@@ -209,14 +207,11 @@ public class SchedulingController extends Application implements Initializable {
         appointmentIDTxt.setText(Integer.toString(autoGenerateAppointmentID()));
         appointmentIDTxt.setDisable(true);
 
-        //populating end time combo box with default values
-        ObservableList<String> time = FXCollections.observableArrayList();
-        time.addAll("00:00:00", "01:00:00", "02:00:00", "03:00:00", "04:00:00", "05:00:00", "06:00:00", "07:00:00",
-                "08:00:00", "09:00:00", "10:00:00", "11:00:00",
-                "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00");
 
-        endTimeComboBox.setItems(time);
-        endTimeComboBox.setEditable(true);
+        //populating start and end date/time combo box and date picker with default values
+        populateStartAndEndDateTime(null,null,null,null);
+
+
 
         // A contact name is assigned to an appointment using a drop-down menu or combo box.
         if(!ContactsDaoImpl.getAllContacts().isEmpty()) {
@@ -244,8 +239,8 @@ public class SchedulingController extends Application implements Initializable {
 
 
         appointmentsModel = new Appointments(autoGenerateAppointmentID(),(new ReadOnlyStringWrapper(titleTxt.getText())),
-                descriptionTxt.getText(),locationTxt.getText(),typeTxt.getText(),startDateAndTimeTxt.getText(),
-                getEndTime(),dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),
+                descriptionTxt.getText(),locationTxt.getText(),typeTxt.getText(),getStartDateTimeSelected(),
+                getEndDateTimeSelected(),dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),
                 dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),Integer.parseInt(customerIDTxt.getText()),
                 Integer.parseInt(userIDTxt.getText()),contactsModel.getContactID());
         addCustomerDatabase();
@@ -255,9 +250,18 @@ public class SchedulingController extends Application implements Initializable {
 
     }
 
+    private String getStartDateTimeSelected() {
+        if(startDateSelected!=null && startTimeSelected!=null){
+            return startDateSelected + " " + startTimeSelected;
+        }
+        return startDatePicker.getEditor().getText() + " " + startTimeComboBox.getEditor().getText();
+    }
 
-    private String getEndTime() {
-        return endDateSelected + " " + endTimeSelected;
+    private String getEndDateTimeSelected() {
+        if(endDateSelected!=null && endTimeSelected!=null){
+            return endDateSelected + " " + endTimeSelected;
+        }
+        return endDatePicker.getEditor().getText() + " " + endTimeComboBox.getEditor().getText();
     }
 
     private void addCustomerDatabase() throws SQLException {
@@ -275,20 +279,19 @@ public class SchedulingController extends Application implements Initializable {
      */
     @FXML
     void onActionUpdate(ActionEvent actionEvent) throws SQLException, FileNotFoundException {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
         Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
         //When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
         //  contact, type, start date and time, end date and time, Customer_ID, and User_ID.
-
         appointmentsModel = appointmentTblView.getSelectionModel().getSelectedItem();
         appointmentsModel.setAppointmentID(Integer.parseInt(appointmentIDTxt.getText()));
         appointmentsModel.setTitle(new ReadOnlyStringWrapper(titleTxt.getText()));
         appointmentsModel.setDescription(descriptionTxt.getText());
         appointmentsModel.setLocation(locationTxt.getText());
         appointmentsModel.setType(typeTxt.getText());
-        appointmentsModel.setStart(startDateAndTimeTxt.getText());
-        appointmentsModel.setEnd(getEndTime());
-        appointmentsModel.setLastUpdate(dateTimeFormatter.format(LocalDateTime.now()));
+        appointmentsModel.setStart(getStartDateTimeSelected());
+        appointmentsModel.setEnd(getEndDateTimeSelected());
+        appointmentsModel.setLastUpdate(DateTimeProcessing.getCurrentLocalDateTimeString());
         appointmentsModel.setLastUpdatedBy(user.getUserName());
         appointmentsModel.setCustomerID(Integer.parseInt(customerIDTxt.getText()));
         appointmentsModel.setUserID(Integer.parseInt(userIDTxt.getText()));
@@ -415,18 +418,13 @@ public class SchedulingController extends Application implements Initializable {
 
     @FXML
     void onActionStartDate(ActionEvent event) {
-
         startDateSelected = startDatePicker.getValue().toString();
-
 
     }
 
     @FXML
     void onActionEndDate(ActionEvent event) {
-
         endDateSelected = endDatePicker.getValue().toString();
-
-
     }
     /**
      * A contact name is assigned to an appointment using a drop-down menu or combo box.
@@ -500,8 +498,9 @@ public class SchedulingController extends Application implements Initializable {
         locationTxt.clear();
         contactNameComboBox.getItems().clear();
         typeTxt.clear();
-        startDateAndTimeTxt.clear();
-        endDatePicker.setValue(null);
+        startDatePicker.getEditor().clear();
+        startTimeComboBox.getItems().clear();
+        endDatePicker.getEditor().clear();
         endTimeComboBox.getItems().clear();
         customerIDTxt.clear();
         userIDTxt.clear();
@@ -555,19 +554,14 @@ private void tbleViewSelectionListener() {
         }
 
         typeTxt.setText(selectedAppointments.getType());
-        startDateAndTimeTxt.setText(selectedAppointments.getStart());
 
 
-        //populating end time combo box with default values
-        ObservableList<String> time = FXCollections.observableArrayList();
-        time.addAll("00:00:00", "01:00:00", "02:00:00", "03:00:00", "04:00:00", "05:00:00", "06:00:00", "07:00:00",
-                "08:00:00", "09:00:00", "10:00:00", "11:00:00",
-                "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00");
 
-        endTimeComboBox.setItems(time);
-        endTimeComboBox.setValue(TimeProcessing.getCorrectTimeSeconds(TimeProcessing.getTime(selectedAppointments.getEnd())));
-        endTimeComboBox.setEditable(true);
-        endDatePicker.setValue(DateProcessing.getDate(selectedAppointments.getEnd()));
+    //populating start and end date/time combo box and date picker with selected values
+        populateStartAndEndDateTime(TimeProcessing.getCorrectTimeSeconds(TimeProcessing.getTime(selectedAppointments.getStart())),
+                DateProcessing.getDate(selectedAppointments.getStart()),
+                TimeProcessing.getCorrectTimeSeconds(TimeProcessing.getTime(selectedAppointments.getEnd())),
+                DateProcessing.getDate(selectedAppointments.getEnd()));
 
 
         customerIDTxt.setText(String.valueOf(selectedAppointments.getCustomerID()));
@@ -575,6 +569,38 @@ private void tbleViewSelectionListener() {
     }
     });
 }
+
+    /**
+     * populating start and end date/time combo box and date picker
+     * @param startTime
+     * @param startDate
+     * @param endTime
+     * @param endDate
+     */
+    private void populateStartAndEndDateTime(String startTime, LocalDate startDate,String endTime, LocalDate endDate) {
+        ObservableList<String> time = FXCollections.observableArrayList();
+        time.addAll("00:00:00", "01:00:00", "02:00:00", "03:00:00", "04:00:00", "05:00:00", "06:00:00", "07:00:00",
+                "08:00:00", "09:00:00", "10:00:00", "11:00:00",
+                "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00");
+
+        if(startTime!=null && startDate!=null && endTime!=null && endDate!=null){
+            startTimeComboBox.setItems(time);
+            startTimeComboBox.setValue(startTime);
+            startTimeComboBox.setEditable(true);
+            startDatePicker.getEditor().setText(startDate.toString());
+            endTimeComboBox.setItems(time);
+            endTimeComboBox.setValue(endTime);
+            endTimeComboBox.setEditable(true);
+            endDatePicker.getEditor().setText(endDate.toString());
+
+        }else {
+            startTimeComboBox.setItems(time);
+            startTimeComboBox.setEditable(true);
+            endTimeComboBox.setItems(time);
+            endTimeComboBox.setEditable(true);
+        }
+
+    }
 
     /**
      * This method initializes this scheduling controller class
