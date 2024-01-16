@@ -9,7 +9,9 @@ package controller;
  */
 
 import dao.*;
+import helper.DateProcessing;
 import helper.FileIOManager;
+import helper.TimeProcessing;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -228,9 +231,11 @@ public class SchedulingController extends Application implements Initializable {
         // TODO When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
         //  contact, type, start date and time, end date and time, Customer_ID, and User_ID.
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
         String endDateAndTime = endDateSelected + " " + endTimeSelected;
+
+
         appointmentsModel = new Appointments(autoGenerateAppointmentID(),(new ReadOnlyStringWrapper(titleTxt.getText())),
                 descriptionTxt.getText(),locationTxt.getText(),typeTxt.getText(),startDateAndTimeTxt.getText(),
                 endDateAndTime,dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),
@@ -258,7 +263,7 @@ public class SchedulingController extends Application implements Initializable {
      */
     @FXML
     void onActionUpdate(ActionEvent actionEvent) throws SQLException, FileNotFoundException {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
         //When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
         //  contact, type, start date and time, end date and time, Customer_ID, and User_ID.
@@ -525,7 +530,7 @@ private void tbleViewSelectionListener() {
         typeTxt.setText(selectedAppointments.getType());
         startDateAndTimeTxt.setText(selectedAppointments.getStart());
 
-        //HERE
+
         //populating end time combo box with default values
         ObservableList<String> time = FXCollections.observableArrayList();
         time.addAll("00:00:00", "01:00:00", "02:00:00", "03:00:00", "04:00:00", "05:00:00", "06:00:00", "07:00:00",
@@ -533,7 +538,9 @@ private void tbleViewSelectionListener() {
                 "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00");
 
         endTimeComboBox.setItems(time);
+        endTimeComboBox.setValue(TimeProcessing.getCorrectTimeSeconds(TimeProcessing.getTime(selectedAppointments.getEnd())));
         endTimeComboBox.setEditable(true);
+        endDatePicker.setValue(DateProcessing.getDate(selectedAppointments.getEnd()));
 
         endDateAndTimeTxt.setText(selectedAppointments.getEnd());
         customerIDTxt.setText(String.valueOf(selectedAppointments.getCustomerID()));

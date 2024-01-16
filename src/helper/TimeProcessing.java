@@ -2,6 +2,8 @@ package helper;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 
 /**
  * Project: SchedulingApplication
@@ -78,6 +80,26 @@ public class TimeProcessing {
         //System.out.println("Timestamp to be inserted: " +startsqlts);
         return startsqlts;
     }
+    public static LocalTime getTime(String dateTime){
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+//        DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss")
+//                .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
+//                .toFormatter();
+        LocalTime localTime = LocalTime.parse(dateTime.substring(11), timeFormatter);
+        //System.out.println("The local time is " + localTime);
 
+        //Getting the day of the week
+        //System.out.println(ldtStart.getDayOfWeek());
+        return localTime;
+    }
+
+    public static String getCorrectTimeSeconds(LocalTime time){
+
+        if(time.getSecond()!=0){
+            return time.toString();
+        }
+
+        return (time) +":00";
+    }
 
 }

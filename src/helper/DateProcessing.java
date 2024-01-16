@@ -41,4 +41,17 @@ public class DateProcessing {
         //System.out.println(ldtStart.getDayOfWeek());
         return ldtStart.getMonth().toString();
     }
+
+    public static LocalDate getDate(String dateTime){
+
+        //Showing how to parse the Date/Time String
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(dateTime.substring(0, 10), dateTimeFormatter);
+        // System.out.println("The local date is " + localDate);
+
+
+        //Getting the day of the week
+        //System.out.println(ldtStart.getDayOfWeek());
+        return localDate;
+    }
 }
