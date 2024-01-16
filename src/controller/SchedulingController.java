@@ -330,13 +330,22 @@ public class SchedulingController extends Application implements Initializable {
      * @param event
      */
     @FXML
-    void onActionDelete(ActionEvent event) {
+    void onActionDelete(ActionEvent event) throws SQLException, FileNotFoundException {
         // TODO  Write code that enables the user to add, update, and delete appointments.
 
-        setCustomMessage(Alert.AlertType.CONFIRMATION,"Appointment Canceled","A custom message is displayed in the user interface with the Appointment_ID and type of appointment canceled.");
-
+        //setCustomMessage(Alert.AlertType.CONFIRMATION,"Appointment Canceled","A custom message is displayed in the user interface with the Appointment_ID and type of appointment canceled.");
+        appointmentsModel = appointmentTblView.getSelectionModel().getSelectedItem();
+        appointmentsModel.setAppointmentID(Integer.parseInt(appointmentIDTxt.getText()));
+        deleteCustomerDatabase();
+        clearSelectionAndFormFields();
+        showSchedulingTableView();
     }
 
+    private void deleteCustomerDatabase() throws SQLException, FileNotFoundException {
+
+        AppointmentsDaoImpl.deleteAppointment(appointmentsModel.getAppointmentID());
+
+    }
 
     /**
      * TODO
