@@ -69,6 +69,12 @@ public class SchedulingController extends Application implements Initializable {
     @FXML // fx:id="datePicker"
     private DatePicker endDatePicker; // Value injected by FXMLLoader
 
+    @FXML // fx:id="startDatePicker"
+    private DatePicker startDatePicker; // Value injected by FXMLLoader
+
+    @FXML // fx:id="startTimeComboBox"
+    private ComboBox<String> startTimeComboBox; // Value injected by FXMLLoader
+
     @FXML // fx:id="customerIDCol"
     private TableColumn<?, ?> customerIDCol; // Value injected by FXMLLoader
 
@@ -135,6 +141,9 @@ public class SchedulingController extends Application implements Initializable {
 
     private String endTimeSelected;
     private String endDateSelected;
+
+    private String startTimeSelected;
+    private String startDateSelected;
 
 
 
@@ -390,9 +399,24 @@ public class SchedulingController extends Application implements Initializable {
 
     }
 
+
+    @FXML
+    void onStartTimeSelected(ActionEvent event) {
+        startTimeSelected = startTimeComboBox.getEditor().getText();
+
+    }
+
     @FXML
     void onEndTimeSelected(ActionEvent event) {
         endTimeSelected = endTimeComboBox.getEditor().getText();
+
+
+    }
+
+    @FXML
+    void onActionStartDate(ActionEvent event) {
+
+        startDateSelected = startDatePicker.getValue().toString();
 
 
     }
@@ -404,7 +428,6 @@ public class SchedulingController extends Application implements Initializable {
 
 
     }
-
     /**
      * A contact name is assigned to an appointment using a drop-down menu or combo box.
      * @param actionEvent
@@ -478,7 +501,7 @@ public class SchedulingController extends Application implements Initializable {
         contactNameComboBox.getItems().clear();
         typeTxt.clear();
         startDateAndTimeTxt.clear();
-        endDatePicker.getEditor().clear();
+        endDatePicker.setValue(null);
         endTimeComboBox.getItems().clear();
         customerIDTxt.clear();
         userIDTxt.clear();
