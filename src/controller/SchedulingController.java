@@ -199,6 +199,7 @@ public class SchedulingController extends Application implements Initializable {
         appointmentIDTxt.setText(Integer.toString(autoGenerateAppointmentID()));
         appointmentIDTxt.setDisable(true);
 
+        //populating end time combo box with default values
         ObservableList<String> time = FXCollections.observableArrayList();
         time.addAll("00:00:00", "01:00:00", "02:00:00", "03:00:00", "04:00:00", "05:00:00", "06:00:00", "07:00:00",
                 "08:00:00", "09:00:00", "10:00:00", "11:00:00",
@@ -246,7 +247,7 @@ public class SchedulingController extends Application implements Initializable {
         AppointmentsDaoImpl.insertAppointments(appointmentsModel.getAppointmentID(),
                 appointmentsModel.getTitle(),appointmentsModel.getDescription(),appointmentsModel.getLocation(),
                 appointmentsModel.getType(),appointmentsModel.getStart(),appointmentsModel.getEnd(),
-                appointmentsModel.getLastUpdate(), appointmentsModel.getLastUpdatedBy(),
+                appointmentsModel.getCreatedBy(), appointmentsModel.getLastUpdatedBy(),
                 appointmentsModel.getCustomerID(), appointmentsModel.getUserID(), appointmentsModel.getContactID());
     }
 
@@ -354,8 +355,8 @@ public class SchedulingController extends Application implements Initializable {
         // Contact, Type, Start Date and Time, End Date and Time, Customer_ID, User_ID
         appointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
        // titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-        titleCol.setCellValueFactory(cellData -> {
-            return cellData.getValue().getTitle();
+        titleCol.setCellValueFactory(cellDataFeatures -> {
+            return cellDataFeatures.getValue().getTitle();
         });
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
@@ -523,6 +524,17 @@ private void tbleViewSelectionListener() {
 
         typeTxt.setText(selectedAppointments.getType());
         startDateAndTimeTxt.setText(selectedAppointments.getStart());
+
+        //HERE
+        //populating end time combo box with default values
+        ObservableList<String> time = FXCollections.observableArrayList();
+        time.addAll("00:00:00", "01:00:00", "02:00:00", "03:00:00", "04:00:00", "05:00:00", "06:00:00", "07:00:00",
+                "08:00:00", "09:00:00", "10:00:00", "11:00:00",
+                "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00");
+
+        endTimeComboBox.setItems(time);
+        endTimeComboBox.setEditable(true);
+
         endDateAndTimeTxt.setText(selectedAppointments.getEnd());
         customerIDTxt.setText(String.valueOf(selectedAppointments.getCustomerID()));
         userIDTxt.setText(String.valueOf(selectedAppointments.getUserID()));
