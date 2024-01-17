@@ -57,4 +57,22 @@ public class HelperTest {
         System.out.println(DateTimeProcessing.getCurrentLocalDateTimeString());
 
     }
+
+    @Test
+    public void testConvertTimeToUTCThenLocal() {
+        System.out.println(DateTimeProcessing.convertTimeToUTCThenLocal("2024-01-17 12:00:00"));
+
+    }
+    @Test
+    public void testConvertTimeToLocalThenUTC() {
+        System.out.println(DateTimeProcessing.convertTimeToLocalThenUTC("2024-01-17 04:00:00"));
+
+    }
+
+    @Test
+    public void testConvertTimeToUTCThenLocalt() {
+        System.out.println(DateTimeProcessing.convertTimeToUTCThenLocal());
+
+    }
+
 }

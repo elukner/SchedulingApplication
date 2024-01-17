@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import model.Appointments;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.logging.Level;
@@ -252,16 +253,33 @@ public class SchedulingController extends Application implements Initializable {
 
     private String getStartDateTimeSelected() {
         if(startDateSelected!=null && startTimeSelected!=null){
-            return startDateSelected + " " + startTimeSelected;
+            return DateTimeProcessing.convertTimeToLocalThenUTC(startDateSelected + " " + startTimeSelected);
         }
-        return startDatePicker.getEditor().getText() + " " + startTimeComboBox.getEditor().getText();
+        return DateTimeProcessing.convertTimeToLocalThenUTC(startDatePicker.getEditor().getText() + " " + startTimeComboBox.getEditor().getText());
     }
 
+    /**
+     * Getter and While the appointment times should be stored in Coordinated Universal Time (UTC),
+     * @return
+     */
     private String getEndDateTimeSelected() {
-        if(endDateSelected!=null && endTimeSelected!=null){
-            return endDateSelected + " " + endTimeSelected;
-        }
-        return endDatePicker.getEditor().getText() + " " + endTimeComboBox.getEditor().getText();
+//        if(endDateSelected!=null && endTimeSelected!=null ){
+//            return DateTimeProcessing.convertTimeToLocalThenUTC(endDateSelected + " " + endTimeSelected);
+//        }
+//        if(endDateSelected!=null && endTimeSelected==null ){
+//            return DateTimeProcessing.convertTimeToLocalThenUTC(endDateSelected + " " + endTimeComboBox.getEditor().getText());
+//        }
+//        if(endDateSelected==null && endTimeSelected!=null ){
+//            return DateTimeProcessing.convertTimeToLocalThenUTC(endDatePicker.getEditor().getText() + " " + endTimeSelected);
+//        }
+//        if(endDateSelected==null && endTimeSelected==null ){
+//            return DateTimeProcessing.convertTimeToLocalThenUTC(endDatePicker.getEditor().getText() + " " + endTimeComboBox.getEditor().getText());
+//        }
+        //return DateTimeProcessing.convertTimeToLocalThenUTC(endDatePicker.getEditor().getText() + " " + endTimeComboBox.getEditor().getText());
+
+
+        return DateTimeProcessing.convertTimeToLocalThenUTC(endDateSelected + " " + endTimeSelected);
+
     }
 
     private void addCustomerDatabase() throws SQLException {
@@ -317,6 +335,7 @@ public class SchedulingController extends Application implements Initializable {
 //                typeTxt.getText(),startDateAndTimeTxt.getText(),endDateAndTimeTxt.getText(),
 //                dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(),
 //                Integer.parseInt(customerIDTxt.getText()), Integer.parseInt(userIDTxt.getText()), contactsModel.getContactID());
+        System.out.println("This is starttime sent to database: "+appointmentsModel.getStart());
         AppointmentsDaoImpl.updateAppointment(appointmentsModel.getAppointmentID(),
                 appointmentsModel.getTitle(),appointmentsModel.getDescription(),appointmentsModel.getLocation(),
                 appointmentsModel.getType(),appointmentsModel.getStart(),appointmentsModel.getEnd(),
@@ -326,7 +345,7 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * TODO
+     * Write code that enables the user to delete appointments.
      * @param event
      */
     @FXML
@@ -341,6 +360,11 @@ public class SchedulingController extends Application implements Initializable {
         showSchedulingTableView();
     }
 
+    /**
+     *
+     * @throws SQLException
+     * @throws FileNotFoundException
+     */
     private void deleteCustomerDatabase() throws SQLException, FileNotFoundException {
 
         AppointmentsDaoImpl.deleteAppointment(appointmentsModel.getAppointmentID());
@@ -399,7 +423,7 @@ public class SchedulingController extends Application implements Initializable {
 
 
         try {
-            appointmentsList.addAll(AppointmentsDaoImpl.getAllAppointments());
+            appointmentsList.addAll(AppointmentsDaoImpl.getAllAppointmentsLocalDateTime());
 
         } catch (Exception ex) {
             Logger.getLogger(SchedulingController.class.getName()).log(Level.SEVERE, null, ex);
@@ -427,14 +451,39 @@ public class SchedulingController extends Application implements Initializable {
 
     @FXML
     void onActionStartDate(ActionEvent event) {
+        datePickerStringConverter(startDatePicker);
         startDateSelected = startDatePicker.getValue().toString();
 
     }
 
     @FXML
     void onActionEndDate(ActionEvent event) {
+        datePickerStringConverter(endDatePicker);
         endDateSelected = endDatePicker.getValue().toString();
     }
+
+    private void datePickerStringConverter(DatePicker datePicker) {
+        datePicker.setConverter(new StringConverter<LocalDate>() {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            @Override public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateTimeFormatter.format(date);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override public LocalDate fromString(String dateString) {
+                if (dateString != null && !dateString.isEmpty()) {
+                    return LocalDate.parse(dateString, dateTimeFormatter);
+                } else {
+                    return null;
+                }
+            }
+        });
+    }
+
     /**
      * A contact name is assigned to an appointment using a drop-down menu or combo box.
      * @param actionEvent
@@ -515,12 +564,6 @@ public class SchedulingController extends Application implements Initializable {
         userIDTxt.clear();
     }
 
-//c.  Write code that enables the user to adjust appointment times. While the appointment times should be stored in
-// Coordinated Universal Time (UTC), they should be automatically and consistently updated according to the local
-// time zone set on the user’s computer wherever appointments are displayed in the application..Note: There are up to
-// three time zones in effect. Coordinated Universal Time (UTC) is used for storing the time in the database,
-// the user’s local time is used for display purposes, and Eastern Time (ET) is used for the company’s office hours.
-// Local time will be checked against ET business hours before they are stored in the database as UTC.
 
 
 // d.  Write code to implement input validation and logical error checks to prevent each of the following changes when

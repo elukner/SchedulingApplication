@@ -9,6 +9,7 @@ package dao;
  * Time: 1:27 PM
  */
 
+import helper.DateTimeProcessing;
 import helper.JDBC;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.StringProperty;
@@ -94,6 +95,44 @@ public class AppointmentsDaoImpl {
         return appointmentsList;
     }
 
+    /**
+     * This method retrieves a list of appointments from the appointments table in the client_schedule database.
+     *
+     * @return appointmentsList a list of appointments
+     */
+    public static ObservableList<Appointments> getAllAppointmentsLocalDateTime() {
+        ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+        try {
+            String sqlStatement = "SELECT * FROM client_schedule.appointments";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int appointmentID = resultSet.getInt("Appointment_ID");
+                String title = resultSet.getString("Title");
+                String description = resultSet.getString("Description");
+                String location = resultSet.getString("Location");
+                String type = resultSet.getString("Type");
+                String start = resultSet.getString("Start");
+                String end = resultSet.getString("End");
+                String createDate = resultSet.getString("Create_Date");
+                String createdBy = resultSet.getString("Created_By");
+                String lastUpdate = resultSet.getString("Last_Update");
+                String lastUpdatedBy = resultSet.getString("Last_Updated_By");
+                int customerID = resultSet.getInt("Customer_ID");
+                int userID = resultSet.getInt("User_ID");
+                int contactID = resultSet.getInt("Contact_ID");
+                Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title),
+                        description, location, type, DateTimeProcessing.convertTimeToUTCThenLocal(start),
+                        DateTimeProcessing.convertTimeToUTCThenLocal(end), createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+                appointmentsList.add(appointment);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return appointmentsList;
+    }
 
     /**
      * This method retrieves a list of appointments from the appointments table in the client_schedule database.
