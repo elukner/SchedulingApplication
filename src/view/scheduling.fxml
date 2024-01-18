@@ -20,13 +20,14 @@
       <VBox prefHeight="600.0" prefWidth="900.0">
          <children>
             <Button mnemonicParsing="false" onAction="#onActionBack" text="Back" />
-            <HBox prefHeight="100.0" prefWidth="900.0">
+            <HBox prefHeight="100.0" prefWidth="900.0" spacing="10.0">
                <children>
                   <Label text="View appointment schedules by:" />
-                  <RadioButton fx:id="filterAppointmentMonthRBtn" mnemonicParsing="false" onAction="#onActionFilterAppointmentMonthRBtn" text="Month">
+                  <RadioButton mnemonicParsing="false" onAction="#onActionFilterAllAppointment" text="All Appointments">
                      <toggleGroup>
                         <ToggleGroup fx:id="appViewTG" />
                      </toggleGroup></RadioButton>
+                  <RadioButton fx:id="filterAppointmentMonthRBtn" mnemonicParsing="false" onAction="#onActionFilterAppointmentMonthRBtn" text="Month" toggleGroup="$appViewTG" />
                   <RadioButton fx:id="filterAppointmentWeekRBtn" mnemonicParsing="false" onAction="#onActionFilterAppointmentWeekRBtn" text="Week" toggleGroup="$appViewTG" />
                </children>
             </HBox>

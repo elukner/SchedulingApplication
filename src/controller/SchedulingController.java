@@ -30,6 +30,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
@@ -324,6 +325,13 @@ public class SchedulingController extends Application implements Initializable {
 
     }
 
+
+    @FXML
+    void onActionFilterAllAppointment(ActionEvent event) {
+        //TODO Write code that enables the user to view appointment
+        showSchedulingTableView();
+    }
+
     /**
      * TODO
      * @param actionEvent
@@ -332,8 +340,21 @@ public class SchedulingController extends Application implements Initializable {
     void onActionFilterAppointmentMonthRBtn(ActionEvent actionEvent) {
         //TODO Write code that enables the user to view appointment schedules by month and week using a TableView and
         // allows the user to choose between these two options using tabs or radio buttons for filtering appointments.
+        // TODO
+        //ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList(); new
+        appointmentsList.clear();
 
-        System.out.println("Month button clicked");
+        try {
+            appointmentsList.addAll(AppointmentsDaoImpl.getAllAppointmentsByMonth());
+
+        } catch (Exception ex) {
+            Logger.getLogger(SchedulingController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+
+        appointmentTblView.setItems(appointmentsList);
+
     }
 
     /**
@@ -345,7 +366,19 @@ public class SchedulingController extends Application implements Initializable {
         //TODO Write code that enables the user to view appointment schedules by month and week using a TableView and
         // allows the user to choose between these two options using tabs or radio buttons for filtering appointments.
 
-        System.out.println("Week button clicked");
+        //ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList(); new
+        appointmentsList.clear();
+
+        try {
+            appointmentsList.addAll(AppointmentsDaoImpl.getAllAppointmentsByWeek());
+
+        } catch (Exception ex) {
+            Logger.getLogger(SchedulingController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+
+        appointmentTblView.setItems(appointmentsList);
     }
 
     /**
