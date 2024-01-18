@@ -23,7 +23,7 @@
             <HBox prefHeight="100.0" prefWidth="900.0" spacing="10.0">
                <children>
                   <Label text="View appointment schedules by:" />
-                  <RadioButton mnemonicParsing="false" onAction="#onActionFilterAllAppointment" text="All Appointments">
+                  <RadioButton fx:id="filterAllAppointmentRBtn" mnemonicParsing="false" onAction="#onActionFilterAllAppointment" text="All Appointments">
                      <toggleGroup>
                         <ToggleGroup fx:id="appViewTG" />
                      </toggleGroup></RadioButton>

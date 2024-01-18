@@ -14,6 +14,8 @@ import helper.DateTimeProcessing;
 import helper.FileIOManager;
 import helper.TimeProcessing;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,7 +32,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
@@ -39,7 +40,9 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import model.Appointments;
 import javafx.scene.control.cell.PropertyValueFactory;
+
 import java.util.logging.Level;
+
 import javafx.application.Application;
 import model.Contacts;
 import model.Users;
@@ -99,6 +102,9 @@ public class SchedulingController extends Application implements Initializable {
     @FXML // fx:id="filterAppointmentWeekRBtn"
     private RadioButton filterAppointmentWeekRBtn; // Value injected by FXMLLoader
 
+    @FXML // fx:id="filterAllAppointmentRBtn"
+    private RadioButton filterAllAppointmentRBtn; // Value injected by FXMLLoader
+
     @FXML // fx:id="locationCol"
     private TableColumn<?, ?> locationCol; // Value injected by FXMLLoader
 
@@ -146,11 +152,7 @@ public class SchedulingController extends Application implements Initializable {
     private String startDateSelected;
 
 
-
-
-
     /**
-     *
      * @param event
      * @throws SQLException
      */
@@ -163,12 +165,11 @@ public class SchedulingController extends Application implements Initializable {
 
 
         //populating start and end date/time combo box and date picker with default values
-        populateStartAndEndDateTime(null,null,null,null);
-
+        populateStartAndEndDateTime(null, null, null, null);
 
 
         // A contact name is assigned to an appointment using a drop-down menu or combo box.
-        if(!ContactsDaoImpl.getAllContacts().isEmpty()) {
+        if (!ContactsDaoImpl.getAllContacts().isEmpty()) {
             for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
 
                 contactNameComboBox.getItems().add(contact.getContactName());
@@ -179,6 +180,7 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * TODO startDateAndTimeTxt.getText(),endDateAndTimeTxt.getText()
+     *
      * @param event
      */
     @FXML
@@ -192,12 +194,11 @@ public class SchedulingController extends Application implements Initializable {
         Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
 
 
-
         appointmentsModel = new Appointments((new ReadOnlyStringWrapper(titleTxt.getText())),
-                descriptionTxt.getText(),locationTxt.getText(),typeTxt.getText(),getStartDateTimeSelected(),
-                getEndDateTimeSelected(),dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),
-                dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),Integer.parseInt(customerIDTxt.getText()),
-                Integer.parseInt(userIDTxt.getText()),contactsModel.getContactID());
+                descriptionTxt.getText(), locationTxt.getText(), typeTxt.getText(), getStartDateTimeSelected(),
+                getEndDateTimeSelected(), dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(),
+                dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(), Integer.parseInt(customerIDTxt.getText()),
+                Integer.parseInt(userIDTxt.getText()), contactsModel.getContactID());
         addCustomerDatabase();
         clearSelectionAndFormFields();
         showSchedulingTableView();
@@ -206,7 +207,7 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     private String getStartDateTimeSelected() {
-        if(startDateSelected!=null && startTimeSelected!=null){
+        if (startDateSelected != null && startTimeSelected != null) {
             return DateTimeProcessing.convertTimeToLocalThenUTC(startDateSelected + " " + startTimeSelected);
         }
         return DateTimeProcessing.convertTimeToLocalThenUTC(startDatePicker.getEditor().getText() + " " + startTimeComboBox.getEditor().getText());
@@ -214,32 +215,22 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Getter and While the appointment times should be stored in Coordinated Universal Time (UTC),
+     *
      * @return
      */
     private String getEndDateTimeSelected() {
-//        if(endDateSelected!=null && endTimeSelected!=null ){
-//            return DateTimeProcessing.convertTimeToLocalThenUTC(endDateSelected + " " + endTimeSelected);
-//        }
-//        if(endDateSelected!=null && endTimeSelected==null ){
-//            return DateTimeProcessing.convertTimeToLocalThenUTC(endDateSelected + " " + endTimeComboBox.getEditor().getText());
-//        }
-//        if(endDateSelected==null && endTimeSelected!=null ){
-//            return DateTimeProcessing.convertTimeToLocalThenUTC(endDatePicker.getEditor().getText() + " " + endTimeSelected);
-//        }
-//        if(endDateSelected==null && endTimeSelected==null ){
-//            return DateTimeProcessing.convertTimeToLocalThenUTC(endDatePicker.getEditor().getText() + " " + endTimeComboBox.getEditor().getText());
-//        }
-        //return DateTimeProcessing.convertTimeToLocalThenUTC(endDatePicker.getEditor().getText() + " " + endTimeComboBox.getEditor().getText());
+        if (endDateSelected != null && endTimeSelected != null) {
+            return DateTimeProcessing.convertTimeToLocalThenUTC(endDateSelected + " " + endTimeSelected);
+        }
 
-
-        return DateTimeProcessing.convertTimeToLocalThenUTC(endDateSelected + " " + endTimeSelected);
+        return DateTimeProcessing.convertTimeToLocalThenUTC(endDatePicker.getEditor().getText() + " " + endTimeComboBox.getEditor().getText());
 
     }
 
     private void addCustomerDatabase() throws SQLException {
         AppointmentsDaoImpl.insertAppointments(appointmentsModel.getTitle(),
-                appointmentsModel.getDescription(),appointmentsModel.getLocation(),
-                appointmentsModel.getType(),appointmentsModel.getStart(),appointmentsModel.getEnd(),
+                appointmentsModel.getDescription(), appointmentsModel.getLocation(),
+                appointmentsModel.getType(), appointmentsModel.getStart(), appointmentsModel.getEnd(),
                 appointmentsModel.getCreatedBy(), appointmentsModel.getLastUpdatedBy(),
                 appointmentsModel.getCustomerID(), appointmentsModel.getUserID(), appointmentsModel.getContactID());
     }
@@ -247,6 +238,7 @@ public class SchedulingController extends Application implements Initializable {
     /**
      * Write code that enables the user to update appointments.
      * TODO All of the original appointment information is displayed on the update form in local time zone.
+     *
      * @param actionEvent
      */
     @FXML
@@ -276,6 +268,7 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * TODO startDateAndTimeTxt.getText(),endDateAndTimeTxt.getText() on update
+     *
      * @throws SQLException
      * @throws FileNotFoundException
      */
@@ -289,10 +282,10 @@ public class SchedulingController extends Application implements Initializable {
 //                typeTxt.getText(),startDateAndTimeTxt.getText(),endDateAndTimeTxt.getText(),
 //                dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(),
 //                Integer.parseInt(customerIDTxt.getText()), Integer.parseInt(userIDTxt.getText()), contactsModel.getContactID());
-        System.out.println("This is starttime sent to database: "+appointmentsModel.getStart());
+        System.out.println("This is starttime sent to database: " + appointmentsModel.getStart());
         AppointmentsDaoImpl.updateAppointment(appointmentsModel.getAppointmentID(),
-                appointmentsModel.getTitle(),appointmentsModel.getDescription(),appointmentsModel.getLocation(),
-                appointmentsModel.getType(),appointmentsModel.getStart(),appointmentsModel.getEnd(),
+                appointmentsModel.getTitle(), appointmentsModel.getDescription(), appointmentsModel.getLocation(),
+                appointmentsModel.getType(), appointmentsModel.getStart(), appointmentsModel.getEnd(),
                 appointmentsModel.getLastUpdate(), appointmentsModel.getLastUpdatedBy(),
                 appointmentsModel.getCustomerID(), appointmentsModel.getUserID(), appointmentsModel.getContactID());
 
@@ -300,6 +293,7 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Write code that enables the user to delete appointments.
+     *
      * @param event
      */
     @FXML
@@ -315,7 +309,6 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     *
      * @throws SQLException
      * @throws FileNotFoundException
      */
@@ -328,13 +321,18 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * logic to fetch and populate all appointments
-     *
+     * <p>
      * Write code that enables the user to view appointment schedules by month and week using a TableView and
      * allows the user to choose between these two options using tabs or radio buttons for filtering appointments.
+     *
      * @param event
      */
     @FXML
     void onActionFilterAllAppointment(ActionEvent event) {
+        populateAllAppointments();
+    }
+
+    private void populateAllAppointments() {
         // Clear existing appointments
         appointmentsList.clear();
 
@@ -352,15 +350,22 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * logic to fetch and populate appointments for the month
-     *
+     * <p>
      * Write code that enables the user to view appointment schedules by month and week using a TableView and
      * allows the user to choose between these two options using tabs or radio buttons for filtering appointments.
+     *
      * @param actionEvent
      */
     @FXML
     void onActionFilterAppointmentMonthRBtn(ActionEvent actionEvent) {
+        populateAppointmentsByMonth();
+
+    }
+
+    private void populateAppointmentsByMonth() {
         // Clear existing appointments
         appointmentsList.clear();
+        appointmentsList = FXCollections.observableArrayList();
 
         try {
             // Fetch and add new month appointments to appointmentsList
@@ -373,14 +378,14 @@ public class SchedulingController extends Application implements Initializable {
 
         // Update TableView
         appointmentTblView.setItems(appointmentsList);
-
     }
 
     /**
      * logic to fetch and populate appointments for the week
-     *
+     * <p>
      * Write code that enables the user to view appointment schedules by month and week using a TableView and
      * allows the user to choose between these two options using tabs or radio buttons for filtering appointments.
+     *
      * @param actionEvent
      */
     @FXML
@@ -405,15 +410,17 @@ public class SchedulingController extends Application implements Initializable {
      * Write code that enables the user to view appointment schedules using a TableView
      */
     @FXML
-    void showSchedulingTableView(){
+    void showSchedulingTableView() {
         // TODO
         //ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList(); new
+
+
         appointmentsList = FXCollections.observableArrayList();
 
         //Please include each of the following requirements as columns: Appointment_ID, Title, Description, Location,
         // Contact, Type, Start Date and Time, End Date and Time, Customer_ID, User_ID
         appointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
-       // titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        // titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         titleCol.setCellValueFactory(cellDataFeatures -> {
             return cellDataFeatures.getValue().getTitle();
         });
@@ -437,6 +444,7 @@ public class SchedulingController extends Application implements Initializable {
 
 
         appointmentTblView.setItems(appointmentsList);
+
 
         //The Appointment_ID is disabled throughout the application.
         appointmentIDTxt.setDisable(true);
@@ -475,7 +483,8 @@ public class SchedulingController extends Application implements Initializable {
         datePicker.setConverter(new StringConverter<LocalDate>() {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-            @Override public String toString(LocalDate date) {
+            @Override
+            public String toString(LocalDate date) {
                 if (date != null) {
                     return dateTimeFormatter.format(date);
                 } else {
@@ -483,7 +492,8 @@ public class SchedulingController extends Application implements Initializable {
                 }
             }
 
-            @Override public LocalDate fromString(String dateString) {
+            @Override
+            public LocalDate fromString(String dateString) {
                 if (dateString != null && !dateString.isEmpty()) {
                     return LocalDate.parse(dateString, dateTimeFormatter);
                 } else {
@@ -495,18 +505,20 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * A contact name is assigned to an appointment using a drop-down menu or combo box.
+     *
      * @param actionEvent
      */
     @FXML
     void onActionContactNameComboBox(ActionEvent actionEvent) {
 
-        if(!ContactsDaoImpl.getContact(contactNameComboBox.getValue()).isEmpty())
-        contactsModel= ContactsDaoImpl.getContact(contactNameComboBox.getValue()).get(0);
+        if (!ContactsDaoImpl.getContact(contactNameComboBox.getValue()).isEmpty())
+            contactsModel = ContactsDaoImpl.getContact(contactNameComboBox.getValue()).get(0);
 
     }
 
     /**
      * TODO
+     *
      * @param customMessage
      */
     void setCustomMessage(Alert.AlertType alertType, String title, String customMessage) {
@@ -523,12 +535,13 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * TODO comment
+     *
      * @param event
      * @throws IOException
      */
     @FXML
     void onActionBack(ActionEvent event) throws IOException {
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
@@ -536,6 +549,7 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * TODO comment
+     *
      * @param event
      */
     @FXML
@@ -562,7 +576,6 @@ public class SchedulingController extends Application implements Initializable {
     }
 
 
-
 // d.  Write code to implement input validation and logical error checks to prevent each of the following changes when
 // adding or updating information; display a custom message specific for each error check in the user interface:
 // -scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
@@ -577,62 +590,63 @@ public class SchedulingController extends Application implements Initializable {
 // outside of business hours, your alerts must be robust enough to trigger an appointment within 15 minutes of the
 // local time set on the user’s computer, which may or may not be ET.
 
-private void tbleViewSelectionListener() {
-    appointmentTblView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection)->
-    {if(newSelection !=null) {
-        //Appointments selectedAppointments = appointmentTblView.getSelectionModel().getSelectedItem(); new
+    private void tbleViewSelectionListener() {
+        appointmentTblView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
+        {
+            if (newSelection != null) {
+                //Appointments selectedAppointments = appointmentTblView.getSelectionModel().getSelectedItem(); new
 
-        selectedAppointments = appointmentTblView.getSelectionModel().getSelectedItem();
+                selectedAppointments = appointmentTblView.getSelectionModel().getSelectedItem();
 
-        //All of the appointment fields can be updated except Appointment_ID, which must be disabled.
-        // The Appointment_ID is disabled throughout the application.
-        appointmentIDTxt.setDisable(true);
-        appointmentIDTxt.setText(String.valueOf(selectedAppointments.getAppointmentID()));
-        titleTxt.setText(selectedAppointments.getTitle().getValue());
-        descriptionTxt.setText(selectedAppointments.getDescription());
-        locationTxt.setText(selectedAppointments.getLocation());
+                //All of the appointment fields can be updated except Appointment_ID, which must be disabled.
+                // The Appointment_ID is disabled throughout the application.
+                appointmentIDTxt.setDisable(true);
+                appointmentIDTxt.setText(String.valueOf(selectedAppointments.getAppointmentID()));
+                titleTxt.setText(selectedAppointments.getTitle().getValue());
+                descriptionTxt.setText(selectedAppointments.getDescription());
+                locationTxt.setText(selectedAppointments.getLocation());
 
-        if(!ContactsDaoImpl.getAllContacts().isEmpty()) {
-            contactsModel = ContactsDaoImpl.getAllContacts().get(selectedAppointments.getContactID() - 1);
+                if (!ContactsDaoImpl.getAllContacts().isEmpty()) {
+                    contactsModel = ContactsDaoImpl.getAllContacts().get(selectedAppointments.getContactID() - 1);
 
-            contactNameComboBox.setValue(contactsModel.getContactName());
-            for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
+                    contactNameComboBox.setValue(contactsModel.getContactName());
+                    for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
 
-                contactNameComboBox.getItems().add(contact.getContactName());
+                        contactNameComboBox.getItems().add(contact.getContactName());
+                    }
+                }
+
+                typeTxt.setText(selectedAppointments.getType());
+
+
+                //populating start and end date/time combo box and date picker with selected values
+                populateStartAndEndDateTime(TimeProcessing.getCorrectTimeSeconds(TimeProcessing.getTime(selectedAppointments.getStart())),
+                        DateProcessing.getDate(selectedAppointments.getStart()),
+                        TimeProcessing.getCorrectTimeSeconds(TimeProcessing.getTime(selectedAppointments.getEnd())),
+                        DateProcessing.getDate(selectedAppointments.getEnd()));
+
+
+                customerIDTxt.setText(String.valueOf(selectedAppointments.getCustomerID()));
+                userIDTxt.setText(String.valueOf(selectedAppointments.getUserID()));
             }
-        }
-
-        typeTxt.setText(selectedAppointments.getType());
-
-
-
-    //populating start and end date/time combo box and date picker with selected values
-        populateStartAndEndDateTime(TimeProcessing.getCorrectTimeSeconds(TimeProcessing.getTime(selectedAppointments.getStart())),
-                DateProcessing.getDate(selectedAppointments.getStart()),
-                TimeProcessing.getCorrectTimeSeconds(TimeProcessing.getTime(selectedAppointments.getEnd())),
-                DateProcessing.getDate(selectedAppointments.getEnd()));
-
-
-        customerIDTxt.setText(String.valueOf(selectedAppointments.getCustomerID()));
-        userIDTxt.setText(String.valueOf(selectedAppointments.getUserID()));
+        });
     }
-    });
-}
 
     /**
      * populating start and end date/time combo box and date picker
+     *
      * @param startTime
      * @param startDate
      * @param endTime
      * @param endDate
      */
-    private void populateStartAndEndDateTime(String startTime, LocalDate startDate,String endTime, LocalDate endDate) {
+    private void populateStartAndEndDateTime(String startTime, LocalDate startDate, String endTime, LocalDate endDate) {
         ObservableList<String> time = FXCollections.observableArrayList();
         time.addAll("00:00:00", "01:00:00", "02:00:00", "03:00:00", "04:00:00", "05:00:00", "06:00:00", "07:00:00",
                 "08:00:00", "09:00:00", "10:00:00", "11:00:00",
                 "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00");
 
-        if(startTime!=null && startDate!=null && endTime!=null && endDate!=null){
+        if (startTime != null && startDate != null && endTime != null && endDate != null) {
             startTimeComboBox.setItems(time);
             startTimeComboBox.setValue(startTime);
             startTimeComboBox.setEditable(true);
@@ -642,7 +656,7 @@ private void tbleViewSelectionListener() {
             endTimeComboBox.setEditable(true);
             endDatePicker.getEditor().setText(endDate.toString());
 
-        }else {
+        } else {
             startTimeComboBox.setItems(time);
             startTimeComboBox.setEditable(true);
             endTimeComboBox.setItems(time);
@@ -653,6 +667,7 @@ private void tbleViewSelectionListener() {
 
     /**
      * This method initializes this scheduling controller class
+     *
      * @param url
      * @param resourceBundle
      */
@@ -661,8 +676,33 @@ private void tbleViewSelectionListener() {
         showSchedulingTableView();
         tbleViewSelectionListener();
 
-    }
+        //event listeners for radio buttons for filtering
+        filterAllAppointmentRBtn.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldSelection, Boolean newSelection) {
+                if(newSelection.equals(filterAllAppointmentRBtn)){
+                    populateAllAppointments();
+                }
 
+         }
+        }
+
+        );
+
+        filterAppointmentMonthRBtn.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldSelection, Boolean newSelection) {
+                if(newSelection.equals(filterAppointmentMonthRBtn)){
+                    populateAppointmentsByMonth();
+                }
+            }
+        }
+
+        );
+
+       // filterAppointmentWeekRBtn.setOnAction(actionEvent -> onActionFilterAppointmentWeekRBtn(actionEvent));
+
+    }
 
 
     @Override
@@ -675,7 +715,7 @@ private void tbleViewSelectionListener() {
     }
 
     @Override
-    public void stop() throws Exception{
+    public void stop() throws Exception {
         FileIOManager.deleteCurrentFile();
 
     }
