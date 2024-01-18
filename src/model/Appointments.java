@@ -72,6 +72,42 @@ public class Appointments {
     }
 
     /**
+     * Constructor for Appointments class
+     *
+     * @param appointmentID
+     * @param title
+     * @param description
+     * @param location
+     * @param type
+     * @param start
+     * @param end
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param customerID
+     * @param userID
+     * @param contactID
+     */
+    public Appointments(StringProperty title, String description, String location, String type, String start,
+                        String end, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy,
+                        int customerID, int userID, int contactID) {
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.type = type;
+        this.start = start;
+        this.end = end;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.customerID = customerID;
+        this.userID = userID;
+        this.contactID = contactID;
+    }
+
+    /**
      * Getter for appointmentID of appointment
      *
      * @return appointmentID of appointment

@@ -205,7 +205,7 @@ public class SchedulingController extends Application implements Initializable {
     void onActionAppointment(ActionEvent event) throws SQLException {
         clearSelectionAndFormFields();
 
-        appointmentIDTxt.setText(Integer.toString(autoGenerateAppointmentID()));
+        appointmentIDTxt.setText(" ");
         appointmentIDTxt.setDisable(true);
 
 
@@ -230,6 +230,7 @@ public class SchedulingController extends Application implements Initializable {
      */
     @FXML
     void onActionAdd(ActionEvent event) throws FileNotFoundException, SQLException {
+        //All of the appointment fields can be updated except Appointment_ID, which must be disabled.
         // TODO  Write code that enables the user to add, update, and delete appointments.
         // TODO When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
         //  contact, type, start date and time, end date and time, Customer_ID, and User_ID.
@@ -239,7 +240,7 @@ public class SchedulingController extends Application implements Initializable {
 
 
 
-        appointmentsModel = new Appointments(autoGenerateAppointmentID(),(new ReadOnlyStringWrapper(titleTxt.getText())),
+        appointmentsModel = new Appointments((new ReadOnlyStringWrapper(titleTxt.getText())),
                 descriptionTxt.getText(),locationTxt.getText(),typeTxt.getText(),getStartDateTimeSelected(),
                 getEndDateTimeSelected(),dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),
                 dateTimeFormatter.format(LocalDateTime.now()),user.getUserName(),Integer.parseInt(customerIDTxt.getText()),
@@ -283,8 +284,8 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     private void addCustomerDatabase() throws SQLException {
-        AppointmentsDaoImpl.insertAppointments(appointmentsModel.getAppointmentID(),
-                appointmentsModel.getTitle(),appointmentsModel.getDescription(),appointmentsModel.getLocation(),
+        AppointmentsDaoImpl.insertAppointments(appointmentsModel.getTitle(),
+                appointmentsModel.getDescription(),appointmentsModel.getLocation(),
                 appointmentsModel.getType(),appointmentsModel.getStart(),appointmentsModel.getEnd(),
                 appointmentsModel.getCreatedBy(), appointmentsModel.getLastUpdatedBy(),
                 appointmentsModel.getCustomerID(), appointmentsModel.getUserID(), appointmentsModel.getContactID());
@@ -511,18 +512,6 @@ public class SchedulingController extends Application implements Initializable {
 
     }
 
-
-    /**
-     * TODO comment
-     * @return
-     * @throws SQLException
-     */
-    private int autoGenerateAppointmentID() throws SQLException {
-
-        // The Appointment_ID is auto-generated and disabled throughout the application.
-        return AppointmentsDaoImpl.getAllAppointments().size()+1;
-
-    }
 
     /**
      * TODO comment

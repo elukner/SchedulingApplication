@@ -175,7 +175,6 @@ public class AppointmentsDaoImpl {
     /**
      * This method inserts a appointment into the appointments table in the client_schedule database.
      *
-     * @param appointmentID
      * @param title
      * @param description
      * @param location
@@ -195,29 +194,28 @@ public class AppointmentsDaoImpl {
      *                      that was specified by the setQueryTimeout method has been exceeded and
      *                      has at least attempted to cancel the currently running Statement
      */
-    public static int insertAppointments(int appointmentID, StringProperty title, String description, String location, String type, String start,
+    public static int insertAppointments(StringProperty title, String description, String location, String type, String start,
                                          String end, String createdBy, String lastUpdatedBy,
                                          int customerID, int userID, int contactID) throws SQLException {
         String sqlStatement = "INSERT INTO `client_schedule`.`appointments` " +
-                "(`Appointment_ID`, `Title`, `Description`, `Location`, `Type`, " +
+                "(`Title`, `Description`, `Location`, `Type`, " +
                 "`Start`, `End`, `Create_Date`, `Created_By`, `Last_Update`, " +
                 "`Last_Updated_By`, `Customer_ID`, `User_ID`, `Contact_ID`) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?, ?, ?);";
+                "VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?, ?, ?);";
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
-        preparedStatement.setInt(1, appointmentID);
-        preparedStatement.setString(2, title.getValue());
-        preparedStatement.setString(3, description);
-        preparedStatement.setString(4, location);
-        preparedStatement.setString(5, type);
-        preparedStatement.setString(6, start);
-        preparedStatement.setString(7, end);
-        preparedStatement.setString(8, createdBy);
-        preparedStatement.setString(9, lastUpdatedBy);
-        preparedStatement.setInt(10, customerID);
-        preparedStatement.setInt(11, userID);
-        preparedStatement.setInt(12, contactID);
+        preparedStatement.setString(1, title.getValue());
+        preparedStatement.setString(2, description);
+        preparedStatement.setString(3, location);
+        preparedStatement.setString(4, type);
+        preparedStatement.setString(5, start);
+        preparedStatement.setString(6, end);
+        preparedStatement.setString(7, createdBy);
+        preparedStatement.setString(8, lastUpdatedBy);
+        preparedStatement.setInt(9, customerID);
+        preparedStatement.setInt(10, userID);
+        preparedStatement.setInt(11, contactID);
 
 
         return preparedStatement.executeUpdate();
