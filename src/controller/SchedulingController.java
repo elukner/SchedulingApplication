@@ -326,25 +326,44 @@ public class SchedulingController extends Application implements Initializable {
     }
 
 
+    /**
+     * logic to fetch and populate all appointments
+     *
+     * Write code that enables the user to view appointment schedules by month and week using a TableView and
+     * allows the user to choose between these two options using tabs or radio buttons for filtering appointments.
+     * @param event
+     */
     @FXML
     void onActionFilterAllAppointment(ActionEvent event) {
-        //TODO Write code that enables the user to view appointment
-        showSchedulingTableView();
+        // Clear existing appointments
+        appointmentsList.clear();
+
+        try {
+            // Fetch and add new all appointments to appointmentsList
+            appointmentsList.addAll(AppointmentsDaoImpl.getAllAppointments());
+
+        } catch (Exception ex) {
+            Logger.getLogger(SchedulingController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Update TableView
+        appointmentTblView.setItems(appointmentsList);
     }
 
     /**
-     * TODO
+     * logic to fetch and populate appointments for the month
+     *
+     * Write code that enables the user to view appointment schedules by month and week using a TableView and
+     * allows the user to choose between these two options using tabs or radio buttons for filtering appointments.
      * @param actionEvent
      */
     @FXML
     void onActionFilterAppointmentMonthRBtn(ActionEvent actionEvent) {
-        //TODO Write code that enables the user to view appointment schedules by month and week using a TableView and
-        // allows the user to choose between these two options using tabs or radio buttons for filtering appointments.
-        // TODO
-        //ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList(); new
+        // Clear existing appointments
         appointmentsList.clear();
 
         try {
+            // Fetch and add new month appointments to appointmentsList
             appointmentsList.addAll(AppointmentsDaoImpl.getAllAppointmentsByMonth());
 
         } catch (Exception ex) {
@@ -352,24 +371,25 @@ public class SchedulingController extends Application implements Initializable {
         }
 
 
-
+        // Update TableView
         appointmentTblView.setItems(appointmentsList);
 
     }
 
     /**
+     * logic to fetch and populate appointments for the week
      *
+     * Write code that enables the user to view appointment schedules by month and week using a TableView and
+     * allows the user to choose between these two options using tabs or radio buttons for filtering appointments.
      * @param actionEvent
      */
     @FXML
     void onActionFilterAppointmentWeekRBtn(ActionEvent actionEvent) {
-        //TODO Write code that enables the user to view appointment schedules by month and week using a TableView and
-        // allows the user to choose between these two options using tabs or radio buttons for filtering appointments.
-
-        //ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList(); new
+        // Clear existing appointments
         appointmentsList.clear();
 
         try {
+            // Fetch and add new week appointments to appointmentsList
             appointmentsList.addAll(AppointmentsDaoImpl.getAllAppointmentsByWeek());
 
         } catch (Exception ex) {
@@ -377,7 +397,7 @@ public class SchedulingController extends Application implements Initializable {
         }
 
 
-
+        // Update TableView
         appointmentTblView.setItems(appointmentsList);
     }
 
