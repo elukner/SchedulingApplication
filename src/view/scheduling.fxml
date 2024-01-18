@@ -20,13 +20,6 @@
       <VBox prefHeight="600.0" prefWidth="900.0">
          <children>
             <Button mnemonicParsing="false" onAction="#onActionBack" text="Back" />
-            <MenuButton mnemonicParsing="false" text="Reports">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#onActionReport1" text="Report 1" />
-                <MenuItem mnemonicParsing="false" onAction="#onActionReport2" text="Report 2" />
-                  <MenuItem mnemonicParsing="false" onAction="#onActionReport3" text="Report 3" />
-              </items>
-            </MenuButton>
             <HBox prefHeight="100.0" prefWidth="900.0">
                <children>
                   <Label text="View appointment schedules by:" />

@@ -146,54 +146,6 @@ public class SchedulingController extends Application implements Initializable {
 
 
 
-    /**
-     * TODO the total number of customer appointments by type and month
-     * @param event
-     */
-    @FXML
-    void onActionReport1(ActionEvent event) {
-
-//        appointmentTblView.getItems().clear();
-//
-//        ObservableList<String> appointmentsList = AppointmentsDaoImpl.getAllAppointmentsCustomerIDMT();
-//
-//        typeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
-//        startDateTimeCol.setText("Month");
-//        startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("Month"));
-//        descriptionCol.setText("Total_Appointments");
-//        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("Total_Appointments"));
-//
-//
-//        try {
-//            appointmentsList.addAll(AppointmentsDaoImpl.getAllAppointmentsCustomerIDMT());
-//
-//        } catch (Exception ex) {
-//            Logger.getLogger(SchedulingController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        appointmentTblView.setItems(appointmentsList);
-    }
-
-    /**
-     * TODO a schedule for each contact in your organization that includes appointment ID, title, type and description,
-     *  start date and time, end date and time, and customer ID
-     * @param event
-     */
-    @FXML
-    void onActionReport2(ActionEvent event) {
-//     SELECT a.appointment_id, a.title, a.appointment_type, a.description, a.start_date, a.end_date,
-//         a.customer_id FROM appointments_table a JOIN contacts_table c ON a.contact_id = c.contact_id;
-
-    }
-
-    /**
-     * TODO an additional report of your choice that is different from the two other required reports in this prompt
-     *  and from the user log-in date and time stamp that will be tracked in part C
-     * @param event
-     */
-    @FXML
-    void onActionReport3(ActionEvent event) {
-
-    }
 
 
     /**
