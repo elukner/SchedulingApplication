@@ -65,9 +65,6 @@ public class LoginController implements Initializable {
     @FXML // fx:id="passwordTxt"
     private TextField passwordTxt; // Value injected by FXMLLoader
 
-    @FXML // fx:id="userLocationLbl"
-    private Label userLocationLbl; // Value injected by FXMLLoader
-
     @FXML // fx:id="userLocationIDLbl"
     private Label userLocationIDLbl; // Value injected by FXMLLoader
 
@@ -259,7 +256,6 @@ public class LoginController implements Initializable {
             loginBtn.setText(resourceBundle.getString("Log")+" "+ resourceBundle.getString("in"));
             usernameLbl.setText(resourceBundle.getString("Username"));
             passwordLbl.setText(resourceBundle.getString("Password"));
-            userLocationLbl.setText(resourceBundle.getString("Location"));
             userLocationIDLbl.setText(ZoneId.systemDefault().toString());
 
         //Locale.setDefault(france);
