@@ -180,8 +180,8 @@ public class SchedulingController extends Application implements Initializable {
      */
     @FXML
     void onActionReport2(ActionEvent event) {
-    // SELECT a.appointment_id, a.title, a.appointment_type, a.description, a.start_date, a.end_date,
-        // a.customer_id FROM appointments_table a JOIN contacts_table c ON a.contact_id = c.contact_id;
+//     SELECT a.appointment_id, a.title, a.appointment_type, a.description, a.start_date, a.end_date,
+//         a.customer_id FROM appointments_table a JOIN contacts_table c ON a.contact_id = c.contact_id;
 
     }
 
