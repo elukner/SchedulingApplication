@@ -9,7 +9,7 @@
          <children>
             <Button alignment="CENTER" layoutX="100.0" layoutY="74.0" mnemonicParsing="false" onAction="#onActionSchedulingBtn" text="Scheduling" />
             <Button alignment="CENTER" layoutX="84.0" layoutY="106.0" mnemonicParsing="false" onAction="#onActionCustomerRecordBtn" text="Customer Record" />
-            <Button alignment="CENTER" layoutX="106.0" layoutY="138.0" mnemonicParsing="false" onAction="#onActionLogOutBtn" text=" Log-out" />
+            <Button alignment="CENTER" layoutX="106.0" layoutY="138.0" mnemonicParsing="false" onAction="#onActionLogOutBtn" text="Reports" />
             <Button alignment="CENTER" contentDisplay="CENTER" layoutX="119.0" layoutY="170.0" mnemonicParsing="false" onAction="#onActionExitBtn" text="Exit" />
          </children>
       </Pane>

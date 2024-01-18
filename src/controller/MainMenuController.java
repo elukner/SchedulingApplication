@@ -51,8 +51,7 @@ public class MainMenuController extends Application implements Initializable {
      */
     @FXML
     void onActionLogOutBtn(ActionEvent event) throws IOException  {
-        FileIOManager.deleteCurrentFile();
-        String viewPath = "../view/login.fxml";
+        String viewPath = "../view/reports.fxml";
         loadPage(event,viewPath);
     }
 
