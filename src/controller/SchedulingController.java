@@ -433,6 +433,9 @@ public class SchedulingController extends Application implements Initializable {
 
         appointmentTblView.setItems(appointmentsList);
 
+        //The Appointment_ID is disabled throughout the application.
+        appointmentIDTxt.setDisable(true);
+
 
     }
 
