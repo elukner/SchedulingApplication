@@ -649,18 +649,14 @@ public class SchedulingController extends Application implements Initializable {
         if (startTime != null && startDate != null && endTime != null && endDate != null) {
             startTimeComboBox.setItems(time);
             startTimeComboBox.setValue(startTime);
-            startTimeComboBox.setEditable(true);
             startDatePicker.getEditor().setText(startDate.toString());
             endTimeComboBox.setItems(time);
             endTimeComboBox.setValue(endTime);
-            endTimeComboBox.setEditable(true);
             endDatePicker.getEditor().setText(endDate.toString());
 
         } else {
             startTimeComboBox.setItems(time);
-            startTimeComboBox.setEditable(true);
             endTimeComboBox.setItems(time);
-            endTimeComboBox.setEditable(true);
         }
 
     }

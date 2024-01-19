@@ -105,4 +105,16 @@ public class TimeProcessing {
         return localTime;
     }
 
+    public static LocalTime getBusinessTimes(String dateTime){
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String startTimeTxt = timeFormatter.format(LocalTime.now());
+
+        LocalTime localTime = LocalTime.parse(dateTime, timeFormatter);
+        //System.out.println("The local time is " + localTime);
+
+        //Getting the day of the week
+        //System.out.println(ldtStart.getDayOfWeek());
+        return localTime;
+    }
+
 }
