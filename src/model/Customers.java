@@ -28,6 +28,9 @@ public class Customers {
     private String lastUpdatedBy;
     private int divisionID; //FOREIGN KEY
 
+    //Added due to requirement that customer record table view has country column
+    private String country;
+
     /**
      * Class Constructor of Customers
      *
@@ -58,6 +61,61 @@ public class Customers {
         this.lastUpdatedBy = lastUpdatedBy;
         this.divisionID = divisionID;
     }
+
+    /**
+     * Class Constructor of Customers without createDate and createdBy
+     *
+     * @param customerID
+     * @param customerName
+     * @param address
+     * @param postalCode
+     * @param phone
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param divisionID
+     */
+    public Customers(int customerID, String customerName,
+                     String address, String postalCode, String phone,
+                     String lastUpdate, String lastUpdatedBy,
+                     int divisionID) {
+        this.customerID = customerID;
+        this.customerName = customerName;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.phone = phone;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.divisionID = divisionID;
+    }
+
+    /**
+     * Class Constructor of Customers with country and without createDate and createdBy
+     *
+     * @param customerID
+     * @param customerName
+     * @param address
+     * @param postalCode
+     * @param phone
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param divisionID
+     */
+    public Customers(int customerID, String customerName,
+                     String address, String postalCode, String phone,
+                     String lastUpdate, String lastUpdatedBy,
+                     int divisionID, String country) {
+        this.customerID = customerID;
+        this.customerName = customerName;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.phone = phone;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.divisionID = divisionID;
+        //Added due to requirement that customer record table view has country column
+        this.country = country;
+    }
+
 
     /**
      * Getter of customerID of Customer
@@ -239,4 +297,22 @@ public class Customers {
         this.divisionID = divisionID;
     }
 
+
+    /**
+     * Getter of country of Countries
+     * Added due to requirement that customer record table view has country column
+     * @return
+     */
+    public String getCountry() {
+        return country;
+    }
+
+    /**
+     * Setter of country of Countries
+     * Added due to requirement that customer record table view has country column
+     * @param country
+     */
+    public void setCountry(String country) {
+        this.country = country;
+    }
 }

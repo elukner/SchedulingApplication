@@ -64,12 +64,6 @@ public class CustomerRecordController extends Application implements Initializab
     @FXML // fx:id="addressCol"
     private TableColumn<?, ?> addressCol; // Value injected by FXMLLoader
 
-    @FXML // fx:id="createDateCol"
-    private TableColumn<?, ?> createDateCol; // Value injected by FXMLLoader
-
-    @FXML // fx:id="createdByCol"
-    private TableColumn<?, ?> createdByCol; // Value injected by FXMLLoader
-
     @FXML // fx:id="customerIDCol"
     private TableColumn<?, ?> customerIDCol; // Value injected by FXMLLoader
 
@@ -78,6 +72,9 @@ public class CustomerRecordController extends Application implements Initializab
 
     @FXML // fx:id="customerRecordTbl"
     private TableView<Customers> customerRecordTbl; // Value injected by FXMLLoader
+
+    @FXML // fx:id="countryCol"
+    private TableColumn<?, ?> countryCol; // Value injected by FXMLLoader
 
     @FXML // fx:id="divisionIDCol"
     private TableColumn<?, ?> divisionIDCol; // Value injected by FXMLLoader
@@ -93,6 +90,9 @@ public class CustomerRecordController extends Application implements Initializab
 
     @FXML // fx:id="postalCodeCol"
     private TableColumn<?, ?> postalCodeCol; // Value injected by FXMLLoader
+
+
+
 
     @FXML // fx:id="addItem"
     private MenuItem addItem; // Value injected by FXMLLoader
@@ -126,9 +126,6 @@ public class CustomerRecordController extends Application implements Initializab
 
     @FXML
     private TextField addressTxt;
-
-    @FXML
-    private TextField cityTxt;
 
     @FXML
     private TextField postalCodeTxt;
@@ -182,10 +179,7 @@ public class CustomerRecordController extends Application implements Initializab
 
         ObservableList<Customers> customersList = FXCollections.observableArrayList();
 
-
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-        createDateCol.setCellValueFactory(new PropertyValueFactory<>("createDate"));
-        createdByCol.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
         customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         divisionIDCol.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
@@ -193,13 +187,16 @@ public class CustomerRecordController extends Application implements Initializab
         lastUpdatedByCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdatedBy"));
         phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
         postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+        countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
+
 
         try {
-            customersList.addAll(CustomersDaoImpl.getAllCustomers());
+            customersList.addAll(CustomersDaoImpl.getAllCustomersAndCountriesForTble());
 
         } catch (Exception ex) {
             Logger.getLogger(SchedulingController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         customerRecordTbl.setItems(customersList);
 
     }
@@ -216,8 +213,6 @@ public class CustomerRecordController extends Application implements Initializab
         customerRecordTbl.getItems().clear();
         ObservableList<Customers> customersList = FXCollections.observableArrayList();
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-        createDateCol.setCellValueFactory(new PropertyValueFactory<>("createDate"));
-        createdByCol.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
         customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         divisionIDCol.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
@@ -286,7 +281,6 @@ public class CustomerRecordController extends Application implements Initializab
                 customerNameTxt.setVisible(true);
                 addressLbl.setVisible(true);
                 addressTxt.setVisible(true);
-                cityTxt.setVisible(true);
                 postalCodeLbl.setVisible(true);
                 postalCodeTxt.setVisible(true);
                 phoneNumberLbl.setVisible(true);
@@ -303,7 +297,6 @@ public class CustomerRecordController extends Application implements Initializab
                 customerNameTxt.setVisible(true);
                 addressLbl.setVisible(true);
                 addressTxt.setVisible(true);
-                cityTxt.setVisible(true);
                 postalCodeLbl.setVisible(true);
                 postalCodeTxt.setVisible(true);
                 phoneNumberLbl.setVisible(true);
@@ -322,7 +315,6 @@ public class CustomerRecordController extends Application implements Initializab
                 customerNameTxt.setVisible(true);
                 addressLbl.setVisible(false);
                 addressTxt.setVisible(false);
-                cityTxt.setVisible(false);
                 postalCodeLbl.setVisible(false);
                 postalCodeTxt.setVisible(false);
                 phoneNumberLbl.setVisible(false);
@@ -366,14 +358,7 @@ public class CustomerRecordController extends Application implements Initializab
 
             customerNameTxt.setText(customerModel.getCustomerName());
 
-            if (!customerModel.getAddress().contains(", ")) {
-                addressTxt.setText(customerModel.getAddress());
-            } else {
-                String addressString = customerModel.getAddress();
-                String[] arrayAddress = addressString.split(", ", 2);
-                addressTxt.setText(arrayAddress[0]);
-                cityTxt.setText(arrayAddress[1]);
-            }
+            addressTxt.setText(customerModel.getAddress());
 
             postalCodeTxt.setText(customerModel.getPostalCode());
             phoneNumberTxt.setText(customerModel.getPhone());
@@ -384,6 +369,7 @@ public class CustomerRecordController extends Application implements Initializab
             countryBox.setValue(countriesModel.getCountry());
             firstLevelDivisionBox.getItems().clear();
             firstLevelDivisionBox.setValue(divisionModel.getDivision());
+
             populateComboBoxes();
             customerIDTxt.setDisable(true);
         } catch (NumberFormatException | IndexOutOfBoundsException n) {
@@ -468,18 +454,16 @@ public class CustomerRecordController extends Application implements Initializab
      * @throws FileNotFoundException
      */
     private void addCustomer() throws FileNotFoundException {
-        String formatedAddress = addressTxt.getText() + ", " + cityTxt.getText();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         customerModel = new Customers(CustomersDaoImpl.getAllCustomers().size() + 1, customerNameTxt.getText(),
-                formatedAddress, postalCodeTxt.getText(), phoneNumberTxt.getText(), dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(),
+                addressTxt.getText(), postalCodeTxt.getText(), phoneNumberTxt.getText(), dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(),
                 dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(), divisionModel.getDivisionID());
     }
 
     private void updateCustomer() throws FileNotFoundException {
-        String formatedAddress = addressTxt.getText() + ", " + cityTxt.getText();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         customerModel.setCustomerName(customerNameTxt.getText());
-        customerModel.setAddress(formatedAddress);
+        customerModel.setAddress(addressTxt.getText());
         customerModel.setPostalCode(postalCodeTxt.getText());
         customerModel.setPhone(phoneNumberTxt.getText());
         customerModel.setLastUpdate(dateTimeFormatter.format(LocalDateTime.now()));
@@ -520,28 +504,26 @@ public class CustomerRecordController extends Application implements Initializab
 //    }
     private void addCustomerDatabase() throws SQLException {
 
-
-        JDBC.openConnection();
         CustomersDaoImpl.insertCustomers(customerModel.getCustomerID(), customerModel.getCustomerName(),
                 customerModel.getAddress(), customerModel.getPostalCode(), customerModel.getPhone(),
                 customerModel.getCreateDate(), customerModel.getCreatedBy(),
                 customerModel.getLastUpdate(),
                 customerModel.getLastUpdatedBy(), divisionModel.getDivisionID());
-        JDBC.closeConnection();
+
 
     }
 
     private void updateCustomerDatabase() throws SQLException {
-        JDBC.openConnection();
+
         CustomersDaoImpl.updateCustomers(customerModel.getCustomerID(), customerModel.getCustomerName(),
                 customerModel.getAddress(), customerModel.getPostalCode(), customerModel.getPhone(),
                 customerModel.getLastUpdate(),
                 customerModel.getLastUpdatedBy(), divisionModel.getDivisionID());
-        JDBC.closeConnection();
+
     }
 
     private void deleteCustomerDatabase() throws SQLException {
-        JDBC.openConnection();
+
         //customer id txt is filled out
         if((!customerIDTxt.getText().isEmpty()) && (customerNameTxt.getText().isEmpty())){
             CustomersDaoImpl.deleteCustomers(Integer.parseInt(customerIDTxt.getText()));
@@ -554,7 +536,7 @@ public class CustomerRecordController extends Application implements Initializab
         if((!customerNameTxt.getText().isEmpty())&&(!customerIDTxt.getText().isEmpty())){
             CustomersDaoImpl.deleteCustomers(Integer.parseInt(customerIDTxt.getText()));
         }
-        JDBC.closeConnection();
+
     }
 
     @FXML
@@ -569,7 +551,6 @@ public class CustomerRecordController extends Application implements Initializab
         customerNameTxt.clear();
         phoneNumberTxt.clear();
         addressTxt.clear();
-        cityTxt.clear();
         postalCodeTxt.clear();
         phoneNumberTxt.clear();
         countryBox.getItems().clear();

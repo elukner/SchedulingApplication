@@ -676,31 +676,31 @@ public class SchedulingController extends Application implements Initializable {
         showSchedulingTableView();
         tbleViewSelectionListener();
 
-        //event listeners for radio buttons for filtering
-        filterAllAppointmentRBtn.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldSelection, Boolean newSelection) {
-                if(newSelection.equals(filterAllAppointmentRBtn)){
-                    populateAllAppointments();
-                }
-
-         }
-        }
-
-        );
-
-        filterAppointmentMonthRBtn.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldSelection, Boolean newSelection) {
-                if(newSelection.equals(filterAppointmentMonthRBtn)){
-                    populateAppointmentsByMonth();
-                }
-            }
-        }
-
-        );
-
-       // filterAppointmentWeekRBtn.setOnAction(actionEvent -> onActionFilterAppointmentWeekRBtn(actionEvent));
+//        // TODO event listeners for radio buttons for filtering
+//        filterAllAppointmentRBtn.selectedProperty().addListener(new ChangeListener<Boolean>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldSelection, Boolean newSelection) {
+//                if(newSelection.equals(filterAllAppointmentRBtn)){
+//                    populateAllAppointments();
+//                }
+//
+//         }
+//        }
+//
+//        );
+//
+//        filterAppointmentMonthRBtn.selectedProperty().addListener(new ChangeListener<Boolean>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldSelection, Boolean newSelection) {
+//                if(newSelection.equals(filterAppointmentMonthRBtn)){
+//                    populateAppointmentsByMonth();
+//                }
+//            }
+//        }
+//
+//        );
+//
+//       // filterAppointmentWeekRBtn.setOnAction(actionEvent -> onActionFilterAppointmentWeekRBtn(actionEvent));
 
     }
 

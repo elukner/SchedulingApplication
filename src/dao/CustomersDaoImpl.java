@@ -236,4 +236,76 @@ public class CustomersDaoImpl {
         }
         return customersList;
     }
+
+    /**
+     * This method retrieves a list of customers from the customers table in the client_schedule database.
+     *
+     * @return customersList a list of customers
+     */
+    public static ObservableList<Customers> getAllCustomersForTble() {
+        ObservableList<Customers> customersList = FXCollections.observableArrayList();
+        try {
+            String sqlStatement = "SELECT * FROM client_schedule.customers";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int customerID = resultSet.getInt("Customer_ID");
+                String customerName = resultSet.getString("Customer_Name");
+                String address = resultSet.getString("Address");
+                String postalCode = resultSet.getString("Postal_Code");
+                String phone = resultSet.getString("Phone");
+                String lastUpdate = resultSet.getString("Last_Update");
+                String lastUpdatedBy = resultSet.getString("Last_Updated_By");
+                int divisionID = resultSet.getInt("Division_ID");
+                Customers customer = new Customers(customerID, customerName,
+                        address, postalCode, phone,
+                        lastUpdate, lastUpdatedBy,
+                        divisionID);
+                customersList.add(customer);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return customersList;
+    }
+
+    /**
+     * This method retrieves a list of customers from the customers table in the client_schedule database.
+     *
+     * @return customersList a list of customers
+     */
+    public static ObservableList<Customers> getAllCustomersAndCountriesForTble() {
+        ObservableList<Customers> customersList = FXCollections.observableArrayList();
+        try {
+            String sqlStatement = "SELECT cu.*, c.Country \n" +
+                    "FROM client_schedule.customers cu \n" +
+                    "JOIN client_schedule.first_level_divisions d ON cu.Division_ID = d.Division_ID\n" +
+                    "JOIN client_schedule.countries c ON d.Country_ID = c.Country_ID;";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int customerID = resultSet.getInt("Customer_ID");
+                String customerName = resultSet.getString("Customer_Name");
+                String address = resultSet.getString("Address");
+                String postalCode = resultSet.getString("Postal_Code");
+                String phone = resultSet.getString("Phone");
+                String lastUpdate = resultSet.getString("Last_Update");
+                String lastUpdatedBy = resultSet.getString("Last_Updated_By");
+                int divisionID = resultSet.getInt("Division_ID");
+                String countryName = resultSet.getString("Country");
+                Customers customer = new Customers(customerID, customerName,
+                        address, postalCode, phone,
+                        lastUpdate, lastUpdatedBy,
+                        divisionID,countryName);
+                customersList.add(customer);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return customersList;
+    }
 }
