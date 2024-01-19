@@ -4,6 +4,9 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Project: SchedulingApplication
@@ -92,6 +95,21 @@ public class TimeProcessing {
         return (time) +":00";
     }
 
+    public static String getCorrectTimeSeconds(String time){
+
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+//        DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss")
+//                .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
+//                .toFormatter();
+        LocalTime localTime = LocalTime.parse(time.substring(5), timeFormatter);
+
+        if(localTime.getSecond()!=0){
+            return localTime.toString();
+        }
+
+        return (localTime) +":00";
+    }
+
     public static LocalTime getFormatedTime(String dateTime){
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 //        DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss")
@@ -105,16 +123,66 @@ public class TimeProcessing {
         return localTime;
     }
 
-    public static LocalTime getBusinessTimes(String dateTime){
+    /**
+     *scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
+     * @return
+     */
+    public static List<LocalTime> generateBusinessHours(){
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        String startTimeTxt = timeFormatter.format(LocalTime.now());
+        List<LocalTime> timeOptions = new ArrayList<>();
 
-        LocalTime localTime = LocalTime.parse(dateTime, timeFormatter);
-        //System.out.println("The local time is " + localTime);
+        // Define business hours
+        LocalTime businessStartTime = LocalTime.of(8, 0,0);
+        LocalTime businessEndTime = LocalTime.of(22, 0,0);
 
-        //Getting the day of the week
-        //System.out.println(ldtStart.getDayOfWeek());
-        return localTime;
+        // Generate time options within business hours
+        LocalTime currentTime = businessStartTime;
+        while (currentTime.isBefore(businessEndTime)) {
+
+            timeOptions.add(currentTime);
+            currentTime = currentTime.plusHours(1); // Move to the next hour
+        }
+
+        return timeOptions;
     }
+
+    /**
+     *scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
+     * @return
+     */
+    public static List<String> generateLocalBusinessHoursWithSeconds(){
+
+        List<LocalTime> timeOptions = generateBusinessHours();
+        List<String> localTimeOptions  = new ArrayList<>();
+
+        for (LocalTime time : timeOptions) {
+            localTimeOptions.add(getCorrectTimeSeconds(convertETToLocalTime(time)));
+        }
+
+        return localTimeOptions;
+    }
+
+    /**
+     *scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
+     * @return
+     */
+    public static LocalTime convertETToLocalTime(LocalTime etTime) {
+        // Specify the time zone for Eastern Time
+        ZoneId etTimeZone = ZoneId.of("America/New_York");
+
+        // Create a ZonedDateTime with the given ET time and time zone
+        ZonedDateTime etDateTime = ZonedDateTime.of(
+                ZonedDateTime.now().toLocalDate(),
+                etTime,
+                etTimeZone
+        );
+
+        // Convert the ZonedDateTime to the system default time zone
+        ZonedDateTime localDateTime = etDateTime.withZoneSameInstant(ZoneId.systemDefault());
+
+        // Extract the local time
+        return localDateTime.toLocalTime();
+    }
+
 
 }

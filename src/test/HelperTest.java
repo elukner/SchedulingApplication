@@ -8,6 +8,10 @@ import helper.FileIOManager;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
 public class HelperTest {
     @Test
@@ -72,6 +76,22 @@ public class HelperTest {
     @Test
     public void testConvertTimeToUTCThenLocalt() {
         System.out.println(DateTimeProcessing.convertTimeToUTCThenLocal());
+
+    }
+
+    @Test
+    public void testGenerateBusinessHours() {
+        //System.out.println(TimeProcessing.generateBusinessHours());
+        List<String> timeOptions = TimeProcessing.generateLocalBusinessHoursWithSeconds();
+
+        // Print the generated time options
+        for (String time : timeOptions) {
+            System.out.println(time);
+        }
+        // Print the generated time options
+        for (String time : timeOptions) {
+            System.out.println(time + DateTimeProcessing.isOutsideBusinessHours("2024-01-20", time));
+        }
 
     }
 

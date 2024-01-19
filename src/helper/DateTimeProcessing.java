@@ -1,11 +1,9 @@
 package helper;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class DateTimeProcessing {
 
@@ -112,6 +110,39 @@ public class DateTimeProcessing {
         return getFormatedDateTimeString(timestamp);
 
 
+    }
+
+
+    /**
+     *  scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
+     * @param localDateString
+     * @param localTimeString
+     * @return
+     */
+    public static boolean isOutsideBusinessHours(String localDateString, String localTimeString) {
+         ZoneId etTimeZone = ZoneId.of("America/New_York");
+        LocalTime businessStartTime = LocalTime.of(8, 0); // 8:00 AM ET
+        LocalTime businessEndTime = LocalTime.of(22, 0); // 10:00 PM ET
+
+
+        // Parse the input string to LocalTime
+        LocalTime localTime = LocalTime.parse(localTimeString, DateTimeFormatter.ofPattern("HH:mm:ss"));
+        LocalDate localDate = LocalDate.parse(localDateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        // Combine the LocalDate and LocalTime to create ZonedDateTime
+        ZonedDateTime etDateTime = ZonedDateTime.of(
+                localDate,
+                localTime,
+                ZoneId.systemDefault()
+        ).withZoneSameInstant(etTimeZone);
+
+        // Check if the day is a weekend (Saturday or Sunday)
+        DayOfWeek dayOfWeek = etDateTime.getDayOfWeek();
+        boolean isWeekend = dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
+
+        // Check if the time is outside of business hours
+        return isWeekend || etDateTime.toLocalTime().isBefore(businessStartTime)
+                || etDateTime.toLocalTime().isAfter(businessEndTime);
     }
 
 }
