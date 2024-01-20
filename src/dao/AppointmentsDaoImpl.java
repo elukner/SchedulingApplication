@@ -29,6 +29,32 @@ import java.util.List;
  * perform CRUD operations and handle data retrieval on the appointments table.
  **/
 public class AppointmentsDaoImpl {
+
+    public static boolean hasOverlappingAppointments(int customerId, String startDateTime, String endDateTime) throws SQLException {
+
+        try{
+            // Query to check for overlapping appointments
+            String sqlStatement = "SELECT COUNT(*) FROM client_schedule.appointments " +
+                    "WHERE Customer_ID = ? " +
+                    "AND (? < End AND ? > Start)";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+            preparedStatement.setInt(1, customerId);
+            preparedStatement.setString(2, endDateTime);
+            preparedStatement.setString(3, startDateTime);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int overlappingAppointmentsCount = resultSet.getInt(1);
+                return overlappingAppointmentsCount > 0;
+            }
+
+        }catch (SQLException throwables) {
+        throwables.printStackTrace();
+        }
+
+        return false;
+    }
+
     /**
      * This method retrieves a list of appointments from the appointments table in the client_schedule database.
      *

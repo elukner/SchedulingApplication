@@ -147,6 +147,7 @@ public class LoginController implements Initializable {
     /**
      * This method accepts username and password and provides an appropriate error message.
      *
+     * entering an incorrect username and password
      * @param username the user's username that is used to log in
      * @param password the user's password that is used to log in
      * @return appropriate error message if user logs in with incorrect username and password

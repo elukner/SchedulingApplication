@@ -197,7 +197,6 @@ public class SchedulingController extends Application implements Initializable {
 // adding or updating information; display a custom message specific for each error check in the user interface:
 // -scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
 // -scheduling overlapping appointments for customers
-// -entering an incorrect username and password
 
 
         boolean isValidAppointment=false;
@@ -208,6 +207,7 @@ public class SchedulingController extends Application implements Initializable {
             //scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
             isValidAppointment=true;
         }
+
 
         if(isValidAppointment==true){
             setCustomMessage(Alert.AlertType.ERROR,"appointment outside of business hours","scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends");
