@@ -68,6 +68,13 @@ public class DateProcessing {
         return localDate;
     }
 
+    public static LocalDate getDateFromDateTime(String dateTime){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.parse(dateTime, dateTimeFormatter);
+
+        return LocalDate.of(localDateTime.getYear(),localDateTime.getMonth(),localDateTime.getDayOfMonth());
+    }
+
     public static LocalDate getFormatedDate(String dateTime){
 
         //Showing how to parse the Date/Time String

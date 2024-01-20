@@ -34,13 +34,25 @@ public class HelperTest {
 
     @Test
     public void testGetDate() {
-        System.out.println(DateProcessing.getDate("2020-05-29 12:00:00"));
+        System.out.println(DateProcessing.getDate("2020-05-29"));
+
+    }
+
+    @Test
+    public void testGetDateFromDateTime() {
+        System.out.println(DateProcessing.getDateFromDateTime("2020-05-29 12:00:00"));
 
     }
 
     @Test
     public void testGetTime() {
-        System.out.println(TimeProcessing.getTime("2020-05-29 12:00:09"));
+        System.out.println(TimeProcessing.getTime("12:00:00"));
+
+    }
+
+    @Test
+    public void testGetTimeFromDateTime() {
+        System.out.println(TimeProcessing.getTimeFromDateTime("2020-05-29 12:00:00"));
 
     }
 
@@ -94,5 +106,7 @@ public class HelperTest {
         }
 
     }
+
+
 
 }

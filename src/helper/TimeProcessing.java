@@ -74,7 +74,7 @@ public class TimeProcessing {
     }
 
     public static LocalTime getTime(String dateTime){
-    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 //        DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss")
 //                .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
 //                .toFormatter();
@@ -84,6 +84,13 @@ public class TimeProcessing {
         //Getting the day of the week
         //System.out.println(ldtStart.getDayOfWeek());
         return localTime;
+    }
+
+    public static String getTimeFromDateTime(String dateTime){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.parse(dateTime, dateTimeFormatter);
+
+        return getCorrectTimeSeconds(LocalTime.of(localDateTime.getHour(),localDateTime.getMinute(),localDateTime.getMinute()));
     }
 
     public static String getCorrectTimeSeconds(LocalTime time){
