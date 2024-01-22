@@ -34,13 +34,18 @@ public class AppointmentsDaoImpl {
 
         try{
             // Query to check for overlapping appointments
-            String sqlStatement = "SELECT COUNT(*) FROM client_schedule.appointments " +
-                    "WHERE Customer_ID = ? " +
-                    "AND (? < End AND ? > Start)";
+            String sqlStatement = "SELECT COUNT(*) \n" +
+                    "FROM client_schedule.appointments \n" +
+                    "WHERE Customer_ID = ? AND ('12:00:00' < TIME(?) AND '13:00:00' > TIME(?))";
+
+
             PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
             preparedStatement.setInt(1, customerId);
             preparedStatement.setString(2, endDateTime);
             preparedStatement.setString(3, startDateTime);
+
+
+
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {

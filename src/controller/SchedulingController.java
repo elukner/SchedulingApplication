@@ -193,38 +193,58 @@ public class SchedulingController extends Application implements Initializable {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
 
-// d.  Write code to implement input validation and logical error checks to prevent each of the following changes when
-// adding or updating information; display a custom message specific for each error check in the user interface:
-// -scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
-// -scheduling overlapping appointments for customers
+
+        appointmentsModel = new Appointments((new ReadOnlyStringWrapper(titleTxt.getText())),
+                descriptionTxt.getText(), locationTxt.getText(), typeTxt.getText(), getStartDateTimeSelected(),
+                getEndDateTimeSelected(), dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(),
+                dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(), Integer.parseInt(customerIDTxt.getText()),
+                Integer.parseInt(userIDTxt.getText()), contactsModel.getContactID());
 
 
-        boolean isValidAppointment=false;
-        if(DateTimeProcessing.isOutsideBusinessHours(DateProcessing.getDateFromDateTime(getStartDateTimeSelected()).toString(),
-                TimeProcessing.getTimeFromDateTime(getStartDateTimeSelected()))==true ||
-        DateTimeProcessing.isOutsideBusinessHours(DateProcessing.getDateFromDateTime(getEndDateTimeSelected()).toString(),
-                TimeProcessing.getTimeFromDateTime(getEndDateTimeSelected()))==true){
-            //scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
-            isValidAppointment=true;
+        if(!isValidAppointment()){
+
+            addCustomerDatabase();
+            clearSelectionAndFormFields();
         }
 
 
-        if(isValidAppointment==true){
-            setCustomMessage(Alert.AlertType.ERROR,"appointment outside of business hours","scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends");
-        }else{
-            appointmentsModel = new Appointments((new ReadOnlyStringWrapper(titleTxt.getText())),
-                    descriptionTxt.getText(), locationTxt.getText(), typeTxt.getText(), getStartDateTimeSelected(),
-                    getEndDateTimeSelected(), dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(),
-                    dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(), Integer.parseInt(customerIDTxt.getText()),
-                    Integer.parseInt(userIDTxt.getText()), contactsModel.getContactID());
-        }
 
-
-        addCustomerDatabase();
-        clearSelectionAndFormFields();
         showSchedulingTableView();
 
 
+    }
+
+    /**
+     *  d.  Write code to implement input validation and logical error checks to prevent each of the following changes when
+     *  adding or updating information; display a custom message specific for each error check in the user interface:
+     *  -scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
+     *  -scheduling overlapping appointments for customers
+     * @return
+     * @throws SQLException
+     */
+    private boolean isValidAppointment() throws SQLException {
+        boolean isValidAppointment=false;
+        if(DateTimeProcessing.isOutsideBusinessHours(DateProcessing.getDateFromDateTime(appointmentsModel.getStart()).toString(),
+                TimeProcessing.getTimeFromDateTime(appointmentsModel.getStart()))==true ||
+                DateTimeProcessing.isOutsideBusinessHours(DateProcessing.getDateFromDateTime(appointmentsModel.getEnd()).toString(),
+                        TimeProcessing.getTimeFromDateTime(appointmentsModel.getEnd()))==true){
+            //scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
+            isValidAppointment=true;
+            //display a custom message specific for each error check in the user interface
+            setCustomMessage(Alert.AlertType.ERROR,"Appointment outside of business hours",
+                    "Please schedule an appointment inside of business hours defined as 8:00 a.m. to 10:00 p.m. ET" +
+                            "and Monday through Friday");
+        }
+        if(AppointmentsDaoImpl.hasOverlappingAppointments(appointmentsModel.getCustomerID(),
+                TimeProcessing.getTimeFromDateTime(appointmentsModel.getStart()),
+                TimeProcessing.getTimeFromDateTime(appointmentsModel.getEnd()))){
+            // -scheduling overlapping appointments for customers
+            isValidAppointment=true;
+            //display a custom message specific for each error check in the user interface
+            setCustomMessage(Alert.AlertType.ERROR,"Scheduling Overlap","Please schedule a non-overlapping " +
+                    "appointment for customer");
+        }
+        return isValidAppointment;
     }
 
     private String getStartDateTimeSelected() {
@@ -274,6 +294,7 @@ public class SchedulingController extends Application implements Initializable {
 // -scheduling overlapping appointments for customers
 // -entering an incorrect username and password
 
+
         //When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
         //  contact, type, start date and time, end date and time, Customer_ID, and User_ID.
         appointmentsModel = appointmentTblView.getSelectionModel().getSelectedItem();
@@ -289,8 +310,12 @@ public class SchedulingController extends Application implements Initializable {
         appointmentsModel.setCustomerID(Integer.parseInt(customerIDTxt.getText()));
         appointmentsModel.setUserID(Integer.parseInt(userIDTxt.getText()));
         appointmentsModel.setContactID(contactsModel.getContactID());
-        updateCustomerDatabase();
-        clearSelectionAndFormFields();
+
+        if(!isValidAppointment()){
+            updateCustomerDatabase();
+            clearSelectionAndFormFields();
+        }
+
         showSchedulingTableView();
 
     }
@@ -668,7 +693,7 @@ public class SchedulingController extends Application implements Initializable {
      */
     private void populateStartAndEndDateTime(String startTime, LocalDate startDate, String endTime, LocalDate endDate) {
         ObservableList<String> time = FXCollections.observableArrayList();
-        time.addAll(TimeProcessing.generateLocalBusinessHoursWithSeconds());
+        time.addAll(TimeProcessing.generateLocalHoursWithSeconds());
 
         if (startTime != null && startDate != null && endTime != null && endDate != null) {
             startTimeComboBox.setItems(time);

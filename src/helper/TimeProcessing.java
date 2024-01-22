@@ -142,6 +142,7 @@ public class TimeProcessing {
         LocalTime businessStartTime = LocalTime.of(8, 0,0);
         LocalTime businessEndTime = LocalTime.of(22, 0,0);
 
+
         // Generate time options within business hours
         LocalTime currentTime = businessStartTime;
         while (currentTime.isBefore(businessEndTime)) {
@@ -160,6 +161,47 @@ public class TimeProcessing {
     public static List<String> generateLocalBusinessHoursWithSeconds(){
 
         List<LocalTime> timeOptions = generateBusinessHours();
+        List<String> localTimeOptions  = new ArrayList<>();
+
+        for (LocalTime time : timeOptions) {
+            localTimeOptions.add(getCorrectTimeSeconds(convertETToLocalTime(time)));
+        }
+
+        return localTimeOptions;
+    }
+
+
+    /**
+     *scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
+     * @return
+     */
+    public static List<LocalTime> generateHours(){
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        List<LocalTime> timeOptions = new ArrayList<>();
+
+        // Define business hours
+        LocalTime businessStartTime = LocalTime.of(0, 0,0);
+        LocalTime businessEndTime = LocalTime.of(23, 0,0);
+
+
+        // Generate time options within business hours
+        LocalTime currentTime = businessStartTime;
+        while (currentTime.isBefore(businessEndTime)) {
+
+            timeOptions.add(currentTime);
+            currentTime = currentTime.plusHours(1); // Move to the next hour
+        }
+
+        return timeOptions;
+    }
+
+    /**
+     *scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
+     * @return
+     */
+    public static List<String> generateLocalHoursWithSeconds(){
+
+        List<LocalTime> timeOptions = generateHours();
         List<String> localTimeOptions  = new ArrayList<>();
 
         for (LocalTime time : timeOptions) {

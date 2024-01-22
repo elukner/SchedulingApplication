@@ -180,7 +180,7 @@ public class DaoTest {
 //        }else{
 //            System.out.println("Delete Failed");
 //        }
-        AppointmentsDaoImpl.hasOverlappingAppointments(1,"12:00:00","13:00:00");
+        System.out.println(AppointmentsDaoImpl.hasOverlappingAppointments(1,"08:00:00","15:00:00"));
         JDBC.closeConnection();
     }
     @Test
