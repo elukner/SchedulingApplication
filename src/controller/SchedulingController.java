@@ -48,7 +48,13 @@ import model.Users;
 
 
 /**
- * This FXML class is the scheduling controller that contains business logic for the scheduling view.
+ * Controller class for the scheduling functionality of the application.
+ * Manages interactions with the scheduling.fxml view, handling user actions and updating the display.
+ * Implements Initializable for initialization tasks and Application for JavaFX application lifecycle methods.
+ *
+ * @implNote This controller includes methods for initializing the view, handling user interactions,
+ * and displaying scheduling-related information. It also interacts with the DAO (Data Access Object) classes
+ * for retrieving and manipulating data from the underlying database.
  */
 public class SchedulingController extends Application implements Initializable {
 
