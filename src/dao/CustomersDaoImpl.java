@@ -293,13 +293,10 @@ public class CustomersDaoImpl {
                 String address = resultSet.getString("Address");
                 String postalCode = resultSet.getString("Postal_Code");
                 String phone = resultSet.getString("Phone");
-                String lastUpdate = resultSet.getString("Last_Update");
-                String lastUpdatedBy = resultSet.getString("Last_Updated_By");
                 int divisionID = resultSet.getInt("Division_ID");
                 String countryName = resultSet.getString("Country");
                 Customers customer = new Customers(customerID, customerName,
                         address, postalCode, phone,
-                        lastUpdate, lastUpdatedBy,
                         divisionID,countryName);
                 customersList.add(customer);
             }

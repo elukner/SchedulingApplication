@@ -89,28 +89,24 @@ public class Customers {
     }
 
     /**
-     * Class Constructor of Customers with country and without createDate and createdBy
+     * Class Constructor of Customers with country and without createDate, createdBy,
+     * lastUpdated, lastUpdatedBy
      *
      * @param customerID
      * @param customerName
      * @param address
      * @param postalCode
      * @param phone
-     * @param lastUpdate
-     * @param lastUpdatedBy
      * @param divisionID
      */
     public Customers(int customerID, String customerName,
                      String address, String postalCode, String phone,
-                     String lastUpdate, String lastUpdatedBy,
                      int divisionID, String country) {
         this.customerID = customerID;
         this.customerName = customerName;
         this.address = address;
         this.postalCode = postalCode;
         this.phone = phone;
-        this.lastUpdate = lastUpdate;
-        this.lastUpdatedBy = lastUpdatedBy;
         this.divisionID = divisionID;
         //Added due to requirement that customer record table view has country column
         this.country = country;

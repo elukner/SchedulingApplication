@@ -27,8 +27,6 @@
                   <TableColumn fx:id="addressCol" prefWidth="75.0" text="Address" />
                   <TableColumn fx:id="postalCodeCol" prefWidth="75.0" text="Postal_Code" />
                   <TableColumn fx:id="phoneCol" prefWidth="75.0" text="Phone" />
-                  <TableColumn fx:id="lastUpdateCol" prefWidth="75.0" text="Last_Update" />
-                  <TableColumn fx:id="lastUpdatedByCol" prefWidth="75.0" text="Last_Updated_By" />
                   <TableColumn fx:id="countryCol" prefWidth="75.0" text="Country" />
                   <TableColumn fx:id="divisionIDCol" prefWidth="75.0" text="Division_ID" />
                </columns>

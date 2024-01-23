@@ -79,12 +79,6 @@ public class CustomerRecordController extends Application implements Initializab
     @FXML // fx:id="divisionIDCol"
     private TableColumn<?, ?> divisionIDCol; // Value injected by FXMLLoader
 
-    @FXML // fx:id="lastUpdateCol"
-    private TableColumn<?, ?> lastUpdateCol; // Value injected by FXMLLoader
-
-    @FXML // fx:id="lastUpdatedByCol"
-    private TableColumn<?, ?> lastUpdatedByCol; // Value injected by FXMLLoader
-
     @FXML // fx:id="phoneCol"
     private TableColumn<?, ?> phoneCol; // Value injected by FXMLLoader
 
@@ -183,8 +177,6 @@ public class CustomerRecordController extends Application implements Initializab
         customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         divisionIDCol.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
-        lastUpdateCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdate"));
-        lastUpdatedByCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdatedBy"));
         phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
         postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
@@ -216,8 +208,6 @@ public class CustomerRecordController extends Application implements Initializab
         customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         divisionIDCol.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
-        lastUpdateCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdate"));
-        lastUpdatedByCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdatedBy"));
         phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
         postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
 
