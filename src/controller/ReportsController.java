@@ -80,46 +80,25 @@ public class ReportsController implements Initializable {
     }
 
     /**
-     * TODO the total number of customer appointments by type and month
+     * Loads the data for the first report into the specified TableView.
+     * The method populates the TableView with appointment data retrieved from the AppointmentReportDaoImpl,
+     * displaying the total number of customer appointments categorized by type and month.
+     *
+     * It sets up the necessary cell value factories for the 'Month', 'Type', and 'Total Appointments' columns
+     * in the report1TableView. The 'Month' and 'Type' columns are populated directly from the data,
+     * while the 'Total Appointments' column is calculated using the getTotalAppointments() method of the data model.
+     *
+     * Note: Ensure that the report1TableView, monthCol, typeCol, and totalAppointmentsCol are initialized
+     * before calling this method to avoid NullPointerException.
      */
     private void loadReport1(){
-
-
-//        SELECT
-//        MONTH(`Start`) AS month,
-//    `Type`,
-//        COUNT(*) AS total_appointments
-//        FROM
-//        client_schedule.appointments
-//        GROUP BY
-//        MONTH(`Start`),
-//    `Type`;
-
-//        report1TableView.getItems().clear();
-//
-//        ObservableList<String> appointmentsList = AppointmentsDaoImpl.getAllAppointmentsCustomerIDMT();
-//
-//        typeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
-//        monthCol.setText("Month");
-//        monthCol.setCellValueFactory(new PropertyValueFactory<>("Month"));
-//        totalAppointmentsCol.setText("Total_Appointments");
-//        totalAppointmentsCol.setCellValueFactory(new PropertyValueFactory<>("Total_Appointments"));
-//
-//
-//        try {
-//            appointmentsList.addAll(AppointmentsDaoImpl.getAllAppointmentsCustomerIDMT());
-//
-//        } catch (Exception ex) {
-//            Logger.getLogger(SchedulingController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        report1TableView.setItems(appointmentsList);
 
         report1TableView.setItems(FXCollections.observableArrayList(AppointmentReportDaoImpl.getAppointmentsByTypeAndMonth()));
         monthCol.setCellValueFactory(new PropertyValueFactory<>("Month"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
-        totalAppointmentsCol.setCellValueFactory(new PropertyValueFactory<>("Total_Appointments"));
-//        totalAppointmentsCol.setCellValueFactory(new PropertyValueFactory<>("Total_Appointments"));
-
+        totalAppointmentsCol.setCellValueFactory(cellDataFeatures -> {
+            return cellDataFeatures.getValue().getTotalAppointments().asObject();
+        });
 
     }
 

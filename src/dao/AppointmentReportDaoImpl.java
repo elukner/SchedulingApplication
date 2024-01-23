@@ -1,7 +1,9 @@
 package dao;
 
 import helper.JDBC;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.AppointmentReport;
@@ -32,7 +34,7 @@ public class AppointmentReportDaoImpl {
                 String month = resultSet.getString("Month");
                 String type = resultSet.getString("Type");
                 int totalAppointments = resultSet.getInt("Total_Appointments");
-                AppointmentReport appointmentReport = new AppointmentReport(month, type,totalAppointments );
+                AppointmentReport appointmentReport = new AppointmentReport(month, type, new ReadOnlyIntegerWrapper(totalAppointments) );
                 appointmentReportList.add(appointmentReport);
             }
         } catch (SQLException throwables) {
