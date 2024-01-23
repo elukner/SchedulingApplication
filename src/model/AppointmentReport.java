@@ -1,5 +1,7 @@
 package model;
 
+import javafx.beans.property.IntegerProperty;
+
 /**
  * The AppointmentReport class represents a report on appointments, including information about the month, type, and total number of appointments.
  */
@@ -17,7 +19,7 @@ public class AppointmentReport {
     /**
      * The total number of appointments for the specified month and type.
      */
-    private int totalAppointments;
+    private IntegerProperty totalAppointments;
 
     /**
      * Constructs an AppointmentReport with the specified month, type, and total number of appointments.
@@ -26,7 +28,7 @@ public class AppointmentReport {
      * @param type              The type of appointments included in the report.
      * @param totalAppointments The total number of appointments for the specified month and type.
      */
-    public AppointmentReport(String month, String type, int totalAppointments) {
+    public AppointmentReport(String month, String type, IntegerProperty totalAppointments) {
         this.month = month;
         this.type = type;
         this.totalAppointments = totalAppointments;
@@ -72,7 +74,7 @@ public class AppointmentReport {
      *
      * @return The total number of appointments.
      */
-    public int getTotalAppointments() {
+    public IntegerProperty getTotalAppointments() {
         return totalAppointments;
     }
 
@@ -81,7 +83,7 @@ public class AppointmentReport {
      *
      * @param totalAppointments The total number of appointments to set.
      */
-    public void setTotalAppointments(int totalAppointments) {
+    public void setTotalAppointments(IntegerProperty totalAppointments) {
         this.totalAppointments = totalAppointments;
     }
 

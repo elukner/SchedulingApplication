@@ -1,5 +1,6 @@
 package controller;
 
+import dao.AppointmentReportDaoImpl;
 import dao.AppointmentsDaoImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +23,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
+import model.AppointmentReport;
 import model.Appointments;
 
 public class ReportsController implements Initializable {
@@ -30,7 +32,7 @@ public class ReportsController implements Initializable {
     private ComboBox<String> contactComboBox; // Value injected by FXMLLoader
 
     @FXML // fx:id="report1TableView"
-    private TableView<Appointments> report1TableView; // Value injected by FXMLLoader
+    private TableView<AppointmentReport> report1TableView; // Value injected by FXMLLoader
 
     @FXML // fx:id="report2TableView"
     private TableView<Appointments> report2TableView; // Value injected by FXMLLoader
@@ -39,15 +41,15 @@ public class ReportsController implements Initializable {
     private TableView<Appointments> report3TableView; // Value injected by FXMLLoader
 
     @FXML // fx:id="monthCol"
-    private TableColumn<?, ?> monthCol; // Value injected by FXMLLoader
+    private TableColumn<AppointmentReport, String> monthCol; // Value injected by FXMLLoader
 
     @FXML // fx:id="totalAppointmentsCol"
-    private TableColumn<?, ?> totalAppointmentsCol; // Value injected by FXMLLoader
+    private TableColumn<AppointmentReport, Integer> totalAppointmentsCol; // Value injected by FXMLLoader
 
     @FXML // fx:id="typeCol"
-    private TableColumn<?, ?> typeCol; // Value injected by FXMLLoader
+    private TableColumn<AppointmentReport, String> typeCol; // Value injected by FXMLLoader
 
-    private ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+   // private ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
 
 
     private Stage stage;
@@ -111,6 +113,13 @@ public class ReportsController implements Initializable {
 //            Logger.getLogger(SchedulingController.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //        report1TableView.setItems(appointmentsList);
+
+        report1TableView.setItems(FXCollections.observableArrayList(AppointmentReportDaoImpl.getAppointmentsByTypeAndMonth()));
+        monthCol.setCellValueFactory(new PropertyValueFactory<>("Month"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
+        totalAppointmentsCol.setCellValueFactory(new PropertyValueFactory<>("Total_Appointments"));
+//        totalAppointmentsCol.setCellValueFactory(new PropertyValueFactory<>("Total_Appointments"));
+
 
     }
 

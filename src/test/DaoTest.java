@@ -162,6 +162,17 @@ public class DaoTest {
     }
 
     @Test
+    public void testAppointmentReportDaoImpl() throws SQLException {
+        JDBC.openConnection();
+
+
+        for (AppointmentReport appointment : AppointmentReportDaoImpl.getAppointmentsByTypeAndMonth()) {
+            System.out.println( appointment.getType() + appointment.getMonth() + appointment.getTotalAppointments());
+        }
+        JDBC.closeConnection();
+    }
+
+    @Test
     public void testAppointmentsDaoImpl() throws SQLException {
         JDBC.openConnection();
 

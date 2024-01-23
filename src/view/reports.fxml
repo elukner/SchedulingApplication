@@ -13,7 +13,7 @@
               <columns>
                 <TableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
                 <TableColumn fx:id="monthCol" prefWidth="75.0" text="Month" />
-                  <TableColumn fx:id="totalAppointmentsCol" prefWidth="75.0" text="Total Number of Customer Appointments" />
+                  <TableColumn fx:id="totalAppointmentsCol" prefWidth="75.0" text="Total_AppointmentsTotal_Appointments" />
               </columns>
             </TableView>
             <Label text="Report 2: Contact Schedule Overview" />
