@@ -164,9 +164,7 @@ public class DaoTest {
     @Test
     public void testAppointmentsDaoImpl() throws SQLException {
         JDBC.openConnection();
-//        for (Appointments appointments : AppointmentsDaoImpl.getAllAppointments()) {
-//            System.out.println("Appointments: [Appointment_ID : " + appointments.getAppointmentID() + ", Name : " + appointments.getTitle() + " ]");
-//        }
+
 //        AppointmentsDaoImpl.deleteAppointment(3);
 //        //AppointmentsDaoImpl.insertAppointments(3, "title", "description", "location", "Planning Session", "2020-05-28 12:00:00", "2020-05-28 13:00:00", "script", "script", 1, 1, 3);
 //      AppointmentsDaoImpl.selectAppointment();
@@ -180,7 +178,11 @@ public class DaoTest {
 //        }else{
 //            System.out.println("Delete Failed");
 //        }
-        System.out.println(AppointmentsDaoImpl.hasOverlappingAppointments(1,"08:00:00","15:00:00"));
+        System.out.println(AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min());
+
+        for (Appointments appointments : AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min()) {
+            System.out.println("Appointments: [Appointment_ID : " + appointments.getAppointmentID() + ", Name : " + appointments.getTitle() + " ]");
+        }
         JDBC.closeConnection();
     }
     @Test

@@ -30,6 +30,41 @@ import java.util.List;
  **/
 public class AppointmentsDaoImpl {
 
+    public static ObservableList<Appointments> getUpcomingAppointmentWithin15Min() {
+
+        ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+        try {
+            String sqlStatement = "SELECT *\n" +
+                    "FROM client_schedule.appointments\n" +
+                    "WHERE Start BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 15 MINUTE)";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int appointmentID = resultSet.getInt("Appointment_ID");
+                String title = resultSet.getString("Title");
+                String description = resultSet.getString("Description");
+                String location = resultSet.getString("Location");
+                String type = resultSet.getString("Type");
+                String start = resultSet.getString("Start");
+                String end = resultSet.getString("End");
+                String createDate = resultSet.getString("Create_Date");
+                String createdBy = resultSet.getString("Created_By");
+                String lastUpdate = resultSet.getString("Last_Update");
+                String lastUpdatedBy = resultSet.getString("Last_Updated_By");
+                int customerID = resultSet.getInt("Customer_ID");
+                int userID = resultSet.getInt("User_ID");
+                int contactID = resultSet.getInt("Contact_ID");
+                Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title), description, location, type, start,
+                        end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+                appointmentsList.add(appointment);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return appointmentsList;
+    }
     public static boolean hasOverlappingAppointments(int customerId, String startDateTime, String endDateTime) throws SQLException {
 
         try{

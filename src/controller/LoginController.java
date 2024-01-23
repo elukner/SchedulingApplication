@@ -1,5 +1,6 @@
 package controller;
 
+import dao.AppointmentsDaoImpl;
 import helper.FileIOManager;
 import helper.TimeProcessing;
 import javafx.collections.ObservableList;
@@ -11,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import model.Appointments;
 import model.Users;
 
 import java.io.IOException;
@@ -108,6 +110,7 @@ public class LoginController implements Initializable {
             scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
             stage.setScene(new Scene(scene));
             stage.show();
+
         }else {
             loginSuccess=false;
             setUserLoggedIn();

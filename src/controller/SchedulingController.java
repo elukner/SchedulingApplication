@@ -288,11 +288,6 @@ public class SchedulingController extends Application implements Initializable {
     void onActionUpdate(ActionEvent actionEvent) throws SQLException, FileNotFoundException {
 
         Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
-        // d.  Write code to implement input validation and logical error checks to prevent each of the following changes when
-// adding or updating information; display a custom message specific for each error check in the user interface:
-// -scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
-// -scheduling overlapping appointments for customers
-// -entering an incorrect username and password
 
 
         //When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
@@ -468,6 +463,7 @@ public class SchedulingController extends Application implements Initializable {
         // TODO
         //ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList(); new
 
+        checkUpcomingAppointments(LocalDateTime.now());
 
         appointmentsList = FXCollections.observableArrayList();
 
@@ -632,15 +628,6 @@ public class SchedulingController extends Application implements Initializable {
     }
 
 
-
-
-//e.  Write code to provide an alert when there is an appointment within 15 minutes of the user’s log-in.
-// A custom message should be displayed in the user interface and include the appointment ID, date, and time.
-// If the user does not have any appointments within 15 minutes of logging in, display a custom message in the user
-// interface indicating there are no upcoming appointments. Note: Since evaluation may be testing your application
-// outside of business hours, your alerts must be robust enough to trigger an appointment within 15 minutes of the
-// local time set on the user’s computer, which may or may not be ET.
-
     private void tbleViewSelectionListener() {
         appointmentTblView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
         {
@@ -708,6 +695,57 @@ public class SchedulingController extends Application implements Initializable {
             endTimeComboBox.setItems(time);
         }
 
+    }
+
+    /**
+     * Note: Since evaluation may be testing your application
+     *  outside of business hours, your alerts must be robust enough to trigger an appointment within 15 minutes of the
+     *  local time set on the user’s computer, which may or may not be ET.
+     * @param userLoginTime
+     */
+    public static void checkUpcomingAppointments(LocalDateTime userLoginTime) {
+
+        if (!AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min().isEmpty()) {
+            // Display an alert with appointment details
+            showAppointmentAlert();
+
+        }else{
+            showNoAppointmentsMessage();
+        }
+
+
+    }
+
+    /**
+     * Write code to provide an alert when there is an appointment within 15 minutes of the user’s log-in.
+     *  A custom message should be displayed in the user interface and include the appointment ID, date, and time.
+     *  code to show an alert with appointment details
+     */
+    private static void showAppointmentAlert() {
+        if(!AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min().isEmpty()){
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setTitle("Upcoming Appointments");
+            a.setHeaderText("You have an upcoming appointment!");
+            Appointments appointments = AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min().get(0);
+            a.setContentText("Appointment ID: " + appointments.getAppointmentID()+
+                    "\nDate and Time: " + appointments.getStart());
+
+            a.show();
+        }
+    }
+
+    /**
+     *  If the user does not have any appointments within 15 minutes of logging in, display a custom message in the user
+     *  interface indicating there are no upcoming appointments.
+     *
+     *  code to show a message indicating no upcoming appointments
+     */
+    private static void showNoAppointmentsMessage() {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle("Upcoming Appointments");
+        a.setHeaderText("No upcoming appointment!");
+        a.setContentText("There are no upcoming appointments.");
+        a.show();
     }
 
     /**
