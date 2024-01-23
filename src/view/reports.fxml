@@ -11,9 +11,9 @@
             <Label text="Report 1: Appointment Analysis by Type and Month" />
             <TableView fx:id="report1TableView" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Type" />
-                <TableColumn prefWidth="75.0" text="Month" />
-                  <TableColumn prefWidth="75.0" text="Total Number of Customer Appointments" />
+                <TableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
+                <TableColumn fx:id="monthCol" prefWidth="75.0" text="Month" />
+                  <TableColumn fx:id="totalAppointmentsCol" prefWidth="75.0" text="Total Number of Customer Appointments" />
               </columns>
             </TableView>
             <Label text="Report 2: Contact Schedule Overview" />

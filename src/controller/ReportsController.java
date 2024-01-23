@@ -8,11 +8,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,7 +38,14 @@ public class ReportsController implements Initializable {
     @FXML // fx:id="report3TableView"
     private TableView<Appointments> report3TableView; // Value injected by FXMLLoader
 
+    @FXML // fx:id="monthCol"
+    private TableColumn<?, ?> monthCol; // Value injected by FXMLLoader
 
+    @FXML // fx:id="totalAppointmentsCol"
+    private TableColumn<?, ?> totalAppointmentsCol; // Value injected by FXMLLoader
+
+    @FXML // fx:id="typeCol"
+    private TableColumn<?, ?> typeCol; // Value injected by FXMLLoader
 
     private ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
 
@@ -82,15 +93,15 @@ public class ReportsController implements Initializable {
 //        MONTH(`Start`),
 //    `Type`;
 
-        //        appointmentTblView.getItems().clear();
+//        report1TableView.getItems().clear();
 //
 //        ObservableList<String> appointmentsList = AppointmentsDaoImpl.getAllAppointmentsCustomerIDMT();
 //
 //        typeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
-//        startDateTimeCol.setText("Month");
-//        startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("Month"));
-//        descriptionCol.setText("Total_Appointments");
-//        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("Total_Appointments"));
+//        monthCol.setText("Month");
+//        monthCol.setCellValueFactory(new PropertyValueFactory<>("Month"));
+//        totalAppointmentsCol.setText("Total_Appointments");
+//        totalAppointmentsCol.setCellValueFactory(new PropertyValueFactory<>("Total_Appointments"));
 //
 //
 //        try {
@@ -99,7 +110,7 @@ public class ReportsController implements Initializable {
 //        } catch (Exception ex) {
 //            Logger.getLogger(SchedulingController.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-//        appointmentTblView.setItems(appointmentsList);
+//        report1TableView.setItems(appointmentsList);
 
     }
 
