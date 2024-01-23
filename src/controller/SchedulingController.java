@@ -550,12 +550,12 @@ public class SchedulingController extends Application implements Initializable {
 
 
     /**
-     * logic to fetch and populate appointments for the month
-     * <p>
-     * Write code that enables the user to view appointment schedules by month and week using a TableView and
-     * allows the user to choose between these two options using tabs or radio buttons for filtering appointments.
+     * Handles the action event when filtering and displaying appointments for the current month.
      *
-     * @param actionEvent
+     * @param actionEvent The ActionEvent triggered by the filter appointments for the current month action.
+     *
+     * @implNote This method calls the populateAppointmentsByMonth method to fetch and display
+     * appointments for the current month in the TableView.
      */
     @FXML
     void onActionFilterAppointmentMonthRBtn(ActionEvent actionEvent) {
@@ -563,6 +563,12 @@ public class SchedulingController extends Application implements Initializable {
 
     }
 
+    /**
+     * Populates the TableView with appointments for the current month from the database.
+     *
+     * @implNote This method clears the existing appointments, fetches appointments for the current
+     * month from the database using AppointmentsDaoImpl, and updates the TableView with the new data.
+     */
     private void populateAppointmentsByMonth() {
         // Clear existing appointments
         appointmentsList.clear();
@@ -582,12 +588,11 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * logic to fetch and populate appointments for the week
-     * <p>
-     * Write code that enables the user to view appointment schedules by month and week using a TableView and
-     * allows the user to choose between these two options using tabs or radio buttons for filtering appointments.
+     * Handles the action event when filtering and displaying appointments for the current week.
      *
-     * @param actionEvent
+     * @param actionEvent The ActionEvent triggered by the filter appointments for the current week action.
+     *
+     * @implNote This method fetches and displays appointments for the current week in the TableView.
      */
     @FXML
     void onActionFilterAppointmentWeekRBtn(ActionEvent actionEvent) {
@@ -608,19 +613,23 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * Write code that enables the user to view appointment schedules using a TableView
+     * Displays the scheduling table view with appointments and necessary columns.
+     *
+     * @implNote This method initializes the TableView columns with appropriate PropertyValueFactory,
+     * sets up the columns including Appointment_ID, Title, Description, Location, Contact, Type,
+     * Start Date and Time, End Date and Time, Customer_ID, and User_ID. It then fetches and displays
+     * all appointments in the TableView.
      */
     @FXML
     void showSchedulingTableView() {
-        // TODO
-        //ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList(); new
 
+        // Check for upcoming appointments
         checkUpcomingAppointments(LocalDateTime.now());
 
+        // Initialize ObservableList for appointments
         appointmentsList = FXCollections.observableArrayList();
 
-        //Please include each of the following requirements as columns: Appointment_ID, Title, Description, Location,
-        // Contact, Type, Start Date and Time, End Date and Time, Customer_ID, User_ID
+        // Set up TableView columns
         appointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
         // titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         titleCol.setCellValueFactory(cellDataFeatures -> {
@@ -638,31 +647,42 @@ public class SchedulingController extends Application implements Initializable {
 
 
         try {
+            // Fetch and add all appointments to appointmentsList
             appointmentsList.addAll(AppointmentsDaoImpl.getAllAppointments());
 
         } catch (Exception ex) {
             Logger.getLogger(SchedulingController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-
+        // Update TableView with appointments
         appointmentTblView.setItems(appointmentsList);
 
 
-        //The Appointment_ID is disabled throughout the application.
+        // Disable Appointment_ID field throughout the application
         appointmentIDTxt.setDisable(true);
 
 
     }
 
+    /**
+     * Handles the action event when selecting a customer ID from the ComboBox.
+     *
+     * @param event The ActionEvent triggered by the customer ID selection.
+     *
+     * @implNote This method updates the customerIDSelected variable with the selected value from the ComboBox.
+     */
     @FXML
     void onActionSelectCustomerID(ActionEvent event) {
         customerIDSelected = customerIDComboBox.getValue();
-
-//        if (!ContactsDaoImpl.getContact(contactNameComboBox.getValue()).isEmpty())
-//            contactsModel = ContactsDaoImpl.getContact(contactNameComboBox.getValue()).get(0);
-
     }
 
+    /**
+     * Handles the action event when selecting a user ID from the ComboBox.
+     *
+     * @param event The ActionEvent triggered by the user ID selection.
+     *
+     * @implNote This method updates the userIDSelected variable with the selected value from the ComboBox.
+     */
     @FXML
     void onActionSelectUserID(ActionEvent event) {
 
@@ -670,21 +690,38 @@ public class SchedulingController extends Application implements Initializable {
 
     }
 
+    /**
+     * Handles the action event when selecting a start time from the ComboBox.
+     *
+     * @param event The ActionEvent triggered by the start time selection.
+     *
+     * @implNote This method updates the startTimeSelected variable with the selected value from the ComboBox.
+     */
     @FXML
     void onStartTimeSelected(ActionEvent event) {
-        // startTimeSelected = startTimeComboBox.getEditor().getText();
         startTimeSelected = startTimeComboBox.getValue();
     }
 
+    /**
+     * Handles the action event when selecting an end time from the ComboBox.
+     *
+     * @param event The ActionEvent triggered by the end time selection.
+     *
+     * @implNote This method updates the endTimeSelected variable with the selected value from the ComboBox.
+     */
     @FXML
     void onEndTimeSelected(ActionEvent event) {
-        //endTimeSelected = endTimeComboBox.getEditor().getText();
-
         endTimeSelected = endTimeComboBox.getValue();
-
-
     }
 
+    /**
+     * Handles the action event when selecting a start date from the DatePicker.
+     *
+     * @param event The ActionEvent triggered by the start date selection.
+     *
+     * @implNote This method converts the selected start date to a string using the datePickerStringConverter
+     * method and updates the startDateSelected variable.
+     */
     @FXML
     void onActionStartDate(ActionEvent event) {
         datePickerStringConverter(startDatePicker);
@@ -692,12 +729,28 @@ public class SchedulingController extends Application implements Initializable {
 
     }
 
+    /**
+     * Handles the action event when selecting an end date from the DatePicker.
+     *
+     * @param event The ActionEvent triggered by the end date selection.
+     *
+     * @implNote This method converts the selected end date to a string using the datePickerStringConverter
+     * method and updates the endDateSelected variable.
+     */
     @FXML
     void onActionEndDate(ActionEvent event) {
         datePickerStringConverter(endDatePicker);
         endDateSelected = endDatePicker.getValue().toString();
     }
 
+    /**
+     * Sets a StringConverter for the specified DatePicker to format and parse LocalDate objects.
+     *
+     * @param datePicker The DatePicker for which the StringConverter is set.
+     *
+     * @implNote This method creates a custom StringConverter for LocalDate objects with the
+     * pattern "yyyy-MM-dd". It sets this StringConverter to the provided DatePicker.
+     */
     private void datePickerStringConverter(DatePicker datePicker) {
         datePicker.setConverter(new StringConverter<LocalDate>() {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -736,28 +789,31 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * TODO
+     * Displays a custom message using an Alert with the specified type, title, and content text.
      *
-     * @param customMessage
+     * @param alertType The AlertType for the custom message (e.g., INFORMATION, ERROR).
+     * @param title The title of the Alert.
+     * @param customMessage The custom message to be displayed in the content text of the Alert.
+     *
+     * @implNote This method creates an Alert with the specified type, sets the title and content text,
+     * and displays the Alert using showAndWait().
      */
     void setCustomMessage(Alert.AlertType alertType, String title, String customMessage) {
-        // TODO A custom message is displayed in the user interface with the Appointment_ID and type of appointment canceled.
-
         Alert a = new Alert(alertType);
         a.setTitle(title);
-        //a.setHeaderText();
         a.setContentText(customMessage);
         a.showAndWait();
-
-
     }
 
-
     /**
-     * TODO comment
+     * Handles the action event when navigating back to the main menu.
      *
-     * @param event
-     * @throws IOException
+     * @param event The ActionEvent triggered by the back action.
+     *
+     * @throws IOException If an I/O exception occurs during the navigation process.
+     *
+     * @implNote This method retrieves the current stage, loads the mainMenu.fxml file,
+     * sets the new scene, and shows the updated stage.
      */
     @FXML
     void onActionBack(ActionEvent event) throws IOException {
@@ -768,9 +824,12 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * TODO comment
+     * Handles the action event when canceling the current operation.
      *
-     * @param event
+     * @param event The ActionEvent triggered by the cancel action.
+     *
+     * @implNote This method calls the clearSelectionAndFormFields method to clear
+     * the selection and form fields.
      */
     @FXML
     void onActionCancel(ActionEvent event) {
@@ -778,6 +837,13 @@ public class SchedulingController extends Application implements Initializable {
 
     }
 
+    /**
+     * Clears the selection and form fields in the appointment form.
+     *
+     * @implNote This method clears the selection in the TableView and resets various form fields
+     * including Appointment ID, Title, Description, Location, Contact, Type, Start Date and Time,
+     * End Date and Time, Customer ID, and User ID.
+     */
     private void clearSelectionAndFormFields() {
         appointmentTblView.getSelectionModel().clearSelection();
         appointmentIDTxt.setDisable(true);
@@ -795,48 +861,65 @@ public class SchedulingController extends Application implements Initializable {
         userIDComboBox.getItems().clear();
     }
 
-
+    /**
+     * Sets up a TableView selection listener to update the form fields when a row is selected.
+     *
+     * @implNote This method adds a listener to the selectedItemProperty of the TableView's selection model.
+     * When a new selection is made, it updates the form fields with the selected appointment's data.
+     */
     private void tbleViewSelectionListener() {
 
         appointmentTblView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
         {
             if (newSelection != null) {
-                //Appointments selectedAppointments = appointmentTblView.getSelectionModel().getSelectedItem(); new
-
+                // Store the selected appointment
                 selectedAppointments = appointmentTblView.getSelectionModel().getSelectedItem();
 
-                //All of the appointment fields can be updated except Appointment_ID, which must be disabled.
-                // The Appointment_ID is disabled throughout the application.
+                // Disable and set Appointment_ID
                 appointmentIDTxt.setDisable(true);
                 appointmentIDTxt.setText(String.valueOf(selectedAppointments.getAppointmentID()));
+
+                // Set other form fields with selected appointment data
                 titleTxt.setText(selectedAppointments.getTitle().getValue());
                 descriptionTxt.setText(selectedAppointments.getDescription());
                 locationTxt.setText(selectedAppointments.getLocation());
 
+                // Populate and update Contact Name ComboBox
                 populateContactNameComboBoxWithValue();
 
                 typeTxt.setText(selectedAppointments.getType());
 
 
-                //populating start and end date/time combo box and date picker with selected values
+                // Populate and update start and end date/time ComboBoxes
                 populateStartAndEndDateTime(TimeProcessing.getCorrectTimeSeconds(TimeProcessing.getTime(selectedAppointments.getStart())),
                         DateProcessing.getDate(selectedAppointments.getStart()),
                         TimeProcessing.getCorrectTimeSeconds(TimeProcessing.getTime(selectedAppointments.getEnd())),
                         DateProcessing.getDate(selectedAppointments.getEnd()));
 
-
+                // Populate Customer ID and User ID ComboBoxes
                 populateCustomerIDComboBoxWithValue();
                 populateUserIDComboBoxWithValue();
             }
         });
     }
 
+    /**
+     * Populates the Contact Name ComboBox with values and sets the selected value.
+     *
+     * @implNote This method clears the existing items in the ComboBox, retrieves the contact data
+     * corresponding to the selected appointment, sets the selected value in the ComboBox, and adds
+     * all contact names to the ComboBox.
+     */
     private void populateContactNameComboBoxWithValue() {
         contactNameComboBox.getItems().clear();
+
         if (!ContactsDaoImpl.getAllContacts().isEmpty()) {
             contactsModel = ContactsDaoImpl.getAllContacts().get(selectedAppointments.getContactID() - 1);
 
+            // Set selected value in ComboBox
             contactNameComboBox.setValue(contactsModel.getContactName());
+
+            // Add all contact names to ComboBox
             for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
 
                 contactNameComboBox.getItems().add(contact.getContactName());
@@ -844,13 +927,23 @@ public class SchedulingController extends Application implements Initializable {
         }
     }
 
-
+    /**
+     * Populates the User ID ComboBox with values and sets the selected value.
+     *
+     * @implNote This method clears the existing items in the ComboBox, retrieves the user data
+     * corresponding to the selected appointment, sets the selected value in the ComboBox, and adds
+     * all user IDs to the ComboBox.
+     */
     private void populateUserIDComboBoxWithValue() {
         userIDComboBox.getItems().clear();
+
         if (!UsersDaoImpl.getAllUsers().isEmpty()) {
             usersModel = UsersDaoImpl.getAllUsers().get(selectedAppointments.getUserID() - 1);
 
+            // Set selected value in ComboBox
             userIDComboBox.setValue(Integer.toString(usersModel.getUserID()));
+
+            // Add all user IDs to ComboBox
             for (Users user : UsersDaoImpl.getAllUsers()) {
 
                 userIDComboBox.getItems().add(Integer.toString(user.getUserID()));
@@ -858,12 +951,23 @@ public class SchedulingController extends Application implements Initializable {
         }
     }
 
+    /**
+     * Populates the Customer ID ComboBox with values and sets the selected value.
+     *
+     * @implNote This method clears the existing items in the ComboBox, retrieves the customer data
+     * corresponding to the selected appointment, sets the selected value in the ComboBox, and adds
+     * all customer IDs to the ComboBox.
+     */
     private void populateCustomerIDComboBoxWithValue() {
         customerIDComboBox.getItems().clear();
+
         if (!CustomersDaoImpl.getAllCustomers().isEmpty()) {
             customersModel = CustomersDaoImpl.getAllCustomers().get(selectedAppointments.getCustomerID() - 1);
 
+            // Set selected value in ComboBox
             customerIDComboBox.setValue(Integer.toString(customersModel.getCustomerID()));
+
+            // Add all customer IDs to ComboBox
             for (Customers customer : CustomersDaoImpl.getAllCustomers()) {
 
                 customerIDComboBox.getItems().add(Integer.toString(customer.getCustomerID()));
@@ -872,12 +976,17 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * populating start and end date/time combo box and date picker
+     * Populates the start and end date/time ComboBoxes and DatePickers with the specified values.
      *
-     * @param startTime
-     * @param startDate
-     * @param endTime
-     * @param endDate
+     * @param startTime The selected start time for the appointment.
+     * @param startDate The selected start date for the appointment.
+     * @param endTime The selected end time for the appointment.
+     * @param endDate The selected end date for the appointment.
+     *
+     * @implNote This method populates the start and end date/time ComboBoxes with a list of local hours
+     * generated by TimeProcessing.generateLocalHoursWithSeconds(). It sets the selected values in the
+     * ComboBoxes and DatePickers based on the provided start and end time, and start and end date. If any
+     * of the values is null, it sets the ComboBoxes with the generated time list only.
      */
     private void populateStartAndEndDateTime(String startTime, LocalDate startDate, String endTime, LocalDate endDate) {
         ObservableList<String> time = FXCollections.observableArrayList();
@@ -899,11 +1008,13 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * Note: Since evaluation may be testing your application
-     * outside of business hours, your alerts must be robust enough to trigger an appointment within 15 minutes of the
-     * local time set on the user’s computer, which may or may not be ET.
+     * Checks for upcoming appointments within 15 minutes of user login time.
      *
-     * @param userLoginTime
+     * @param userLoginTime The time of user login.
+     *
+     * @implNote This method checks if there are upcoming appointments within 15 minutes of the user login time.
+     * If such appointments exist, it displays an alert using showAppointmentAlert(). Otherwise, it shows a
+     * message indicating no upcoming appointments using showNoAppointmentsMessage().
      */
     public static void checkUpcomingAppointments(LocalDateTime userLoginTime) {
 
@@ -919,9 +1030,13 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * Write code to provide an alert when there is an appointment within 15 minutes of the user’s log-in.
-     * A custom message should be displayed in the user interface and include the appointment ID, date, and time.
-     * code to show an alert with appointment details
+     * Displays an alert for upcoming appointments within 15 minutes.
+     *
+     * @implNote This method creates and displays an Alert of type INFORMATION with details of the
+     * upcoming appointment, including Appointment ID and Date and Time.
+     *
+     * @see AppointmentsDaoImpl
+     * @see Alert
      */
     private static void showAppointmentAlert() {
         if (!AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min().isEmpty()) {
@@ -937,10 +1052,12 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * If the user does not have any appointments within 15 minutes of logging in, display a custom message in the user
-     * interface indicating there are no upcoming appointments.
-     * <p>
-     * code to show a message indicating no upcoming appointments
+     * Displays a message indicating no upcoming appointments.
+     *
+     * @implNote This method creates and displays an Alert of type INFORMATION with a message indicating
+     * that there are no upcoming appointments.
+     *
+     * @see Alert
      */
     private static void showNoAppointmentsMessage() {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
@@ -951,45 +1068,31 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * This method initializes this scheduling controller class
+     * Initializes the controller after its root element has been completely processed.
      *
-     * @param url
-     * @param resourceBundle
+     * @param url The location used to resolve relative paths for the root object.
+     * @param resourceBundle The resources used to localize the root object.
+     *
+     * @implNote This method is part of the Initializable interface, and it is automatically
+     * called by the FXMLLoader after the root element has been processed. It invokes the
+     * showSchedulingTableView() method to display the scheduling table view and sets up
+     * a TableView selection listener using tbleViewSelectionListener().
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showSchedulingTableView();
         tbleViewSelectionListener();
-
-//        // TODO event listeners for radio buttons for filtering
-//        filterAllAppointmentRBtn.selectedProperty().addListener(new ChangeListener<Boolean>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldSelection, Boolean newSelection) {
-//                if(newSelection.equals(filterAllAppointmentRBtn)){
-//                    populateAllAppointments();
-//                }
-//
-//         }
-//        }
-//
-//        );
-//
-//        filterAppointmentMonthRBtn.selectedProperty().addListener(new ChangeListener<Boolean>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldSelection, Boolean newSelection) {
-//                if(newSelection.equals(filterAppointmentMonthRBtn)){
-//                    populateAppointmentsByMonth();
-//                }
-//            }
-//        }
-//
-//        );
-//
-//       // filterAppointmentWeekRBtn.setOnAction(actionEvent -> onActionFilterAppointmentWeekRBtn(actionEvent));
-
     }
 
-
+    /**
+     * Starts the JavaFX application by loading the scheduling.fxml file and displaying the stage.
+     *
+     * @param stage The primary stage for the application.
+     *
+     * @throws Exception If an exception occurs during the loading or initialization process.
+     *
+     * @implNote This method loads the scheduling.fxml file, sets up the scene, and displays the stage.
+     */
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("view/scheduling.fxml"));
@@ -999,6 +1102,14 @@ public class SchedulingController extends Application implements Initializable {
 
     }
 
+    /**
+     * Stops the JavaFX application by deleting the current file using FileIOManager.
+     *
+     * @throws Exception If an exception occurs during the application shutdown process.
+     *
+     * @implNote This method calls FileIOManager.deleteCurrentFile() to perform cleanup or
+     * necessary actions before stopping the application.
+     */
     @Override
     public void stop() throws Exception {
         FileIOManager.deleteCurrentFile();
