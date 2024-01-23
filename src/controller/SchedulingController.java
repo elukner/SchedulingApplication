@@ -85,8 +85,6 @@ public class SchedulingController extends Application implements Initializable {
     @FXML // fx:id="customerIDCol"
     private TableColumn<?, ?> customerIDCol; // Value injected by FXMLLoader
 
-    @FXML // fx:id="customerIDTxt"
-    private TextField customerIDTxt; // Value injected by FXMLLoader
 
     @FXML // fx:id="customerIDComboBox"
     private ComboBox<String> customerIDComboBox; // Value injected by FXMLLoader
@@ -133,8 +131,6 @@ public class SchedulingController extends Application implements Initializable {
     @FXML // fx:id="userIDCol"
     private TableColumn<?, ?> userIDCol; // Value injected by FXMLLoader
 
-    @FXML // fx:id="userIDTxt"
-    private TextField userIDTxt; // Value injected by FXMLLoader
 
     @FXML // fx:id="userIDComboBox"
     private ComboBox<String> userIDComboBox; // Value injected by FXMLLoader
@@ -209,8 +205,8 @@ public class SchedulingController extends Application implements Initializable {
         appointmentsModel = new Appointments((new ReadOnlyStringWrapper(titleTxt.getText())),
                 descriptionTxt.getText(), locationTxt.getText(), typeTxt.getText(), getStartDateTimeSelected(),
                 getEndDateTimeSelected(), dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(),
-                dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(), Integer.parseInt(customerIDTxt.getText()),
-                Integer.parseInt(userIDTxt.getText()), contactsModel.getContactID());
+                dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(), Integer.parseInt(customerIDSelected),
+                Integer.parseInt(userIDSelected), contactsModel.getContactID());
 
 
         if(!isValidAppointment()){
@@ -314,8 +310,8 @@ public class SchedulingController extends Application implements Initializable {
         appointmentsModel.setEnd(getEndDateTimeSelected());
         appointmentsModel.setLastUpdate(DateTimeProcessing.getCurrentLocalDateTimeString());
         appointmentsModel.setLastUpdatedBy(user.getUserName());
-        appointmentsModel.setCustomerID(Integer.parseInt(customerIDTxt.getText()));
-        appointmentsModel.setUserID(Integer.parseInt(userIDTxt.getText()));
+        appointmentsModel.setCustomerID(Integer.parseInt(customerIDSelected));
+        appointmentsModel.setUserID(Integer.parseInt(userIDSelected));
         appointmentsModel.setContactID(contactsModel.getContactID());
 
         if(!isValidAppointment()){
@@ -531,6 +527,9 @@ public class SchedulingController extends Application implements Initializable {
     void onActionSelectCustomerID(ActionEvent event) {
         customerIDSelected= customerIDComboBox.getValue();
 
+//        if (!ContactsDaoImpl.getContact(contactNameComboBox.getValue()).isEmpty())
+//            contactsModel = ContactsDaoImpl.getContact(contactNameComboBox.getValue()).get(0);
+
     }
 
     @FXML
@@ -661,12 +660,13 @@ public class SchedulingController extends Application implements Initializable {
         startTimeComboBox.getItems().clear();
         endDatePicker.getEditor().clear();
         endTimeComboBox.getItems().clear();
-        customerIDTxt.clear();
-        userIDTxt.clear();
+        customerIDComboBox.getItems().clear();
+        userIDComboBox.getItems().clear();
     }
 
 
     private void tbleViewSelectionListener() {
+
         appointmentTblView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
         {
             if (newSelection != null) {
@@ -682,15 +682,7 @@ public class SchedulingController extends Application implements Initializable {
                 descriptionTxt.setText(selectedAppointments.getDescription());
                 locationTxt.setText(selectedAppointments.getLocation());
 
-                if (!ContactsDaoImpl.getAllContacts().isEmpty()) {
-                    contactsModel = ContactsDaoImpl.getAllContacts().get(selectedAppointments.getContactID() - 1);
-
-                    contactNameComboBox.setValue(contactsModel.getContactName());
-                    for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
-
-                        contactNameComboBox.getItems().add(contact.getContactName());
-                    }
-                }
+                populateContactNameComboBox();
 
                 typeTxt.setText(selectedAppointments.getType());
 
@@ -703,16 +695,28 @@ public class SchedulingController extends Application implements Initializable {
 
 
 
-                //customerIDTxt.setText(String.valueOf(selectedAppointments.getCustomerID()));
                 populateCustomerIDComboBox();
                 populateUserIDComboBox();
-                //userIDTxt.setText(String.valueOf(selectedAppointments.getUserID()));
             }
         });
     }
 
+    private void populateContactNameComboBox() {
+        contactNameComboBox.getItems().clear();
+        if (!ContactsDaoImpl.getAllContacts().isEmpty()) {
+            contactsModel = ContactsDaoImpl.getAllContacts().get(selectedAppointments.getContactID() - 1);
+
+            contactNameComboBox.setValue(contactsModel.getContactName());
+            for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
+
+                contactNameComboBox.getItems().add(contact.getContactName());
+            }
+        }
+    }
+
 
     private void populateUserIDComboBox() {
+        userIDComboBox.getItems().clear();
         if (!UsersDaoImpl.getAllUsers().isEmpty()) {
             usersModel = UsersDaoImpl.getAllUsers().get(selectedAppointments.getUserID()-1);
 
@@ -725,6 +729,7 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     private void populateCustomerIDComboBox() {
+        customerIDComboBox.getItems().clear();
         if (!CustomersDaoImpl.getAllCustomers().isEmpty()) {
             customersModel = CustomersDaoImpl.getAllCustomers().get(selectedAppointments.getCustomerID()-1);
 
