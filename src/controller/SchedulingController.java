@@ -45,6 +45,7 @@ import java.util.logging.Level;
 
 import javafx.application.Application;
 import model.Contacts;
+import model.Customers;
 import model.Users;
 
 
@@ -86,6 +87,9 @@ public class SchedulingController extends Application implements Initializable {
 
     @FXML // fx:id="customerIDTxt"
     private TextField customerIDTxt; // Value injected by FXMLLoader
+
+    @FXML // fx:id="customerIDComboBox"
+    private ComboBox<String> customerIDComboBox; // Value injected by FXMLLoader
 
     @FXML // fx:id="descriptionCol"
     private TableColumn<?, ?> descriptionCol; // Value injected by FXMLLoader
@@ -132,6 +136,9 @@ public class SchedulingController extends Application implements Initializable {
     @FXML // fx:id="userIDTxt"
     private TextField userIDTxt; // Value injected by FXMLLoader
 
+    @FXML // fx:id="userIDComboBox"
+    private ComboBox<String> userIDComboBox; // Value injected by FXMLLoader
+
     @FXML
     private Label customMessageTxt;
 
@@ -141,6 +148,8 @@ public class SchedulingController extends Application implements Initializable {
 
     private Contacts contactsModel;
     private Appointments appointmentsModel;
+    private Users usersModel;
+    private Customers customersModel;
 
     private static Appointments selectedAppointments; //new
     private static ObservableList<Appointments> appointmentsList; //new
@@ -150,6 +159,9 @@ public class SchedulingController extends Application implements Initializable {
 
     private String startTimeSelected;
     private String startDateSelected;
+
+    private String customerIDSelected;
+    private String userIDSelected;
 
 
     /**
@@ -515,6 +527,18 @@ public class SchedulingController extends Application implements Initializable {
 
     }
 
+    @FXML
+    void onActionSelectCustomerID(ActionEvent event) {
+        customerIDSelected= customerIDComboBox.getValue();
+
+    }
+
+    @FXML
+    void onActionSelectUserID(ActionEvent event) {
+
+        userIDSelected= userIDComboBox.getValue();
+
+    }
 
     @FXML
     void onStartTimeSelected(ActionEvent event) {
@@ -678,10 +702,38 @@ public class SchedulingController extends Application implements Initializable {
                         DateProcessing.getDate(selectedAppointments.getEnd()));
 
 
-                customerIDTxt.setText(String.valueOf(selectedAppointments.getCustomerID()));
-                userIDTxt.setText(String.valueOf(selectedAppointments.getUserID()));
+
+                //customerIDTxt.setText(String.valueOf(selectedAppointments.getCustomerID()));
+                populateCustomerIDComboBox();
+                populateUserIDComboBox();
+                //userIDTxt.setText(String.valueOf(selectedAppointments.getUserID()));
             }
         });
+    }
+
+
+    private void populateUserIDComboBox() {
+        if (!UsersDaoImpl.getAllUsers().isEmpty()) {
+            usersModel = UsersDaoImpl.getAllUsers().get(selectedAppointments.getUserID()-1);
+
+            userIDComboBox.setValue(Integer.toString(usersModel.getUserID()));
+            for (Users user : UsersDaoImpl.getAllUsers()) {
+
+                userIDComboBox.getItems().add(Integer.toString(user.getUserID()));
+            }
+        }
+    }
+
+    private void populateCustomerIDComboBox() {
+        if (!CustomersDaoImpl.getAllCustomers().isEmpty()) {
+            customersModel = CustomersDaoImpl.getAllCustomers().get(selectedAppointments.getCustomerID()-1);
+
+            customerIDComboBox.setValue(Integer.toString(customersModel.getCustomerID()));
+            for (Customers customer : CustomersDaoImpl.getAllCustomers()) {
+
+                customerIDComboBox.getItems().add(Integer.toString(customer.getCustomerID()));
+            }
+        }
     }
 
     /**

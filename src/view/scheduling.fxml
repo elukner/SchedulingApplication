@@ -76,6 +76,8 @@
                   <TextField fx:id="descriptionTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label text="Location" GridPane.rowIndex="3" />
                   <TextField fx:id="locationTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label text="Contact Name" GridPane.rowIndex="4" />
+                  <ComboBox fx:id="contactNameComboBox" onAction="#onActionContactNameComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label text="Type" GridPane.rowIndex="5" />
                   <TextField fx:id="typeTxt" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Label text="Start Date and Time" GridPane.rowIndex="6" />
@@ -94,10 +96,10 @@
                   </HBox>
                   <Label text="Customer_ID" GridPane.rowIndex="8" />
                   <TextField fx:id="customerIDTxt" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <ComboBox fx:id="customerIDComboBox" onAction="#onActionSelectCustomerID" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                   <Label text="User_ID" GridPane.rowIndex="9" />
                   <TextField fx:id="userIDTxt" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                  <Label text="Contact Name" GridPane.rowIndex="4" />
-                  <ComboBox fx:id="contactNameComboBox" onAction="#onActionContactNameComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <ComboBox fx:id="userIDComboBox" onAction="#onActionSelectUserID" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                </children>
             </GridPane>
             <HBox prefHeight="100.0" prefWidth="900.0">
