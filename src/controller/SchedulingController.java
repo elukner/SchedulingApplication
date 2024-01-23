@@ -159,6 +159,17 @@ public class SchedulingController extends Application implements Initializable {
 
 
     /**
+     * Resets the user interface by performing the following actions:
+     * 1. Clears the selection and form fields.
+     * 2. Sets the appointment ID text field to an empty string and disables it.
+     * 3. Populates the start and end date/time combo box and date picker with default values.
+     * 4. Populates the contact name combo box with available contact names.
+     * 5. Populates the customer ID combo box with customer IDs.
+     * 6. Populates the user ID combo box with user IDs.
+     * <p>
+     * This method is intended to be used for resetting the UI state, making it ready for
+     * the input of new appointment details or modification of existing ones.
+     *
      * @param event
      * @throws SQLException
      */
@@ -182,9 +193,18 @@ public class SchedulingController extends Application implements Initializable {
         populateUserIDComboBox();
 
 
-
     }
 
+    /**
+     * Populates the contact name combo box with available contact names retrieved from the database.
+     *
+     * This method iterates through the list of contacts obtained from ContactsDaoImpl and adds each
+     * contact's name to the contactNameComboBox if the list is not empty.
+     *
+     * @implNote The method assumes the existence of ContactsDaoImpl and the availability of contact data
+     * in the database.
+     *
+     */
     private void populateContactNameComboBox() {
         if (!ContactsDaoImpl.getAllContacts().isEmpty()) {
             for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
@@ -194,6 +214,17 @@ public class SchedulingController extends Application implements Initializable {
         }
     }
 
+
+    /**
+     * Populates the customer ID combo box with available customer IDs retrieved from the database.
+     *
+     * This method iterates through the list of customers obtained from CustomersDaoImpl and adds each
+     * customer's ID (converted to a string) to the customerIDComboBox if the list is not empty.
+     *
+     * @implNote The method assumes the existence of CustomersDaoImpl and the availability of customer data
+     * in the database.
+     *
+     */
     private void populateCustomerIDComboBox() {
         if (!CustomersDaoImpl.getAllCustomers().isEmpty()) {
             for (Customers customer : CustomersDaoImpl.getAllCustomers()) {
@@ -204,6 +235,14 @@ public class SchedulingController extends Application implements Initializable {
         }
     }
 
+    /**
+     * Populates the user ID ComboBox with the user IDs retrieved from the UsersDaoImpl.
+     * If the list of users is not empty, iterates through each user and adds their user ID
+     * as a string to the ComboBox.
+     *
+     * @implNote This method relies on the UsersDaoImpl class to retrieve user information.
+     *
+     */
     private void populateUserIDComboBox() {
         if (!UsersDaoImpl.getAllUsers().isEmpty()) {
             for (Users user : UsersDaoImpl.getAllUsers()) {
@@ -215,18 +254,21 @@ public class SchedulingController extends Application implements Initializable {
     }
 
 
-
     /**
-     * TODO startDateAndTimeTxt.getText(),endDateAndTimeTxt.getText()
+     * Creates and initializes an Appointments object based on user input and system data.
+     * <p>
+     * This method performs the following steps:
+     * 1. Initializes a DateTimeFormatter with the pattern "yyyy-MM-dd HH:mm:ss".
+     * 2. Retrieves user information from the UsersDaoImpl class using FileIOManager.
+     * 3. Creates an AppointmentsModel object with the provided input and system-generated values.
+     * 4. Checks if the created appointment is valid using the isValidAppointment() method.
+     * 5. If the appointment is valid, adds the customer to the database and clears form fields.
+     * 6. Displays the updated scheduling table view using showSchedulingTableView().
      *
      * @param event
      */
     @FXML
     void onActionAdd(ActionEvent event) throws FileNotFoundException, SQLException {
-        //All of the appointment fields can be updated except Appointment_ID, which must be disabled.
-        // TODO  Write code that enables the user to add, update, and delete appointments.
-        // TODO When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
-        //  contact, type, start date and time, end date and time, Customer_ID, and User_ID.
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
@@ -239,52 +281,64 @@ public class SchedulingController extends Application implements Initializable {
                 Integer.parseInt(userIDSelected), contactsModel.getContactID());
 
 
-        if(!isValidAppointment()){
+        if (!isValidAppointment()) {
 
             addCustomerDatabase();
             clearSelectionAndFormFields();
         }
 
 
-
         showSchedulingTableView();
-
 
     }
 
     /**
-     *  d.  Write code to implement input validation and logical error checks to prevent each of the following changes when
-     *  adding or updating information; display a custom message specific for each error check in the user interface:
-     *  -scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
-     *  -scheduling overlapping appointments for customers
-     * @return
-     * @throws SQLException
+     * Checks the validity of the appointment based on business hours and overlapping appointments.
+     *
+     * @return {@code true} if the appointment is valid, {@code false} otherwise.
+     *
+     * @throws SQLException If a SQL exception occurs during the validation process.
+     *
+     * @implNote This method uses the DateTimeProcessing, DateProcessing, TimeProcessing,
+     * AppointmentsDaoImpl, and setCustomMessage methods for various validation checks.
+     *
      */
     private boolean isValidAppointment() throws SQLException {
-        boolean isValidAppointment=false;
-        if(DateTimeProcessing.isOutsideBusinessHours(DateProcessing.getDateFromDateTime(appointmentsModel.getStart()).toString(),
-                TimeProcessing.getTimeFromDateTime(appointmentsModel.getStart()))==true ||
+        boolean isValidAppointment = false;
+        if (DateTimeProcessing.isOutsideBusinessHours(DateProcessing.getDateFromDateTime(appointmentsModel.getStart()).toString(),
+                TimeProcessing.getTimeFromDateTime(appointmentsModel.getStart())) == true ||
                 DateTimeProcessing.isOutsideBusinessHours(DateProcessing.getDateFromDateTime(appointmentsModel.getEnd()).toString(),
-                        TimeProcessing.getTimeFromDateTime(appointmentsModel.getEnd()))==true){
+                        TimeProcessing.getTimeFromDateTime(appointmentsModel.getEnd())) == true) {
             //scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
-            isValidAppointment=true;
+            isValidAppointment = true;
             //display a custom message specific for each error check in the user interface
-            setCustomMessage(Alert.AlertType.ERROR,"Appointment outside of business hours",
+            setCustomMessage(Alert.AlertType.ERROR, "Appointment outside of business hours",
                     "Please schedule an appointment inside of business hours defined as 8:00 a.m. to 10:00 p.m. ET" +
                             "and Monday through Friday");
         }
-        if(AppointmentsDaoImpl.hasOverlappingAppointments(appointmentsModel.getCustomerID(),
+        if (AppointmentsDaoImpl.hasOverlappingAppointments(appointmentsModel.getCustomerID(),
                 TimeProcessing.getTimeFromDateTime(appointmentsModel.getStart()),
-                TimeProcessing.getTimeFromDateTime(appointmentsModel.getEnd()))){
+                TimeProcessing.getTimeFromDateTime(appointmentsModel.getEnd()))) {
             // -scheduling overlapping appointments for customers
-            isValidAppointment=true;
+            isValidAppointment = true;
             //display a custom message specific for each error check in the user interface
-            setCustomMessage(Alert.AlertType.ERROR,"Scheduling Overlap","Please schedule a non-overlapping " +
+            setCustomMessage(Alert.AlertType.ERROR, "Scheduling Overlap", "Please schedule a non-overlapping " +
                     "appointment for customer");
         }
         return isValidAppointment;
     }
 
+    /**
+     * Retrieves the selected start date and time as a formatted string.
+     *
+     * @return A string representing the start date and time, formatted as "yyyy-MM-dd HH:mm".
+     *
+     * @implNote This method checks if both the startDateSelected and startTimeSelected are not null.
+     * If they are not null, it returns the concatenation of startDateSelected and startTimeSelected.
+     * If either of them is null, it retrieves the date and time from the corresponding UI elements
+     * (startDatePicker and startTimeComboBox) and returns the concatenated string.
+     *
+     */
     private String getStartDateTimeSelected() {
         if (startDateSelected != null && startTimeSelected != null) {
             return startDateSelected + " " + startTimeSelected;
@@ -295,9 +349,15 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * Getter and While the appointment times should be stored in Coordinated Universal Time (UTC),
+     * Retrieves the selected end date and time as a formatted string.
      *
-     * @return
+     * @return A string representing the end date and time, formatted as "yyyy-MM-dd HH:mm:ss".
+     *
+     * @implNote This method checks if both the endDateSelected and endTimeSelected are not null.
+     * If they are not null, it returns the concatenation of endDateSelected and endTimeSelected.
+     * If either of them is null, it retrieves the date and time from the corresponding UI elements
+     * (endDatePicker and endTimeComboBox) and returns the concatenated string.
+     *
      */
     private String getEndDateTimeSelected() {
         if (endDateSelected != null && endTimeSelected != null) {
@@ -308,6 +368,15 @@ public class SchedulingController extends Application implements Initializable {
 
     }
 
+    /**
+     * Adds a new customer record to the database using the provided appointment model data.
+     *
+     * @throws SQLException If a SQL exception occurs during the database insertion.
+     *
+     * @implNote This method uses the AppointmentsDaoImpl class to insert the appointment data
+     * into the database, including the title, description, location, type, start date and time,
+     * end date and time, created by, last updated by, customer ID, user ID, and contact ID.
+     */
     private void addCustomerDatabase() throws SQLException {
         AppointmentsDaoImpl.insertAppointments(appointmentsModel.getTitle(),
                 appointmentsModel.getDescription(), appointmentsModel.getLocation(),
@@ -317,10 +386,17 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * Write code that enables the user to update appointments.
-     * TODO All of the original appointment information is displayed on the update form in local time zone.
+     * Handles the action event when updating an appointment.
      *
-     * @param actionEvent
+     * @param actionEvent The ActionEvent triggered by the update action.
+     *
+     * @throws SQLException If a SQL exception occurs during the update process.
+     * @throws FileNotFoundException If a file is not found during the update process.
+     *
+     * @implNote This method retrieves the current user, updates the appointment data,
+     * performs validation using the isValidAppointment method, updates the customer database,
+     * clears form fields, and displays the scheduling table view.
+     *
      */
     @FXML
     void onActionUpdate(ActionEvent actionEvent) throws SQLException, FileNotFoundException {
@@ -344,7 +420,7 @@ public class SchedulingController extends Application implements Initializable {
         appointmentsModel.setUserID(Integer.parseInt(userIDSelected));
         appointmentsModel.setContactID(contactsModel.getContactID());
 
-        if(!isValidAppointment()){
+        if (!isValidAppointment()) {
             updateCustomerDatabase();
             clearSelectionAndFormFields();
         }
@@ -354,22 +430,16 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * TODO startDateAndTimeTxt.getText(),endDateAndTimeTxt.getText() on update
+     * Updates an existing customer record in the database with the provided appointment model data.
      *
-     * @throws SQLException
-     * @throws FileNotFoundException
+     * @throws SQLException If a SQL exception occurs during the database update.
+     *
+     * @implNote This method uses the AppointmentsDaoImpl class to update the appointment data
+     * in the database, including the title, description, location, type, start date and time,
+     * end date and time, last update timestamp, last updated by, customer ID, user ID, and contact ID.
+     *
      */
-    private void updateCustomerDatabase() throws SQLException, FileNotFoundException {
-//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-//        Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
-
-
-//        AppointmentsDaoImpl.updateAppointment(Integer.parseInt(appointmentIDTxt.getText()),
-//                titleTxt.getText(),descriptionTxt.getText(),locationTxt.getText(),
-//                typeTxt.getText(),startDateAndTimeTxt.getText(),endDateAndTimeTxt.getText(),
-//                dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(),
-//                Integer.parseInt(customerIDTxt.getText()), Integer.parseInt(userIDTxt.getText()), contactsModel.getContactID());
-        System.out.println("This is starttime sent to database: " + appointmentsModel.getStart());
+    private void updateCustomerDatabase() throws SQLException {
         AppointmentsDaoImpl.updateAppointment(appointmentsModel.getAppointmentID(),
                 appointmentsModel.getTitle(), appointmentsModel.getDescription(), appointmentsModel.getLocation(),
                 appointmentsModel.getType(), appointmentsModel.getStart(), appointmentsModel.getEnd(),
@@ -379,59 +449,89 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * Write code that enables the user to delete appointments.
+     * Handles the action event when deleting an appointment.
      *
-     * @param event
+     * @param event The ActionEvent triggered by the delete action.
+     *
+     * @throws SQLException If a SQL exception occurs during the deletion process.
+     * @throws FileNotFoundException If a file is not found during the deletion process.
+     *
+     * @implNote This method retrieves the selected appointment, shows a cancellation message,
+     * updates the appointment ID, deletes the appointment from the database, clears form fields,
+     * and displays the scheduling table view.
+     *
      */
     @FXML
     void onActionDelete(ActionEvent event) throws SQLException, FileNotFoundException {
-        // TODO  Write code that enables the user to add, update, and delete appointments.
+        // Retrieve the selected appointment
         appointmentsModel = appointmentTblView.getSelectionModel().getSelectedItem();
+
+        // Show a cancellation message
         showCanceledMessage();
+
+        // Update the appointment ID and delete from the database
         appointmentsModel.setAppointmentID(Integer.parseInt(appointmentIDTxt.getText()));
         deleteCustomerDatabase();
+
+        // Clear form fields and display the scheduling table view
         clearSelectionAndFormFields();
         showSchedulingTableView();
     }
 
     /**
-     * A custom message is displayed in the user interface with the Appointment_ID and type of appointment canceled.
+     * Displays an information alert confirming the successful cancellation of an appointment.
+     *
+     * @implNote This method creates an Alert with INFORMATION type, sets the title,
+     * header text, and content text to convey the cancellation details including the
+     * Appointment ID and Type of appointment. The alert is then displayed.
+     *
      */
     private void showCanceledMessage() {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setTitle("Appointment Canceled");
         a.setHeaderText("Appointment Successfully Canceled");
-        a.setContentText("Appointment ID: " + appointmentsModel.getAppointmentID()+
+        a.setContentText("Appointment ID: " + appointmentsModel.getAppointmentID() +
                 "\nType of appointment: " + appointmentsModel.getType());
 
         a.show();
     }
 
     /**
-     * @throws SQLException
-     * @throws FileNotFoundException
+     * Deletes an appointment record from the database using the provided appointment ID.
+     *
+     * @throws SQLException If a SQL exception occurs during the deletion process.
+     *
+     * @implNote This method uses the AppointmentsDaoImpl class to delete the appointment
+     * with the specified Appointment ID from the database.
+     *
      */
-    private void deleteCustomerDatabase() throws SQLException, FileNotFoundException {
+    private void deleteCustomerDatabase() throws SQLException {
 
         AppointmentsDaoImpl.deleteAppointment(appointmentsModel.getAppointmentID());
 
     }
 
 
-
     /**
-     * logic to fetch and populate all appointments
-     * <p>
-     * Write code that enables the user to view appointment schedules by month and week using a TableView and
-     * allows the user to choose between these two options using tabs or radio buttons for filtering appointments.
+     * Handles the action event when filtering and displaying all appointments.
      *
-     * @param event
+     * @param event The ActionEvent triggered by the filter all appointments action.
+     *
+     * @implNote This method calls the populateAllAppointments method to fetch and display
+     * all appointments in the TableView.
+     *
      */
     @FXML
     void onActionFilterAllAppointment(ActionEvent event) {
         populateAllAppointments();
     }
 
+    /**
+     * Populates the TableView with all appointments from the database.
+     *
+     * @implNote This method clears the existing appointments, fetches all appointments
+     * from the database using AppointmentsDaoImpl, and updates the TableView with the new data.
+     */
     private void populateAllAppointments() {
         // Clear existing appointments
         appointmentsList.clear();
@@ -447,6 +547,7 @@ public class SchedulingController extends Application implements Initializable {
         // Update TableView
         appointmentTblView.setItems(appointmentsList);
     }
+
 
     /**
      * logic to fetch and populate appointments for the month
@@ -555,7 +656,7 @@ public class SchedulingController extends Application implements Initializable {
 
     @FXML
     void onActionSelectCustomerID(ActionEvent event) {
-        customerIDSelected= customerIDComboBox.getValue();
+        customerIDSelected = customerIDComboBox.getValue();
 
 //        if (!ContactsDaoImpl.getContact(contactNameComboBox.getValue()).isEmpty())
 //            contactsModel = ContactsDaoImpl.getContact(contactNameComboBox.getValue()).get(0);
@@ -565,13 +666,13 @@ public class SchedulingController extends Application implements Initializable {
     @FXML
     void onActionSelectUserID(ActionEvent event) {
 
-        userIDSelected= userIDComboBox.getValue();
+        userIDSelected = userIDComboBox.getValue();
 
     }
 
     @FXML
     void onStartTimeSelected(ActionEvent event) {
-       // startTimeSelected = startTimeComboBox.getEditor().getText();
+        // startTimeSelected = startTimeComboBox.getEditor().getText();
         startTimeSelected = startTimeComboBox.getValue();
     }
 
@@ -724,7 +825,6 @@ public class SchedulingController extends Application implements Initializable {
                         DateProcessing.getDate(selectedAppointments.getEnd()));
 
 
-
                 populateCustomerIDComboBoxWithValue();
                 populateUserIDComboBoxWithValue();
             }
@@ -748,7 +848,7 @@ public class SchedulingController extends Application implements Initializable {
     private void populateUserIDComboBoxWithValue() {
         userIDComboBox.getItems().clear();
         if (!UsersDaoImpl.getAllUsers().isEmpty()) {
-            usersModel = UsersDaoImpl.getAllUsers().get(selectedAppointments.getUserID()-1);
+            usersModel = UsersDaoImpl.getAllUsers().get(selectedAppointments.getUserID() - 1);
 
             userIDComboBox.setValue(Integer.toString(usersModel.getUserID()));
             for (Users user : UsersDaoImpl.getAllUsers()) {
@@ -761,7 +861,7 @@ public class SchedulingController extends Application implements Initializable {
     private void populateCustomerIDComboBoxWithValue() {
         customerIDComboBox.getItems().clear();
         if (!CustomersDaoImpl.getAllCustomers().isEmpty()) {
-            customersModel = CustomersDaoImpl.getAllCustomers().get(selectedAppointments.getCustomerID()-1);
+            customersModel = CustomersDaoImpl.getAllCustomers().get(selectedAppointments.getCustomerID() - 1);
 
             customerIDComboBox.setValue(Integer.toString(customersModel.getCustomerID()));
             for (Customers customer : CustomersDaoImpl.getAllCustomers()) {
@@ -800,8 +900,9 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Note: Since evaluation may be testing your application
-     *  outside of business hours, your alerts must be robust enough to trigger an appointment within 15 minutes of the
-     *  local time set on the user’s computer, which may or may not be ET.
+     * outside of business hours, your alerts must be robust enough to trigger an appointment within 15 minutes of the
+     * local time set on the user’s computer, which may or may not be ET.
+     *
      * @param userLoginTime
      */
     public static void checkUpcomingAppointments(LocalDateTime userLoginTime) {
@@ -810,7 +911,7 @@ public class SchedulingController extends Application implements Initializable {
             // Display an alert with appointment details
             showAppointmentAlert();
 
-        }else{
+        } else {
             showNoAppointmentsMessage();
         }
 
@@ -819,16 +920,16 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Write code to provide an alert when there is an appointment within 15 minutes of the user’s log-in.
-     *  A custom message should be displayed in the user interface and include the appointment ID, date, and time.
-     *  code to show an alert with appointment details
+     * A custom message should be displayed in the user interface and include the appointment ID, date, and time.
+     * code to show an alert with appointment details
      */
     private static void showAppointmentAlert() {
-        if(!AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min().isEmpty()){
+        if (!AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min().isEmpty()) {
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             a.setTitle("Upcoming Appointments");
             a.setHeaderText("You have an upcoming appointment!");
             Appointments appointments = AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min().get(0);
-            a.setContentText("Appointment ID: " + appointments.getAppointmentID()+
+            a.setContentText("Appointment ID: " + appointments.getAppointmentID() +
                     "\nDate and Time: " + appointments.getStart());
 
             a.show();
@@ -836,10 +937,10 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     *  If the user does not have any appointments within 15 minutes of logging in, display a custom message in the user
-     *  interface indicating there are no upcoming appointments.
-     *
-     *  code to show a message indicating no upcoming appointments
+     * If the user does not have any appointments within 15 minutes of logging in, display a custom message in the user
+     * interface indicating there are no upcoming appointments.
+     * <p>
+     * code to show a message indicating no upcoming appointments
      */
     private static void showNoAppointmentsMessage() {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
