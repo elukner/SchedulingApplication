@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
 public class SchedulingApplication extends Application {
 
     @Override
@@ -28,4 +29,6 @@ public class SchedulingApplication extends Application {
         launch(args);
         JDBC.closeConnection();
     }
+
+
 }

@@ -45,12 +45,14 @@ public abstract class JDBC {
             Class.forName(driver); // Locate Driver
             connection = DriverManager.getConnection(jdbcUrl, userName, password); // Reference Connection object
             System.out.println("Connection successful!");
+
         }
         catch(Exception e)
         {
             System.out.println("Error:" + e.getMessage());
         }
     }
+
 
     /**
      * getter for getting connnection once the connection is already open

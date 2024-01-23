@@ -1,11 +1,55 @@
-//title and purpose of the application
+======================================
+        Scheduling Application
+======================================
 
-//author, contact information, student application version, and date
+--------------------------------------
+**Title and Purpose of the Application:**
+--------------------------------------
+The title of the application is Scheduling Application.
+The purpose of this application is to provide a GUI-based scheduling system for managing
+customer records and appointments.
 
-//IDE including version number (e.g., IntelliJ Community 2020.01), full JDK of version used (e.g., Java SE 17.0.1), and JavaFX version compatible with JDK version (e.g. JavaFX-SDK-17.0.1)
+--------------------------------------
+**Author Information:**
+--------------------------------------
 
-//directions for how to run the program
+**Author:** Elizabeth Thomas
+**Contact Information:** etho559@wgu.edu
+**Student Application Version:** 1.0
+**Date:** 1/23/2024
 
-//a description of the additional report of your choice you ran in part A3f
+--------------------------------------
+**Integrated Development Environment:**
+--------------------------------------
 
-//the MySQL Connector driver version number, including the update number (e.g., mysql-connector-java-8.1.23)
+- **IDE:** IntelliJ IDEA Community Edition
+- **IDE Version:** 2021.1.3
+- **JDK Version:** Java SE 17.0.1
+- **JavaFX Version:** JavaFX-SDK-17.0.1
+
+-------------------------------
+**Directions to Run the Program:**
+-------------------------------
+
+1. Open the project in IntelliJ IDEA.
+2. Configure the project to use the specified JDK and JavaFX SDK.
+3. Set up the MySQL database using the provided SQL script.
+4. Update the database connection details in the application code.
+5. Build and run the application.
+
+------------------------------------------
+**Additional Report Description (A3f):**
+------------------------------------------
+
+The additional report generated provides a summary of appointment summary by user.
+This report provides a summary of appointments grouped by the users who created or managed them.
+This report offers valuable insights into the appointment-related activities of different users
+within the system.
+
+------------------------------------------------------
+**MySQL Connector Driver Version Information:**
+------------------------------------------------------
+
+- **MySQL Connector Version:** mysql-connector-java-8.0.33
+
+======================================
