@@ -95,10 +95,8 @@
                      </children>
                   </HBox>
                   <Label text="Customer_ID" GridPane.rowIndex="8" />
-                  <TextField fx:id="customerIDTxt" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                   <ComboBox fx:id="customerIDComboBox" onAction="#onActionSelectCustomerID" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                   <Label text="User_ID" GridPane.rowIndex="9" />
-                  <TextField fx:id="userIDTxt" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                   <ComboBox fx:id="userIDComboBox" onAction="#onActionSelectUserID" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                </children>
             </GridPane>

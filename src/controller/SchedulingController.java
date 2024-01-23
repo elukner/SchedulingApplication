@@ -14,8 +14,6 @@ import helper.DateTimeProcessing;
 import helper.FileIOManager;
 import helper.TimeProcessing;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -177,14 +175,46 @@ public class SchedulingController extends Application implements Initializable {
 
 
         // A contact name is assigned to an appointment using a drop-down menu or combo box.
+        populateContactNameComboBox();
+
+        populateCustomerIDComboBox();
+
+        populateUserIDComboBox();
+
+
+
+    }
+
+    private void populateContactNameComboBox() {
         if (!ContactsDaoImpl.getAllContacts().isEmpty()) {
             for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
 
                 contactNameComboBox.getItems().add(contact.getContactName());
             }
         }
-
     }
+
+    private void populateCustomerIDComboBox() {
+        if (!CustomersDaoImpl.getAllCustomers().isEmpty()) {
+            for (Customers customer : CustomersDaoImpl.getAllCustomers()) {
+
+                customerIDComboBox.getItems().add(Integer.toString(customer.getCustomerID()));
+
+            }
+        }
+    }
+
+    private void populateUserIDComboBox() {
+        if (!UsersDaoImpl.getAllUsers().isEmpty()) {
+            for (Users user : UsersDaoImpl.getAllUsers()) {
+
+                userIDComboBox.getItems().add(Integer.toString(user.getUserID()));
+
+            }
+        }
+    }
+
+
 
     /**
      * TODO startDateAndTimeTxt.getText(),endDateAndTimeTxt.getText()
@@ -682,7 +712,7 @@ public class SchedulingController extends Application implements Initializable {
                 descriptionTxt.setText(selectedAppointments.getDescription());
                 locationTxt.setText(selectedAppointments.getLocation());
 
-                populateContactNameComboBox();
+                populateContactNameComboBoxWithValue();
 
                 typeTxt.setText(selectedAppointments.getType());
 
@@ -695,13 +725,13 @@ public class SchedulingController extends Application implements Initializable {
 
 
 
-                populateCustomerIDComboBox();
-                populateUserIDComboBox();
+                populateCustomerIDComboBoxWithValue();
+                populateUserIDComboBoxWithValue();
             }
         });
     }
 
-    private void populateContactNameComboBox() {
+    private void populateContactNameComboBoxWithValue() {
         contactNameComboBox.getItems().clear();
         if (!ContactsDaoImpl.getAllContacts().isEmpty()) {
             contactsModel = ContactsDaoImpl.getAllContacts().get(selectedAppointments.getContactID() - 1);
@@ -715,7 +745,7 @@ public class SchedulingController extends Application implements Initializable {
     }
 
 
-    private void populateUserIDComboBox() {
+    private void populateUserIDComboBoxWithValue() {
         userIDComboBox.getItems().clear();
         if (!UsersDaoImpl.getAllUsers().isEmpty()) {
             usersModel = UsersDaoImpl.getAllUsers().get(selectedAppointments.getUserID()-1);
@@ -728,7 +758,7 @@ public class SchedulingController extends Application implements Initializable {
         }
     }
 
-    private void populateCustomerIDComboBox() {
+    private void populateCustomerIDComboBoxWithValue() {
         customerIDComboBox.getItems().clear();
         if (!CustomersDaoImpl.getAllCustomers().isEmpty()) {
             customersModel = CustomersDaoImpl.getAllCustomers().get(selectedAppointments.getCustomerID()-1);
