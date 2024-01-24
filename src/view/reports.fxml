@@ -26,15 +26,15 @@
             </HBox>
             <TableView fx:id="report2TableView" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Contact_ID" />
-                <TableColumn prefWidth="75.0" text="Contact_Name" />
-                  <TableColumn prefWidth="75.0" text="Appointment_ID" />
-                  <TableColumn prefWidth="75.0" text="Title" />
-                  <TableColumn prefWidth="75.0" text="Type" />
-                  <TableColumn prefWidth="75.0" text="Description" />
-                  <TableColumn prefWidth="75.0" text="Start Date and Time" />
-                  <TableColumn prefWidth="75.0" text="End Date and Time" />
-                  <TableColumn prefWidth="75.0" text="Customer_ID" />
+                <TableColumn fx:id="contactIDCol" prefWidth="75.0" text="Contact_ID" />
+                <TableColumn fx:id="contactNameCol" prefWidth="75.0" text="Contact_Name" />
+                  <TableColumn fx:id="appointmentIDCol" prefWidth="75.0" text="Appointment_ID" />
+                  <TableColumn fx:id="titleCol" prefWidth="75.0" text="Title" />
+                  <TableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
+                  <TableColumn fx:id="descriptionCol" prefWidth="75.0" text="Description" />
+                  <TableColumn fx:id="startCol" prefWidth="75.0" text="Start Date and Time" />
+                  <TableColumn fx:id="endCol" prefWidth="75.0" text="End Date and Time" />
+                  <TableColumn fx:id="customerIDCol" prefWidth="75.0" text="Customer_ID" />
               </columns>
             </TableView>
             <Label text="Report 3: Appointment Summary by User" />

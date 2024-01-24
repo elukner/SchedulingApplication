@@ -34,12 +34,6 @@ public class ReportsController implements Initializable {
     @FXML // fx:id="report1TableView"
     private TableView<AppointmentReport> report1TableView; // Value injected by FXMLLoader
 
-    @FXML // fx:id="report2TableView"
-    private TableView<Appointments> report2TableView; // Value injected by FXMLLoader
-
-    @FXML // fx:id="report3TableView"
-    private TableView<Appointments> report3TableView; // Value injected by FXMLLoader
-
     @FXML // fx:id="monthCol"
     private TableColumn<AppointmentReport, String> monthCol; // Value injected by FXMLLoader
 
@@ -49,7 +43,15 @@ public class ReportsController implements Initializable {
     @FXML // fx:id="typeCol"
     private TableColumn<AppointmentReport, String> typeCol; // Value injected by FXMLLoader
 
-   // private ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+    @FXML // fx:id="report2TableView"
+    private TableView<Appointments> report2TableView; // Value injected by FXMLLoader
+
+    @FXML // fx:id="report3TableView"
+    private TableView<Appointments> report3TableView; // Value injected by FXMLLoader
+
+
+
+
 
 
     private Stage stage;
@@ -108,10 +110,12 @@ public class ReportsController implements Initializable {
      */
     private void loadReport2(){
 
-
-        //     SELECT a.appointment_id, a.title, a.appointment_type, a.description, a.start_date, a.end_date,
-//         a.customer_id FROM appointments_table a JOIN contacts_table c ON a.contact_id = c.contact_id;
-
+        report1TableView.setItems(FXCollections.observableArrayList(AppointmentReportDaoImpl.getAppointmentsByTypeAndMonth()));
+        monthCol.setCellValueFactory(new PropertyValueFactory<>("Month"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
+        totalAppointmentsCol.setCellValueFactory(cellDataFeatures -> {
+            return cellDataFeatures.getValue().getTotalAppointments().asObject();
+        });
     }
 
     /**
@@ -161,6 +165,7 @@ public class ReportsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadReport1();
+        loadReport2();
         loadReport3();
     }
 }

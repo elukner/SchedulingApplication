@@ -160,6 +160,16 @@ public class DaoTest {
 
         JDBC.closeConnection();
     }
+    @Test
+    public void testContactSchedulesDaoImpl() throws SQLException {
+        JDBC.openConnection();
+
+
+        for (ContactScheduleReport contactSchedule : ContactScheduleReportDaoImpl.getContactSchedules(2) ){
+            System.out.println( contactSchedule.getContactID());
+        }
+        JDBC.closeConnection();
+    }
 
     @Test
     public void testAppointmentReportDaoImpl() throws SQLException {
