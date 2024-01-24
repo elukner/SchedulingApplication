@@ -13,7 +13,7 @@
               <columns>
                 <TableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
                 <TableColumn fx:id="monthCol" prefWidth="75.0" text="Month" />
-                  <TableColumn fx:id="totalAppointmentsCol" prefWidth="75.0" text="Total_AppointmentsTotal_Appointments" />
+                  <TableColumn fx:id="totalAppointmentsCol" prefWidth="150.0" text="Total_Appointments" />
               </columns>
             </TableView>
             <Label text="Report 2: Contact Schedule Overview" />
@@ -26,8 +26,15 @@
             </HBox>
             <TableView fx:id="report2TableView" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn prefWidth="75.0" text="Contact_ID" />
+                <TableColumn prefWidth="75.0" text="Contact_Name" />
+                  <TableColumn prefWidth="75.0" text="Appointment_ID" />
+                  <TableColumn prefWidth="75.0" text="Title" />
+                  <TableColumn prefWidth="75.0" text="Type" />
+                  <TableColumn prefWidth="75.0" text="Description" />
+                  <TableColumn prefWidth="75.0" text="Start Date and Time" />
+                  <TableColumn prefWidth="75.0" text="End Date and Time" />
+                  <TableColumn prefWidth="75.0" text="Customer_ID" />
               </columns>
             </TableView>
             <Label text="Report 3: Appointment Summary by User" />
