@@ -3,6 +3,8 @@ package controller;
 import dao.AppointmentReportDaoImpl;
 import dao.AppointmentsDaoImpl;
 import dao.ContactScheduleReportDaoImpl;
+import dao.UsersDaoImpl;
+import helper.FileIOManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,6 +30,7 @@ import javafx.scene.control.TableView;
 import model.AppointmentReport;
 import model.Appointments;
 import model.ContactScheduleReport;
+import model.Users;
 
 public class ReportsController implements Initializable {
 
@@ -78,6 +82,22 @@ public class ReportsController implements Initializable {
 
     @FXML // fx:id="report3TableView"
     private TableView<Appointments> report3TableView; // Value injected by FXMLLoader
+
+
+    @FXML // fx:id="userAverageDurationCol"
+    private TableColumn<?, ?> userAverageDurationCol; // Value injected by FXMLLoader
+
+    @FXML // fx:id="userIDCol"
+    private TableColumn<?, ?> userIDCol; // Value injected by FXMLLoader
+
+    @FXML // fx:id="userLogInDateTimeCol"
+    private TableColumn<?, ?> userLogInDateTimeCol; // Value injected by FXMLLoader
+
+    @FXML // fx:id="userNameCol"
+    private TableColumn<?, ?> userNameCol; // Value injected by FXMLLoader
+
+    @FXML // fx:id="userTotalAppointmentsCol"
+    private TableColumn<?, ?> userTotalAppointmentsCol; // Value injected by FXMLLoader
 
 
     private Stage stage;
@@ -162,42 +182,20 @@ public class ReportsController implements Initializable {
      * TODO an additional report of your choice that is different from the two other required reports in this prompt
      * and from the user log-in date and time stamp that will be tracked in part C
      */
-    private void loadReport3() {
+    private void loadReport3() throws FileNotFoundException {
+        Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
 
+        report2TableView.setItems(FXCollections.observableArrayList(ContactScheduleReportDaoImpl.getContactSchedules(2)));
 
-//        This report could provide a summary of appointments grouped by the users who created or managed them.
-//        The report might include information such as:
-//•	User names or IDs
-//•	Total number of appointments created by each user
-//•	Average or total duration of appointments created by each user
-//•	The distribution of appointment types created by each user
-//        This report offers insights into the appointment-related activities of different users within the system.
-//        It complements the previous reports by focusing on the users' contributions to the appointment scheduling process.
-//        The simplicity of this report lies in its straightforward nature and its alignment with the existing data
-//        structure related to appointments and users in the application.
+ userAverageDurationCol.setCellValueFactory(new PropertyValueFactory<>("End"));
 
-//        SELECT
-//        u.user_id,
-//                u.username,
-//                COUNT(a.appointment_id) AS total_appointments,
-//        AVG(TIMESTAMPDIFF(MINUTE, a.start_date_time, a.end_date_time)) AS average_duration
-//        FROM
-//        users u
-//        LEFT JOIN
-//        appointments a ON u.user_id = a.user_id
-//        GROUP BY
-//        u.user_id, u.username
-//        ORDER BY
-//        total_appointments DESC;
+ userIDCol.setCellValueFactory(new PropertyValueFactory<>("End"));
 
+ userLogInDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("End"));
 
-//        u.user_id, u.username: Selects the user ID and username from the users table.
-//        COUNT(a.appointment_id) AS total_appointments: Counts the total number of appointments for each user.
-//        AVG(TIMESTAMPDIFF(MINUTE, a.start_date_time, a.end_date_time)) AS average_duration: Calculates the average duration of appointments for each user in minutes. Adjust the time units based on your preference.
-//        FROM users u: Specifies the main table as users and aliases it as u.
-//                LEFT JOIN appointments a ON u.user_id = a.user_id: Performs a left join between the users and appointments tables based on the user_id foreign key.
-//        GROUP BY u.user_id, u.username: Groups the results by user ID and username.
-//        ORDER BY total_appointments DESC: Orders the results by the total number of appointments in descending order.
+ userNameCol.setCellValueFactory(new PropertyValueFactory<>("End"));
+
+ userTotalAppointmentsCol.setCellValueFactory(new PropertyValueFactory<>("End"));
 
     }
 
@@ -206,6 +204,10 @@ public class ReportsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadReport1();
         loadReport2();
-        loadReport3();
+        try {
+            loadReport3();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
