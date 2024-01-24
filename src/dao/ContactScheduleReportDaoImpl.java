@@ -2,6 +2,7 @@ package dao;
 
 import helper.JDBC;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.AppointmentReport;
@@ -48,8 +49,9 @@ public class ContactScheduleReportDaoImpl {
                 String end = resultSet.getString("End");
                 int customerID = resultSet.getInt("Customer_ID");
 
-                ContactScheduleReport contactScheduleReport = new ContactScheduleReport(contactID,contactName,
-                        appointmentID,title,type,description,start,end,customerID );
+                ContactScheduleReport contactScheduleReport = new ContactScheduleReport(new ReadOnlyIntegerWrapper(contactID),
+                        new ReadOnlyStringWrapper(contactName),
+                        new ReadOnlyIntegerWrapper(appointmentID),title,type,description,start,end,new ReadOnlyIntegerWrapper(customerID) );
                 contactSchedulesList.add(contactScheduleReport);
             }
         } catch (SQLException throwables) {

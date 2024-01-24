@@ -1,5 +1,8 @@
 package model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
+
 /**
  * Represents a Contact Schedule Report containing information about appointments scheduled for a specific contact.
  *
@@ -8,15 +11,15 @@ package model;
  */
 public class ContactScheduleReport {
 
-    private int contactID;
-    private String contactName;
-    private int appointmentID;
+    private IntegerProperty contactID;
+    private StringProperty contactName;
+    private IntegerProperty appointmentID;
     private String title;
     private String type;
     private String description;
     private String start;
     private String end;
-    private int customerID;
+    private IntegerProperty customerID;
 
     /**
      * Constructs a ContactScheduleReport with the specified details.
@@ -33,8 +36,8 @@ public class ContactScheduleReport {
      *
      * @implNote This constructor initializes a ContactScheduleReport with the provided details.
      */
-    public ContactScheduleReport(int contactID, String contactName, int appointmentID, String title,
-                                 String type, String description, String start, String end, int customerID) {
+    public ContactScheduleReport(IntegerProperty contactID, StringProperty contactName, IntegerProperty appointmentID, String title,
+                                 String type, String description, String start, String end, IntegerProperty customerID) {
         this.contactID = contactID;
         this.contactName = contactName;
         this.appointmentID = appointmentID;
@@ -51,7 +54,7 @@ public class ContactScheduleReport {
      *
      * @return The contact ID.
      */
-    public int getContactID() {
+    public IntegerProperty getContactID() {
         return contactID;
     }
 
@@ -60,7 +63,7 @@ public class ContactScheduleReport {
      *
      * @param contactID The new contact ID to be set.
      */
-    public void setContactID(int contactID) {
+    public void setContactID(IntegerProperty contactID) {
         this.contactID = contactID;
     }
 
@@ -69,7 +72,7 @@ public class ContactScheduleReport {
      *
      * @return The contact name.
      */
-    public String getContactName() {
+    public StringProperty getContactName() {
         return contactName;
     }
 
@@ -78,7 +81,7 @@ public class ContactScheduleReport {
      *
      * @param contactName The new contact name to be set.
      */
-    public void setContactName(String contactName) {
+    public void setContactName(StringProperty contactName) {
         this.contactName = contactName;
     }
 
@@ -87,7 +90,7 @@ public class ContactScheduleReport {
      *
      * @return The appointment ID.
      */
-    public int getAppointmentID() {
+    public IntegerProperty getAppointmentID() {
         return appointmentID;
     }
 
@@ -96,7 +99,7 @@ public class ContactScheduleReport {
      *
      * @param appointmentID The new appointment ID to be set.
      */
-    public void setAppointmentID(int appointmentID) {
+    public void setAppointmentID(IntegerProperty appointmentID) {
         this.appointmentID = appointmentID;
     }
 
@@ -195,7 +198,7 @@ public class ContactScheduleReport {
      *
      * @return The customer ID.
      */
-    public int getCustomerID() {
+    public IntegerProperty getCustomerID() {
         return customerID;
     }
 
@@ -204,7 +207,7 @@ public class ContactScheduleReport {
      *
      * @param customerID The new customer ID to be set.
      */
-    public void setCustomerID(int customerID) {
+    public void setCustomerID(IntegerProperty customerID) {
         this.customerID = customerID;
     }
 

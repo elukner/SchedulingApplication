@@ -637,10 +637,7 @@ public class SchedulingController extends Application implements Initializable {
 
         // Set up TableView columns
         appointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
-        // titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-        titleCol.setCellValueFactory(cellDataFeatures -> {
-            return cellDataFeatures.getValue().getTitle();
-        });
+        titleCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getTitle());
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
 
