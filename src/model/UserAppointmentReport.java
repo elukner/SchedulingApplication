@@ -24,12 +24,12 @@ public class UserAppointmentReport {
     /**
      * The total number of appointments for the user.
      */
-    private String totalAppointments;
+    private int totalAppointments;
 
     /**
      * The average duration of the user's appointments.
      */
-    private String averageDuration;
+    private double averageDuration;
 
     /**
      * Constructs a UserAppointmentReport with all available details.
@@ -40,7 +40,7 @@ public class UserAppointmentReport {
      * @param totalAppointments The total number of appointments for the user.
      * @param averageDuration   The average duration of the user's appointments.
      */
-    public UserAppointmentReport(int userID, String userLogInDateTime, String userName, String totalAppointments, String averageDuration) {
+    public UserAppointmentReport(int userID, String userLogInDateTime, String userName, int totalAppointments, double averageDuration) {
         this.userID = userID;
         this.userLogInDateTime = userLogInDateTime;
         this.userName = userName;
@@ -56,7 +56,7 @@ public class UserAppointmentReport {
      * @param totalAppointments The total number of appointments for the user.
      * @param averageDuration   The average duration of the user's appointments.
      */
-    public UserAppointmentReport(int userID, String userName, String totalAppointments, String averageDuration) {
+    public UserAppointmentReport(int userID, String userName, int totalAppointments, double averageDuration) {
         this.userID = userID;
         this.userName = userName;
         this.totalAppointments = totalAppointments;
@@ -122,7 +122,7 @@ public class UserAppointmentReport {
      *
      * @return The total number of appointments.
      */
-    public String getTotalAppointments() {
+    public int getTotalAppointments() {
         return totalAppointments;
     }
 
@@ -131,7 +131,7 @@ public class UserAppointmentReport {
      *
      * @param totalAppointments The total appointments to set.
      */
-    public void setTotalAppointments(String totalAppointments) {
+    public void setTotalAppointments(int totalAppointments) {
         this.totalAppointments = totalAppointments;
     }
 
@@ -140,7 +140,7 @@ public class UserAppointmentReport {
      *
      * @return The average duration of appointments.
      */
-    public String getAverageDuration() {
+    public double getAverageDuration() {
         return averageDuration;
     }
 
@@ -149,7 +149,7 @@ public class UserAppointmentReport {
      *
      * @param averageDuration The average duration to set.
      */
-    public void setAverageDuration(String averageDuration) {
+    public void setAverageDuration(double averageDuration) {
         this.averageDuration = averageDuration;
     }
 }

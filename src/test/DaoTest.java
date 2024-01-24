@@ -170,6 +170,16 @@ public class DaoTest {
         }
         JDBC.closeConnection();
     }
+    @Test
+    public void testUserAppointmentReportDaoImpl() throws SQLException {
+        JDBC.openConnection();
+
+
+        for (UserAppointmentReport userAppointment : UserAppointmentReportDaoImpl.getUserAppointmentSummary(1)){
+            System.out.println( userAppointment.getAverageDuration());
+        }
+        JDBC.closeConnection();
+    }
 
     @Test
     public void testAppointmentReportDaoImpl() throws SQLException {

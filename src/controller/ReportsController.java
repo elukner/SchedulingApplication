@@ -1,9 +1,6 @@
 package controller;
 
-import dao.AppointmentReportDaoImpl;
-import dao.AppointmentsDaoImpl;
-import dao.ContactScheduleReportDaoImpl;
-import dao.UsersDaoImpl;
+import dao.*;
 import helper.FileIOManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,10 +24,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
-import model.AppointmentReport;
-import model.Appointments;
-import model.ContactScheduleReport;
-import model.Users;
+import model.*;
 
 public class ReportsController implements Initializable {
 
@@ -81,23 +75,23 @@ public class ReportsController implements Initializable {
 
 
     @FXML // fx:id="report3TableView"
-    private TableView<Appointments> report3TableView; // Value injected by FXMLLoader
+    private TableView<UserAppointmentReport> report3TableView; // Value injected by FXMLLoader
 
 
     @FXML // fx:id="userAverageDurationCol"
-    private TableColumn<?, ?> userAverageDurationCol; // Value injected by FXMLLoader
+    private TableColumn<UserAppointmentReport, Double> userAverageDurationCol; // Value injected by FXMLLoader
 
     @FXML // fx:id="userIDCol"
-    private TableColumn<?, ?> userIDCol; // Value injected by FXMLLoader
+    private TableColumn<ContactScheduleReport, Integer> userIDCol; // Value injected by FXMLLoader
 
     @FXML // fx:id="userLogInDateTimeCol"
-    private TableColumn<?, ?> userLogInDateTimeCol; // Value injected by FXMLLoader
+    private TableColumn<ContactScheduleReport, String> userLogInDateTimeCol; // Value injected by FXMLLoader
 
     @FXML // fx:id="userNameCol"
-    private TableColumn<?, ?> userNameCol; // Value injected by FXMLLoader
+    private TableColumn<ContactScheduleReport, String> userNameCol; // Value injected by FXMLLoader
 
     @FXML // fx:id="userTotalAppointmentsCol"
-    private TableColumn<?, ?> userTotalAppointmentsCol; // Value injected by FXMLLoader
+    private TableColumn<ContactScheduleReport, Integer> userTotalAppointmentsCol; // Value injected by FXMLLoader
 
 
     private Stage stage;
@@ -185,18 +179,19 @@ public class ReportsController implements Initializable {
     private void loadReport3() throws FileNotFoundException {
         Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
 
-        report2TableView.setItems(FXCollections.observableArrayList(ContactScheduleReportDaoImpl.getContactSchedules(2)));
 
- userAverageDurationCol.setCellValueFactory(new PropertyValueFactory<>("End"));
+        report3TableView.setItems(FXCollections.observableArrayList(UserAppointmentReportDaoImpl.getUserAppointmentSummary(user.getUserID())));
 
- userIDCol.setCellValueFactory(new PropertyValueFactory<>("End"));
 
- userLogInDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("End"));
 
- userNameCol.setCellValueFactory(new PropertyValueFactory<>("End"));
+ userIDCol.setCellValueFactory(new PropertyValueFactory<>("User_ID"));
 
- userTotalAppointmentsCol.setCellValueFactory(new PropertyValueFactory<>("End"));
+ //userLogInDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("User Log-In Date and Time"));
 
+ userNameCol.setCellValueFactory(new PropertyValueFactory<>("User_Name"));
+
+ userTotalAppointmentsCol.setCellValueFactory(new PropertyValueFactory<>("Total_Appointments"));
+        userAverageDurationCol.setCellValueFactory(new PropertyValueFactory<>("Average_Duration"));
     }
 
 
