@@ -378,15 +378,18 @@ public class CustomerRecordController extends Application implements Initializab
     @FXML
     public void onSelectCountry(ActionEvent actionEvent) {
 
-        countriesModel = CountriesDaoImpl.getAllCountries(countryBox.getValue()).get(0);
+        if(!CountriesDaoImpl.getAllCountries(countryBox.getValue()).isEmpty()){
+            countriesModel = CountriesDaoImpl.getAllCountries(countryBox.getValue()).get(0);
 
 
-        firstLevelDivisionBox.getItems().clear();
+            firstLevelDivisionBox.getItems().clear();
 
-        for (FirstLevelDivisions firstLevelDivision : FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID())) {
+            for (FirstLevelDivisions firstLevelDivision : FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID())) {
 
-            firstLevelDivisionBox.getItems().add(firstLevelDivision.getDivision());
+                firstLevelDivisionBox.getItems().add(firstLevelDivision.getDivision());
+            }
         }
+
 
     }
 
@@ -396,7 +399,7 @@ public class CustomerRecordController extends Application implements Initializab
     @FXML
     public void onSelectDivision(ActionEvent actionEvent) {
 
-
+        if(!FirstLevelDivisionsDaoImpl.getFirstLevelDivision(firstLevelDivisionBox.getValue()).isEmpty())
         divisionModel = FirstLevelDivisionsDaoImpl.getFirstLevelDivision(firstLevelDivisionBox.getValue()).get(0);
 
 
