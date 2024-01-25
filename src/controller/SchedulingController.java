@@ -479,7 +479,7 @@ public class SchedulingController extends Application implements Initializable {
 
         // Update the appointment ID and delete from the database
         appointmentsModel.setAppointmentID(Integer.parseInt(appointmentIDTxt.getText()));
-        deleteCustomerDatabase();
+        deleteAppointmentDatabase();
 
         // Clear form fields and display the scheduling table view
         clearSelectionAndFormFields();
@@ -513,10 +513,10 @@ public class SchedulingController extends Application implements Initializable {
      * with the specified Appointment ID from the database.
      *
      */
-    private void deleteCustomerDatabase() throws SQLException {
+    private void deleteAppointmentDatabase() throws SQLException {
 
         AppointmentsDaoImpl.deleteAppointment(appointmentsModel.getAppointmentID());
-
+        AppointmentsDaoImpl.resetAutoIncrement();
     }
 
 

@@ -20,6 +20,7 @@ import model.Appointments;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -523,5 +524,25 @@ public class AppointmentsDaoImpl {
         preparedStatement.setInt(1, appointmentID);
 
         return preparedStatement.executeUpdate();
+    }
+
+    public static int resetAutoIncrement() throws SQLException {
+        Statement s = JDBC.getConnection().createStatement();
+
+        String sqlStatement1 = "SET @max_value = (SELECT MAX(Appointment_ID) FROM client_schedule.appointments)";
+        String sqlStatement2 = "SET @sql = CONCAT('ALTER TABLE client_schedule.appointments AUTO_INCREMENT = ', IFNULL(@max_value + 1, 1))";
+        String sqlStatement3 = "PREPARE stmt FROM @sql";
+        String sqlStatement4 = "EXECUTE stmt";
+        String sqlStatement5 = "DEALLOCATE PREPARE stmt";
+        s.addBatch(sqlStatement1);
+        s.addBatch(sqlStatement2);
+        s.addBatch(sqlStatement3);
+        s.addBatch(sqlStatement4);
+        s.addBatch(sqlStatement5);
+        s.executeBatch();
+
+
+
+        return 0;
     }
 }
