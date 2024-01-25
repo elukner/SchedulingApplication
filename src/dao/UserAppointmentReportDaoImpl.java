@@ -1,6 +1,7 @@
 package dao;
 
 import helper.JDBC;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.ContactScheduleReport;
@@ -37,7 +38,7 @@ public class UserAppointmentReportDaoImpl {
                 double averageDuration = resultSet.getDouble("Average_Duration");
 
                 UserAppointmentReport userAppointmentReport =
-                        new UserAppointmentReport(userID, userName, totalAppointments, averageDuration);
+                        new UserAppointmentReport(new ReadOnlyIntegerWrapper(userID), userName, totalAppointments, averageDuration);
 
                 userAppointmentReports.add(userAppointmentReport);
             }

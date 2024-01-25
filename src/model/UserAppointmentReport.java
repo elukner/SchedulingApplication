@@ -1,5 +1,7 @@
 package model;
 
+import javafx.beans.property.IntegerProperty;
+
 /**
  * The UserAppointmentReport class represents a report containing information about a user's appointments.
  * It includes details such as user ID, login date and time, user name, total appointments, and average duration.
@@ -9,7 +11,7 @@ public class UserAppointmentReport {
     /**
      * The unique identifier for the user.
      */
-    private int userID;
+    private IntegerProperty userID;
 
     /**
      * The date and time when the user logged in.
@@ -40,7 +42,7 @@ public class UserAppointmentReport {
      * @param totalAppointments The total number of appointments for the user.
      * @param averageDuration   The average duration of the user's appointments.
      */
-    public UserAppointmentReport(int userID, String userLogInDateTime, String userName, int totalAppointments, double averageDuration) {
+    public UserAppointmentReport(IntegerProperty userID, String userLogInDateTime, String userName, int totalAppointments, double averageDuration) {
         this.userID = userID;
         this.userLogInDateTime = userLogInDateTime;
         this.userName = userName;
@@ -56,7 +58,7 @@ public class UserAppointmentReport {
      * @param totalAppointments The total number of appointments for the user.
      * @param averageDuration   The average duration of the user's appointments.
      */
-    public UserAppointmentReport(int userID, String userName, int totalAppointments, double averageDuration) {
+    public UserAppointmentReport(IntegerProperty userID, String userName, int totalAppointments, double averageDuration) {
         this.userID = userID;
         this.userName = userName;
         this.totalAppointments = totalAppointments;
@@ -68,7 +70,7 @@ public class UserAppointmentReport {
      *
      * @return The user ID.
      */
-    public int getUserID() {
+    public IntegerProperty getUserID() {
         return userID;
     }
 
@@ -77,7 +79,7 @@ public class UserAppointmentReport {
      *
      * @param userID The user ID to set.
      */
-    public void setUserID(int userID) {
+    public void setUserID(IntegerProperty userID) {
         this.userID = userID;
     }
 

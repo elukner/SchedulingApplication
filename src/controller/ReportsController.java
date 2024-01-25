@@ -76,22 +76,23 @@ public class ReportsController implements Initializable {
 
     @FXML // fx:id="report3TableView"
     private TableView<UserAppointmentReport> report3TableView; // Value injected by FXMLLoader
-
-
+    @FXML // fx:id="userIDCol"
+    private TableColumn<UserAppointmentReport, Integer> userIDCol; // Value injected by FXMLLoader
+    @FXML // fx:id="userNameCol"
+    private TableColumn<UserAppointmentReport, String> userNameCol; // Value injected by FXMLLoader
+    @FXML // fx:id="userLogInDateTimeCol"
+    private TableColumn<UserAppointmentReport, String> userLogInDateTimeCol; // Value injected by FXMLLoader
+    @FXML // fx:id="userTotalAppointmentsCol"
+    private TableColumn<UserAppointmentReport, Integer> userTotalAppointmentsCol; // Value injected by FXMLLoader
     @FXML // fx:id="userAverageDurationCol"
     private TableColumn<UserAppointmentReport, Double> userAverageDurationCol; // Value injected by FXMLLoader
 
-    @FXML // fx:id="userIDCol"
-    private TableColumn<ContactScheduleReport, Integer> userIDCol; // Value injected by FXMLLoader
 
-    @FXML // fx:id="userLogInDateTimeCol"
-    private TableColumn<ContactScheduleReport, String> userLogInDateTimeCol; // Value injected by FXMLLoader
 
-    @FXML // fx:id="userNameCol"
-    private TableColumn<ContactScheduleReport, String> userNameCol; // Value injected by FXMLLoader
 
-    @FXML // fx:id="userTotalAppointmentsCol"
-    private TableColumn<ContactScheduleReport, Integer> userTotalAppointmentsCol; // Value injected by FXMLLoader
+
+
+
 
 
     private Stage stage;
@@ -148,11 +149,11 @@ public class ReportsController implements Initializable {
      * Loads data for the second report into the specified TableView.
      * The method populates the TableView with contact schedule data retrieved from the ContactScheduleReportDaoImpl,
      * specifically fetching contact schedules for the second report.
-     *
+     * <p>
      * It initializes the columns in the report2TableView, setting up the necessary cell value factories for each column.
      * The columns include 'Contact ID', 'Contact Name', 'Appointment ID', 'Title', 'Type', 'Description',
      * 'Start', 'End', and 'Customer ID'. The data for each column is obtained from the ContactSchedule data model.
-     *
+     * <p>
      * Note: Ensure that the report2TableView, contactIDCol, contactNameCol, appointmentIDCol, titleCol,
      * typeContactAppointmentCol, descriptionCol, startCol, endCol, and customerIDCol are initialized
      * before calling this method to avoid NullPointerException.
@@ -181,17 +182,11 @@ public class ReportsController implements Initializable {
 
 
         report3TableView.setItems(FXCollections.observableArrayList(UserAppointmentReportDaoImpl.getUserAppointmentSummary(user.getUserID())));
-
-
-
- userIDCol.setCellValueFactory(new PropertyValueFactory<>("User_ID"));
-
- //userLogInDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("User Log-In Date and Time"));
-
- userNameCol.setCellValueFactory(new PropertyValueFactory<>("User_Name"));
-
- userTotalAppointmentsCol.setCellValueFactory(new PropertyValueFactory<>("Total_Appointments"));
-        userAverageDurationCol.setCellValueFactory(new PropertyValueFactory<>("Average_Duration"));
+        userIDCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getUserID().asObject());
+        //userLogInDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("userLogInDateTime"));
+//        userNameCol.setCellValueFactory(new PropertyValueFactory<>("User_Name"));
+//        userTotalAppointmentsCol.setCellValueFactory(new PropertyValueFactory<>("Total_Appointments"));
+//        userAverageDurationCol.setCellValueFactory(new PropertyValueFactory<>("Average_Duration"));
     }
 
 
