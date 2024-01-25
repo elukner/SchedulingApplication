@@ -27,7 +27,7 @@ public class UserAppointmentReport {
     /**
      * The total number of appointments for the user.
      */
-    private int totalAppointments;
+    private IntegerProperty totalAppointments;
 
     /**
      * The average duration of the user's appointments.
@@ -43,7 +43,7 @@ public class UserAppointmentReport {
      * @param totalAppointments The total number of appointments for the user.
      * @param averageDuration   The average duration of the user's appointments.
      */
-    public UserAppointmentReport(IntegerProperty userID, String userLogInDateTime, StringProperty userName, int totalAppointments, double averageDuration) {
+    public UserAppointmentReport(IntegerProperty userID, String userLogInDateTime, StringProperty userName, IntegerProperty totalAppointments, double averageDuration) {
         this.userID = userID;
         this.userLogInDateTime = userLogInDateTime;
         this.userName = userName;
@@ -59,7 +59,7 @@ public class UserAppointmentReport {
      * @param totalAppointments The total number of appointments for the user.
      * @param averageDuration   The average duration of the user's appointments.
      */
-    public UserAppointmentReport(IntegerProperty userID, StringProperty userName, int totalAppointments, double averageDuration) {
+    public UserAppointmentReport(IntegerProperty userID, StringProperty userName, IntegerProperty totalAppointments, double averageDuration) {
         this.userID = userID;
         this.userName = userName;
         this.totalAppointments = totalAppointments;
@@ -125,7 +125,7 @@ public class UserAppointmentReport {
      *
      * @return The total number of appointments.
      */
-    public int getTotalAppointments() {
+    public IntegerProperty getTotalAppointments() {
         return totalAppointments;
     }
 
@@ -134,7 +134,7 @@ public class UserAppointmentReport {
      *
      * @param totalAppointments The total appointments to set.
      */
-    public void setTotalAppointments(int totalAppointments) {
+    public void setTotalAppointments(IntegerProperty totalAppointments) {
         this.totalAppointments = totalAppointments;
     }
 

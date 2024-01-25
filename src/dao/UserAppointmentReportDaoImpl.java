@@ -40,7 +40,7 @@ public class UserAppointmentReportDaoImpl {
 
                 UserAppointmentReport userAppointmentReport =
                         new UserAppointmentReport(new ReadOnlyIntegerWrapper(userID), new ReadOnlyStringWrapper(userName),
-                                totalAppointments, averageDuration);
+                              new ReadOnlyIntegerWrapper(totalAppointments), averageDuration);
 
                 userAppointmentReports.add(userAppointmentReport);
             }

@@ -185,8 +185,7 @@ public class ReportsController implements Initializable {
         userIDCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getUserID().asObject());
         userNameCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getUserName());
         //userLogInDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("userLogInDateTime"));
-
-//        userTotalAppointmentsCol.setCellValueFactory(new PropertyValueFactory<>("Total_Appointments"));
+         userTotalAppointmentsCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getTotalAppointments().asObject());
 //        userAverageDurationCol.setCellValueFactory(new PropertyValueFactory<>("Average_Duration"));
     }
 
