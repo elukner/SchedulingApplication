@@ -1,11 +1,11 @@
 ======================================
-        Scheduling Application
+    Scheduling Desktop Application
 ======================================
 
 --------------------------------------
 **Title and Purpose of the Application:**
 --------------------------------------
-The title of the application is Scheduling Application.
+The title of the application is Scheduling Desktop Application.
 The purpose of this application is to provide a GUI-based scheduling system for managing
 customer records and appointments.
 

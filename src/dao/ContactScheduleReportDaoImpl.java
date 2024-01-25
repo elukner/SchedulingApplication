@@ -38,10 +38,15 @@ public class ContactScheduleReportDaoImpl {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+
             while (resultSet.next()) {
                 contactID = resultSet.getInt("Contact_ID");
                 String contactName = resultSet.getString("Contact_Name");
                 int appointmentID = resultSet.getInt("Appointment_ID");
+                if (appointmentID == 0){
+                    contactSchedulesList.clear();
+                    return contactSchedulesList;
+                }
                 String title = resultSet.getString("Title");
                 String type = resultSet.getString("Type");
                 String description = resultSet.getString("Description");

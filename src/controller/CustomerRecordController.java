@@ -154,7 +154,6 @@ public class CustomerRecordController extends Application implements Initializab
 
     @FXML
     void onActionBack(ActionEvent event) throws IOException {
-        FileIOManager.deleteCurrentFile();
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
         stage.setScene(new Scene(scene));

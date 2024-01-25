@@ -24,19 +24,24 @@
                   <Button mnemonicParsing="false" onAction="#onActionRunReport2" text="Run" />
                </children>
             </HBox>
-            <TableView fx:id="report2TableView" prefHeight="200.0" prefWidth="200.0">
-              <columns>
-                <TableColumn fx:id="contactIDCol" prefWidth="75.0" text="Contact_ID" />
-                <TableColumn fx:id="contactNameCol" prefWidth="100.0" text="Contact_Name" />
-                  <TableColumn fx:id="appointmentIDCol" prefWidth="100.0" text="Appointment_ID" />
-                  <TableColumn fx:id="titleCol" prefWidth="50.0" text="Title" />
-                  <TableColumn fx:id="typeContactAppointmentCol" prefWidth="50.0" text="Type" />
-                  <TableColumn fx:id="descriptionCol" prefWidth="75.0" text="Description" />
-                  <TableColumn fx:id="startCol" prefWidth="120.0" text="Start Date and Time" />
-                  <TableColumn fx:id="endCol" prefWidth="120.0" text="End Date and Time" />
-                  <TableColumn fx:id="customerIDCol" prefWidth="100.0" text="Customer_ID" />
-              </columns>
-            </TableView>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="noAppointmentsLabel" text="No appointments for the selected contact." />
+                  <TableView fx:id="report2TableView" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="contactIDCol" prefWidth="75.0" text="Contact_ID" />
+                      <TableColumn fx:id="contactNameCol" prefWidth="100.0" text="Contact_Name" />
+                        <TableColumn fx:id="appointmentIDCol" prefWidth="100.0" text="Appointment_ID" />
+                        <TableColumn fx:id="titleCol" prefWidth="50.0" text="Title" />
+                        <TableColumn fx:id="typeContactAppointmentCol" prefWidth="50.0" text="Type" />
+                        <TableColumn fx:id="descriptionCol" prefWidth="75.0" text="Description" />
+                        <TableColumn fx:id="startCol" prefWidth="120.0" text="Start Date and Time" />
+                        <TableColumn fx:id="endCol" prefWidth="120.0" text="End Date and Time" />
+                        <TableColumn fx:id="customerIDCol" prefWidth="100.0" text="Customer_ID" />
+                    </columns>
+                  </TableView>
+               </children>
+            </VBox>
             <Label text="Report 3: Appointment Summary by User" />
             <TableView fx:id="report3TableView" prefHeight="200.0" prefWidth="200.0">
               <columns>
