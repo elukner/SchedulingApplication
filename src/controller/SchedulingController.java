@@ -729,8 +729,10 @@ public class SchedulingController extends Application implements Initializable {
      */
     @FXML
     void onActionStartDate(ActionEvent event) {
-        datePickerStringConverter(startDatePicker);
-        startDateSelected = startDatePicker.getValue().toString();
+        if(startDatePicker.getValue()!=null) {
+            datePickerStringConverter(startDatePicker);
+            startDateSelected = startDatePicker.getValue().toString();
+        }
 
     }
 
@@ -744,8 +746,10 @@ public class SchedulingController extends Application implements Initializable {
      */
     @FXML
     void onActionEndDate(ActionEvent event) {
-        datePickerStringConverter(endDatePicker);
-        endDateSelected = endDatePicker.getValue().toString();
+        if(endDatePicker.getValue()!=null){
+            datePickerStringConverter(endDatePicker);
+            endDateSelected = endDatePicker.getValue().toString();
+        }
     }
 
     /**
@@ -758,12 +762,13 @@ public class SchedulingController extends Application implements Initializable {
      */
     private void datePickerStringConverter(DatePicker datePicker) {
         datePicker.setConverter(new StringConverter<LocalDate>() {
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String pattern = "yyyy-MM-dd";
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
             @Override
             public String toString(LocalDate date) {
                 if (date != null) {
-                    return dateTimeFormatter.format(date);
+                    return dateFormatter.format(date);
                 } else {
                     return "";
                 }
@@ -772,7 +777,7 @@ public class SchedulingController extends Application implements Initializable {
             @Override
             public LocalDate fromString(String dateString) {
                 if (dateString != null && !dateString.isEmpty()) {
-                    return LocalDate.parse(dateString, dateTimeFormatter);
+                    return LocalDate.parse(dateString, dateFormatter);
                 } else {
                     return null;
                 }
@@ -859,8 +864,10 @@ public class SchedulingController extends Application implements Initializable {
         contactNameComboBox.getItems().clear();
         typeTxt.clear();
         startDatePicker.getEditor().clear();
+        startDatePicker.setValue(null); //new
         startTimeComboBox.getItems().clear();
         endDatePicker.getEditor().clear();
+        endDatePicker.setValue(null); //new
         endTimeComboBox.getItems().clear();
         customerIDComboBox.getItems().clear();
         userIDComboBox.getItems().clear();
