@@ -1,6 +1,6 @@
 package controller;
 
-import dao.AppointmentsDaoImpl;
+
 import helper.FileIOManager;
 import helper.TimeProcessing;
 import javafx.collections.ObservableList;
@@ -13,14 +13,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import model.Appointments;
 import model.Users;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -29,9 +26,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.Scene;
-import model.Users;
-import dao.UsersDaoImpl;
-import helper.TimeProcessing;
+
 
 /**
  * Project: SchedulingApplication
@@ -40,6 +35,19 @@ import helper.TimeProcessing;
  * User: Elizabeth Thomas
  * Date: 1/2/2024
  * Time: 1:27 PM
+ * <p>
+ * NOTES
+ * The controller package will hold Controller
+ * classes that contain Business Logic for your views.
+ * <p>
+ * Use lambda expressions for event handling within your JavaFX controllers.
+ * For instance, if you're handling button clicks or other UI interactions,
+ * you can utilize lambda expressions to define event handlers.
+ * <p>
+ * // Example in a JavaFX controller
+ * button.setOnAction(event -> {
+ * // Handle button click event here
+ * });
  */
 
 /**
@@ -58,7 +66,9 @@ import helper.TimeProcessing;
  */
 
 /**
- * This FXML class is the login controller that contains business logic for the login view.
+ * The LoginController class serves as the controller for the login view in the application.
+ * It implements the Initializable interface to handle JavaFX initialization.
+ * This controller manages user authentication and navigation to the main application view.
  */
 public class LoginController implements Initializable {
 
@@ -84,14 +94,8 @@ public class LoginController implements Initializable {
     private Parent scene;
 
     private Users user;
-
-
     private int timesClicked;
-
-
     private Boolean loginSuccess;
-
-//    private UsersDaoImpl usersDao;
 
     Locale france = new Locale("fr", "FR");
 
@@ -102,7 +106,7 @@ public class LoginController implements Initializable {
      */
     @FXML
     void onActionLogInBtn(ActionEvent event) throws IOException {
-        setTimesClicked(timesClicked+1);
+        setTimesClicked(timesClicked + 1);
 //    -accepts username and password and provides an appropriate error message
         if (validateLogin(usernameTxt.getText(), passwordTxt.getText())) {
             setLoginSuccess(true);
@@ -112,7 +116,7 @@ public class LoginController implements Initializable {
             stage.setScene(new Scene(scene));
             stage.show();
 
-        }else {
+        } else {
             setLoginSuccess(false);
             setUserLoggedIn();
         }
@@ -150,7 +154,7 @@ public class LoginController implements Initializable {
     }
 
     public String getUserLoggedIn() {
-        if(usernameTxt.getText().isEmpty())
+        if (usernameTxt.getText().isEmpty())
             return "null";
 
         return usernameTxt.getText();
@@ -195,7 +199,6 @@ public class LoginController implements Initializable {
         }
 
 
-
         return true;
     }
 
@@ -230,7 +233,7 @@ public class LoginController implements Initializable {
     private static void showAlert(Alert.AlertType alertType, String title, String message) {
         //      -automatically translates error control messages into English or French based on the user’s computer language setting
 //  Note: Some operating systems require a reboot when changing the language settings.
-        ResourceBundle resourceBundle= ResourceBundle.getBundle("Nat", Locale.getDefault());
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Nat", Locale.getDefault());
 
 
         Alert alert = new Alert(alertType);
@@ -261,15 +264,15 @@ public class LoginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        resourceBundle= ResourceBundle.getBundle("Nat", Locale.getDefault());
+        resourceBundle = ResourceBundle.getBundle("Nat", Locale.getDefault());
 
         //      -displays the log-in form in English or French based on the user’s computer language setting to translate all the text, labels, buttons, and errors on the form
         //      -determines the user’s location (i.e., ZoneId) and displays it in a label on the log-in form
 
-            loginBtn.setText(resourceBundle.getString("Log")+" "+ resourceBundle.getString("in"));
-            usernameLbl.setText(resourceBundle.getString("Username"));
-            passwordLbl.setText(resourceBundle.getString("Password"));
-            userLocationIDLbl.setText(ZoneId.systemDefault().toString());
+        loginBtn.setText(resourceBundle.getString("Log") + " " + resourceBundle.getString("in"));
+        usernameLbl.setText(resourceBundle.getString("Username"));
+        passwordLbl.setText(resourceBundle.getString("Password"));
+        userLocationIDLbl.setText(ZoneId.systemDefault().toString());
 
         //Locale.setDefault(france);
         //loginBtn.setText(resourceBundle.getString("hello"));
