@@ -1,6 +1,7 @@
 package model;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * The UserAppointmentReport class represents a report containing information about a user's appointments.
@@ -21,7 +22,7 @@ public class UserAppointmentReport {
     /**
      * The name of the user.
      */
-    private String userName;
+    private StringProperty userName;
 
     /**
      * The total number of appointments for the user.
@@ -42,7 +43,7 @@ public class UserAppointmentReport {
      * @param totalAppointments The total number of appointments for the user.
      * @param averageDuration   The average duration of the user's appointments.
      */
-    public UserAppointmentReport(IntegerProperty userID, String userLogInDateTime, String userName, int totalAppointments, double averageDuration) {
+    public UserAppointmentReport(IntegerProperty userID, String userLogInDateTime, StringProperty userName, int totalAppointments, double averageDuration) {
         this.userID = userID;
         this.userLogInDateTime = userLogInDateTime;
         this.userName = userName;
@@ -58,7 +59,7 @@ public class UserAppointmentReport {
      * @param totalAppointments The total number of appointments for the user.
      * @param averageDuration   The average duration of the user's appointments.
      */
-    public UserAppointmentReport(IntegerProperty userID, String userName, int totalAppointments, double averageDuration) {
+    public UserAppointmentReport(IntegerProperty userID, StringProperty userName, int totalAppointments, double averageDuration) {
         this.userID = userID;
         this.userName = userName;
         this.totalAppointments = totalAppointments;
@@ -106,7 +107,7 @@ public class UserAppointmentReport {
      *
      * @return The user name.
      */
-    public String getUserName() {
+    public StringProperty getUserName() {
         return userName;
     }
 
@@ -115,7 +116,7 @@ public class UserAppointmentReport {
      *
      * @param userName The user name to set.
      */
-    public void setUserName(String userName) {
+    public void setUserName(StringProperty userName) {
         this.userName = userName;
     }
 

@@ -183,8 +183,9 @@ public class ReportsController implements Initializable {
 
         report3TableView.setItems(FXCollections.observableArrayList(UserAppointmentReportDaoImpl.getUserAppointmentSummary(user.getUserID())));
         userIDCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getUserID().asObject());
+        userNameCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getUserName());
         //userLogInDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("userLogInDateTime"));
-//        userNameCol.setCellValueFactory(new PropertyValueFactory<>("User_Name"));
+
 //        userTotalAppointmentsCol.setCellValueFactory(new PropertyValueFactory<>("Total_Appointments"));
 //        userAverageDurationCol.setCellValueFactory(new PropertyValueFactory<>("Average_Duration"));
     }
