@@ -351,7 +351,7 @@ public class SchedulingController extends Application implements Initializable {
 
         }
 
-        return startDatePicker.getEditor().getText() + " " + startTimeComboBox.getEditor().getText();
+        return startDatePicker.getEditor().getText() + " " + startTimeComboBox.getValue();
     }
 
     /**
@@ -370,7 +370,7 @@ public class SchedulingController extends Application implements Initializable {
             return endDateSelected + " " + endTimeSelected;
         }
 
-        return endDatePicker.getEditor().getText() + " " + endTimeComboBox.getEditor().getText();
+        return endDatePicker.getEditor().getText() + " " + endTimeComboBox.getValue();
 
     }
 
@@ -420,6 +420,8 @@ public class SchedulingController extends Application implements Initializable {
         appointmentsModel.setType(typeTxt.getText());
         appointmentsModel.setStart(getStartDateTimeSelected());
         appointmentsModel.setEnd(getEndDateTimeSelected());
+//        appointmentsModel.setStart("2020-05-29 06:00:00");
+//        appointmentsModel.setEnd("2020-05-29 07:00:00");
         appointmentsModel.setLastUpdate(DateTimeProcessing.getCurrentLocalDateTimeString());
         appointmentsModel.setLastUpdatedBy(user.getUserName());
         appointmentsModel.setCustomerID(Integer.parseInt(customerIDSelected));
