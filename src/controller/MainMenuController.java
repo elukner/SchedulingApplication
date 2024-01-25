@@ -14,6 +14,14 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+/**
+ * Project: SchedulingApplication
+ * Package: controller
+ * <p>
+ * User: Elizabeth Thomas
+ * Date: 1/25/2024
+ * Time: 2:04 PM
+ */
 
 /**
  * The MainMenuController class serves as the controller for the main menu view in the application.

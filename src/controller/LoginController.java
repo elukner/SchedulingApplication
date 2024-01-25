@@ -26,8 +26,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.Scene;
-
-
 /**
  * Project: SchedulingApplication
  * Package: controller
@@ -35,35 +33,8 @@ import javafx.scene.Scene;
  * User: Elizabeth Thomas
  * Date: 1/2/2024
  * Time: 1:27 PM
- * <p>
- * NOTES
- * The controller package will hold Controller
- * classes that contain Business Logic for your views.
- * <p>
- * Use lambda expressions for event handling within your JavaFX controllers.
- * For instance, if you're handling button clicks or other UI interactions,
- * you can utilize lambda expressions to define event handlers.
- * <p>
- * // Example in a JavaFX controller
- * button.setOnAction(event -> {
- * // Handle button click event here
- * });
  */
 
-/**
- * NOTES
- *The controller package will hold Controller
- * classes that contain Business Logic for your views.
- *
- * Use lambda expressions for event handling within your JavaFX controllers.
- * For instance, if you're handling button clicks or other UI interactions,
- * you can utilize lambda expressions to define event handlers.
- *
- * // Example in a JavaFX controller
- * button.setOnAction(event -> {
- *     // Handle button click event here
- * });
- */
 
 /**
  * The LoginController class serves as the controller for the login view in the application.
