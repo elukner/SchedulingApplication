@@ -9,7 +9,7 @@
          <children>
             <Button fx:id="loginBtn" layoutX="63.0" layoutY="178.0" mnemonicParsing="false" onAction="#onActionLogInBtn" prefHeight="25.0" prefWidth="149.0" text="Log in" />
             <Label fx:id="usernameLbl" alignment="CENTER" layoutX="63.0" layoutY="88.0" text="Username " />
-            <TextField fx:id="usernameTxt" layoutX="63.0" layoutY="105.0" onAction="#onActionUsernameTxt" />
+            <TextField fx:id="usernameTxt" layoutX="63.0" layoutY="105.0" />
             <Label fx:id="passwordLbl" layoutX="63.0" layoutY="130.0" text="Password" />
             <TextField fx:id="passwordTxt" layoutX="63.0" layoutY="147.0" />
             <Label fx:id="userLocationIDLbl" layoutX="63.0" layoutY="210.0" text="Label" />

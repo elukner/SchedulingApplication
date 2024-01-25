@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import model.Appointments;
 import model.Users;
 
@@ -101,10 +102,10 @@ public class LoginController implements Initializable {
      */
     @FXML
     void onActionLogInBtn(ActionEvent event) throws IOException {
-        timesClicked++;
+        setTimesClicked(timesClicked+1);
 //    -accepts username and password and provides an appropriate error message
         if (validateLogin(usernameTxt.getText(), passwordTxt.getText())) {
-            loginSuccess=true;
+            setLoginSuccess(true);
             setUserLoggedIn();
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
@@ -112,7 +113,7 @@ public class LoginController implements Initializable {
             stage.show();
 
         }else {
-            loginSuccess=false;
+            setLoginSuccess(false);
             setUserLoggedIn();
         }
 
@@ -136,14 +137,22 @@ public class LoginController implements Initializable {
 
     private void setUserLoggedIn() throws IOException {
 
-        user = UsersDaoImpl.getUser(usernameTxt.getText(), passwordTxt.getText()).get(0);
-        if(!loginSuccess){
-            FileIOManager.writeToFile(user.getUserName(),getTimesClicked(), LocalDate.now().toString(), TimeProcessing.createTimeStamp(),"fail");
+        ObservableList<Users> userList = UsersDaoImpl.getUser(usernameTxt.getText(), passwordTxt.getText());
+
+        String status = "fail";
+        if (!userList.isEmpty()) {
+            user = userList.get(0);
+            status = getLoginSuccess() ? "success" : "fail";
         }
-        FileIOManager.writeToFile(user.getUserName(),getTimesClicked(), LocalDate.now().toString(), TimeProcessing.createTimeStamp(),"success");
+
+        FileIOManager.writeToFile(getUserLoggedIn(), getTimesClicked(), LocalDate.now().toString(),
+                TimeProcessing.createTimeStamp(), status);
     }
 
     public String getUserLoggedIn() {
+        if(usernameTxt.getText().isEmpty())
+            return "null";
+
         return usernameTxt.getText();
     }
 
@@ -156,37 +165,37 @@ public class LoginController implements Initializable {
      * @return appropriate error message if user logs in with incorrect username and password
      */
     public Boolean validateLogin(String username, String password) {
+
+        Pair<String, Boolean> emptyFieldResult = isEmptyField(usernameTxt, passwordTxt);
+
+        if (emptyFieldResult.getValue()) {
+            showAlert(Alert.AlertType.ERROR, "Form", emptyFieldResult.getKey());
+
+            return false;
+        }
+
+
         ObservableList<Users> userList = UsersDaoImpl.getUser(username, password);
 
-        if (isEmptyField(usernameTxt, passwordTxt)) {
-            showAlert(Alert.AlertType.ERROR, "Form", "eUsernamePassword");
-            return false;
-        }
-
-        if (usernameTxt.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Form", "eUsername");
-            return false;
-        }
-
-        if (passwordTxt.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Form", "ePassword");
-            return false;
-        }
-
-        if (!userList.isEmpty() && !usernameTxt.getText().isEmpty() && !passwordTxt.getText().isEmpty()) {
-            Users user = userList.get(0);
-            if (!password.equals(user.getPassword())) {
-                showAlert(Alert.AlertType.ERROR, "Form", "cPassword");
-                return false;
-            }
-            if (!username.equals(user.getUserName())) {
-                showAlert(Alert.AlertType.ERROR, "Form", "cUsername");
-                return false;
-            }
-        } else {
+        if (userList.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Form", "cUserPassword");
             return false;
         }
+
+        Users user = userList.get(0);
+
+        if (!password.equals(user.getPassword())) {
+            showAlert(Alert.AlertType.ERROR, "Form", "cPassword");
+            return false;
+        }
+
+        if (!username.equalsIgnoreCase(user.getUserName())) {
+            showAlert(Alert.AlertType.ERROR, "Form", "cUsername");
+            return false;
+        }
+
+
+
         return true;
     }
 
@@ -196,26 +205,26 @@ public class LoginController implements Initializable {
      * @param passwordTxt
      * @return
      */
-    private boolean isEmptyField(TextField usernameTxt, TextField passwordTxt) {
-        return usernameTxt.getText().isEmpty() && passwordTxt.getText().isEmpty();
-    }
+    private Pair<String, Boolean> isEmptyField(TextField usernameTxt, TextField passwordTxt) {
+        boolean isUsernameEmpty = usernameTxt.getText().isEmpty();
+        boolean isPasswordEmpty = passwordTxt.getText().isEmpty();
 
+        //Both fields are empty
+        if (isUsernameEmpty && isPasswordEmpty) {
+            return new Pair<>("eUsernamePassword", true);
+        }
 
+        //Username field are empty
+        if (isUsernameEmpty) {
+            return new Pair<>("eUsername", true);
+        }
 
-    @FXML
-    public void onActionUsernameTxt(ActionEvent actionEvent) {
-//        // action event
-//        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
-//            public void handle(ActionEvent e)
-//            {
-//                usernamerTxt.getText();
-//            }
-//        };
-//
-//        // when enter is pressed
-//        usernamerTxt.setOnAction(event);
+        //Password field are empty
+        if (isPasswordEmpty) {
+            return new Pair<>("ePassword", true);
+        }
 
-
+        return new Pair<>("No empty fields", false);
     }
 
     private static void showAlert(Alert.AlertType alertType, String title, String message) {

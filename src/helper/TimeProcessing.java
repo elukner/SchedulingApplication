@@ -7,6 +7,7 @@ import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Function;
 
 /**
  * Project: SchedulingApplication
@@ -75,16 +76,11 @@ public class TimeProcessing {
 
     public static LocalTime getTime(String dateTime){
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-//        DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss")
-//                .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
-//                .toFormatter();
         LocalTime localTime = LocalTime.parse(dateTime.substring(11), timeFormatter);
-        //System.out.println("The local time is " + localTime);
-
-        //Getting the day of the week
-        //System.out.println(ldtStart.getDayOfWeek());
         return localTime;
     }
+
+
 
     public static String getTimeFromDateTime(String dateTime){
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

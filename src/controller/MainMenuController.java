@@ -50,7 +50,7 @@ public class MainMenuController extends Application implements Initializable {
      * @throws IOException
      */
     @FXML
-    void onActionLogOutBtn(ActionEvent event) throws IOException  {
+    void onActionReportsBtn(ActionEvent event) throws IOException  {
         String viewPath = "../view/reports.fxml";
         loadPage(event,viewPath);
     }
