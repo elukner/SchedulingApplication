@@ -526,23 +526,33 @@ public class AppointmentsDaoImpl {
         return preparedStatement.executeUpdate();
     }
 
-    public static int resetAutoIncrement() throws SQLException {
-        Statement s = JDBC.getConnection().createStatement();
+    /**
+     * Resets the auto-increment value of the "Appointment_ID" column in the "client_schedule.appointments" table.
+     * This method uses SQL statements to find the maximum current value of the "Appointment_ID" column,
+     * and then adjusts the auto-increment value accordingly to avoid potential conflicts.
+     * Note: This operation is typically used when deleting records with higher IDs,
+     * ensuring that the next inserted record starts with an appropriate ID.
+     *
+     * @return An integer indicating the success of the operation (0 for success).
+     * @throws SQLException If a database access error occurs or this method is called on a closed connection.
+     */
+    public static int[] resetAutoIncrement() throws SQLException {
+        Statement statement = JDBC.getConnection().createStatement();
 
         String sqlStatement1 = "SET @max_value = (SELECT MAX(Appointment_ID) FROM client_schedule.appointments)";
         String sqlStatement2 = "SET @sql = CONCAT('ALTER TABLE client_schedule.appointments AUTO_INCREMENT = ', IFNULL(@max_value + 1, 1))";
         String sqlStatement3 = "PREPARE stmt FROM @sql";
         String sqlStatement4 = "EXECUTE stmt";
         String sqlStatement5 = "DEALLOCATE PREPARE stmt";
-        s.addBatch(sqlStatement1);
-        s.addBatch(sqlStatement2);
-        s.addBatch(sqlStatement3);
-        s.addBatch(sqlStatement4);
-        s.addBatch(sqlStatement5);
-        s.executeBatch();
+        statement.addBatch(sqlStatement1);
+        statement.addBatch(sqlStatement2);
+        statement.addBatch(sqlStatement3);
+        statement.addBatch(sqlStatement4);
+        statement.addBatch(sqlStatement5);
+        statement.executeBatch();
 
 
 
-        return 0;
+        return statement.executeBatch();
     }
 }
