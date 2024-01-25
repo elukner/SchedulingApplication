@@ -13,6 +13,7 @@ package helper;
 import java.io.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -98,5 +99,85 @@ public class FileIOManager {
         return currentUserName;
 
 
+    }
+
+    public static String[] readFileAsArray() throws FileNotFoundException {
+        File file = new File("login_activity.txt");
+        Scanner sc = new Scanner(file);
+
+        ArrayList<String> currentActivity = new ArrayList<>();
+        while (sc.hasNextLine()) {
+            currentActivity.add(sc.nextLine());
+        }
+
+        return currentActivity.toArray(new String[0]);
+    }
+
+    /**
+     * Reads the contents of the "login_activity.txt" file and returns the last line as an array of strings.
+     *
+     * @return An array of strings containing the components of the last line in the file.
+     * @throws FileNotFoundException If the "login_activity.txt" file is not found.
+     */
+    public static String[] readFileCurrentUserAsArray() throws FileNotFoundException {
+        File file = new File("login_activity.txt");
+
+        try (Scanner sc = new Scanner(file)) {
+            String lastLine = null;
+
+            // Iterate through lines and store the last line
+            while (sc.hasNextLine()) {
+                lastLine = sc.nextLine();
+            }
+
+            // Split the last line into an array of strings
+            if (lastLine != null) {
+                return lastLine.split("\\s+");
+            } else {
+                return new String[0]; // or handle the case when the file is empty
+            }
+        }
+    }
+
+    /**
+     * Reads the last login date and timestamp from the "login_activity.txt" file and returns it as a formatted string.
+     *
+     * @return A formatted string containing the last login date and timestamp.
+     * @throws FileNotFoundException If the "login_activity.txt" file is not found.
+     */
+    public static String readFileCurrentUserDateAndTimestamp() throws FileNotFoundException {
+        // Retrieve the last line from the "login_activity.txt" file as an array
+        String[] lastLine = readFileCurrentUserAsArray();
+        // Combine date and timestamp components into a formatted string
+        return lastLine[2]+" "+lastLine[3] + " " + lastLine[4];
+
+    }
+
+    public static List<String[]> readLines() throws FileNotFoundException {
+        File file = new File("login_activity.txt");
+        List<String[]> lines = new ArrayList<>();
+
+        try (Scanner sc = new Scanner(file)) {
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] items = line.split("\\s+"); // Split the line into items
+                lines.add(items);
+            }
+        }
+
+        return lines;
+    }
+
+    public static String readLastLine() throws FileNotFoundException {
+        File file = new File("login_activity.txt");
+        String lastLine = "";
+
+        try (Scanner sc = new Scanner(file)) {
+            while (sc.hasNextLine()) {
+                lastLine = sc.nextLine();
+            }
+        }
+
+        return lastLine;
     }
 }

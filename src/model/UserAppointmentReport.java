@@ -1,5 +1,6 @@
 package model;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 
@@ -15,14 +16,14 @@ public class UserAppointmentReport {
     private IntegerProperty userID;
 
     /**
-     * The date and time when the user logged in.
-     */
-    private String userLogInDateTime;
-
-    /**
      * The name of the user.
      */
     private StringProperty userName;
+
+    /**
+     * The date and time when the user logged in.
+     */
+    private StringProperty userLogInDateTime;
 
     /**
      * The total number of appointments for the user.
@@ -32,7 +33,7 @@ public class UserAppointmentReport {
     /**
      * The average duration of the user's appointments.
      */
-    private double averageDuration;
+    private DoubleProperty averageDuration;
 
     /**
      * Constructs a UserAppointmentReport with all available details.
@@ -43,10 +44,11 @@ public class UserAppointmentReport {
      * @param totalAppointments The total number of appointments for the user.
      * @param averageDuration   The average duration of the user's appointments.
      */
-    public UserAppointmentReport(IntegerProperty userID, String userLogInDateTime, StringProperty userName, IntegerProperty totalAppointments, double averageDuration) {
+    public UserAppointmentReport(IntegerProperty userID,StringProperty userName, StringProperty userLogInDateTime,
+                                 IntegerProperty totalAppointments, DoubleProperty averageDuration) {
         this.userID = userID;
-        this.userLogInDateTime = userLogInDateTime;
         this.userName = userName;
+        this.userLogInDateTime = userLogInDateTime;
         this.totalAppointments = totalAppointments;
         this.averageDuration = averageDuration;
     }
@@ -59,7 +61,8 @@ public class UserAppointmentReport {
      * @param totalAppointments The total number of appointments for the user.
      * @param averageDuration   The average duration of the user's appointments.
      */
-    public UserAppointmentReport(IntegerProperty userID, StringProperty userName, IntegerProperty totalAppointments, double averageDuration) {
+    public UserAppointmentReport(IntegerProperty userID, StringProperty userName, IntegerProperty totalAppointments,
+                                 DoubleProperty averageDuration) {
         this.userID = userID;
         this.userName = userName;
         this.totalAppointments = totalAppointments;
@@ -89,7 +92,7 @@ public class UserAppointmentReport {
      *
      * @return The user's login date and time.
      */
-    public String getUserLogInDateTime() {
+    public StringProperty getUserLogInDateTime() {
         return userLogInDateTime;
     }
 
@@ -98,7 +101,7 @@ public class UserAppointmentReport {
      *
      * @param userLogInDateTime The login date and time to set.
      */
-    public void setUserLogInDateTime(String userLogInDateTime) {
+    public void setUserLogInDateTime(StringProperty userLogInDateTime) {
         this.userLogInDateTime = userLogInDateTime;
     }
 
@@ -143,7 +146,7 @@ public class UserAppointmentReport {
      *
      * @return The average duration of appointments.
      */
-    public double getAverageDuration() {
+    public DoubleProperty getAverageDuration() {
         return averageDuration;
     }
 
@@ -152,7 +155,7 @@ public class UserAppointmentReport {
      *
      * @param averageDuration The average duration to set.
      */
-    public void setAverageDuration(double averageDuration) {
+    public void setAverageDuration(DoubleProperty averageDuration) {
         this.averageDuration = averageDuration;
     }
 }

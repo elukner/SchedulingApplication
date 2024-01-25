@@ -42,7 +42,7 @@
               <columns>
                 <TableColumn fx:id="userIDCol" prefWidth="75.0" text="User_ID" />
                 <TableColumn fx:id="userNameCol" prefWidth="75.0" text="User_Name" />
-                  <TableColumn fx:id="userLogInDateTimeCol" prefWidth="175.0" text="User Log-In Date and Time" />
+                  <TableColumn fx:id="userLogInDateTimeCol" prefWidth="200.0" text="User Log-In Date and Timestamp" />
                   <TableColumn fx:id="userTotalAppointmentsCol" prefWidth="130.0" text="Total_Appointments" />
                   <TableColumn fx:id="userAverageDurationCol" prefWidth="120.0" text="Average_Duration" />
               </columns>

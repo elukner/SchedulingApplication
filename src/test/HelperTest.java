@@ -17,6 +17,9 @@ public class HelperTest {
         System.out.println(FileIOManager.readFile());
 
     }
+
+
+
     @Test
     public void testWriteToCurrentFile() throws IOException {
         //FileIOManager.writeToCurrentFile();

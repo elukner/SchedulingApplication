@@ -2,6 +2,7 @@ package controller;
 
 import dao.*;
 import helper.FileIOManager;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -17,8 +18,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,7 +25,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import model.*;
 
-public class ReportsController implements Initializable {
+
+public class ReportsController extends Application implements Initializable {
 
     @FXML // fx:id="contactComboBox"
     private ComboBox<String> contactComboBox; // Value injected by FXMLLoader
@@ -87,16 +87,10 @@ public class ReportsController implements Initializable {
     @FXML // fx:id="userAverageDurationCol"
     private TableColumn<UserAppointmentReport, Double> userAverageDurationCol; // Value injected by FXMLLoader
 
-
-
-
-
-
-
-
-
     private Stage stage;
     private Parent scene;
+
+    private Contacts contactsModel;
 
     /**
      * TODO comment
@@ -120,8 +114,21 @@ public class ReportsController implements Initializable {
 
     @FXML
     void onSelectContact(ActionEvent event) {
+        if (!ContactsDaoImpl.getContact(contactComboBox.getValue()).isEmpty()) {
+            contactsModel = ContactsDaoImpl.getContact(contactComboBox.getValue()).get(0);
+        }
 
     }
+
+    private void populateContactComboBox() {
+        if (!ContactsDaoImpl.getAllContacts().isEmpty()) {
+            for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
+
+                contactComboBox.getItems().add(contact.getContactName());
+            }
+        }
+    }
+
 
     /**
      * Loads the data for the first report into the specified TableView.
@@ -160,7 +167,7 @@ public class ReportsController implements Initializable {
      */
     private void loadReport2() {
         // Load data into TableView
-        report2TableView.setItems(FXCollections.observableArrayList(ContactScheduleReportDaoImpl.getContactSchedules(2)));
+        report2TableView.setItems(FXCollections.observableArrayList(ContactScheduleReportDaoImpl.getContactSchedules(contactsModel.getContactID())));
         // Initialize columns
         contactIDCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getContactID().asObject());
         contactNameCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getContactName());
@@ -174,30 +181,59 @@ public class ReportsController implements Initializable {
     }
 
     /**
-     * TODO an additional report of your choice that is different from the two other required reports in this prompt
-     * and from the user log-in date and time stamp that will be tracked in part C
+     * Loads and displays the third type of report in the application, which includes information about a user's appointments
+     * with additional user date and timestamp details.
+     *
+     * @throws FileNotFoundException If the file "login_activity.txt" is not found during the process of retrieving user information.
      */
     private void loadReport3() throws FileNotFoundException {
+        // Retrieve user information from the "login_activity.txt" file
         Users user = UsersDaoImpl.getUser(FileIOManager.readFile()).get(0);
 
+        // Fetch user appointment summary with user date and timestamp
+        ObservableList<UserAppointmentReport> userAppointmentReports = UserAppointmentReportDaoImpl.getUserAppointmentSummaryWithUserDateTimestamp(user.getUserID());
 
-        report3TableView.setItems(FXCollections.observableArrayList(UserAppointmentReportDaoImpl.getUserAppointmentSummary(user.getUserID())));
+        // Set the items in the TableView with the fetched user appointment reports
+        report3TableView.setItems(FXCollections.observableArrayList(userAppointmentReports));
+
+        // Configure cell value factories for each column in the TableView
         userIDCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getUserID().asObject());
         userNameCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getUserName());
-        //userLogInDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("userLogInDateTime"));
-         userTotalAppointmentsCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getTotalAppointments().asObject());
-//        userAverageDurationCol.setCellValueFactory(new PropertyValueFactory<>("Average_Duration"));
+        userLogInDateTimeCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getUserLogInDateTime());
+        userTotalAppointmentsCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getTotalAppointments().asObject());
+        userAverageDurationCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getAverageDuration().asObject());
     }
 
 
+
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL url, ResourceBundle resourceBundle)  {
+        populateContactComboBox();
         loadReport1();
-        loadReport2();
         try {
             loadReport3();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+
+    }
+
+    /**
+     * Stops the JavaFX application by deleting the current file using FileIOManager.
+     *
+     * @throws Exception If an exception occurs during the application shutdown process.
+     *
+     * @implNote This method calls FileIOManager.deleteCurrentFile() to perform cleanup or
+     * necessary actions before stopping the application.
+     */
+    @Override
+    public void stop() throws Exception {
+        FileIOManager.deleteCurrentFile();
+
     }
 }
