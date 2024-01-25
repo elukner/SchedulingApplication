@@ -71,14 +71,18 @@ public class LoginController implements Initializable {
     Locale france = new Locale("fr", "FR");
 
     /**
-     * TODO comment
+     * Handles the action when the "Log In" button is clicked.
+     * Increments the timesClicked counter, validates the entered login credentials, and navigates to the main menu view
+     * if the login is successful. Sets the login success status and updates the user login information in a log file.
      *
-     * @param event
+     * @param event The ActionEvent triggered by clicking the "Log In" button.
+     * @throws IOException If an error occurs during the loading of the main menu view.
      */
     @FXML
     void onActionLogInBtn(ActionEvent event) throws IOException {
         setTimesClicked(timesClicked + 1);
-//    -accepts username and password and provides an appropriate error message
+
+        // Accepts username and password and provides an appropriate error message
         if (validateLogin(usernameTxt.getText(), passwordTxt.getText())) {
             setLoginSuccess(true);
             setUserLoggedIn();
@@ -94,22 +98,50 @@ public class LoginController implements Initializable {
 
     }
 
+    /**
+     * Gets the login success status.
+     *
+     * @return True if login was successful, false otherwise.
+     */
     public Boolean getLoginSuccess() {
+
         return loginSuccess;
     }
 
+    /**
+     * Sets the login success status.
+     *
+     * @param loginSuccess True if login was successful, false otherwise.
+     */
     public void setLoginSuccess(Boolean loginSuccess) {
+
         this.loginSuccess = loginSuccess;
     }
 
+    /**
+     * Gets the number of times the "Log In" button has been clicked.
+     *
+     * @return The number of times the "Log In" button has been clicked.
+     */
     public int getTimesClicked() {
         return timesClicked;
     }
 
+    /**
+     * Sets the number of times the "Log In" button has been clicked.
+     *
+     * @param timesClicked The number of times the "Log In" button has been clicked.
+     */
     public void setTimesClicked(int timesClicked) {
+
         this.timesClicked = timesClicked;
     }
 
+    /**
+     * Writes user login information to a log file, including the username, times clicked, current date, timestamp, and login status.
+     *
+     * @throws IOException If an error occurs during file writing.
+     */
     private void setUserLoggedIn() throws IOException {
 
         ObservableList<Users> userList = UsersDaoImpl.getUser(usernameTxt.getText(), passwordTxt.getText());
@@ -124,6 +156,12 @@ public class LoginController implements Initializable {
                 TimeProcessing.createTimeStamp(), status);
     }
 
+    /**
+     * Gets the username of the user currently logged in.
+     * If the username field is empty, returns "null".
+     *
+     * @return The username of the user currently logged in or "null" if the username field is empty.
+     */
     public String getUserLoggedIn() {
         if (usernameTxt.getText().isEmpty())
             return "null";
@@ -132,15 +170,17 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * This method accepts username and password and provides an appropriate error message.
+     * Validates the login credentials provided by the user.
+     * Checks for empty fields, incorrect username, and incorrect password.
+     * Displays appropriate error messages if validation fails.
      *
-     * entering an incorrect username and password
-     * @param username the user's username that is used to log in
-     * @param password the user's password that is used to log in
-     * @return appropriate error message if user logs in with incorrect username and password
+     * @param username The entered username.
+     * @param password The entered password.
+     * @return True if the login is valid, false otherwise.
      */
     public Boolean validateLogin(String username, String password) {
 
+        // Check for empty fields
         Pair<String, Boolean> emptyFieldResult = isEmptyField(usernameTxt, passwordTxt);
 
         if (emptyFieldResult.getValue()) {
@@ -149,9 +189,10 @@ public class LoginController implements Initializable {
             return false;
         }
 
-
+        // Retrieve user list with the provided username and password
         ObservableList<Users> userList = UsersDaoImpl.getUser(username, password);
 
+        // Check if the user list is empty (no matching user found)
         if (userList.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Form", "cUserPassword");
             return false;
@@ -159,53 +200,62 @@ public class LoginController implements Initializable {
 
         Users user = userList.get(0);
 
+        // Check if the provided password matches the user's password
         if (!password.equals(user.getPassword())) {
             showAlert(Alert.AlertType.ERROR, "Form", "cPassword");
             return false;
         }
 
+        // Check if the provided username matches the user's username (case-insensitive)
         if (!username.equalsIgnoreCase(user.getUserName())) {
             showAlert(Alert.AlertType.ERROR, "Form", "cUsername");
             return false;
         }
 
-
+        // Validation passed, login is valid
         return true;
     }
 
     /**
+     * Checks if the provided text fields are empty.
      *
-     * @param usernameTxt
-     * @param passwordTxt
-     * @return
+     * @param usernameTxt The username TextField.
+     * @param passwordTxt The password TextField.
+     * @return A Pair containing a validation message and a boolean indicating if any field is empty.
      */
     private Pair<String, Boolean> isEmptyField(TextField usernameTxt, TextField passwordTxt) {
         boolean isUsernameEmpty = usernameTxt.getText().isEmpty();
         boolean isPasswordEmpty = passwordTxt.getText().isEmpty();
 
-        //Both fields are empty
+        // Both fields are empty
         if (isUsernameEmpty && isPasswordEmpty) {
             return new Pair<>("eUsernamePassword", true);
         }
 
-        //Username field are empty
+        // Username field is empty
         if (isUsernameEmpty) {
             return new Pair<>("eUsername", true);
         }
 
-        //Password field are empty
+        // Password field is empty
         if (isPasswordEmpty) {
             return new Pair<>("ePassword", true);
         }
 
+        // No empty fields
         return new Pair<>("No empty fields", false);
     }
-
+    /**
+     * Displays an alert with the specified type, title, and message, taking into account the user's computer language setting.
+     * The alert's title and content are automatically translated based on the user's language preference.
+     * Note: Some operating systems may require a reboot when changing the language settings.
+     *
+     * @param alertType The type of the alert (e.g., INFORMATION, WARNING, ERROR).
+     * @param title     The title of the alert.
+     * @param message   The message to be displayed in the alert.
+     */
     private static void showAlert(Alert.AlertType alertType, String title, String message) {
-        //      -automatically translates error control messages into English or French based on the user’s computer language setting
-//  Note: Some operating systems require a reboot when changing the language settings.
         ResourceBundle resourceBundle = ResourceBundle.getBundle("Nat", Locale.getDefault());
-
 
         Alert alert = new Alert(alertType);
         alert.setTitle(resourceBundle.getString(title));
@@ -214,11 +264,11 @@ public class LoginController implements Initializable {
         alert.show();
     }
 
-
     /**
-     * construct and set scenes in the application
+     * Starts the JavaFX application, loading and displaying the login form.
      *
-     * @param stage
+     * @param stage The primary stage for the application.
+     * @throws IOException If an error occurs during the loading of the login form view.
      */
     public void start(Stage stage) throws IOException {
 
@@ -228,31 +278,25 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * This method initializes this login controller class
+     * Initializes the LoginController.
+     * This method is called automatically after the FXML file is loaded.
+     * It sets up the login form in English or French based on the user's computer language setting.
+     * Additionally, it determines the user's location (ZoneId) and displays it in a label on the login form.
      *
-     * @param url
-     * @param resourceBundle
+     * @param url            The location used to resolve relative paths for the root object or null if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         resourceBundle = ResourceBundle.getBundle("Nat", Locale.getDefault());
 
-        //      -displays the log-in form in English or French based on the user’s computer language setting to translate all the text, labels, buttons, and errors on the form
-        //      -determines the user’s location (i.e., ZoneId) and displays it in a label on the log-in form
-
+        // Displays the log-in form in English or French based on the user's computer language setting
+        // Translates all the text, labels, buttons, and errors on the form
         loginBtn.setText(resourceBundle.getString("Log") + " " + resourceBundle.getString("in"));
         usernameLbl.setText(resourceBundle.getString("Username"));
         passwordLbl.setText(resourceBundle.getString("Password"));
         userLocationIDLbl.setText(ZoneId.systemDefault().toString());
 
-        //Locale.setDefault(france);
-        //loginBtn.setText(resourceBundle.getString("hello"));
-
-//        if (Locale.getDefault().getLanguage().equals("fr")) {
-//            System.out.println(resourceBundle.getString("hello"));
-//            System.out.println("hello");
-//
-//        }
     }
 }
 
