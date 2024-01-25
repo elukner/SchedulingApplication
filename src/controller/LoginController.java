@@ -68,8 +68,6 @@ public class LoginController implements Initializable {
     private int timesClicked;
     private Boolean loginSuccess;
 
-    Locale france = new Locale("fr", "FR");
-
     /**
      * Handles the action when the "Log In" button is clicked.
      * Increments the timesClicked counter, validates the entered login credentials, and navigates to the main menu view
