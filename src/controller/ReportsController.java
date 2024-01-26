@@ -90,9 +90,6 @@ public class ReportsController extends Application implements Initializable {
      * @param event The ActionEvent triggered by the back action.
      *
      * @throws IOException If an I/O exception occurs during the navigation process.
-     *
-     * @implNote This method retrieves the current stage, loads the mainMenu.fxml file,
-     * sets the new scene, and shows the updated stage.
      */
     @FXML
     void onActionBack(ActionEvent event) throws IOException {
@@ -288,9 +285,6 @@ public class ReportsController extends Application implements Initializable {
      * Stops the JavaFX application by deleting the current file using FileIOManager.
      *
      * @throws Exception If an exception occurs during the application shutdown process.
-     *
-     * @implNote This method calls FileIOManager.deleteCurrentFile() to perform cleanup or
-     * necessary actions before stopping the application.
      */
     @Override
     public void stop() throws Exception {
