@@ -26,11 +26,11 @@ public class FirstLevelDivisionsDaoImpl {
     /**
      * This method inserts a first level division into the first_level_divisions table in the client_schedule database.
      *
-     * @param divisionID
-     * @param division
-     * @param createdBy
-     * @param lastUpdatedBy
-     * @param countryID
+     * @param divisionID     The ID of the new first-level division.
+     * @param division       The name of the new first-level division.
+     * @param createdBy      The user who created the first-level division record.
+     * @param lastUpdatedBy  The user who last updated the first-level division record.
+     * @param countryID      The ID of the country associated with the first-level division.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
@@ -127,8 +127,8 @@ public class FirstLevelDivisionsDaoImpl {
     /**
      * This method updates a first level division into the first_level_divisions table in the client_schedule database.
      *
-     * @param divisionID
-     * @param division
+     * @param divisionID first level division ID to be selected from the first_level_divisions table
+     * @param division   The updated name of the first-level division.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
@@ -152,7 +152,7 @@ public class FirstLevelDivisionsDaoImpl {
     /**
      * This method deletes a first level division into the first_level_divisions table in the client_schedule database.
      *
-     * @param divisionID
+     * @param divisionID first level division ID to be selected from the first_level_divisions table
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
@@ -202,11 +202,14 @@ public class FirstLevelDivisionsDaoImpl {
         }
         return firstLevelDivisionsList;
     }
-    //        Country and first-level division data is prepopulated in separate combo boxes or
-//        lists in the user interface for the user to choose. The first-level list
-//        should be filtered by the user’s
-//        selection of a country (e.g., when choosing U.S., filter so it only shows states).
-
+    /**
+     * Retrieves a list of first-level divisions filtered by the specified country ID.
+     *
+     * @param countryIDWanted The ID of the country for which first-level divisions are to be retrieved.
+     * @return ObservableList of FirstLevelDivisions containing the divisions filtered by the specified country ID.
+     * @throws SQLException - if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object.
+     */
     public static ObservableList<FirstLevelDivisions> getAllFirstLevelDivisionsFilteredCountry(int countryIDWanted) {
         ObservableList<FirstLevelDivisions> firstLevelDivisionsList = FXCollections.observableArrayList();
         try {
@@ -233,6 +236,14 @@ public class FirstLevelDivisionsDaoImpl {
         return firstLevelDivisionsList;
     }
 
+    /**
+     * Retrieves a list of first-level divisions filtered by the specified division name.
+     *
+     * @param divisionWanted The name of the division for which information is to be retrieved.
+     * @return ObservableList of FirstLevelDivisions containing the divisions filtered by the specified division name.
+     * @throws SQLException - if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object.
+     */
     public static ObservableList<FirstLevelDivisions> getFirstLevelDivision(String divisionWanted) {
         ObservableList<FirstLevelDivisions> firstLevelDivisionsList = FXCollections.observableArrayList();
         try {
