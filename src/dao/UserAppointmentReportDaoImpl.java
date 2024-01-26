@@ -7,7 +7,6 @@ import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.ContactScheduleReport;
 import model.UserAppointmentReport;
 
 import java.io.FileNotFoundException;
