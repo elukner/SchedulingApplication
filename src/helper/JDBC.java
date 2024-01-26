@@ -11,22 +11,15 @@ package helper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 
 /**
- * And the helper package will hold helper classes
- * that handle tasks such as
- * Date / Time processing, List management, etc.
- *
- * Add a utility or utils package to hold
- * classes for your; Database Connection,
- * Query Execution, Collection (ObservarbleArrayList)
- * Management, Functional Interfaces, and time conversion files.
- *
- * Database Connection: Managing connections, executing queries,
- * and handling database-related tasks that don't fit directly
- * within DAO classes.
+ * The JDBC class provides methods for managing database connections,
+ * executing queries, and handling database-related tasks that don't fit
+ * directly within DAO classes. It is an abstract class serving as a utility
+ * for database-related operations.
+ * <p>
+ * The class includes methods for opening, getting, and closing a database connection.
  */
 public abstract class JDBC {
     private static final String protocol = "jdbc";
@@ -39,12 +32,17 @@ public abstract class JDBC {
     private static String password = "Passw0rd!"; // Password
     public static Connection connection;  // Connection Interface
 
+    /**
+     * Opens a connection to the MySQL database using the specified URL,
+     * username, and password. Prints a success message if the connection is
+     * established; otherwise, prints an error message.
+     */
     public static void openConnection()
     {
         try {
             Class.forName(driver); // Locate Driver
             connection = DriverManager.getConnection(jdbcUrl, userName, password); // Reference Connection object
-            System.out.println("Connection successful!");
+            System.out.println("This connection successful!");
 
         }
         catch(Exception e)
@@ -55,20 +53,26 @@ public abstract class JDBC {
 
 
     /**
-     * getter for getting connnection once the connection is already open
-     * @return connection Connection Interface
+     * Getter for retrieving the database connection once it is already open.
+     *
+     * @return connection Connection Interface representing the open database connection.
      */
     public static Connection getConnection(){
+
         return connection;
     }
+
+    /**
+     * Closes the open database connection. Prints a success message if the
+     * connection is closed; otherwise, prints an error message.
+     */
     public static void closeConnection() {
         try {
             connection.close();
-            System.out.println("Connection closed!");
+            System.out.println("This connection closed!");
         }
         catch(Exception e)
         {
-            //according to video just do nothing instead of this:
             System.out.println("Error:" + e.getMessage());
         }
     }
