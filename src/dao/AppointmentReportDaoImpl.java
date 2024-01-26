@@ -1,22 +1,40 @@
 package dao;
 
+/**
+ * Project: SchedulingApplication
+ * Package: dao
+ * <p>
+ * User: Elizabeth Thomas
+ * Date: 1/2/2024
+ * Time: 1:27 PM
+ */
+
 import helper.JDBC;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.AppointmentReport;
-import model.Appointments;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The AppointmentReportDaoImpl class provides methods to retrieve appointment-related reports
+ * from the database, specifically focusing on the number of appointments by type and month.
+ */
 public class AppointmentReportDaoImpl {
+    /**
+     * Retrieves a list of appointment reports containing information about the total number of appointments
+     * grouped by type and month.
+     *
+     * @return An {@code ObservableList} of {@code AppointmentReport} objects, each representing the total
+     *         appointments for a specific type and month.
+     */
     public static ObservableList<AppointmentReport> getAppointmentsByTypeAndMonth() {
         ObservableList<AppointmentReport> appointmentReportList = FXCollections.observableArrayList();
         try {
+            // SQL query to retrieve the total number of appointments grouped by type and month
             String sqlStatement = "        SELECT\n" +
                     "        MONTH(`Start`) AS Month,\n" +
                     "    `Type`,\n" +
