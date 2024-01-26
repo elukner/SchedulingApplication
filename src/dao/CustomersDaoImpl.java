@@ -27,14 +27,14 @@ public class CustomersDaoImpl {
     /**
      * This method inserts a customer into the customers table in the client_schedule database.
      *
-     * @param customerID
-     * @param customerName
-     * @param address
-     * @param postalCode
-     * @param phone
-     * @param createdBy
-     * @param lastUpdatedBy
-     * @param divisionID
+     * @param customerID     The ID of the customer.
+     * @param customerName   The name of the customer.
+     * @param address        The address of the customer.
+     * @param postalCode     The postal code of the customer.
+     * @param phone          The phone number of the customer.
+     * @param createdBy      The user who created the customer record.
+     * @param lastUpdatedBy  The user who last updated the customer record.
+     * @param divisionID     The ID of the first-level division associated with the customer.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
@@ -146,11 +146,18 @@ public class CustomersDaoImpl {
 
     }
 
+
     /**
-     * This method updates a customer into the customers table in the client_schedule database.
+     *This method updates a customer into the customers table in the client_schedule database.
      *
-     * @param customerID
-     * @param postalCode
+     * @param customerID     The ID of the customer.
+     * @param customerName   The name of the customer.
+     * @param address        The address of the customer.
+     * @param postalCode     The postal code of the customer.
+     * @param phone          The phone number of the customer.
+     * @param lastUpdated    The timestamp of the last update to the customer record.
+     * @param lastUpdatedBy  The user who last updated the customer record.
+     * @param divisionID     The ID of the first-level division associated with the customer.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
@@ -181,7 +188,7 @@ public class CustomersDaoImpl {
     /**
      * This method deletes a customer into the customers table in the client_schedule database.
      *
-     * @param customerID
+     * @param customerID     The ID of the customer.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
@@ -227,40 +234,6 @@ public class CustomersDaoImpl {
                 Customers customer = new Customers(customerID, customerName,
                         address, postalCode, phone,
                         createDate, createdBy,
-                        lastUpdate, lastUpdatedBy,
-                        divisionID);
-                customersList.add(customer);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return customersList;
-    }
-
-    /**
-     * This method retrieves a list of customers from the customers table in the client_schedule database.
-     *
-     * @return customersList a list of customers
-     */
-    public static ObservableList<Customers> getAllCustomersForTble() {
-        ObservableList<Customers> customersList = FXCollections.observableArrayList();
-        try {
-            String sqlStatement = "SELECT * FROM client_schedule.customers";
-            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                int customerID = resultSet.getInt("Customer_ID");
-                String customerName = resultSet.getString("Customer_Name");
-                String address = resultSet.getString("Address");
-                String postalCode = resultSet.getString("Postal_Code");
-                String phone = resultSet.getString("Phone");
-                String lastUpdate = resultSet.getString("Last_Update");
-                String lastUpdatedBy = resultSet.getString("Last_Updated_By");
-                int divisionID = resultSet.getInt("Division_ID");
-                Customers customer = new Customers(customerID, customerName,
-                        address, postalCode, phone,
                         lastUpdate, lastUpdatedBy,
                         divisionID);
                 customersList.add(customer);
