@@ -55,7 +55,7 @@
                </rowConstraints>
                <children>
                   <Label fx:id="customerIDLbl" text="Customer ID" GridPane.rowIndex="1" />
-                  <TextField fx:id="customerIDTxt" onKeyPressed="#onKeyPressedCustomerIDEnter" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="customerIDTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label fx:id="customerNameLbl" text="Customer Name" GridPane.rowIndex="2" />
                   <TextField fx:id="customerNameTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label fx:id="addressLbl" text="Address" GridPane.rowIndex="3" />
