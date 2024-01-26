@@ -10,11 +10,7 @@ package controller;
 
 
 import dao.*;
-import helper.DateProcessing;
 import helper.FileIOManager;
-import helper.JDBC;
-import helper.TimeProcessing;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,7 +26,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -139,7 +134,16 @@ public class CustomerRecordController extends Application implements Initializab
     private Countries countriesModel;
     private static Customers selectedCustomer;
 
-
+    /**
+     * Handles the action event for the "Back" button.
+     *
+     * This method is triggered when the "Back" button is clicked, and it navigates the user
+     * back to the main menu view. It obtains the reference to the current stage and loads the
+     * main menu scene, updating the stage with the new scene and displaying it.
+     *
+     * @param event The action event triggered by clicking the "Back" button.
+     * @throws IOException If an error occurs while loading the main menu view.
+     */
     @FXML
     void onActionBack(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -182,52 +186,29 @@ public class CustomerRecordController extends Application implements Initializab
     }
 
     /**
-     * Customer data is displayed using a TableView, including first-level division data. A list of all the customers
-     * and their information may be viewed in a TableView, and updates of the data can be performed
-     * in text fields on the form.
-     */
-    @FXML
-    void updateCustomerRecordTableView() {
-
-
-        customerRecordTbl.getItems().clear();
-        ObservableList<Customers> customersList = FXCollections.observableArrayList();
-        addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-        customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-        customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-        divisionIDCol.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
-        phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
-
-        try {
-            customersList.addAll(CustomersDaoImpl.getAllCustomers());
-
-        } catch (Exception ex) {
-            Logger.getLogger(SchedulingController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        customerRecordTbl.setItems(customersList);
-
-    }
-
-
-    /**
-     * Customer records and appointments can be added, updated, and deleted.
+     * Handles the action event for the "Add" button.
      *
-     * @param actionEvent
-     * @throws SQLException
+     * This method is triggered when the "Add" button is clicked. It clears all input fields,
+     * prepares the user interface for adding a new record, and shows the modification screen.
+     *
+     * @param actionEvent The action event triggered by clicking the "Add" button.
      */
     @FXML
     public void onActionAdd(ActionEvent actionEvent) {
 
         clearAllFields();
         showModify("Add");
-
-
-
-
-
     }
 
+    /**
+     * Handles the action event for the "Update" button.
+     *
+     * This method is triggered when the "Update" button is clicked. It clears all input fields,
+     * prepares the user interface for updating an existing record, and shows the modification screen.
+     * Additionally, it fills the fields with data from the selected record.
+     *
+     * @param actionEvent The action event triggered by clicking the "Update" button.
+     */
     @FXML
     public void onActionUpdate(ActionEvent actionEvent) {
 
@@ -238,13 +219,21 @@ public class CustomerRecordController extends Application implements Initializab
 
     }
 
+    /**
+     * Handles the action event for the "Delete" button.
+     *
+     * This method is triggered when the "Delete" button is clicked. It clears all input fields,
+     * prepares the user interface for deleting an existing record, and shows the modification screen.
+     * Additionally, it fills the fields with data from the selected record.
+     *
+     * Note: When deleting a customer record, all of the customer’s appointments must be deleted first,
+     * due to foreign key constraints. A custom message is displayed in the user interface when a
+     * customer record is deleted.
+     *
+     * @param actionEvent The action event triggered by clicking the "Delete" button.
+     */
     @FXML
     public void onActionDelete(ActionEvent actionEvent) {
-        // Customer records and appointments can be added, updated, and deleted.
-//-  When deleting a customer record, all of the customer’s appointments must be deleted first, due to foreign key constraints.
-
-// When a customer record is deleted, a custom message should display in the user interface.
-
         clearAllFields();
         showModify("Delete");
         fillFields();
@@ -294,36 +283,6 @@ public class CustomerRecordController extends Application implements Initializab
         }
 
     }
-
-    @FXML
-    void onKeyPressedCustomerIDEnter(KeyEvent event) {
-
-        try {
-            customerModel = CustomersDaoImpl.getAllCustomers().get(Integer.parseInt(customerIDTxt.getText()) - 1);
-
-            customerNameTxt.setText(customerModel.getCustomerName());
-
-            addressTxt.setText(customerModel.getAddress());
-
-            postalCodeTxt.setText(customerModel.getPostalCode());
-            phoneNumberTxt.setText(customerModel.getPhone());
-
-            divisionModel = FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisions().get(customerModel.getDivisionID() - 1);
-            countriesModel = CountriesDaoImpl.getAllCountries().get(divisionModel.getCountryID() - 1);
-            countryBox.getItems().clear();
-            countryBox.setValue(countriesModel.getCountry());
-            firstLevelDivisionBox.getItems().clear();
-            firstLevelDivisionBox.setValue(divisionModel.getDivision());
-
-            populateComboBoxes();
-            customerIDTxt.setDisable(true);
-        } catch (NumberFormatException | IndexOutOfBoundsException n) {
-
-        }
-
-    }
-
-
     /**
      * The first-level list
      * should be filtered by the user’s
