@@ -9,7 +9,6 @@ package dao;
  * Time: 1:27 PM
  */
 
-import helper.DateTimeProcessing;
 import helper.JDBC;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.StringProperty;
@@ -22,8 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * This utility class AppointmentsDaoImpl interacts with the client_schedule database to
@@ -31,6 +29,11 @@ import java.util.List;
  **/
 public class AppointmentsDaoImpl {
 
+    /**
+     * Retrieves a list of upcoming appointments scheduled to start within the next 15 minutes.
+     *
+     * @return appointmentsList An ObservableList of Appointments representing the upcoming appointments.
+     */
     public static ObservableList<Appointments> getUpcomingAppointmentWithin15Min() {
 
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
@@ -42,6 +45,7 @@ public class AppointmentsDaoImpl {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            // Process the result set and create Appointments objects
             while (resultSet.next()) {
                 int appointmentID = resultSet.getInt("Appointment_ID");
                 String title = resultSet.getString("Title");
@@ -66,6 +70,16 @@ public class AppointmentsDaoImpl {
         }
         return appointmentsList;
     }
+
+    /**
+     * Checks whether there are overlapping appointments for a specific customer within a given time range.
+     *
+     * @param customerId     The ID of the customer.
+     * @param startDateTime  The start date and time of the appointment.
+     * @param endDateTime    The end date and time of the appointment.
+     * @return true if there are overlapping appointments, {@code false} otherwise.
+     * @throws SQLException If a database access error occurs.
+     */
     public static boolean hasOverlappingAppointments(int customerId, String startDateTime, String endDateTime) throws SQLException {
 
         try{
@@ -137,41 +151,15 @@ public class AppointmentsDaoImpl {
     }
 
     /**
-     * TODO This method retrieves a list of appointments from the appointments table in the client_schedule database.
-     *  by the total number of customer appointments by type and month
+     * Retrieves a list of appointments scheduled for the current month.
      *
-     * @return appointmentsList a list of appointments
-     */
-    public static ObservableList<String> getAllAppointmentsCustomerIDMT() {
-        ObservableList<String> appointmentsList = FXCollections.observableArrayList();
-        try {
-            String sqlStatement = "SELECT MONTH(Start) AS Month, Type, COUNT(*) AS Total_Appointments FROM client_schedule.appointments GROUP BY MONTH(Start), Type;";
-            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
-
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                String type = resultSet.getString("Type");
-                String start = resultSet.getString("Month");
-                int totalAppointments = resultSet.getInt("Total_Appointments");
-                appointmentsList.add(type+" "+start+" "+totalAppointments);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return appointmentsList;
-    }
-
-    /**
-     * TODO This method retrieves a list of appointments from the appointments table in the client_schedule database.
-     *  by the total number of customer appointments by type and month
-     *
-     * @return appointmentsList a list of appointments
+     * @return An ObservableList of Appointments for the current month.
+     * @throws SQLException If a database access error occurs.
      */
     public static ObservableList<Appointments> getAllAppointmentsByMonth() {
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
         try {
+            // SQL query to select appointments for the current month
             String sqlStatement = "SELECT * FROM client_schedule.appointments WHERE MONTH(`Start`) = ?;";
             PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
@@ -204,14 +192,15 @@ public class AppointmentsDaoImpl {
     }
 
     /**
-     * TODO This method retrieves a list of appointments from the appointments table in the client_schedule database.
-     *  by the total number of customer appointments by type and month
+     * Retrieves a list of appointments scheduled for the current week.
      *
-     * @return appointmentsList a list of appointments
+     * @return An ObservableList of Appointments for the current week.
+     * @throws SQLException If a database access error occurs.
      */
     public static ObservableList<Appointments> getAllAppointmentsByWeek() {
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
         try {
+            // SQL query to select appointments for the current week
             String sqlStatement = "SELECT * FROM client_schedule.appointments WHERE WEEK(`Start`) = 2;";
             PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
@@ -242,44 +231,6 @@ public class AppointmentsDaoImpl {
         return appointmentsList;
     }
 
-    /**
-     * This method retrieves a list of appointments from the appointments table in the client_schedule database.
-     *
-     * @return appointmentsList a list of appointments
-     */
-    public static ObservableList<Appointments> getAllAppointmentsLocalDateTime() {
-        ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
-        try {
-            String sqlStatement = "SELECT * FROM client_schedule.appointments";
-            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                int appointmentID = resultSet.getInt("Appointment_ID");
-                String title = resultSet.getString("Title");
-                String description = resultSet.getString("Description");
-                String location = resultSet.getString("Location");
-                String type = resultSet.getString("Type");
-                String start = resultSet.getString("Start");
-                String end = resultSet.getString("End");
-                String createDate = resultSet.getString("Create_Date");
-                String createdBy = resultSet.getString("Created_By");
-                String lastUpdate = resultSet.getString("Last_Update");
-                String lastUpdatedBy = resultSet.getString("Last_Updated_By");
-                int customerID = resultSet.getInt("Customer_ID");
-                int userID = resultSet.getInt("User_ID");
-                int contactID = resultSet.getInt("Contact_ID");
-                Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title),
-                        description, location, type, DateTimeProcessing.convertTimeToUTCThenLocal(start),
-                        DateTimeProcessing.convertTimeToUTCThenLocal(end), createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
-                appointmentsList.add(appointment);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return appointmentsList;
-    }
 
     /**
      * This method retrieves a list of appointments from the appointments table in the client_schedule database.
@@ -320,26 +271,28 @@ public class AppointmentsDaoImpl {
     }
 
     /**
-     * This method inserts a appointment into the appointments table in the client_schedule database.
+     * This method inserts an appointment into the appointments table in the client_schedule database.
      *
-     * @param title
-     * @param description
-     * @param location
-     * @param type
-     * @param start
-     * @param end
-     * @param createdBy
-     * @param lastUpdatedBy
-     * @param customerID
-     * @param userID
-     * @param contactID
-     * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
-     * for SQL statements that return nothing
-     * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
-     *                      closed PreparedStatement or the SQL statement returns a ResultSet object
-     *                      java.sql.SQLTimeoutException – when the driver has determined that the timeout value
-     *                      that was specified by the setQueryTimeout method has been exceeded and
-     *                      has at least attempted to cancel the currently running Statement
+     * @param title           The title of the appointment.
+     * @param description     The description of the appointment.
+     * @param location        The location of the appointment.
+     * @param type            The type of the appointment.
+     * @param start           The start time of the appointment.
+     * @param end             The end time of the appointment.
+     * @param createdBy       The user who created the appointment.
+     * @param lastUpdatedBy   The user who last updated the appointment.
+     * @param customerID      The ID of the associated customer.
+     * @param userID          The ID of the associated user.
+     * @param contactID       The ID of the associated contact.
+     * @return Either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
+     *         for SQL statements that return nothing.
+     * @throws SQLException  java.sql.SQLException – if a database access error occurs;
+     *                      this method is called on a closed PreparedStatement or
+     *                      the SQL statement returns a ResultSet object.
+     *                      java.sql.SQLTimeoutException – when the driver has determined
+     *                      that the timeout value that was specified by the setQueryTimeout
+     *                      method has been exceeded and has at least attempted to cancel
+     *                      the currently running Statement.
      */
     public static int insertAppointments(StringProperty title, String description, String location, String type, String start,
                                          String end, String createdBy, String lastUpdatedBy,
@@ -462,12 +415,20 @@ public class AppointmentsDaoImpl {
             System.out.println(contactID);
         }
     }
-
     /**
      * This method updates a appointment into the appointments table in the client_schedule database.
-     *
-     * @param appointmentID
-     * @param title
+     * @param appointmentID   The ID of the appointment to be updated.
+     * @param title           The title of the appointment.
+     * @param description     The description of the appointment.
+     * @param location        The location of the appointment.
+     * @param type            The type of the appointment.
+     * @param start           The start time of the appointment.
+     * @param end             The end time of the appointment.
+     * @param lastUpdate      The timestamp indicating the last update of the appointment.
+     * @param lastUpdatedBy   The user who last updated the appointment.
+     * @param customerID      The ID of the associated customer.
+     * @param userID          The ID of the associated user.
+     * @param contactID       The ID of the associated contact.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
@@ -507,7 +468,7 @@ public class AppointmentsDaoImpl {
     /**
      * This method deletes a appointment into the appointments table in the client_schedule database.
      *
-     * @param appointmentID
+     * @param appointmentID The ID of the appointment.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a

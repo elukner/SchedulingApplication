@@ -28,7 +28,7 @@ public class AppointmentReportDaoImpl {
      * Retrieves a list of appointment reports containing information about the total number of appointments
      * grouped by type and month.
      *
-     * @return An {@code ObservableList} of {@code AppointmentReport} objects, each representing the total
+     * @return An ObservableList of AppointmentReport objects, each representing the total
      *         appointments for a specific type and month.
      */
     public static ObservableList<AppointmentReport> getAppointmentsByTypeAndMonth() {
