@@ -10,8 +10,11 @@ package controller;
 
 
 import dao.*;
+import helper.DateProcessing;
 import helper.FileIOManager;
 import helper.JDBC;
+import helper.TimeProcessing;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -149,7 +152,7 @@ public class CustomerRecordController extends Application implements Initializab
     private FirstLevelDivisions divisionModel;
     private Users currentUser;
     private Countries countriesModel;
-    private Appointments appointmentsModel;
+    private static Customers selectedCustomer;
 
 
     @FXML
@@ -189,6 +192,7 @@ public class CustomerRecordController extends Application implements Initializab
         }
 
         customerRecordTbl.setItems(customersList);
+        customerRecordTbl.refresh();
 
     }
 
@@ -234,6 +238,7 @@ public class CustomerRecordController extends Application implements Initializab
         showModify("Add");
 
 
+
     }
 
     @FXML
@@ -242,6 +247,7 @@ public class CustomerRecordController extends Application implements Initializab
 
         clearAllFields();
         showModify("Update");
+
     }
 
     @FXML
@@ -253,6 +259,7 @@ public class CustomerRecordController extends Application implements Initializab
 
         clearAllFields();
         showModify("Delete");
+
     }
 
     private void showModify(String modifyType) {
@@ -435,6 +442,58 @@ public class CustomerRecordController extends Application implements Initializab
 
     }
 
+    private void tbleViewSelectionListener() {
+
+        customerRecordTbl.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
+        {
+            if (newSelection != null) {
+                // Store the selected appointment
+                selectedCustomer = customerRecordTbl.getSelectionModel().getSelectedItem();
+
+                customerIDLbl.setVisible(true);
+                // Disable and set Appointment_ID
+                customerIDTxt.setDisable(true);
+                customerIDTxt.setText(String.valueOf(selectedCustomer.getCustomerID()));
+
+                customerNameLbl.setVisible(true);
+                customerNameTxt.setVisible(true);
+                customerNameTxt.setText(selectedCustomer.getCustomerName());
+
+
+
+
+
+                addressLbl.setVisible(true);
+                addressTxt.setVisible(true);
+                addressTxt.setText(selectedCustomer.getAddress());
+
+
+                postalCodeLbl.setVisible(true);
+                postalCodeTxt.setVisible(true);
+                postalCodeTxt.setText(selectedCustomer.getPostalCode());
+
+                phoneNumberLbl.setVisible(true);
+                phoneNumberTxt.setVisible(true);
+                phoneNumberTxt.setText(selectedCustomer.getPhone());
+
+                countryLbl.setVisible(true);
+                countryBox.setVisible(true);
+                firstLevelDivisionLbl.setVisible(true);
+                firstLevelDivisionBox.setVisible(true);
+                countriesModel = CountriesDaoImpl.getAllCountries(selectedCustomer.getCountry()).get(0);
+                divisionModel = FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()).get(0);
+
+                countryBox.getItems().clear();
+                countryBox.setValue(countriesModel.getCountry());
+                firstLevelDivisionBox.getItems().clear();
+                firstLevelDivisionBox.setValue(divisionModel.getDivision());
+
+                populateComboBoxes();
+
+            }
+        });
+    }
+
     /**
      * When adding and updating a customer, text fields are used to collect the following data: customer name,
      * address, postal code, and phone number.
@@ -450,6 +509,7 @@ public class CustomerRecordController extends Application implements Initializab
         customerModel = new Customers(CustomersDaoImpl.getAllCustomers().size() + 1, customerNameTxt.getText(),
                 addressTxt.getText(), postalCodeTxt.getText(), phoneNumberTxt.getText(), dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(),
                 dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(), divisionModel.getDivisionID());
+
     }
 
     private void updateCustomer() throws FileNotFoundException {
@@ -462,6 +522,7 @@ public class CustomerRecordController extends Application implements Initializab
         customerModel.setLastUpdatedBy(FileIOManager.readFile());
         customerModel.setDivisionID(divisionModel.getDivisionID());
 
+
     }
 
     /**
@@ -469,21 +530,24 @@ public class CustomerRecordController extends Application implements Initializab
      * @throws FileNotFoundException
      */
     private void deleteCustomer() throws FileNotFoundException, SQLException {
+    if(!customerIDTxt.getText().trim().isEmpty()){
+    if(!CustomersDaoImpl.getAllCustomers().isEmpty()){
+        customerModel = CustomersDaoImpl.getAllCustomers().get(Integer.parseInt(customerIDTxt.getText())-1);
+    }
 
-        if(!CustomersDaoImpl.getAllCustomers().isEmpty()){
-            customerModel = CustomersDaoImpl.getAllCustomers().get(Integer.parseInt(customerIDTxt.getText())-1);
-        }
+    // When deleting a customer record, all of the customer’s appointments must be deleted first, due to foreign key constraints.
+    if(AppointmentsDaoImpl.getAllAppointmentsCustomerID(customerModel.getCustomerID()).isEmpty()){
 
-        // When deleting a customer record, all of the customer’s appointments must be deleted first, due to foreign key constraints.
-        if(AppointmentsDaoImpl.getAllAppointmentsCustomerID(customerModel.getCustomerID()).isEmpty()){
+        deleteCustomerDatabase();
+        //        When a customer record is deleted, a custom message should display in the user interface.
+        showAlert(Alert.AlertType.CONFIRMATION, "Customer Record is Deleted", customerModel.getCustomerName()+  "'s record has been successfully deleted");
 
-            deleteCustomerDatabase();
-            //        When a customer record is deleted, a custom message should display in the user interface.
-            showAlert(Alert.AlertType.CONFIRMATION, "Customer Record is Deleted", customerModel.getCustomerName()+  "'s record has been successfully deleted");
+    }else{
+        showAlert(Alert.AlertType.ERROR, "Customer Record Cannot Be Deleted", customerModel.getCustomerName()+
+                "’s appointments must be deleted first, due to foreign key constraints");
+    }
 
-        }
-
-
+}
 
 
 
@@ -501,7 +565,7 @@ public class CustomerRecordController extends Application implements Initializab
                 customerModel.getCreateDate(), customerModel.getCreatedBy(),
                 customerModel.getLastUpdate(),
                 customerModel.getLastUpdatedBy(), divisionModel.getDivisionID());
-
+        showCustomerRecordTableView();
 
     }
 
@@ -511,6 +575,7 @@ public class CustomerRecordController extends Application implements Initializab
                 customerModel.getAddress(), customerModel.getPostalCode(), customerModel.getPhone(),
                 customerModel.getLastUpdate(),
                 customerModel.getLastUpdatedBy(), divisionModel.getDivisionID());
+        showCustomerRecordTableView();
 
     }
 
@@ -528,6 +593,7 @@ public class CustomerRecordController extends Application implements Initializab
         if((!customerNameTxt.getText().isEmpty())&&(!customerIDTxt.getText().isEmpty())){
             CustomersDaoImpl.deleteCustomers(Integer.parseInt(customerIDTxt.getText()));
         }
+        showCustomerRecordTableView();
 
     }
 
@@ -580,6 +646,7 @@ public class CustomerRecordController extends Application implements Initializab
         }
         makeTxtBtnsVisible(false);
         showCustomerRecordTableView();
+        tbleViewSelectionListener();
 
     }
 

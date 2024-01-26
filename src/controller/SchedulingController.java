@@ -151,8 +151,8 @@ public class SchedulingController extends Application implements Initializable {
     private Users usersModel;
     private Customers customersModel;
 
-    private static Appointments selectedAppointments; //new
-    private static ObservableList<Appointments> appointmentsList; //new
+    private static Appointments selectedAppointments;
+    private static ObservableList<Appointments> appointmentsList;
 
     private String endTimeSelected;
     private String endDateSelected;
