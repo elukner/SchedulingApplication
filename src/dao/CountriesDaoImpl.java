@@ -26,10 +26,10 @@ public class CountriesDaoImpl {
     /**
      * This method is used to insert new records into the Countries table from client_schedule database.
      *
-     * @param countryID
-     * @param country
-     * @param createdBy
-     * @param lastUpdatedBy
+     * @param countryID       The ID of the country.
+     * @param country         The name of the country.
+     * @param createdBy       The user who created the record.
+     * @param lastUpdatedBy   The user who last updated the record.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
@@ -106,8 +106,8 @@ public class CountriesDaoImpl {
     /**
      * This method is used to update new records into the countries table from client_schedule database.
      *
-     * @param countryID
-     * @param country
+     * @param countryID       The ID of the country.
+     * @param country         The name of the country.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
@@ -131,7 +131,7 @@ public class CountriesDaoImpl {
     /**
      * This method is used to delete new records into the countries table from client_schedule database.
      *
-     * @param countryID
+     * @param countryID       The ID of the country.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
@@ -175,6 +175,14 @@ public class CountriesDaoImpl {
         return countriesList;
     }
 
+    /**
+     * Retrieves a list of countries based on the specified country name.
+     *
+     * @param countryWanted The name of the country to retrieve.
+     * @return An ObservableList of Countries that match the specified country name.
+     * @throws SQLException - if a database access error occurs; this method is called on a
+     *                      closed PreparedStatement or the SQL statement returns a ResultSet object.
+     */
     public static ObservableList<Countries> getAllCountries(String countryWanted) {
         ObservableList<Countries> countriesList = FXCollections.observableArrayList();
         try {
@@ -195,23 +203,5 @@ public class CountriesDaoImpl {
         return countriesList;
     }
 
-    /**
-     * public static observableList<Countries></Countries> getalicountrlesof0bservableList<Countr1es clist - FXCollections, observableArraycist();
-     * return clist; }
-     * public static void checkDateConversion()f
-     * Systen,out, printla("CREATE DATE TEST");
-     * String sql = "select Create_Date fron countries";
-     * $\operatorname{tey} 1$
-     * PreparedStatement $p s=$ DBConnection.getConnection ().preparestatement (sql);
-     * Resultset rs - ps,executequeryo; I
-     * hhile(rs.next $\mathrm{O})$ (
-     * Tinestanp ts - rs.getTinestanp( calumblabal: "Create_Dete");
-     * Systen.out.println("CD: " + ts.toLocalDateTine().toString());
-     * \}
-     * f catch (SQLException throwables) f
-     * thronables, printstackTrace();
-     * \}
-     * \}
-     */
 
 }
