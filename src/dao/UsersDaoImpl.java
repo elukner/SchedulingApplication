@@ -26,11 +26,11 @@ public class UsersDaoImpl {
     /**
      * This method inserts a user into the users table in the client_schedule database.
      *
-     * @param userID
-     * @param userName
-     * @param password
-     * @param createdBy
-     * @param lastUpdatedBy
+     * @param userID         The ID of the new user.
+     * @param userName       The name of the new user.
+     * @param password       The password associated with the user.
+     * @param createdBy      The user who created the user record.
+     * @param lastUpdatedBy  The user who last updated the user record.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
@@ -128,8 +128,8 @@ public class UsersDaoImpl {
     /**
      * This method updates a user in the users table in the client_schedule database.
      *
-     * @param userID
-     * @param password
+     * @param userID     The ID of the user to be updated.
+     * @param password   The new password for the user.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
@@ -153,7 +153,7 @@ public class UsersDaoImpl {
     /**
      * This method deletes a user in the users table in the client_schedule database.
      *
-     * @param userID
+     * @param userID The ID of the user to be deleted.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
@@ -206,8 +206,10 @@ public class UsersDaoImpl {
 
 
     /**
-     * This method retrieves a list of users from the users table in the client_schedule database.
+     * Retrieves a user from the users table in the client_schedule database based on the provided username and password.
      *
+     * @param userName The username of the user to retrieve.
+     * @param password The password of the user to retrieve.
      * @return usersList a list of users
      */
     public static ObservableList<Users> getUser(String userName, String password) {
@@ -239,8 +241,9 @@ public class UsersDaoImpl {
 
 
     /**
-     * This method retrieves a list of users from the users table in the client_schedule database.
+     * Retrieves a user from the users table in the client_schedule database based on the provided username.
      *
+     * @param userName The username of the user to retrieve.
      * @return usersList a list of users
      */
     public static ObservableList<Users> getUser(String userName) {
