@@ -17,8 +17,6 @@ import model.Contacts;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This utility class ContactsDaoImpl interacts with the client_schedule database to
@@ -137,9 +135,9 @@ public class ContactsDaoImpl {
     /**
      * This method inserts a contact into the contacts table in the client_schedule database.
      *
-     * @param contactID
-     * @param contactName
-     * @param email
+     * @param contactID   The ID of the contact.
+     * @param contactName The name of the contact.
+     * @param email       The email address of the contact.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
@@ -164,8 +162,8 @@ public class ContactsDaoImpl {
     /**
      * This method updates a contact into the contacts table in the client_schedule database.
      *
-     * @param contactID
-     * @param contactName
+     * @param contactID    The ID of the contact to be updated.
+     * @param contactName  The new name for the contact.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
@@ -189,7 +187,7 @@ public class ContactsDaoImpl {
     /**
      * This method deletes a contact into the contacts table in the client_schedule database.
      *
-     * @param contactID
+     * @param contactID    The ID of the contact to be deleted.
      * @return either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
      * for SQL statements that return nothing
      * @throws SQLException java.sql.SQLException – if a database access error occurs; this method is called on a
