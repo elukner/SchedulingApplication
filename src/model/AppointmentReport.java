@@ -1,24 +1,22 @@
 package model;
 
+/**
+ * Project: SchedulingApplication
+ * Package: model
+ * <p>
+ * User: Elizabeth Thomas
+ * Date: 1/2/2024
+ * Time: 1:27 PM
+ */
 import javafx.beans.property.IntegerProperty;
 
 /**
  * The AppointmentReport class represents a report on appointments, including information about the month, type, and total number of appointments.
  */
 public class AppointmentReport {
-    /**
-     * The month for which the report is generated.
-     */
+
     private String month;
-
-    /**
-     * The type of appointments included in the report.
-     */
     private String type;
-
-    /**
-     * The total number of appointments for the specified month and type.
-     */
     private IntegerProperty totalAppointments;
 
     /**

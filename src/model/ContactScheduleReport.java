@@ -1,5 +1,14 @@
 package model;
 
+/**
+ * Project: SchedulingApplication
+ * Package: model
+ * <p>
+ * User: Elizabeth Thomas
+ * Date: 1/2/2024
+ * Time: 1:27 PM
+ */
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 

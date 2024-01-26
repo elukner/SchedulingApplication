@@ -1,5 +1,14 @@
 package model;
 
+/**
+ * Project: SchedulingApplication
+ * Package: model
+ * <p>
+ * User: Elizabeth Thomas
+ * Date: 1/2/2024
+ * Time: 1:27 PM
+ */
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
@@ -10,29 +19,10 @@ import javafx.beans.property.StringProperty;
  */
 public class UserAppointmentReport {
 
-    /**
-     * The unique identifier for the user.
-     */
     private IntegerProperty userID;
-
-    /**
-     * The name of the user.
-     */
     private StringProperty userName;
-
-    /**
-     * The date and time when the user logged in.
-     */
     private StringProperty userLogInDateTime;
-
-    /**
-     * The total number of appointments for the user.
-     */
     private IntegerProperty totalAppointments;
-
-    /**
-     * The average duration of the user's appointments.
-     */
     private DoubleProperty averageDuration;
 
     /**

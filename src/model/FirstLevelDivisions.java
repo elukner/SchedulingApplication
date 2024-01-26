@@ -1,7 +1,7 @@
 package model;
 /**
  * Project: SchedulingApplication
- * Package: dao
+ * Package: model
  * <p>
  * User: Elizabeth Thomas
  * Date: 1/2/2024

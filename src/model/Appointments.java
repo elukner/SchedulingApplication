@@ -1,17 +1,14 @@
 package model;
 /**
  * Project: SchedulingApplication
- * Package: dao
+ * Package: model
  * <p>
  * User: Elizabeth Thomas
  * Date: 1/2/2024
  * Time: 1:27 PM
  */
-import java.time.LocalDateTime;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
+
 /**
  * This class represents a POJO (Plain Old Java Object) for Appointments retrieved from the client_schedule
  * database Appointments table. This class is utilized for mapping rows obtained from the client_schedule
@@ -74,7 +71,6 @@ public class Appointments {
     /**
      * Constructor for Appointments class
      *
-     * @param appointmentID
      * @param title
      * @param description
      * @param location
