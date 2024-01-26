@@ -51,10 +51,6 @@ import model.Users;
  * Controller class for the scheduling functionality of the application.
  * Manages interactions with the scheduling.fxml view, handling user actions and updating the display.
  * Implements Initializable for initialization tasks and Application for JavaFX application lifecycle methods.
- *
- * @implNote This controller includes methods for initializing the view, handling user interactions,
- * and displaying scheduling-related information. It also interacts with the DAO (Data Access Object) classes
- * for retrieving and manipulating data from the underlying database.
  */
 public class SchedulingController extends Application implements Initializable {
 
@@ -207,9 +203,6 @@ public class SchedulingController extends Application implements Initializable {
      * This method iterates through the list of contacts obtained from ContactsDaoImpl and adds each
      * contact's name to the contactNameComboBox if the list is not empty.
      *
-     * @implNote The method assumes the existence of ContactsDaoImpl and the availability of contact data
-     * in the database.
-     *
      */
     private void populateContactNameComboBox() {
         if (!ContactsDaoImpl.getAllContacts().isEmpty()) {
@@ -225,11 +218,7 @@ public class SchedulingController extends Application implements Initializable {
      * Populates the customer ID combo box with available customer IDs retrieved from the database.
      *
      * This method iterates through the list of customers obtained from CustomersDaoImpl and adds each
-     * customer's ID (converted to a string) to the customerIDComboBox if the list is not empty.
-     *
-     * @implNote The method assumes the existence of CustomersDaoImpl and the availability of customer data
-     * in the database.
-     *
+     * customer's ID (converted to a string) to the customerIDComboBox if the list is not empty.     *
      */
     private void populateCustomerIDComboBox() {
         if (!CustomersDaoImpl.getAllCustomers().isEmpty()) {
@@ -244,10 +233,7 @@ public class SchedulingController extends Application implements Initializable {
     /**
      * Populates the user ID ComboBox with the user IDs retrieved from the UsersDaoImpl.
      * If the list of users is not empty, iterates through each user and adds their user ID
-     * as a string to the ComboBox.
-     *
-     * @implNote This method relies on the UsersDaoImpl class to retrieve user information.
-     *
+     * as a string to the ComboBox.     *
      */
     private void populateUserIDComboBox() {
         if (!UsersDaoImpl.getAllUsers().isEmpty()) {
@@ -305,9 +291,6 @@ public class SchedulingController extends Application implements Initializable {
      *
      * @throws SQLException If a SQL exception occurs during the validation process.
      *
-     * @implNote This method uses the DateTimeProcessing, DateProcessing, TimeProcessing,
-     * AppointmentsDaoImpl, and setCustomMessage methods for various validation checks.
-     *
      */
     private boolean isValidAppointment() throws SQLException {
         boolean isValidAppointment = false;
@@ -339,11 +322,6 @@ public class SchedulingController extends Application implements Initializable {
      *
      * @return A string representing the start date and time, formatted as "yyyy-MM-dd HH:mm".
      *
-     * @implNote This method checks if both the startDateSelected and startTimeSelected are not null.
-     * If they are not null, it returns the concatenation of startDateSelected and startTimeSelected.
-     * If either of them is null, it retrieves the date and time from the corresponding UI elements
-     * (startDatePicker and startTimeComboBox) and returns the concatenated string.
-     *
      */
     private String getStartDateTimeSelected() {
         if (startDateSelected != null && startTimeSelected != null) {
@@ -358,12 +336,6 @@ public class SchedulingController extends Application implements Initializable {
      * Retrieves the selected end date and time as a formatted string.
      *
      * @return A string representing the end date and time, formatted as "yyyy-MM-dd HH:mm:ss".
-     *
-     * @implNote This method checks if both the endDateSelected and endTimeSelected are not null.
-     * If they are not null, it returns the concatenation of endDateSelected and endTimeSelected.
-     * If either of them is null, it retrieves the date and time from the corresponding UI elements
-     * (endDatePicker and endTimeComboBox) and returns the concatenated string.
-     *
      */
     private String getEndDateTimeSelected() {
         if (endDateSelected != null && endTimeSelected != null) {
@@ -378,10 +350,6 @@ public class SchedulingController extends Application implements Initializable {
      * Adds a new customer record to the database using the provided appointment model data.
      *
      * @throws SQLException If a SQL exception occurs during the database insertion.
-     *
-     * @implNote This method uses the AppointmentsDaoImpl class to insert the appointment data
-     * into the database, including the title, description, location, type, start date and time,
-     * end date and time, created by, last updated by, customer ID, user ID, and contact ID.
      */
     private void addCustomerDatabase() throws SQLException {
         AppointmentsDaoImpl.insertAppointments(appointmentsModel.getTitle(),
@@ -398,10 +366,6 @@ public class SchedulingController extends Application implements Initializable {
      *
      * @throws SQLException If a SQL exception occurs during the update process.
      * @throws FileNotFoundException If a file is not found during the update process.
-     *
-     * @implNote This method retrieves the current user, updates the appointment data,
-     * performs validation using the isValidAppointment method, updates the customer database,
-     * clears form fields, and displays the scheduling table view.
      *
      */
     @FXML
@@ -441,11 +405,6 @@ public class SchedulingController extends Application implements Initializable {
      * Updates an existing customer record in the database with the provided appointment model data.
      *
      * @throws SQLException If a SQL exception occurs during the database update.
-     *
-     * @implNote This method uses the AppointmentsDaoImpl class to update the appointment data
-     * in the database, including the title, description, location, type, start date and time,
-     * end date and time, last update timestamp, last updated by, customer ID, user ID, and contact ID.
-     *
      */
     private void updateCustomerDatabase() throws SQLException {
         AppointmentsDaoImpl.updateAppointment(appointmentsModel.getAppointmentID(),
@@ -463,11 +422,6 @@ public class SchedulingController extends Application implements Initializable {
      *
      * @throws SQLException If a SQL exception occurs during the deletion process.
      * @throws FileNotFoundException If a file is not found during the deletion process.
-     *
-     * @implNote This method retrieves the selected appointment, shows a cancellation message,
-     * updates the appointment ID, deletes the appointment from the database, clears form fields,
-     * and displays the scheduling table view.
-     *
      */
     @FXML
     void onActionDelete(ActionEvent event) throws SQLException, FileNotFoundException {
@@ -488,11 +442,6 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Displays an information alert confirming the successful cancellation of an appointment.
-     *
-     * @implNote This method creates an Alert with INFORMATION type, sets the title,
-     * header text, and content text to convey the cancellation details including the
-     * Appointment ID and Type of appointment. The alert is then displayed.
-     *
      */
     private void showCanceledMessage() {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
@@ -508,10 +457,6 @@ public class SchedulingController extends Application implements Initializable {
      * Deletes an appointment record from the database using the provided appointment ID.
      *
      * @throws SQLException If a SQL exception occurs during the deletion process.
-     *
-     * @implNote This method uses the AppointmentsDaoImpl class to delete the appointment
-     * with the specified Appointment ID from the database.
-     *
      */
     private void deleteAppointmentDatabase() throws SQLException {
 
@@ -524,10 +469,6 @@ public class SchedulingController extends Application implements Initializable {
      * Handles the action event when filtering and displaying all appointments.
      *
      * @param event The ActionEvent triggered by the filter all appointments action.
-     *
-     * @implNote This method calls the populateAllAppointments method to fetch and display
-     * all appointments in the TableView.
-     *
      */
     @FXML
     void onActionFilterAllAppointment(ActionEvent event) {
@@ -536,9 +477,6 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Populates the TableView with all appointments from the database.
-     *
-     * @implNote This method clears the existing appointments, fetches all appointments
-     * from the database using AppointmentsDaoImpl, and updates the TableView with the new data.
      */
     private void populateAllAppointments() {
         // Clear existing appointments
@@ -561,9 +499,6 @@ public class SchedulingController extends Application implements Initializable {
      * Handles the action event when filtering and displaying appointments for the current month.
      *
      * @param actionEvent The ActionEvent triggered by the filter appointments for the current month action.
-     *
-     * @implNote This method calls the populateAppointmentsByMonth method to fetch and display
-     * appointments for the current month in the TableView.
      */
     @FXML
     void onActionFilterAppointmentMonthRBtn(ActionEvent actionEvent) {
@@ -573,9 +508,6 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Populates the TableView with appointments for the current month from the database.
-     *
-     * @implNote This method clears the existing appointments, fetches appointments for the current
-     * month from the database using AppointmentsDaoImpl, and updates the TableView with the new data.
      */
     private void populateAppointmentsByMonth() {
         // Clear existing appointments
@@ -599,8 +531,6 @@ public class SchedulingController extends Application implements Initializable {
      * Handles the action event when filtering and displaying appointments for the current week.
      *
      * @param actionEvent The ActionEvent triggered by the filter appointments for the current week action.
-     *
-     * @implNote This method fetches and displays appointments for the current week in the TableView.
      */
     @FXML
     void onActionFilterAppointmentWeekRBtn(ActionEvent actionEvent) {
@@ -622,11 +552,6 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Displays the scheduling table view with appointments and necessary columns.
-     *
-     * @implNote This method initializes the TableView columns with appropriate PropertyValueFactory,
-     * sets up the columns including Appointment_ID, Title, Description, Location, Contact, Type,
-     * Start Date and Time, End Date and Time, Customer_ID, and User_ID. It then fetches and displays
-     * all appointments in the TableView.
      */
     @FXML
     void showSchedulingTableView() {
@@ -673,8 +598,6 @@ public class SchedulingController extends Application implements Initializable {
      * Handles the action event when selecting a customer ID from the ComboBox.
      *
      * @param event The ActionEvent triggered by the customer ID selection.
-     *
-     * @implNote This method updates the customerIDSelected variable with the selected value from the ComboBox.
      */
     @FXML
     void onActionSelectCustomerID(ActionEvent event) {
@@ -685,8 +608,6 @@ public class SchedulingController extends Application implements Initializable {
      * Handles the action event when selecting a user ID from the ComboBox.
      *
      * @param event The ActionEvent triggered by the user ID selection.
-     *
-     * @implNote This method updates the userIDSelected variable with the selected value from the ComboBox.
      */
     @FXML
     void onActionSelectUserID(ActionEvent event) {
@@ -699,8 +620,6 @@ public class SchedulingController extends Application implements Initializable {
      * Handles the action event when selecting a start time from the ComboBox.
      *
      * @param event The ActionEvent triggered by the start time selection.
-     *
-     * @implNote This method updates the startTimeSelected variable with the selected value from the ComboBox.
      */
     @FXML
     void onStartTimeSelected(ActionEvent event) {
@@ -711,8 +630,6 @@ public class SchedulingController extends Application implements Initializable {
      * Handles the action event when selecting an end time from the ComboBox.
      *
      * @param event The ActionEvent triggered by the end time selection.
-     *
-     * @implNote This method updates the endTimeSelected variable with the selected value from the ComboBox.
      */
     @FXML
     void onEndTimeSelected(ActionEvent event) {
@@ -723,9 +640,6 @@ public class SchedulingController extends Application implements Initializable {
      * Handles the action event when selecting a start date from the DatePicker.
      *
      * @param event The ActionEvent triggered by the start date selection.
-     *
-     * @implNote This method converts the selected start date to a string using the datePickerStringConverter
-     * method and updates the startDateSelected variable.
      */
     @FXML
     void onActionStartDate(ActionEvent event) {
@@ -740,9 +654,6 @@ public class SchedulingController extends Application implements Initializable {
      * Handles the action event when selecting an end date from the DatePicker.
      *
      * @param event The ActionEvent triggered by the end date selection.
-     *
-     * @implNote This method converts the selected end date to a string using the datePickerStringConverter
-     * method and updates the endDateSelected variable.
      */
     @FXML
     void onActionEndDate(ActionEvent event) {
@@ -756,9 +667,6 @@ public class SchedulingController extends Application implements Initializable {
      * Sets a StringConverter for the specified DatePicker to format and parse LocalDate objects.
      *
      * @param datePicker The DatePicker for which the StringConverter is set.
-     *
-     * @implNote This method creates a custom StringConverter for LocalDate objects with the
-     * pattern "yyyy-MM-dd". It sets this StringConverter to the provided DatePicker.
      */
     private void datePickerStringConverter(DatePicker datePicker) {
         datePicker.setConverter(new StringConverter<LocalDate>() {
@@ -804,9 +712,6 @@ public class SchedulingController extends Application implements Initializable {
      * @param alertType The AlertType for the custom message (e.g., INFORMATION, ERROR).
      * @param title The title of the Alert.
      * @param customMessage The custom message to be displayed in the content text of the Alert.
-     *
-     * @implNote This method creates an Alert with the specified type, sets the title and content text,
-     * and displays the Alert using showAndWait().
      */
     void setCustomMessage(Alert.AlertType alertType, String title, String customMessage) {
         Alert a = new Alert(alertType);
@@ -821,9 +726,6 @@ public class SchedulingController extends Application implements Initializable {
      * @param event The ActionEvent triggered by the back action.
      *
      * @throws IOException If an I/O exception occurs during the navigation process.
-     *
-     * @implNote This method retrieves the current stage, loads the mainMenu.fxml file,
-     * sets the new scene, and shows the updated stage.
      */
     @FXML
     void onActionBack(ActionEvent event) throws IOException {
@@ -837,9 +739,6 @@ public class SchedulingController extends Application implements Initializable {
      * Handles the action event when canceling the current operation.
      *
      * @param event The ActionEvent triggered by the cancel action.
-     *
-     * @implNote This method calls the clearSelectionAndFormFields method to clear
-     * the selection and form fields.
      */
     @FXML
     void onActionCancel(ActionEvent event) {
@@ -849,10 +748,6 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Clears the selection and form fields in the appointment form.
-     *
-     * @implNote This method clears the selection in the TableView and resets various form fields
-     * including Appointment ID, Title, Description, Location, Contact, Type, Start Date and Time,
-     * End Date and Time, Customer ID, and User ID.
      */
     private void clearSelectionAndFormFields() {
         appointmentTblView.getSelectionModel().clearSelection();
@@ -876,8 +771,9 @@ public class SchedulingController extends Application implements Initializable {
     /**
      * Sets up a TableView selection listener to update the form fields when a row is selected.
      *
-     * @implNote This method adds a listener to the selectedItemProperty of the TableView's selection model.
-     * When a new selection is made, it updates the form fields with the selected appointment's data.
+     * Lambda function justification 2: The lambda expression is used to define the behavior of the
+     * selection listener for the Appointment TableView. It simplifies the process of reacting to changes in the selected
+     * item within the TableView.
      */
     private void tbleViewSelectionListener() {
 
@@ -917,10 +813,6 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Populates the Contact Name ComboBox with values and sets the selected value.
-     *
-     * @implNote This method clears the existing items in the ComboBox, retrieves the contact data
-     * corresponding to the selected appointment, sets the selected value in the ComboBox, and adds
-     * all contact names to the ComboBox.
      */
     private void populateContactNameComboBoxWithValue() {
         contactNameComboBox.getItems().clear();
@@ -942,9 +834,6 @@ public class SchedulingController extends Application implements Initializable {
     /**
      * Populates the User ID ComboBox with values and sets the selected value.
      *
-     * @implNote This method clears the existing items in the ComboBox, retrieves the user data
-     * corresponding to the selected appointment, sets the selected value in the ComboBox, and adds
-     * all user IDs to the ComboBox.
      */
     private void populateUserIDComboBoxWithValue() {
         userIDComboBox.getItems().clear();
@@ -965,10 +854,6 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Populates the Customer ID ComboBox with values and sets the selected value.
-     *
-     * @implNote This method clears the existing items in the ComboBox, retrieves the customer data
-     * corresponding to the selected appointment, sets the selected value in the ComboBox, and adds
-     * all customer IDs to the ComboBox.
      */
     private void populateCustomerIDComboBoxWithValue() {
         customerIDComboBox.getItems().clear();
@@ -994,11 +879,6 @@ public class SchedulingController extends Application implements Initializable {
      * @param startDate The selected start date for the appointment.
      * @param endTime The selected end time for the appointment.
      * @param endDate The selected end date for the appointment.
-     *
-     * @implNote This method populates the start and end date/time ComboBoxes with a list of local hours
-     * generated by TimeProcessing.generateLocalHoursWithSeconds(). It sets the selected values in the
-     * ComboBoxes and DatePickers based on the provided start and end time, and start and end date. If any
-     * of the values is null, it sets the ComboBoxes with the generated time list only.
      */
     private void populateStartAndEndDateTime(String startTime, LocalDate startDate, String endTime, LocalDate endDate) {
         ObservableList<String> time = FXCollections.observableArrayList();
@@ -1023,10 +903,6 @@ public class SchedulingController extends Application implements Initializable {
      * Checks for upcoming appointments within 15 minutes of user login time.
      *
      * @param userLoginTime The time of user login.
-     *
-     * @implNote This method checks if there are upcoming appointments within 15 minutes of the user login time.
-     * If such appointments exist, it displays an alert using showAppointmentAlert(). Otherwise, it shows a
-     * message indicating no upcoming appointments using showNoAppointmentsMessage().
      */
     public static void checkUpcomingAppointments(LocalDateTime userLoginTime) {
 
@@ -1043,9 +919,6 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Displays an alert for upcoming appointments within 15 minutes.
-     *
-     * @implNote This method creates and displays an Alert of type INFORMATION with details of the
-     * upcoming appointment, including Appointment ID and Date and Time.
      *
      * @see AppointmentsDaoImpl
      * @see Alert
@@ -1065,11 +938,6 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Displays a message indicating no upcoming appointments.
-     *
-     * @implNote This method creates and displays an Alert of type INFORMATION with a message indicating
-     * that there are no upcoming appointments.
-     *
-     * @see Alert
      */
     private static void showNoAppointmentsMessage() {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
@@ -1084,11 +952,6 @@ public class SchedulingController extends Application implements Initializable {
      *
      * @param url The location used to resolve relative paths for the root object.
      * @param resourceBundle The resources used to localize the root object.
-     *
-     * @implNote This method is part of the Initializable interface, and it is automatically
-     * called by the FXMLLoader after the root element has been processed. It invokes the
-     * showSchedulingTableView() method to display the scheduling table view and sets up
-     * a TableView selection listener using tbleViewSelectionListener().
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -1102,8 +965,6 @@ public class SchedulingController extends Application implements Initializable {
      * @param stage The primary stage for the application.
      *
      * @throws Exception If an exception occurs during the loading or initialization process.
-     *
-     * @implNote This method loads the scheduling.fxml file, sets up the scene, and displays the stage.
      */
     @Override
     public void start(Stage stage) throws Exception {
@@ -1118,9 +979,6 @@ public class SchedulingController extends Application implements Initializable {
      * Stops the JavaFX application by deleting the current file using FileIOManager.
      *
      * @throws Exception If an exception occurs during the application shutdown process.
-     *
-     * @implNote This method calls FileIOManager.deleteCurrentFile() to perform cleanup or
-     * necessary actions before stopping the application.
      */
     @Override
     public void stop() throws Exception {

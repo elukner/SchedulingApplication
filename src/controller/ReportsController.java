@@ -170,6 +170,8 @@ public class ReportsController extends Application implements Initializable {
      * Retrieves contact schedules for the specified contact ID and updates the TableView with the data.
      * If the list of contact schedules is empty, the method hides the TableView and shows a label indicating
      * that there are no appointments for the selected contact.
+     *
+     * Lambda function justification 1: These lambda functions are used here to tell each column which function to call to update its value.
      */
     private void loadReport2() {
 
