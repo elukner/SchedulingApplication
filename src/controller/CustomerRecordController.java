@@ -239,6 +239,8 @@ public class CustomerRecordController extends Application implements Initializab
 
 
 
+
+
     }
 
     @FXML
@@ -247,6 +249,7 @@ public class CustomerRecordController extends Application implements Initializab
 
         clearAllFields();
         showModify("Update");
+        fillFields();
 
     }
 
@@ -259,6 +262,7 @@ public class CustomerRecordController extends Application implements Initializab
 
         clearAllFields();
         showModify("Delete");
+        fillFields();
 
     }
 
@@ -268,9 +272,12 @@ public class CustomerRecordController extends Application implements Initializab
 //        TextField customerID = new TextField();
         makeTxtBtnsVisible(true);
 
+
         switch (modifyType) {
             case "Add":
                 modifyBtn.setText("Add");
+                customerIDLbl.setVisible(false);
+                customerIDTxt.setVisible(false);
                 break;
             case "Update":
                 modifyBtn.setText("Update");
@@ -400,16 +407,62 @@ public class CustomerRecordController extends Application implements Initializab
 
     }
 
+    private void fillFields(){
+if(!customerRecordTbl.getSelectionModel().isEmpty()) {
+    // Store the selected appointment
+    selectedCustomer = customerRecordTbl.getSelectionModel().getSelectedItem();
+
+    customerIDLbl.setVisible(true);
+    customerIDTxt.setVisible(true);
+    // Disable and set Appointment_ID
+    customerIDTxt.setDisable(true);
+    customerIDTxt.setText(String.valueOf(selectedCustomer.getCustomerID()));
+
+    customerNameLbl.setVisible(true);
+    customerNameTxt.setVisible(true);
+    customerNameTxt.setText(selectedCustomer.getCustomerName());
+
+    addressLbl.setVisible(true);
+    addressTxt.setVisible(true);
+    addressTxt.setText(selectedCustomer.getAddress());
+
+
+    postalCodeLbl.setVisible(true);
+    postalCodeTxt.setVisible(true);
+    postalCodeTxt.setText(selectedCustomer.getPostalCode());
+
+    phoneNumberLbl.setVisible(true);
+    phoneNumberTxt.setVisible(true);
+    phoneNumberTxt.setText(selectedCustomer.getPhone());
+
+    countryLbl.setVisible(true);
+    countryBox.setVisible(true);
+    firstLevelDivisionLbl.setVisible(true);
+    firstLevelDivisionBox.setVisible(true);
+    countriesModel = CountriesDaoImpl.getAllCountries(selectedCustomer.getCountry()).get(0);
+    divisionModel = FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()).get(0);
+
+    countryBox.getItems().clear();
+    countryBox.setValue(countriesModel.getCountry());
+    firstLevelDivisionBox.getItems().clear();
+    firstLevelDivisionBox.setValue(divisionModel.getDivision());
+
+    populateComboBoxes();
+}
+
+
+
+
+    }
     private void tbleViewSelectionListener() {
 
         customerRecordTbl.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
         {
-
             if (newSelection != null) {
                 // Store the selected appointment
                 selectedCustomer = customerRecordTbl.getSelectionModel().getSelectedItem();
 
-                customerIDLbl.setVisible(true);
+
                 // Disable and set Appointment_ID
                 customerIDTxt.setDisable(true);
                 customerIDTxt.setText(String.valueOf(selectedCustomer.getCustomerID()));
@@ -444,7 +497,6 @@ public class CustomerRecordController extends Application implements Initializab
                 firstLevelDivisionBox.setValue(divisionModel.getDivision());
 
                 populateComboBoxes();
-
 
             }
         });
@@ -549,7 +601,8 @@ public class CustomerRecordController extends Application implements Initializab
     }
 
     private void clearAllFields() {
-        customerRecordTbl.getSelectionModel().clearSelection();
+       // customerModel=customerRecordTbl.getSelectionModel().getSelectedItem();
+
         customerIDTxt.setDisable(false);
         customerIDTxt.clear();
         customerNameTxt.clear();
@@ -593,6 +646,7 @@ public class CustomerRecordController extends Application implements Initializab
         makeTxtBtnsVisible(false);
         showCustomerRecordTableView();
         tbleViewSelectionListener();
+        customerRecordTbl.getSelectionModel().select(0);
 
     }
 
