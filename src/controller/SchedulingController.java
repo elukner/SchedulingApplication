@@ -919,9 +919,6 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Displays an alert for upcoming appointments within 15 minutes.
-     *
-     * @see AppointmentsDaoImpl
-     * @see Alert
      */
     private static void showAppointmentAlert() {
         if (!AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min().isEmpty()) {
