@@ -19,33 +19,26 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * And the helper package will hold helper classes
- * that handle tasks such as
- * Date / Time processing, List management, etc.
- *
- * Add a utility or utils package to hold
- * classes for your; Database Connection,
- * Query Execution, Collection (ObservarbleArrayList)
- * Management, Functional Interfaces, and time conversion files.
- *
- * File I/O: Reading from and writing to files,
- * managing file-related operations.
- *
- * Write code that provides the ability to track user activity by recording all user log-in attempts, dates, and
- * time stamps and whether each attempt was successful in a file named login_activity.txt.
- * Append each new record to the existing file, and save to the root folder of the application.
+ * The FileIOManager class provides methods for reading from and writing to a file named "login_activity.txt."
  */
 public class FileIOManager {
-    //Write code that provides the ability to track user activity by recording all user log-in attempts, dates, and
-    // time stamps and whether each attempt was successful in a file named login_activity.txt.
-    // and save to the root folder of the application.
-    //Append each new record to the existing file
+
+    /**
+     * Writes user login activity to the "login_activity.txt" file.
+     *
+     * @param user          The username associated with the login activity.
+     * @param loginAttempts The number of login attempts.
+     * @param date          The date of the login activity.
+     * @param timeStamps    The timestamp of the login activity.
+     * @param success       The success status of the login activity.
+     * @throws IOException If an I/O error occurs during file writing.
+     */
     public static void writeToFile(String user, int loginAttempts, String date, Timestamp timeStamps, String success ) throws IOException {
         File file = new File ("login_activity.txt");
         if(!file.exists()){
             try {
                 PrintWriter printWriter = new PrintWriter(new FileWriter("login_activity.txt"),true);
-                BufferedWriter br = new BufferedWriter(printWriter);
+                BufferedWriter bufferedWriter = new BufferedWriter(printWriter);
                 //out.txt will appear in the project's root directory under NetBeans projects
                 //Note that Notepad will not display the following lines on separate lines
                 printWriter.append(user+" "+loginAttempts+" "+date+" "+timeStamps+" "+success+"\n");
@@ -62,6 +55,16 @@ public class FileIOManager {
 
     }
 
+    /**
+     * Appends user login activity to the existing "login_activity.txt" file.
+     *
+     * @param user          The username associated with the login activity.
+     * @param loginAttempts The number of login attempts.
+     * @param date          The date of the login activity.
+     * @param timeStamps    The timestamp of the login activity.
+     * @param success       The success status of the login activity.
+     * @throws IOException If an I/O error occurs during file writing.
+     */
     public static void writeToCurrentFile(String user, int loginAttempts, String date, Timestamp timeStamps, String success ) throws IOException {
         File file = new File("login_activity.txt");
         FileWriter fileWriter = new FileWriter(file, true);
@@ -73,6 +76,11 @@ public class FileIOManager {
 
     }
 
+    /**
+     * Deletes the "login_activity.txt" file if it exists.
+     *
+     * @throws IOException If an I/O error occurs during file deletion.
+     */
     public static void deleteCurrentFile() throws IOException {
         File file = new File("login_activity.txt");
         if(file.exists()){
@@ -80,6 +88,13 @@ public class FileIOManager {
         }
 
     }
+
+    /**
+     * Reads the contents of the "login_activity.txt" file and returns the last username.
+     *
+     * @return The last username from the file.
+     * @throws FileNotFoundException If the "login_activity.txt" file is not found.
+     */
     public static String readFile() throws FileNotFoundException {
         // pass the path to the file as a parameter
         File file = new File("login_activity.txt");
@@ -101,6 +116,12 @@ public class FileIOManager {
 
     }
 
+    /**
+     * Reads the contents of the "login_activity.txt" file and returns all lines as an array of strings.
+     *
+     * @return An array of strings containing each line of the file.
+     * @throws FileNotFoundException If the "login_activity.txt" file is not found.
+     */
     public static String[] readFileAsArray() throws FileNotFoundException {
         File file = new File("login_activity.txt");
         Scanner sc = new Scanner(file);
@@ -153,6 +174,12 @@ public class FileIOManager {
 
     }
 
+    /**
+     * Reads all lines from the "login_activity.txt" file and returns them as a list of arrays of strings.
+     *
+     * @return A list of arrays of strings representing each line of the file.
+     * @throws FileNotFoundException If the "login_activity.txt" file is not found.
+     */
     public static List<String[]> readLines() throws FileNotFoundException {
         File file = new File("login_activity.txt");
         List<String[]> lines = new ArrayList<>();
@@ -168,6 +195,12 @@ public class FileIOManager {
         return lines;
     }
 
+    /**
+     * Reads the last line of the "login_activity.txt" file and returns it as a string.
+     *
+     * @return The last line of the file.
+     * @throws FileNotFoundException If the "login_activity.txt" file is not found.
+     */
     public static String readLastLine() throws FileNotFoundException {
         File file = new File("login_activity.txt");
         String lastLine = "";
