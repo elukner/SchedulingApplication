@@ -271,54 +271,11 @@ public class CustomerRecordController extends Application implements Initializab
         switch (modifyType) {
             case "Add":
                 modifyBtn.setText("Add");
-                customerIDLbl.setVisible(false);
-                customerIDTxt.setVisible(false);
-                customerNameLbl.setVisible(true);
-                customerNameTxt.setVisible(true);
-                addressLbl.setVisible(true);
-                addressTxt.setVisible(true);
-                postalCodeLbl.setVisible(true);
-                postalCodeTxt.setVisible(true);
-                phoneNumberLbl.setVisible(true);
-                phoneNumberTxt.setVisible(true);
-                countryLbl.setVisible(true);
-                countryBox.setVisible(true);
-                firstLevelDivisionLbl.setVisible(true);
-                firstLevelDivisionBox.setVisible(true);
                 break;
             case "Update":
-                customerIDLbl.setVisible(true);
-                customerIDTxt.setVisible(true);
-                customerNameLbl.setVisible(true);
-                customerNameTxt.setVisible(true);
-                addressLbl.setVisible(true);
-                addressTxt.setVisible(true);
-                postalCodeLbl.setVisible(true);
-                postalCodeTxt.setVisible(true);
-                phoneNumberLbl.setVisible(true);
-                phoneNumberTxt.setVisible(true);
-                countryLbl.setVisible(true);
-                countryBox.setVisible(true);
-                firstLevelDivisionLbl.setVisible(true);
-                firstLevelDivisionBox.setVisible(true);
-                customerIDTxt.setPromptText("Type Customer ID and press enter");
                 modifyBtn.setText("Update");
                 break;
             case "Delete":
-                customerIDLbl.setVisible(true);
-                customerIDTxt.setVisible(true);
-                customerNameLbl.setVisible(true);
-                customerNameTxt.setVisible(true);
-                addressLbl.setVisible(false);
-                addressTxt.setVisible(false);
-                postalCodeLbl.setVisible(false);
-                postalCodeTxt.setVisible(false);
-                phoneNumberLbl.setVisible(false);
-                phoneNumberTxt.setVisible(false);
-                countryLbl.setVisible(false);
-                countryBox.setVisible(false);
-                firstLevelDivisionLbl.setVisible(false);
-                firstLevelDivisionBox.setVisible(false);
                 modifyBtn.setText("Delete");
                 break;
 
@@ -414,6 +371,7 @@ public class CustomerRecordController extends Application implements Initializab
 
     private void makeTxtBtnsVisible(boolean b) {
         modifyGrid.setVisible(b);
+        customerIDTxt.setDisable(b);
         modifyBtn.setVisible(b);
         cancelBtn.setVisible(b);
     }
@@ -446,6 +404,7 @@ public class CustomerRecordController extends Application implements Initializab
 
         customerRecordTbl.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
         {
+
             if (newSelection != null) {
                 // Store the selected appointment
                 selectedCustomer = customerRecordTbl.getSelectionModel().getSelectedItem();
@@ -458,10 +417,6 @@ public class CustomerRecordController extends Application implements Initializab
                 customerNameLbl.setVisible(true);
                 customerNameTxt.setVisible(true);
                 customerNameTxt.setText(selectedCustomer.getCustomerName());
-
-
-
-
 
                 addressLbl.setVisible(true);
                 addressTxt.setVisible(true);
@@ -489,6 +444,7 @@ public class CustomerRecordController extends Application implements Initializab
                 firstLevelDivisionBox.setValue(divisionModel.getDivision());
 
                 populateComboBoxes();
+
 
             }
         });
@@ -581,18 +537,7 @@ public class CustomerRecordController extends Application implements Initializab
 
     private void deleteCustomerDatabase() throws SQLException {
 
-        //customer id txt is filled out
-        if((!customerIDTxt.getText().isEmpty()) && (customerNameTxt.getText().isEmpty())){
-            CustomersDaoImpl.deleteCustomers(Integer.parseInt(customerIDTxt.getText()));
-        }
-        //customer name is the only one filled out
-        if((!customerNameTxt.getText().isEmpty())&&(customerIDTxt.getText().isEmpty())){
-            showAlert(Alert.AlertType.ERROR, "Customer ID Empty", "Please fill out customer ID text box");
-        }
-        //both text boxes are filled out
-        if((!customerNameTxt.getText().isEmpty())&&(!customerIDTxt.getText().isEmpty())){
-            CustomersDaoImpl.deleteCustomers(Integer.parseInt(customerIDTxt.getText()));
-        }
+       CustomersDaoImpl.deleteCustomers(Integer.parseInt(customerIDTxt.getText()));
         showCustomerRecordTableView();
 
     }
@@ -604,6 +549,7 @@ public class CustomerRecordController extends Application implements Initializab
     }
 
     private void clearAllFields() {
+        customerRecordTbl.getSelectionModel().clearSelection();
         customerIDTxt.setDisable(false);
         customerIDTxt.clear();
         customerNameTxt.clear();
