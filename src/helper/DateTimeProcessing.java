@@ -1,5 +1,6 @@
 package helper;
 
+import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
@@ -7,6 +8,20 @@ import java.time.format.DateTimeFormatter;
  * The DateTimeProcessing class provides utility methods for processing and formatting date-time information.
  */
 public class DateTimeProcessing {
+
+    /**
+     * Creates a Timestamp representing the current date and time in UTC.
+     *
+     * @return Timestamp representing the current date and time in UTC.
+     */
+    public static Timestamp createTimeStamp(){
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(currentDateTime, ZoneId.systemDefault());
+        ZonedDateTime utcZonedDateTime = zonedDateTime.withZoneSameInstant(ZoneId.of("UTC"));
+        LocalDateTime utcLocalDateTime = utcZonedDateTime.toLocalDateTime();
+        return Timestamp.valueOf(utcLocalDateTime);
+    }
+
 
     /**
      * Retrieves the current date-time in the format "yyyy-MM-dd HH:mm:ss".

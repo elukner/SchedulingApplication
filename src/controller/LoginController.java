@@ -8,6 +8,7 @@ package controller;
  * Date: 1/2/2024
  * Time: 1:27 PM
  */
+import helper.DateTimeProcessing;
 import helper.FileIOManager;
 import helper.TimeProcessing;
 import javafx.collections.ObservableList;
@@ -151,7 +152,7 @@ public class LoginController implements Initializable {
         }
 
         FileIOManager.writeToFile(getUserLoggedIn(), getTimesClicked(), LocalDate.now().toString(),
-                TimeProcessing.createTimeStamp(), status);
+                DateTimeProcessing.createTimeStamp(), status);
     }
 
     /**

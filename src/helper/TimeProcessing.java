@@ -1,13 +1,4 @@
 package helper;
-import java.sql.Timestamp;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.function.Function;
 
 /**
  * Project: SchedulingApplication
@@ -18,61 +9,17 @@ import java.util.function.Function;
  * Time: 1:27 PM
  */
 
-/**
- * And the helper package will hold helper classes
- * that handle tasks such as
- * Date / Time processing, List management, etc.
- *
- * Add a utility or utils package to hold
- * classes for your; Database Connection,
- * Query Execution, Collection (ObservarbleArrayList)
- * Management, Functional Interfaces, and time conversion files.
- *
- * Date/Time Operations: Conversions between different time zones,
- * date formatting, or any other date/time-related functionalities.
- *
- * Other General Utilities: Any other functions that offer
- * support across different parts of the application
- * but don't specifically belong to the DAO or controller logic.
- */
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
+
+/**
+ * Utility class for time processing operations.
+ */
 public class TimeProcessing {
 
-
-    public static Timestamp createTimeStamp(){
-        //Getting the LocalDateTime Objects from String values
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd kk:mm:ss.S");
-        String startTimeTxt = dateTimeFormatter.format(LocalDateTime.now());
-
-        LocalDateTime ldtStart = LocalDateTime.parse(startTimeTxt, dateTimeFormatter);
-
-
-        //Showing how to parse the Date/Time String
-        DateTimeFormatter dFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate localDate = LocalDate.parse(startTimeTxt.substring(0, 10), dFormatter);
-       // System.out.println("The local date is " + localDate);
-
-        DateTimeFormatter tFormatter = DateTimeFormatter.ofPattern("kk:mm:ss.S");
-        LocalTime localTime = LocalTime.parse(startTimeTxt.substring(11), tFormatter);
-        //System.out.println("The local time is " + localTime);
-
-        //Getting the day of the week
-        //System.out.println(ldtStart.getDayOfWeek());
-
-        //Convert to a ZonedDate Time in UTC
-        ZoneId zid = ZoneId.systemDefault();
-
-        ZonedDateTime zdtStart = ldtStart.atZone(zid);
-        //System.out.println("Local Time: " + zdtStart);
-        ZonedDateTime utcStart = zdtStart.withZoneSameInstant(ZoneId.of("UTC"));
-       // System.out.println("Zoned time: " + utcStart);
-        ldtStart = utcStart.toLocalDateTime();
-        //System.out.println("Zoned time with zone stripped:" + ldtStart);
-        //Create Timestamp values from Instants to update database
-        Timestamp startsqlts = Timestamp.valueOf(ldtStart); //this value can be inserted into database
-        //System.out.println("Timestamp to be inserted: " +startsqlts);
-        return startsqlts;
-    }
 
     public static LocalTime getTime(String dateTime){
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -81,7 +28,12 @@ public class TimeProcessing {
     }
 
 
-
+    /**
+     * Gets the time component from the provided date-time string.
+     *
+     * @param dateTime The date-time string in "yyyy-MM-dd HH:mm:ss" format.
+     * @return String representation of the time with correct seconds.
+     */
     public static String getTimeFromDateTime(String dateTime){
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime localDateTime = LocalDateTime.parse(dateTime, dateTimeFormatter);
@@ -89,6 +41,12 @@ public class TimeProcessing {
         return getCorrectTimeSeconds(LocalTime.of(localDateTime.getHour(),localDateTime.getMinute(),localDateTime.getMinute()));
     }
 
+    /**
+     * Gets the correctly formatted time with seconds.
+     *
+     * @param time LocalTime object.
+     * @return String representation of the time with correct seconds.
+     */
     public static String getCorrectTimeSeconds(LocalTime time){
 
         if(time.getSecond()!=0){
@@ -98,12 +56,16 @@ public class TimeProcessing {
         return (time) +":00";
     }
 
+    /**
+     * Gets the correctly formatted time with seconds from a string.
+     *
+     * @param time The time string in "HH:mm:ss" format.
+     * @return String representation of the time with correct seconds.
+     */
+
     public static String getCorrectTimeSeconds(String time){
 
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-//        DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss")
-//                .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
-//                .toFormatter();
         LocalTime localTime = LocalTime.parse(time.substring(5), timeFormatter);
 
         if(localTime.getSecond()!=0){
@@ -113,22 +75,22 @@ public class TimeProcessing {
         return (localTime) +":00";
     }
 
+    /**
+     * Parses the time from the provided date-time string.
+     *
+     * @param dateTime The date-time string in "HH:mm:ss" format.
+     * @return LocalTime object representing the parsed time.
+     */
     public static LocalTime getFormatedTime(String dateTime){
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-//        DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss")
-//                .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
-//                .toFormatter();
         LocalTime localTime = LocalTime.parse(dateTime, timeFormatter);
-        //System.out.println("The local time is " + localTime);
-
-        //Getting the day of the week
-        //System.out.println(ldtStart.getDayOfWeek());
         return localTime;
     }
 
     /**
-     *scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
-     * @return
+     * Generates a list of business hours in one-hour intervals.
+     *
+     * @return List of LocalTime objects representing business hours.
      */
     public static List<LocalTime> generateBusinessHours(){
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -151,8 +113,9 @@ public class TimeProcessing {
     }
 
     /**
-     *scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
-     * @return
+     * Generates a list of business hours in one-hour intervals with correct seconds.
+     *
+     * @return List of String objects representing business hours with correct seconds.
      */
     public static List<String> generateLocalBusinessHoursWithSeconds(){
 
@@ -168,8 +131,9 @@ public class TimeProcessing {
 
 
     /**
-     *scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
-     * @return
+     * Generates a list of hours in one-hour intervals.
+     *
+     * @return List of LocalTime objects representing hours.
      */
     public static List<LocalTime> generateHours(){
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -192,8 +156,9 @@ public class TimeProcessing {
     }
 
     /**
-     *scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
-     * @return
+     * Generates a list of hours in one-hour intervals with correct seconds.
+     *
+     * @return List of String objects representing hours with correct seconds.
      */
     public static List<String> generateLocalHoursWithSeconds(){
 
@@ -208,8 +173,10 @@ public class TimeProcessing {
     }
 
     /**
-     *scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
-     * @return
+     * Converts Eastern Time (ET) to the local time zone.
+     *
+     * @param etTime LocalTime object representing Eastern Time.
+     * @return LocalTime object representing the converted local time.
      */
     public static LocalTime convertETToLocalTime(LocalTime etTime) {
         // Specify the time zone for Eastern Time
