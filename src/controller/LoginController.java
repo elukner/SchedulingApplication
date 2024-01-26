@@ -1,6 +1,13 @@
 package controller;
 
-
+/**
+ * Project: SchedulingApplication
+ * Package: controller
+ * <p>
+ * User: Elizabeth Thomas
+ * Date: 1/2/2024
+ * Time: 1:27 PM
+ */
 import helper.FileIOManager;
 import helper.TimeProcessing;
 import javafx.collections.ObservableList;
@@ -26,14 +33,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.Scene;
-/**
- * Project: SchedulingApplication
- * Package: controller
- * <p>
- * User: Elizabeth Thomas
- * Date: 1/2/2024
- * Time: 1:27 PM
- */
+
 
 
 /**

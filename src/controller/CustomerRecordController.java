@@ -45,21 +45,6 @@ import model.*;
 import javafx.application.Application;
 
 /**
- * Notes from Requirements:
- * The controller package will hold Controller
- * classes that contain Business Logic for your views.
- * <p>
- * Use lambda expressions for event handling within your JavaFX controllers.
- * For instance, if you're handling button clicks or other UI interactions,
- * you can utilize lambda expressions to define event handlers.
- * <p>
- * // Example in a JavaFX controller
- * button.setOnAction(event -> {
- * // Handle button click event here
- * });
- **/
-
-/**
  * This FXML class is the Customer Record controller that contains business logic for the Customer Record view.
  */
 public class CustomerRecordController extends Application implements Initializable {

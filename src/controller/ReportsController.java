@@ -1,5 +1,12 @@
 package controller;
-
+/**
+ * Project: SchedulingApplication
+ * Package: controller
+ * <p>
+ * User: Elizabeth Thomas
+ * Date: 1/2/2024
+ * Time: 1:27 PM
+ */
 import dao.*;
 import helper.FileIOManager;
 import javafx.application.Application;
