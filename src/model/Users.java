@@ -14,12 +14,39 @@ package model;
  */
 public class Users {
 
+    /**
+     * The unique identifier for the user.
+     */
     private int userID;
+
+    /**
+     * Represents the username of the user used for authentication.
+     */
     private String userName;
+
+    /**
+     * Represents the password associated with the user account.
+     */
     private String password;
+
+    /**
+     * Represents the timestamp when the user account was created.
+     */
     private String createDate;
+
+    /**
+     * Represents the user who created this user account.
+     */
     private String createdBy;
+
+    /**
+     * Represents the timestamp when the user account was last updated.
+     */
     private String lastUpdate;
+
+    /**
+     * Represents the user who last updated this user account.
+     */
     private String lastUpdatedBy;
 
 
