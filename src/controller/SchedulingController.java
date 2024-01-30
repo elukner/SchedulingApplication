@@ -282,11 +282,10 @@ public class SchedulingController extends Application implements Initializable {
      * This method is intended to be used for resetting the UI state, making it ready for
      * the input of new appointment details or modification of existing ones.
      *
-     * @param event
-     * @throws SQLException
+     * @param event The triggering event that calls for the UI reset.
      */
     @FXML
-    void onActionAppointment(ActionEvent event) throws SQLException {
+    void onActionAppointment(ActionEvent event) {
         clearSelectionAndFormFields();
 
         appointmentIDTxt.setText(" ");
@@ -367,7 +366,10 @@ public class SchedulingController extends Application implements Initializable {
      * 5. If the appointment is valid, adds the customer to the database and clears form fields.
      * 6. Displays the updated scheduling table view using showSchedulingTableView().
      *
-     * @param event
+     * @param event The triggering event that initiates the addition of the appointment.
+     * @throws FileNotFoundException Signals that an attempt to open the file denoted by a specified pathname has failed.
+     * @throws SQLException An exception that provides information on a database access error or other errors that may
+     *                      occur during the appointment addition process.
      */
     @FXML
     void onActionAdd(ActionEvent event) throws FileNotFoundException, SQLException {
@@ -806,7 +808,7 @@ public class SchedulingController extends Application implements Initializable {
     /**
      * A contact name is assigned to an appointment using a drop-down menu or combo box.
      *
-     * @param actionEvent
+     * @param actionEvent The triggering event that occurs when a contact name is selected from the combo box.
      */
     @FXML
     void onActionContactNameComboBox(ActionEvent actionEvent) {
