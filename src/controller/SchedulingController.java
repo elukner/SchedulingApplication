@@ -139,9 +139,6 @@ public class SchedulingController extends Application implements Initializable {
     private Label customMessageTxt;
 
 
-    private Stage stage;
-    private Parent scene;
-
     private Contacts contactsModel;
     private Appointments appointmentsModel;
     private Users usersModel;
@@ -729,8 +726,8 @@ public class SchedulingController extends Application implements Initializable {
      */
     @FXML
     void onActionBack(ActionEvent event) throws IOException {
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        Parent scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
     }
