@@ -31,9 +31,6 @@ import java.util.ResourceBundle;
  */
 public class MainMenuController extends Application implements Initializable {
 
-    private Stage stage;
-    private Parent scene;
-
     /**
      * Handles the action when the "Customer Record" button is clicked.
      * Loads the customer record view and navigates to it.
@@ -98,9 +95,9 @@ public class MainMenuController extends Application implements Initializable {
      */
     private void loadPage(ActionEvent event,String viewPath) throws IOException {
         // Get the stage from the event's source button
-        stage = (Stage)((Button) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage)((Button) event.getSource()).getScene().getWindow();
         // Load the FXML file for the specified view
-        scene = FXMLLoader.load(getClass().getResource(viewPath));
+        Parent scene = FXMLLoader.load(getClass().getResource(viewPath));
         // Set the loaded scene as the content of the stage
         stage.setScene(new Scene(scene));
         // Show the stage with the newly loaded scene
