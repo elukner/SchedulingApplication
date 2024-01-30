@@ -36,56 +36,148 @@ import model.*;
  */
 public class ReportsController extends Application implements Initializable {
 
+    /**
+     * Represents a JavaFX TableView for displaying the first report related to monthly appointment totals.
+     */
     @FXML // fx:id="report1TableView"
     private TableView<AppointmentReport> report1TableView; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying months in the first report.
+     */
     @FXML // fx:id="monthCol"
     private TableColumn<AppointmentReport, String> monthCol; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying total appointments in the first report.
+     */
     @FXML // fx:id="totalAppointmentsCol"
     private TableColumn<AppointmentReport, Integer> totalAppointmentsCol; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying appointment types in the first report.
+     */
     @FXML // fx:id="typeCol"
     private TableColumn<AppointmentReport, String> typeCol; // Value injected by FXMLLoader
 
 
+
+
+    /**
+     * Represents a JavaFX ComboBox for selecting contacts in the second report.
+     */
     @FXML // fx:id="contactComboBox"
     private ComboBox<String> contactComboBox; // Value injected by FXMLLoader
+
+    /**
+     * Represents a JavaFX Label for indicating no appointments in the second report.
+     */
     @FXML // fx:id="noAppointmentsLabel"
     private Label noAppointmentsLabel; // Value injected by FXMLLoader
 
+
+
+    /**
+     * Represents a JavaFX TableView for displaying the second report related to contact schedules.
+     */
     @FXML // fx:id="report2TableView"
     private TableView<ContactScheduleReport> report2TableView; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying appointment IDs in the second report.
+     */
     @FXML // fx:id="appointmentIDCol"
     private TableColumn<ContactScheduleReport, Integer> appointmentIDCol; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying contact IDs in the second report.
+     */
     @FXML // fx:id="contactIDCol"
     private TableColumn<ContactScheduleReport, Integer> contactIDCol; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying contact names in the second report.
+     */
     @FXML // fx:id="contactNameCol"
     private TableColumn<ContactScheduleReport, String> contactNameCol; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying customer IDs in the second report.
+     */
     @FXML // fx:id="customerIDCol"
     private TableColumn<ContactScheduleReport, Integer> customerIDCol; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying descriptions in the second report.
+     */
     @FXML // fx:id="descriptionCol"
     private TableColumn<ContactScheduleReport, String> descriptionCol; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying end times in the second report.
+     */
     @FXML // fx:id="endCol"
     private TableColumn<ContactScheduleReport, String> endCol; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying start times in the second report.
+     */
     @FXML // fx:id="startCol"
     private TableColumn<ContactScheduleReport, String> startCol; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying titles in the second report.
+     */
     @FXML // fx:id="titleCol"
     private TableColumn<ContactScheduleReport, String> titleCol; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying appointment types in the second report.
+     */
     @FXML // fx:id="typeCol"
     private TableColumn<ContactScheduleReport, String> typeContactAppointmentCol; // Value injected by FXMLLoader
 
-
+    /**
+     * Represents a JavaFX TableView for displaying the third report related to user appointments.
+     */
     @FXML // fx:id="report3TableView"
     private TableView<UserAppointmentReport> report3TableView; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying user IDs in the third report.
+     */
     @FXML // fx:id="userIDCol"
     private TableColumn<UserAppointmentReport, Integer> userIDCol; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying usernames in the third report.
+     */
     @FXML // fx:id="userNameCol"
     private TableColumn<UserAppointmentReport, String> userNameCol; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying user login date and time in the third report.
+     */
     @FXML // fx:id="userLogInDateTimeCol"
     private TableColumn<UserAppointmentReport, String> userLogInDateTimeCol; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying user total appointments in the third report.
+     */
     @FXML // fx:id="userTotalAppointmentsCol"
     private TableColumn<UserAppointmentReport, Integer> userTotalAppointmentsCol; // Value injected by FXMLLoader
+
+    /**
+     * Represents the TableColumn for displaying user average appointment duration in the third report.
+     */
     @FXML // fx:id="userAverageDurationCol"
     private TableColumn<UserAppointmentReport, Double> userAverageDurationCol; // Value injected by FXMLLoader
 
+
+
+    /**
+     * Represents the model class for managing data related to contacts in the application.
+     */
     private Contacts contactsModel;
 
     /**
