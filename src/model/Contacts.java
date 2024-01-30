@@ -16,8 +16,19 @@ package model;
  */
 public class Contacts {
 
+    /**
+     * The unique identifier for the contact.
+     */
     private int contactID;
+
+    /**
+     * The name of the contact.
+     */
     private String contactName;
+
+    /**
+     * The email address of the contact.
+     */
     private String email;
 
     /**

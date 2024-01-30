@@ -17,14 +17,49 @@ import javafx.beans.property.StringProperty;
  */
 public class ContactScheduleReport {
 
+    /**
+     * The unique identifier for the contact.
+     */
     private IntegerProperty contactID;
+
+    /**
+     * The name of the contact.
+     */
     private StringProperty contactName;
+
+    /**
+     * The unique identifier for the appointment.
+     */
     private IntegerProperty appointmentID;
+
+    /**
+     * The title of the appointment.
+     */
     private String title;
+
+    /**
+     * The type of the appointment.
+     */
     private String type;
+
+    /**
+     * The description of the appointment.
+     */
     private String description;
+
+    /**
+     * The start date and time of the appointment.
+     */
     private String start;
+
+    /**
+     * The end date and time of the appointment.
+     */
     private String end;
+
+    /**
+     * The unique identifier for the customer associated with the appointment.
+     */
     private IntegerProperty customerID;
 
     /**

@@ -15,13 +15,40 @@ package model;
  */
 public class FirstLevelDivisions {
 
+    /**
+     * The unique identifier for the first-level division.
+     */
     private int divisionID;
+
+    /**
+     * The name of the first-level division.
+     */
     private String division;
+
+    /**
+     * The date and time when the first-level division record was created.
+     */
     private String createDate;
+
+    /**
+     * The user who created the first-level division record.
+     */
     private String createdBy;
+
+    /**
+     * The date and time when the first-level division record was last updated.
+     */
     private String lastUpdate;
+
+    /**
+     * The user who last updated the first-level division record.
+     */
     private String lastUpdatedBy;
-    private int countryID; //FOREIGN KEY
+
+    /**
+     * The foreign key representing the associated country.
+     */
+    private int countryID;
 
     /**
      * Constructs a FirstLevelDivisions object.

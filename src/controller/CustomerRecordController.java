@@ -43,92 +43,194 @@ import javafx.application.Application;
  */
 public class CustomerRecordController extends Application implements Initializable {
 
+    /**
+     * Represents a JavaFX TableColumn for the address field in the user interface.
+     */
     @FXML // fx:id="addressCol"
     private TableColumn<?, ?> addressCol; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableColumn for the customer ID field in the user interface.
+     */
     @FXML // fx:id="customerIDCol"
     private TableColumn<?, ?> customerIDCol; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableColumn for the customer name field in the user interface.
+     */
     @FXML // fx:id="customerNameCol"
     private TableColumn<?, ?> customerNameCol; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableView for displaying customer records in the user interface.
+     */
     @FXML // fx:id="customerRecordTbl"
     private TableView<Customers> customerRecordTbl; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableColumn for the country field in the user interface.
+     */
     @FXML // fx:id="countryCol"
     private TableColumn<?, ?> countryCol; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableColumn for the division ID field in the user interface.
+     */
     @FXML // fx:id="divisionIDCol"
     private TableColumn<?, ?> divisionIDCol; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableColumn for the phone number field in the user interface.
+     */
     @FXML // fx:id="phoneCol"
     private TableColumn<?, ?> phoneCol; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableColumn for the postal code field in the user interface.
+     */
     @FXML // fx:id="postalCodeCol"
     private TableColumn<?, ?> postalCodeCol; // Value injected by FXMLLoader
 
-
+    /**
+     * Represents a JavaFX MenuItem for adding an item in the user interface.
+     */
     @FXML // fx:id="addItem"
     private MenuItem addItem; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX Label for the customer ID field in the user interface.
+     */
     @FXML // fx:id="customerIDLbl"
     private Label customerIDLbl;// Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX Label for the customer name field in the user interface.
+     */
     @FXML // fx:id="customerNameLbl"
     private Label customerNameLbl; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX Label for the address field in the user interface.
+     */
     @FXML // fx:id="addressLbl"
     private Label addressLbl; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX Label for the postal code field in the user interface.
+     */
     @FXML // fx:id="postalCodeLbl"
     private Label postalCodeLbl; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX Label for the phone number field in the user interface.
+     */
     @FXML // fx:id="phoneNumberLbl"
     private Label phoneNumberLbl; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX Label for the country field in the user interface.
+     */
     @FXML // fx:id="countryLbl"
     private Label countryLbl; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX Label for the first-level division field in the user interface.
+     */
     @FXML // fx:id="firstLevelDivisionLbl"
     private Label firstLevelDivisionLbl; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TextField for entering the customer ID information in the user interface.
+     */
     @FXML
     private TextField customerIDTxt;
 
+    /**
+     * Represents a JavaFX TextField for entering the customer name information in the user interface.
+     */
     @FXML
     private TextField customerNameTxt;
 
+    /**
+     * Represents a JavaFX TextField for entering the address information in the user interface.
+     */
     @FXML
     private TextField addressTxt;
 
+    /**
+     * Represents a JavaFX TextField for entering the postal code information in the user interface.
+     */
     @FXML
     private TextField postalCodeTxt;
 
+    /**
+     * Represents a JavaFX TextField for entering the phone number information in the user interface.
+     */
     @FXML
     private TextField phoneNumberTxt;
 
+    /**
+     * Represents a JavaFX ComboBox for selecting countries.
+     */
     @FXML
     private ComboBox<String> countryBox;
 
+    /**
+     * Represents a JavaFX ComboBox for selecting first-level divisions in the user interface.
+     */
     @FXML
     private ComboBox<String> firstLevelDivisionBox;
 
+    /**
+     * Represents a JavaFX GridPane for modifying customer information in the user interface.
+     */
     @FXML
     private GridPane modifyGrid;
 
+    /**
+     * Represents a JavaFX Button for modifying customer information in the user interface.
+     */
     @FXML
     private Button modifyBtn;
 
+    /**
+     * Represents a JavaFX Button for canceling or closing an action in the user interface.
+     */
     @FXML
     private Button cancelBtn;
 
+    /**
+     * Represents the primary stage of the application.
+     */
     private Stage stage;
+
+    /**
+     * Represents the root scene of the application.
+     */
     private Parent scene;
 
+    /**
+     * Represents the model class for managing data related to customers in the application.
+     */
     private Customers customerModel;
+
+    /**
+     * Represents the model class for managing data related to first-level divisions in the application.
+     */
     private FirstLevelDivisions divisionModel;
+
+    /**
+     * Represents the currently logged-in user.
+     */
     private Users currentUser;
+    /**
+     * Represents a model class for managing data related to countries in the application.
+     */
     private Countries countriesModel;
+
+    /**
+     * Represents the currently selected customer.
+     */
     private static Customers selectedCustomer;
 
     /**

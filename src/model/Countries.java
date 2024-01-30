@@ -15,11 +15,35 @@ package model;
  * database Countries table.
  */
 public class Countries {
+
+    /**
+     * The unique identifier for the country.
+     */
     private int countryID;
+
+    /**
+     * The name of the country.
+     */
     private String country;
+
+    /**
+     * The date when the country record was created.
+     */
     private String createDate;
+
+    /**
+     * The user who created the country record.
+     */
     private String createdBy;
+
+    /**
+     * The date when the country record was last updated.
+     */
     private String lastUpdate;
+
+    /**
+     * The user who last updated the country record.
+     */
     private String lastUpdatedBy;
 
     /**

@@ -22,13 +22,45 @@ import java.sql.DriverManager;
  * The class includes methods for opening, getting, and closing a database connection.
  */
 public abstract class JDBC {
+
+    /**
+     * The protocol used for the JDBC connection.
+     */
     private static final String protocol = "jdbc";
+
+    /**
+     * The vendor information for the JDBC connection.
+     */
     private static final String vendor = ":mysql:";
+
+    /**
+     * The location of the database server.
+     */
     private static final String location = "//localhost/";
+
+    /**
+     * The name of the database.
+     */
     private static final String databaseName = "client_schedule";
+
+    /**
+     * The complete JDBC URL for connecting to the database, including additional connection settings.
+     */
     private static final String jdbcUrl = protocol + vendor + location + databaseName + "?connectionTimeZone = SERVER"; // LOCAL
+
+    /**
+     * The reference to the JDBC driver class.
+     */
     private static final String driver = "com.mysql.cj.jdbc.Driver"; // Driver reference
+
+    /**
+     * The username used for authenticating the database connection.
+     */
     private static final String userName = "sqlUser"; // Username
+
+    /**
+     * The password used for authenticating the database connection.
+     */
     private static String password = "Passw0rd!"; // Password
     /**
      * Represents a static field providing a connection to a database.

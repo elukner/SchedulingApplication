@@ -44,29 +44,65 @@ import javafx.scene.Scene;
  */
 public class LoginController implements Initializable {
 
+    /**
+     * JavaFX Label representing the label for the password field.
+     */
     @FXML // fx:id="passwordLbl"
     private Label passwordLbl; // Value injected by FXMLLoader
 
+    /**
+     * JavaFX TextField representing the password input field.
+     */
     @FXML // fx:id="passwordTxt"
     private TextField passwordTxt; // Value injected by FXMLLoader
 
+    /**
+     * JavaFX Label representing the label for the user location ID.
+     */
     @FXML // fx:id="userLocationIDLbl"
     private Label userLocationIDLbl; // Value injected by FXMLLoader
 
+    /**
+     * JavaFX Label representing the label for the username field.
+     */
     @FXML // fx:id="usernameLbl"
     private Label usernameLbl; // Value injected by FXMLLoader
 
+    /**
+     * JavaFX TextField representing the username input field.
+     */
     @FXML // fx:id="usernamerTxt"
     private TextField usernameTxt; // Value injected by FXMLLoader
 
+    /**
+     * JavaFX Button representing the login button.
+     */
     @FXML // fx:id="loginBtn"
     private Button loginBtn;// Value injected by FXMLLoader
 
+    /**
+     * The JavaFX stage for the login user interface.
+     */
     private Stage stage;
+
+    /**
+     * The JavaFX Parent scene for the login user interface.
+     */
     private Parent scene;
 
+    /**
+     * The model class representing the user for the login.
+     */
     private Users user;
+
+    /**
+     * An integer representing the number of times the login button has been clicked.
+     */
     private int timesClicked;
+
+    /**
+     * A boolean indicating whether the login attempt was successful.
+     */
     private Boolean loginSuccess;
 
     /**

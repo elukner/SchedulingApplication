@@ -16,19 +16,62 @@ package model;
  */
 public class Customers {
 
-
+    /**
+     * The unique identifier for the customer.
+     */
     private int customerID;
-    private String customerName;
-    private String address;
-    private String postalCode;
-    private String phone;
-    private String createDate;
-    private String createdBy;
-    private String lastUpdate;
-    private String lastUpdatedBy;
-    private int divisionID; //FOREIGN KEY
 
-    //Added due to requirement that customer record table view has country column
+    /**
+     * The name of the customer.
+     */
+    private String customerName;
+
+    /**
+     * The address of the customer.
+     */
+    private String address;
+
+    /**
+     * The postal code of the customer's location.
+     */
+    private String postalCode;
+
+    /**
+     * The phone number associated with the customer.
+     */
+    private String phone;
+
+    /**
+     * The date and time when the customer record was created.
+     */
+    private String createDate;
+
+    /**
+     * The user who created the customer record.
+     */
+    private String createdBy;
+
+    /**
+     * The date and time when the customer record was last updated.
+     */
+    private String lastUpdate;
+
+    /**
+     * The user who last updated the customer record.
+     */
+    private String lastUpdatedBy;
+
+    /**
+     * The foreign key representing the division to which the customer belongs.
+     */
+    private int divisionID;
+
+
+
+
+    /**
+     * The country associated with the customer, fulfilling the requirement for the customer record table view.
+     */
     private String country;
 
     /**

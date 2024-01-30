@@ -14,9 +14,17 @@ import javafx.beans.property.IntegerProperty;
  * The AppointmentReport class represents a report on appointments, including information about the month, type, and total number of appointments.
  */
 public class AppointmentReport {
-
+    /**
+     * The month associated with the statistics.
+     */
     private String month;
+    /**
+     * The type of appointments for which the statistics are calculated.
+     */
     private String type;
+    /**
+     * Total number of appointments for the specified month and type.
+     */
     private IntegerProperty totalAppointments;
 
     /**

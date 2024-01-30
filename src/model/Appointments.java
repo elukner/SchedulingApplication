@@ -16,20 +16,75 @@ import javafx.beans.property.StringProperty;
  */
 public class Appointments {
 
+    /**
+     * Unique identifier for the appointment.
+     */
     private int appointmentID;
+
+    /**
+     * The title of the appointment.
+     */
     private StringProperty title;
+
+    /**
+     * The description of the appointment.
+     */
     private String description;
+
+    /**
+     * The location of the appointment.
+     */
     private String location;
+
+    /**
+     * The type of the appointment.
+     */
     private String type;
+
+    /**
+     * The start time of the appointment.
+     */
     private String start;
+
+    /**
+     * The end time of the appointment.
+     */
     private String end;
+
+    /**
+     * The date when the appointment was created.
+     */
     private String createDate;
+
+    /**
+     * The user who created the appointment.
+     */
     private String createdBy;
+
+    /**
+     * The date when the appointment was last updated.
+     */
     private String lastUpdate;
+
+    /**
+     * The user who last updated the appointment.
+     */
     private String lastUpdatedBy;
-    private int customerID; //FOREIGN KEY
-    private int userID; //FOREIGN KEY
-    private int contactID; //FOREIGN KEY
+
+    /**
+     * The ID of the customer associated with the appointment (foreign key).
+     */
+    private int customerID;
+
+    /**
+     * The ID of the user associated with the appointment (foreign key).
+     */
+    private int userID;
+
+    /**
+     * The ID of the contact associated with the appointment (foreign key).
+     */
+    private int contactID;
 
     /**
      * Constructs an Appointments object with the specified attributes.
