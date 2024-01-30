@@ -770,7 +770,7 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Sets up a TableView selection listener to update the form fields when a row is selected.
-     *
+     * <p>
      * Lambda function justification 2: The lambda expression is used to define the behavior of the
      * selection listener for the Appointment TableView. It simplifies the process of reacting to changes in the selected
      * item within the TableView.
