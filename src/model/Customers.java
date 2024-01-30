@@ -32,18 +32,18 @@ public class Customers {
     private String country;
 
     /**
-     * Class Constructor of Customers
+     * Class Constructor for Customers.
      *
-     * @param customerID
-     * @param customerName
-     * @param address
-     * @param postalCode
-     * @param phone
-     * @param createDate
-     * @param createdBy
-     * @param lastUpdate
-     * @param lastUpdatedBy
-     * @param divisionID
+     * @param customerID      The ID of the customer.
+     * @param customerName    The name of the customer.
+     * @param address         The address of the customer.
+     * @param postalCode      The postal code of the customer.
+     * @param phone           The phone number of the customer.
+     * @param createDate      The date when the customer record was created.
+     * @param createdBy       The user who created the customer record.
+     * @param lastUpdate      The date of the last update to the customer record.
+     * @param lastUpdatedBy   The user who last updated the customer record.
+     * @param divisionID      The ID of the first-level division associated with the customer.
      */
     public Customers(int customerID, String customerName,
                      String address, String postalCode, String phone,
@@ -88,16 +88,18 @@ public class Customers {
         this.divisionID = divisionID;
     }
 
+
     /**
-     * Class Constructor of Customers with country and without createDate, createdBy,
-     * lastUpdated, lastUpdatedBy
+     * Class Constructor for Customers with country information and without createDate, createdBy,
+     * lastUpdate, and lastUpdatedBy details.
      *
-     * @param customerID
-     * @param customerName
-     * @param address
-     * @param postalCode
-     * @param phone
-     * @param divisionID
+     * @param customerID    The ID of the customer.
+     * @param customerName  The name of the customer.
+     * @param address       The address of the customer.
+     * @param postalCode    The postal code of the customer.
+     * @param phone         The phone number of the customer.
+     * @param divisionID    The ID of the first-level division associated with the customer.
+     * @param country       The country associated with the customer.
      */
     public Customers(int customerID, String customerName,
                      String address, String postalCode, String phone,
@@ -295,18 +297,22 @@ public class Customers {
 
 
     /**
-     * Getter of country of Countries
-     * Added due to requirement that customer record table view has country column
-     * @return
+     * Getter method for retrieving the country of a Countries instance.
+     * This method is added to fulfill the requirement of displaying the country
+     * column in the customer record table view.
+     *
+     * @return The country associated with the instance.
      */
     public String getCountry() {
         return country;
     }
 
     /**
-     * Setter of country of Countries
-     * Added due to requirement that customer record table view has country column
-     * @param country
+     * Setter method for updating the country of a Countries instance.
+     * This method is added to fulfill the requirement of updating the country
+     * column in the customer record table view.
+     *
+     * @param country The new country value to be set.
      */
     public void setCountry(String country) {
         this.country = country;

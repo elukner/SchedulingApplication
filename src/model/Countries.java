@@ -23,10 +23,10 @@ public class Countries {
     private String lastUpdatedBy;
 
     /**
-     * Class Countries Constructor
+     * Constructor for the Countries class.
      *
-     * @param countryID
-     * @param country
+     * @param countryID The ID of the country.
+     * @param country The name of the country.
      */
     public Countries(int countryID, String country) {
         this.countryID = countryID;

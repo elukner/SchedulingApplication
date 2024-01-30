@@ -20,7 +20,12 @@ import java.util.List;
  */
 public class TimeProcessing {
 
-
+    /**
+     * Parses the time component from the provided date-time string.
+     *
+     * @param dateTime The date-time string in "yyyy-MM-dd HH:mm:ss" format.
+     * @return LocalTime object representing the parsed time.
+     */
     public static LocalTime getTime(String dateTime){
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         LocalTime localTime = LocalTime.parse(dateTime.substring(11), timeFormatter);

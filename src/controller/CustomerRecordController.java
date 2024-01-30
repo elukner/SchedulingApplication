@@ -614,8 +614,12 @@ public class CustomerRecordController extends Application implements Initializab
 
     }
 
+
     /**
-     * Handles the "Cancel" button action, making the modification form fields invisible and clearing all input fields.
+     * Handles the "Cancel" button action.
+     * This method makes the modification form fields invisible and clears all input fields.
+     *
+     * @param actionEvent The ActionEvent triggered by the "Cancel" button.
      */
     @FXML
     public void onActionCancel(ActionEvent actionEvent) {

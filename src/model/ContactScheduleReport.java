@@ -42,8 +42,6 @@ public class ContactScheduleReport {
      * @param start The start date and time of the appointment.
      * @param end The end date and time of the appointment.
      * @param customerID The ID of the customer associated with the appointment.
-     *
-     * @implNote This constructor initializes a ContactScheduleReport with the provided details.
      */
     public ContactScheduleReport(IntegerProperty contactID, StringProperty contactName, IntegerProperty appointmentID, String title,
                                  String type, String description, String start, String end, IntegerProperty customerID) {

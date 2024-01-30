@@ -32,22 +32,22 @@ public class Appointments {
     private int contactID; //FOREIGN KEY
 
     /**
-     * Constructor for Appointments class
+     * Constructs an Appointments object with the specified attributes.
      *
-     * @param appointmentID
-     * @param title
-     * @param description
-     * @param location
-     * @param type
-     * @param start
-     * @param end
-     * @param createDate
-     * @param createdBy
-     * @param lastUpdate
-     * @param lastUpdatedBy
-     * @param customerID
-     * @param userID
-     * @param contactID
+     * @param appointmentID   The unique identifier for the appointment.
+     * @param title           The title or subject of the appointment.
+     * @param description     The description or details of the appointment.
+     * @param location        The location where the appointment will take place.
+     * @param type            The type or category of the appointment.
+     * @param start           The start date and time of the appointment.
+     * @param end             The end date and time of the appointment.
+     * @param createDate      The date when the appointment record was created.
+     * @param createdBy       The user who created the appointment record.
+     * @param lastUpdate      The date when the appointment record was last updated.
+     * @param lastUpdatedBy   The user who last updated the appointment record.
+     * @param customerID      The unique identifier of the associated customer.
+     * @param userID          The unique identifier of the associated user.
+     * @param contactID       The unique identifier of the associated contact.
      */
     public Appointments(int appointmentID, StringProperty title, String description, String location, String type, String start,
                         String end, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy,
@@ -69,21 +69,21 @@ public class Appointments {
     }
 
     /**
-     * Constructor for Appointments class
+     * Constructs an Appointments object with the specified attributes.
      *
-     * @param title
-     * @param description
-     * @param location
-     * @param type
-     * @param start
-     * @param end
-     * @param createDate
-     * @param createdBy
-     * @param lastUpdate
-     * @param lastUpdatedBy
-     * @param customerID
-     * @param userID
-     * @param contactID
+     * @param title           The title or subject of the appointment.
+     * @param description     The description or details of the appointment.
+     * @param location        The location where the appointment will take place.
+     * @param type            The type or category of the appointment.
+     * @param start           The start date and time of the appointment.
+     * @param end             The end date and time of the appointment.
+     * @param createDate      The date when the appointment record was created.
+     * @param createdBy       The user who created the appointment record.
+     * @param lastUpdate      The date when the appointment record was last updated.
+     * @param lastUpdatedBy   The user who last updated the appointment record.
+     * @param customerID      The unique identifier of the associated customer.
+     * @param userID          The unique identifier of the associated user.
+     * @param contactID       The unique identifier of the associated contact.
      */
     public Appointments(StringProperty title, String description, String location, String type, String start,
                         String end, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy,

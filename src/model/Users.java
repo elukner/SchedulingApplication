@@ -22,16 +22,17 @@ public class Users {
     private String lastUpdate;
     private String lastUpdatedBy;
 
+
     /**
-     * Class constructor for Users
+     * Class constructor for Users, representing a user in the application.
      *
-     * @param userID
-     * @param userName
-     * @param password
-     * @param createDate
-     * @param createdBy
-     * @param lastUpdate
-     * @param lastUpdatedBy
+     * @param userID The unique identifier for the user.
+     * @param userName The username associated with the user.
+     * @param password The password associated with the user.
+     * @param createDate The date and time when the user record was created.
+     * @param createdBy The user who created the user record.
+     * @param lastUpdate The date and time when the user record was last updated.
+     * @param lastUpdatedBy The user who last updated the user record.
      */
     public Users(int userID, String userName, String password, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy) {
         this.userID = userID;

@@ -30,6 +30,10 @@ public abstract class JDBC {
     private static final String driver = "com.mysql.cj.jdbc.Driver"; // Driver reference
     private static final String userName = "sqlUser"; // Username
     private static String password = "Passw0rd!"; // Password
+    /**
+     * Represents a static field providing a connection to a database.
+     * This field is used for managing database connections in the application.
+     */
     public static Connection connection;  // Connection Interface
 
     /**

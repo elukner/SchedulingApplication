@@ -207,8 +207,6 @@ public class FirstLevelDivisionsDaoImpl {
      *
      * @param countryIDWanted The ID of the country for which first-level divisions are to be retrieved.
      * @return ObservableList of FirstLevelDivisions containing the divisions filtered by the specified country ID.
-     * @throws SQLException - if a database access error occurs; this method is called on a
-     *                      closed PreparedStatement or the SQL statement returns a ResultSet object.
      */
     public static ObservableList<FirstLevelDivisions> getAllFirstLevelDivisionsFilteredCountry(int countryIDWanted) {
         ObservableList<FirstLevelDivisions> firstLevelDivisionsList = FXCollections.observableArrayList();
@@ -241,8 +239,6 @@ public class FirstLevelDivisionsDaoImpl {
      *
      * @param divisionWanted The name of the division for which information is to be retrieved.
      * @return ObservableList of FirstLevelDivisions containing the divisions filtered by the specified division name.
-     * @throws SQLException - if a database access error occurs; this method is called on a
-     *                      closed PreparedStatement or the SQL statement returns a ResultSet object.
      */
     public static ObservableList<FirstLevelDivisions> getFirstLevelDivision(String divisionWanted) {
         ObservableList<FirstLevelDivisions> firstLevelDivisionsList = FXCollections.observableArrayList();

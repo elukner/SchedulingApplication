@@ -53,9 +53,10 @@ public class ContactsDaoImpl {
     }
 
     /**
-     * This method retrieves a list of contacts from the contacts table in the client_schedule database.
+     * Retrieves a list of contacts from the contacts table in the client_schedule database based on the specified contact name.
      *
-     * @return contactsList a list of contacts
+     * @param contactName The name of the contact to filter the list.
+     * @return contactsList A list of contacts matching the provided contact name.
      */
     public static ObservableList<Contacts> getContact(String contactName) {
         ObservableList<Contacts> contactsList = FXCollections.observableArrayList();

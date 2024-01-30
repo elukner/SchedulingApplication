@@ -111,9 +111,11 @@ public class AppointmentsDaoImpl {
     }
 
     /**
-     * This method retrieves a list of appointments from the appointments table in the client_schedule database.
+     * Retrieves a list of appointments associated with the specified customer ID from the appointments table
+     * in the client_schedule database.
      *
-     * @return appointmentsList a list of appointments
+     * @param customerID The unique identifier of the customer for whom to retrieve appointments.
+     * @return An ObservableList containing the retrieved appointments.
      */
     public static ObservableList<Appointments> getAllAppointmentsCustomerID(int customerID) {
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
@@ -154,7 +156,6 @@ public class AppointmentsDaoImpl {
      * Retrieves a list of appointments scheduled for the current month.
      *
      * @return An ObservableList of Appointments for the current month.
-     * @throws SQLException If a database access error occurs.
      */
     public static ObservableList<Appointments> getAllAppointmentsByMonth() {
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
@@ -195,7 +196,6 @@ public class AppointmentsDaoImpl {
      * Retrieves a list of appointments scheduled for the current week.
      *
      * @return An ObservableList of Appointments for the current week.
-     * @throws SQLException If a database access error occurs.
      */
     public static ObservableList<Appointments> getAllAppointmentsByWeek() {
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();

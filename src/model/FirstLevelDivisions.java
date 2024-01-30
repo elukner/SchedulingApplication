@@ -24,15 +24,15 @@ public class FirstLevelDivisions {
     private int countryID; //FOREIGN KEY
 
     /**
-     * Class constructor for FirstLevelDivisions
+     * Constructs a FirstLevelDivisions object.
      *
-     * @param divisionID
-     * @param division
-     * @param createDate
-     * @param createdBy
-     * @param lastUpdate
-     * @param lastUpdatedBy
-     * @param countryID
+     * @param divisionID      The ID of the first-level division.
+     * @param division        The name of the first-level division.
+     * @param createDate      The date when the first-level division was created.
+     * @param createdBy       The user who created the first-level division.
+     * @param lastUpdate      The date when the first-level division was last updated.
+     * @param lastUpdatedBy   The user who last updated the first-level division.
+     * @param countryID       The ID of the country associated with the first-level division.
      */
     public FirstLevelDivisions(int divisionID, String division,
                                String createDate, String createdBy,

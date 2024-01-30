@@ -180,8 +180,6 @@ public class CountriesDaoImpl {
      *
      * @param countryWanted The name of the country to retrieve.
      * @return An ObservableList of Countries that match the specified country name.
-     * @throws SQLException - if a database access error occurs; this method is called on a
-     *                      closed PreparedStatement or the SQL statement returns a ResultSet object.
      */
     public static ObservableList<Countries> getAllCountries(String countryWanted) {
         ObservableList<Countries> countriesList = FXCollections.observableArrayList();

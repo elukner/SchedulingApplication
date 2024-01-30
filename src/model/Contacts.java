@@ -21,11 +21,11 @@ public class Contacts {
     private String email;
 
     /**
-     * Class Contacts constructor
+     * Constructor for the Contacts class.
      *
-     * @param contactID
-     * @param contactName
-     * @param email
+     * @param contactID The unique identifier for the contact.
+     * @param contactName The name of the contact.
+     * @param email The email address associated with the contact.
      */
     public Contacts(int contactID, String contactName, String email) {
         this.contactID = contactID;
