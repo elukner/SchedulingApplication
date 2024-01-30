@@ -86,9 +86,6 @@ public class ReportsController extends Application implements Initializable {
     @FXML // fx:id="userAverageDurationCol"
     private TableColumn<UserAppointmentReport, Double> userAverageDurationCol; // Value injected by FXMLLoader
 
-    private Stage stage;
-    private Parent scene;
-
     private Contacts contactsModel;
 
     /**
@@ -100,8 +97,8 @@ public class ReportsController extends Application implements Initializable {
      */
     @FXML
     void onActionBack(ActionEvent event) throws IOException {
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        Parent scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
     }
