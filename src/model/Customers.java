@@ -62,17 +62,19 @@ public class Customers {
         this.divisionID = divisionID;
     }
 
+
     /**
-     * Class Constructor of Customers without createDate and createdBy
+     * Class constructor for Customers, representing a customer in the application.
+     * This constructor is used when createDate and createdBy information is not available.
      *
-     * @param customerID
-     * @param customerName
-     * @param address
-     * @param postalCode
-     * @param phone
-     * @param lastUpdate
-     * @param lastUpdatedBy
-     * @param divisionID
+     * @param customerID The unique identifier for the customer.
+     * @param customerName The name of the customer.
+     * @param address The address of the customer.
+     * @param postalCode The postal code of the customer.
+     * @param phone The phone number of the customer.
+     * @param lastUpdate The date and time when the customer record was last updated.
+     * @param lastUpdatedBy The user who last updated the customer record.
+     * @param divisionID The ID of the first-level division associated with the customer.
      */
     public Customers(int customerID, String customerName,
                      String address, String postalCode, String phone,

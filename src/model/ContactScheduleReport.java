@@ -14,9 +14,6 @@ import javafx.beans.property.StringProperty;
 
 /**
  * Represents a Contact Schedule Report containing information about appointments scheduled for a specific contact.
- *
- * @implNote This class encapsulates details such as contact ID, contact name, appointment ID, title, type, description,
- * start and end date/time, and customer ID. It provides getter and setter methods for accessing and modifying these details.
  */
 public class ContactScheduleReport {
 
