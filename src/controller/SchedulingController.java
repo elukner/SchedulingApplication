@@ -54,106 +54,219 @@ import model.Users;
  */
 public class SchedulingController extends Application implements Initializable {
 
+    /**
+     * Represents a JavaFX TableColumn for displaying appointment IDs in the user interface.
+     */
     @FXML // fx:id="appointmentIDCol"
     private TableColumn<Appointments, Integer> appointmentIDCol; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TextField for entering appointment IDs in the user interface.
+     */
     @FXML // fx:id="appointmentIDTxt"
     private TextField appointmentIDTxt; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableView for displaying appointments in the user interface.
+     */
     @FXML // fx:id="appointmentTblView"
     private TableView<Appointments> appointmentTblView; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableColumn for displaying contacts in the user interface.
+     */
     @FXML // fx:id="contactCol"
     private TableColumn<?, ?> contactCol; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX ComboBox for selecting contact names in the user interface.
+     */
     @FXML // fx:id="contactNameComboBox"
     private ComboBox<String> contactNameComboBox; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX ComboBox for selecting end times in the user interface.
+     */
     @FXML // fx:id="timeComboBox"
     private ComboBox<String> endTimeComboBox; // Value injected by FXMLLoader
 
-
+    /**
+     * Represents a JavaFX DatePicker for selecting end dates in the user interface.
+     */
     @FXML // fx:id="datePicker"
     private DatePicker endDatePicker; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX DatePicker for selecting start dates in the user interface.
+     */
     @FXML // fx:id="startDatePicker"
     private DatePicker startDatePicker; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX ComboBox for selecting start times in the user interface.
+     */
     @FXML // fx:id="startTimeComboBox"
     private ComboBox<String> startTimeComboBox; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableColumn for displaying customer IDs in the user interface.
+     */
     @FXML // fx:id="customerIDCol"
     private TableColumn<?, ?> customerIDCol; // Value injected by FXMLLoader
 
-
+    /**
+     * Represents a JavaFX ComboBox for selecting customer IDs in the user interface.
+     */
     @FXML // fx:id="customerIDComboBox"
     private ComboBox<String> customerIDComboBox; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableColumn for displaying descriptions in the user interface.
+     */
     @FXML // fx:id="descriptionCol"
     private TableColumn<?, ?> descriptionCol; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TextField for entering descriptions in the user interface.
+     */
     @FXML // fx:id="descriptionTxt"
     private TextField descriptionTxt; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableColumn for displaying end date and time in the user interface.
+     */
     @FXML // fx:id="endDateTimeCol"
     private TableColumn<?, ?> endDateTimeCol; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX RadioButton for filtering appointments by month in the user interface.
+     */
     @FXML // fx:id="filterAppointmentMonthRBtn"
     private RadioButton filterAppointmentMonthRBtn; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX RadioButton for filtering appointments by week in the user interface.
+     */
     @FXML // fx:id="filterAppointmentWeekRBtn"
     private RadioButton filterAppointmentWeekRBtn; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX RadioButton for displaying all appointments in the user interface.
+     */
     @FXML // fx:id="filterAllAppointmentRBtn"
     private RadioButton filterAllAppointmentRBtn; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableColumn for displaying locations in the user interface.
+     */
     @FXML // fx:id="locationCol"
     private TableColumn<?, ?> locationCol; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TextField for entering locations in the user interface.
+     */
     @FXML // fx:id="locationTxt"
     private TextField locationTxt; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableColumn for displaying start date and time in the user interface.
+     */
     @FXML // fx:id="startDateTimeCol"
     private TableColumn<?, ?> startDateTimeCol; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableColumn for displaying titles in the user interface.
+     */
     @FXML // fx:id="titleCol"
     private TableColumn<Appointments, String> titleCol; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TextField for entering titles in the user interface.
+     */
     @FXML // fx:id="titleTxt"
     private TextField titleTxt; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableColumn for displaying appointment types in the user interface.
+     */
     @FXML // fx:id="typeCol"
     private TableColumn<?, ?> typeCol; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TextField for entering appointment types in the user interface.
+     */
     @FXML // fx:id="typeTxt"
     private TextField typeTxt; // Value injected by FXMLLoader
 
+    /**
+     * Represents a JavaFX TableColumn for displaying user IDs in the user interface.
+     */
     @FXML // fx:id="userIDCol"
     private TableColumn<?, ?> userIDCol; // Value injected by FXMLLoader
 
-
+    /**
+     * Represents a JavaFX ComboBox for selecting user IDs in the user interface.
+     */
     @FXML // fx:id="userIDComboBox"
     private ComboBox<String> userIDComboBox; // Value injected by FXMLLoader
 
-    @FXML
-    private Label customMessageTxt;
-
-
+    /**
+     * Represents the model class for managing data related to contacts in the application.
+     */
     private Contacts contactsModel;
+
+    /**
+     * Represents the model class for managing data related to appointments in the application.
+     */
     private Appointments appointmentsModel;
+
+    /**
+     * Represents the model class for managing data related to users in the application.
+     */
     private Users usersModel;
+
+    /**
+     * Represents the model class for managing data related to customers in the application.
+     */
     private Customers customersModel;
 
+    /**
+     * Represents the selected appointment in the user interface.
+     */
     private static Appointments selectedAppointments;
+
+    /**
+     * Represents the list of appointments in the user interface.
+     */
     private static ObservableList<Appointments> appointmentsList;
 
+    /**
+     * Represents the selected end time in the user interface.
+     */
     private String endTimeSelected;
+
+    /**
+     * Represents the selected end date in the user interface.
+     */
     private String endDateSelected;
 
+    /**
+     * Represents the selected start time in the user interface.
+     */
     private String startTimeSelected;
+
+    /**
+     * Represents the selected start date in the user interface.
+     */
     private String startDateSelected;
 
+    /**
+     * Represents the selected customer ID in the user interface.
+     */
     private String customerIDSelected;
+    /**
+     * Represents the selected user ID in the user interface.
+     */
     private String userIDSelected;
 
 
