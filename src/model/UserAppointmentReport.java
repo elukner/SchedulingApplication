@@ -19,10 +19,29 @@ import javafx.beans.property.StringProperty;
  */
 public class UserAppointmentReport {
 
+    /**
+     * Represents the unique identifier property of the user.
+     */
     private IntegerProperty userID;
+
+    /**
+     * Represents the username property of the user.
+     */
     private StringProperty userName;
+
+    /**
+     * Represents the date and time when the user logged in.
+     */
     private StringProperty userLogInDateTime;
+
+    /**
+     * Represents the total number of appointments property associated with the user.
+     */
     private IntegerProperty totalAppointments;
+
+    /**
+     * Represents the average duration property of the user's appointments.
+     */
     private DoubleProperty averageDuration;
 
     /**
