@@ -423,7 +423,6 @@ public class CustomerRecordController extends Application implements Initializab
     public void onSelectDivision(ActionEvent actionEvent) {
         // Check if the selected first-level division has associated data in the database
         if (!FirstLevelDivisionsDaoImpl.getFirstLevelDivision(firstLevelDivisionBox.getValue()).isEmpty()){
-            System.out.println();
             divisionModel = FirstLevelDivisionsDaoImpl.getFirstLevelDivision(firstLevelDivisionBox.getValue()).get(0);
             System.out.println("On Select Division: "+firstLevelDivisionBox.getValue() + " " + divisionModel.getDivisionID());
         }
@@ -635,9 +634,9 @@ public class CustomerRecordController extends Application implements Initializab
 //        customerModel.setLastUpdatedBy(FileIOManager.readFile());
 //        customerModel.setDivisionID(divisionModel.getDivisionID());
 
-        setCustomerModel(customerNameTxt.getText(),addressTxt.getText(),postalCodeTxt.getText(),
+        setCustomerModel(selectedCustomer.getCustomerID(),customerNameTxt.getText(),addressTxt.getText(),postalCodeTxt.getText(),
                 phoneNumberTxt.getText(),null,null,dateTimeFormatter.format(LocalDateTime.now()),
-                FileIOManager.readFile(),divisionModel.getDivisionID(),countryBox.getValue());
+                FileIOManager.readFile(),divisionModel.getDivisionID(),countriesModel.getCountry());
 
 
     }
@@ -645,6 +644,13 @@ public class CustomerRecordController extends Application implements Initializab
     private void setCustomerModel(String customerName, String address, String postalCode, String phone, String createDate,
                                   String createdBy, String lastUpdate, String lastUpdatedBy, int divisionID, String country){
         customerModel = new Customers(customerName, address, postalCode, phone, createDate,
+                createdBy, lastUpdate, lastUpdatedBy, divisionID, country);
+
+    }
+
+    private void setCustomerModel(int customerID,String customerName, String address, String postalCode, String phone, String createDate,
+                                  String createdBy, String lastUpdate, String lastUpdatedBy, int divisionID, String country){
+        customerModel = new Customers(customerID,customerName, address, postalCode, phone, createDate,
                 createdBy, lastUpdate, lastUpdatedBy, divisionID, country);
 
     }
@@ -714,10 +720,14 @@ public class CustomerRecordController extends Application implements Initializab
      */
     private void updateCustomerDatabase() throws SQLException {
 
-        CustomersDaoImpl.updateCustomers(customerModel.getCustomerID(), customerModel.getCustomerName(),
+        CustomersDaoImpl.updateCustomers(selectedCustomer.getCustomerID(), customerModel.getCustomerName(),
                 customerModel.getAddress(), customerModel.getPostalCode(), customerModel.getPhone(),
                 customerModel.getLastUpdate(),
                 customerModel.getLastUpdatedBy(), divisionModel.getDivisionID());
+
+//        CustomersDaoImpl.updateCustomers(getCustomerModel().getCustomerID(),getCustomerModel().getCustomerName(),
+//                getCustomerModel().getAddress(),getCustomerModel().getPostalCode(),getCustomerModel().getPhone(),
+//                getCustomerModel().getLastUpdate(),getCustomerModel().getLastUpdatedBy(),getCustomerModel().getDivisionID());
         showCustomerRecordTableView();
 
     }
