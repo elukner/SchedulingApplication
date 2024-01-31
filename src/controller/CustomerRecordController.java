@@ -631,17 +631,7 @@ public class CustomerRecordController extends Application implements Initializab
      * @throws FileNotFoundException If the required file is not found.
      */
     private void updateCustomer() throws FileNotFoundException {
-        //TODO make this into a helper method
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-
-//        customerModel.setCustomerName(customerNameTxt.getText());
-//        customerModel.setAddress(addressTxt.getText());
-//        customerModel.setPostalCode(postalCodeTxt.getText());
-//        customerModel.setPhone(phoneNumberTxt.getText());
-//        customerModel.setLastUpdate(dateTimeFormatter.format(LocalDateTime.now()));
-//        customerModel.setLastUpdatedBy(FileIOManager.readFile());
-//        customerModel.setDivisionID(divisionModel.getDivisionID());
-
         setCustomerModel(selectedCustomer.getCustomerID(),customerNameTxt.getText(),addressTxt.getText(),postalCodeTxt.getText(),
                 phoneNumberTxt.getText(),null,null,dateTimeFormatter.format(LocalDateTime.now()),
                 FileIOManager.readFile(),divisionModel.getDivisionID(),countriesModel.getCountry());
@@ -649,6 +639,20 @@ public class CustomerRecordController extends Application implements Initializab
 
     }
 
+    /**
+     * Sets the customer model with the provided details.
+     *
+     * @param customerName    The name of the customer.
+     * @param address         The address of the customer.
+     * @param postalCode      The postal code of the customer.
+     * @param phone           The phone number of the customer.
+     * @param createDate      The creation date of the customer record.
+     * @param createdBy       The user who created the customer record.
+     * @param lastUpdate      The last update timestamp of the customer record.
+     * @param lastUpdatedBy   The user who last updated the customer record.
+     * @param divisionID      The ID of the first-level division associated with the customer.
+     * @param country         The country of the customer.
+     */
     private void setCustomerModel(String customerName, String address, String postalCode, String phone, String createDate,
                                   String createdBy, String lastUpdate, String lastUpdatedBy, int divisionID, String country){
         customerModel = new Customers(customerName, address, postalCode, phone, createDate,
@@ -656,6 +660,21 @@ public class CustomerRecordController extends Application implements Initializab
 
     }
 
+    /**
+     * Sets the customer model with the provided details, including the customer ID.
+     *
+     * @param customerID      The ID of the customer.
+     * @param customerName    The name of the customer.
+     * @param address         The address of the customer.
+     * @param postalCode      The postal code of the customer.
+     * @param phone           The phone number of the customer.
+     * @param createDate      The creation date of the customer record.
+     * @param createdBy       The user who created the customer record.
+     * @param lastUpdate      The last update timestamp of the customer record.
+     * @param lastUpdatedBy   The user who last updated the customer record.
+     * @param divisionID      The ID of the first-level division associated with the customer.
+     * @param country         The country of the customer.
+     */
     private void setCustomerModel(int customerID,String customerName, String address, String postalCode, String phone, String createDate,
                                   String createdBy, String lastUpdate, String lastUpdatedBy, int divisionID, String country){
         customerModel = new Customers(customerID,customerName, address, postalCode, phone, createDate,
@@ -663,6 +682,11 @@ public class CustomerRecordController extends Application implements Initializab
 
     }
 
+    /**
+     * Retrieves the current customer model.
+     *
+     * @return The current customer model containing customer details.
+     */
     private Customers getCustomerModel(){
         return customerModel;
 
@@ -728,14 +752,9 @@ public class CustomerRecordController extends Application implements Initializab
      */
     private void updateCustomerDatabase() throws SQLException {
 
-        CustomersDaoImpl.updateCustomers(selectedCustomer.getCustomerID(), customerModel.getCustomerName(),
-                customerModel.getAddress(), customerModel.getPostalCode(), customerModel.getPhone(),
-                customerModel.getLastUpdate(),
-                customerModel.getLastUpdatedBy(), divisionModel.getDivisionID());
-
-//        CustomersDaoImpl.updateCustomers(getCustomerModel().getCustomerID(),getCustomerModel().getCustomerName(),
-//                getCustomerModel().getAddress(),getCustomerModel().getPostalCode(),getCustomerModel().getPhone(),
-//                getCustomerModel().getLastUpdate(),getCustomerModel().getLastUpdatedBy(),getCustomerModel().getDivisionID());
+        CustomersDaoImpl.updateCustomers(getCustomerModel().getCustomerID(),getCustomerModel().getCustomerName(),
+                getCustomerModel().getAddress(),getCustomerModel().getPostalCode(),getCustomerModel().getPhone(),
+                getCustomerModel().getLastUpdate(),getCustomerModel().getLastUpdatedBy(),getCustomerModel().getDivisionID());
 
         showCustomerRecordTableView();
 
