@@ -347,6 +347,7 @@ public class CustomerRecordController extends Application implements Initializab
                 modifyBtn.setText("Add");
                 customerIDLbl.setVisible(false);
                 customerIDTxt.setVisible(false);
+                populateComboBoxes();
                 break;
             case "Update":
                 modifyBtn.setText("Update");
@@ -359,7 +360,7 @@ public class CustomerRecordController extends Application implements Initializab
 
         // Country and first-level division data is prepopulated in separate combo boxes or
         // lists in the user interface for the user to choose.
-        populateComboBoxes();
+       // populateComboBoxes();
 
 
     }
@@ -370,19 +371,41 @@ public class CustomerRecordController extends Application implements Initializab
      * This method is called to provide users with prepopulated options when adding or updating customer information.
      */
     private void populateComboBoxes() {
-        // Populate the country combo box
-        for (Countries country : CountriesDaoImpl.getAllCountries()) {
+        populateCountryComboBox(null, CountriesDaoImpl.getAllCountries());
+        populateFirstLevelDivisionsComboBox(null, FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisions());
 
-            countryBox.getItems().add(country.getCountry());
+    }
+
+    private void populateFirstLevelDivisionsComboBox(String firstLevelDivisionsValue,
+                                                     ObservableList<FirstLevelDivisions> firstLevelDivisionsList) {
+        firstLevelDivisionBox.getItems().clear();
+        if(firstLevelDivisionsValue!=null){
+
+            firstLevelDivisionBox.setValue(firstLevelDivisionsValue);
         }
 
         // Populate the first-level division combo box
-        for (FirstLevelDivisions firstLevelDivision : FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisions()) {
+        for (FirstLevelDivisions firstLevelDivision : firstLevelDivisionsList) {
 
             firstLevelDivisionBox.getItems().add(firstLevelDivision.getDivision());
         }
-
     }
+
+    private void populateCountryComboBox(String countryValue,ObservableList<Countries> countriesList) {
+
+        countryBox.getItems().clear();
+        if(countryValue!=null){
+
+            countryBox.setValue(countryValue);
+        }
+
+        // Populate the country combo box
+        for (Countries country : countriesList) {
+
+            countryBox.getItems().add(country.getCountry());
+        }
+    }
+
 
     /**
      * Handles the event when a country is selected from the country combo box.
@@ -396,17 +419,14 @@ public class CustomerRecordController extends Application implements Initializab
     public void onSelectCountry(ActionEvent actionEvent) {
 
         // Check if the selected country has associated data in the database
-        if (!CountriesDaoImpl.getCountry(countryBox.getValue()).isEmpty()) {
+        if (!CountriesDaoImpl.getCountry(countryBox.getValue()).isEmpty() && !FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()).isEmpty()) {
             countriesModel = CountriesDaoImpl.getCountry(countryBox.getValue()).get(0);
 
             // Clear existing items in the first-level division combo box
             firstLevelDivisionBox.getItems().clear();
 
             // Populate the first-level division combo box with divisions specific to the selected country
-            for (FirstLevelDivisions firstLevelDivision : FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID())) {
-
-                firstLevelDivisionBox.getItems().add(firstLevelDivision.getDivision());
-            }
+            populateFirstLevelDivisionsComboBox(FirstLevelDivisionsDaoImpl.getFirstLevelDivisionByID(divisionModel.getDivisionID()).get(0).getDivision(), FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()));
         }
 
 
@@ -424,7 +444,9 @@ public class CustomerRecordController extends Application implements Initializab
         // Check if the selected first-level division has associated data in the database
         if (!FirstLevelDivisionsDaoImpl.getFirstLevelDivision(firstLevelDivisionBox.getValue()).isEmpty()){
             divisionModel = FirstLevelDivisionsDaoImpl.getFirstLevelDivision(firstLevelDivisionBox.getValue()).get(0);
+            countriesModel=CountriesDaoImpl.getAllCountries().get(divisionModel.getCountryID()-1);
             System.out.println("On Select Division: "+firstLevelDivisionBox.getValue() + " " + divisionModel.getDivisionID());
+            populateCountryComboBox(countriesModel.getCountry(),CountriesDaoImpl.getAllCountries());
         }
 
 
@@ -517,16 +539,23 @@ public class CustomerRecordController extends Application implements Initializab
 
             // Retrieve country and division data for the selected customer
             countriesModel = CountriesDaoImpl.getCountry(selectedCustomer.getCountry()).get(0);
-            divisionModel = FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()).get(0);
+           // divisionModel = FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()).get(0);
+            if(!FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()).isEmpty()){
+                divisionModel = FirstLevelDivisionsDaoImpl.getFirstLevelDivisionByID(selectedCustomer.getDivisionID()).get(0);
+            }
 
-            // Clear and set values for country and division combo boxes
-            countryBox.getItems().clear();
-            countryBox.setValue(countriesModel.getCountry());
-            firstLevelDivisionBox.getItems().clear();
-            firstLevelDivisionBox.setValue(divisionModel.getDivision());
+//            // Clear and set values for country and division combo boxes
+//            countryBox.getItems().clear();
+//            countryBox.setValue(countriesModel.getCountry());
+//            firstLevelDivisionBox.getItems().clear();
+//            firstLevelDivisionBox.setValue(divisionModel.getDivision());
+//
+//            // Populate combo boxes with fresh data
+//            populateComboBoxes();
 
-            // Populate combo boxes with fresh data
-            populateComboBoxes();
+            populateCountryComboBox(selectedCustomer.getCountry(),CountriesDaoImpl.getAllCountries());
+            populateFirstLevelDivisionsComboBox(divisionModel.getDivision() ,FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()));
+
         }
 
 
@@ -577,16 +606,25 @@ public class CustomerRecordController extends Application implements Initializab
 
                 // Retrieve country and division data for the selected customer
                 countriesModel = CountriesDaoImpl.getCountry(selectedCustomer.getCountry()).get(0);
-                divisionModel = FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()).get(0);
+                //divisionModel = FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()).get(0);
+                if(!FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()).isEmpty()){
+                    divisionModel = FirstLevelDivisionsDaoImpl.getFirstLevelDivisionByID(selectedCustomer.getDivisionID()).get(0);
+                }
 
-                // Clear and set values for country and division combo boxes
-                countryBox.getItems().clear();
-                countryBox.setValue(countriesModel.getCountry());
-                firstLevelDivisionBox.getItems().clear();
-                firstLevelDivisionBox.setValue(divisionModel.getDivision());
 
-                // Populate combo boxes with fresh data
-                populateComboBoxes();
+//                // Clear and set values for country and division combo boxes
+//                countryBox.getItems().clear();
+//                countryBox.setValue(countriesModel.getCountry());
+//                firstLevelDivisionBox.getItems().clear();
+//                firstLevelDivisionBox.setValue(divisionModel.getDivision());
+//
+//                // Populate combo boxes with fresh data
+//                populateComboBoxes();
+
+
+                populateCountryComboBox(selectedCustomer.getCountry(),CountriesDaoImpl.getAllCountries());
+                populateFirstLevelDivisionsComboBox(divisionModel.getDivision(),FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()));
+
 
             }
         });
