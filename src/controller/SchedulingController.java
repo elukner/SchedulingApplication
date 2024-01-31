@@ -426,6 +426,11 @@ public class SchedulingController extends Application implements Initializable {
             setCustomMessage(Alert.AlertType.ERROR, "Scheduling Overlap", "Please schedule a non-overlapping " +
                     "appointment for customer");
         }
+        if(TimeProcessing.isValidAppointmentEndTime(appointmentsModel.getStart(),
+               appointmentsModel.getEnd())==false){
+            return false;
+
+        }
         return isValidAppointment;
     }
 

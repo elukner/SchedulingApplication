@@ -201,5 +201,19 @@ public class TimeProcessing {
         return localDateTime.toLocalTime();
     }
 
+    public static boolean isValidAppointmentEndTime(String startDateTimeString, String endDateTimeString) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime startTime = LocalDateTime.parse(startDateTimeString, dateTimeFormatter);
+        LocalDateTime endTime = LocalDateTime.parse(endDateTimeString, dateTimeFormatter);
+
+        // Check if the start time is before the end time
+        if (startTime.isBefore(endTime)) {
+            return true;
+        } else {
+            System.out.println("Error: Start time must be before the end time.");
+            return false;
+        }
+    }
+
 
 }
