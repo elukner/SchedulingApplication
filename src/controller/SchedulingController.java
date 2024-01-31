@@ -29,7 +29,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -1007,6 +1006,7 @@ public class SchedulingController extends Application implements Initializable {
     private void populateStartAndEndDateTime(String startTime, LocalDate startDate, String endTime, LocalDate endDate) {
         ObservableList<String> time = FXCollections.observableArrayList();
         time.addAll(TimeProcessing.generateLocalHoursWithSeconds());
+   //     time.addAll(TimeProcessing.createLocalTimeList(TimeProcessing.generateHours()));
 
         if (startTime != null && startDate != null && endTime != null && endDate != null) {
             startTimeComboBox.setItems(time);

@@ -9,6 +9,9 @@ package helper;
  * Time: 1:27 PM
  */
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -19,6 +22,32 @@ import java.util.List;
  * Utility class for time processing operations.
  */
 public class TimeProcessing {
+
+
+    private static LocalTime createLocalTime(String time) {
+        // Sample appointment time in UTC
+        LocalTime utcAppointmentTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+        // User's timezone (replace with the actual user's timezone)
+        ZoneId userTimeZone = ZoneId.systemDefault();
+
+        // Adjust the appointment time to the user's timezone
+        ZonedDateTime userZonedDateTime = ZonedDateTime.of(1970, 1, 1, utcAppointmentTime.getHour(), utcAppointmentTime.getMinute(), utcAppointmentTime.getSecond(), 0, ZoneId.of("UTC"))
+                .withZoneSameInstant(userTimeZone);
+        LocalTime userAppointmentTime = userZonedDateTime.toLocalTime();
+
+        return userAppointmentTime;
+    }
+
+    public static ObservableList<LocalTime> createLocalTimeList(ObservableList<String> times) {
+        ObservableList<LocalTime> adjustedDateTimes = FXCollections.observableArrayList();
+
+        for (String time : times) {
+            adjustedDateTimes.add(createLocalTime(time));
+        }
+
+        return adjustedDateTimes;
+    }
 
     /**
      * Parses the time component from the provided date-time string.
