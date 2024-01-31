@@ -537,19 +537,8 @@ public class CustomerRecordController extends Application implements Initializab
 
             // Retrieve country and division data for the selected customer
             countriesModel = CountriesDaoImpl.getCountry(selectedCustomer.getCountry()).get(0);
-           // divisionModel = FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()).get(0);
-            if(!FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()).isEmpty()){
-                divisionModel = FirstLevelDivisionsDaoImpl.getFirstLevelDivisionByID(selectedCustomer.getDivisionID()).get(0);
-            }
+            divisionModel = FirstLevelDivisionsDaoImpl.getFirstLevelDivisionByID(selectedCustomer.getDivisionID()).get(0);
 
-//            // Clear and set values for country and division combo boxes
-//            countryBox.getItems().clear();
-//            countryBox.setValue(countriesModel.getCountry());
-//            firstLevelDivisionBox.getItems().clear();
-//            firstLevelDivisionBox.setValue(divisionModel.getDivision());
-//
-//            // Populate combo boxes with fresh data
-//            populateComboBoxes();
 
             populateCountryComboBox(selectedCustomer.getCountry(),CountriesDaoImpl.getAllCountries());
             populateFirstLevelDivisionsComboBox(divisionModel.getDivision() ,FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()));
@@ -604,20 +593,7 @@ public class CustomerRecordController extends Application implements Initializab
 
                 // Retrieve country and division data for the selected customer
                 countriesModel = CountriesDaoImpl.getCountry(selectedCustomer.getCountry()).get(0);
-                //divisionModel = FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()).get(0);
-                if(!FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()).isEmpty()){
-                    divisionModel = FirstLevelDivisionsDaoImpl.getFirstLevelDivisionByID(selectedCustomer.getDivisionID()).get(0);
-                }
-
-
-//                // Clear and set values for country and division combo boxes
-//                countryBox.getItems().clear();
-//                countryBox.setValue(countriesModel.getCountry());
-//                firstLevelDivisionBox.getItems().clear();
-//                firstLevelDivisionBox.setValue(divisionModel.getDivision());
-//
-//                // Populate combo boxes with fresh data
-//                populateComboBoxes();
+                divisionModel = FirstLevelDivisionsDaoImpl.getFirstLevelDivisionByID(selectedCustomer.getDivisionID()).get(0);
 
 
                 populateCountryComboBox(selectedCustomer.getCountry(),CountriesDaoImpl.getAllCountries());
@@ -639,10 +615,6 @@ public class CustomerRecordController extends Application implements Initializab
      */
     private void addCustomer() throws FileNotFoundException {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-//        customerModel = new Customers(CustomersDaoImpl.getAllCustomers().size() + 1, customerNameTxt.getText(),
-//                addressTxt.getText(), postalCodeTxt.getText(), phoneNumberTxt.getText(), dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(),
-//                dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(), divisionModel.getDivisionID());
-
         setCustomerModel(customerNameTxt.getText(),addressTxt.getText(),postalCodeTxt.getText(),
                 phoneNumberTxt.getText(),dateTimeFormatter.format(LocalDateTime.now()),
                 FileIOManager.readFile(),dateTimeFormatter.format(LocalDateTime.now()),
@@ -764,6 +736,7 @@ public class CustomerRecordController extends Application implements Initializab
 //        CustomersDaoImpl.updateCustomers(getCustomerModel().getCustomerID(),getCustomerModel().getCustomerName(),
 //                getCustomerModel().getAddress(),getCustomerModel().getPostalCode(),getCustomerModel().getPhone(),
 //                getCustomerModel().getLastUpdate(),getCustomerModel().getLastUpdatedBy(),getCustomerModel().getDivisionID());
+
         showCustomerRecordTableView();
 
     }
