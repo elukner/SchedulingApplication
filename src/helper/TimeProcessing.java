@@ -181,12 +181,35 @@ public class TimeProcessing {
         // Generate time options within business hours
         LocalTime currentTime = businessStartTime;
         while (currentTime.isBefore(businessEndTime)) {
-
+            System.out.println(currentTime);
             timeOptions.add(currentTime);
             currentTime = currentTime.plusHours(1); // Move to the next hour
         }
-
+        timeOptions.add(LocalTime.of(23, 0,0));
         return timeOptions;
+
+//        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+//        List<LocalTime> localTimeOptions = new ArrayList<>();
+//
+//        // Define business hours
+//        LocalTime businessStartTime = LocalTime.of(0, 0, 0);
+//        LocalTime businessEndTime = LocalTime.of(23, 0, 0);
+//
+//        // Get the user's time zone
+//        ZoneId userTimeZone = ZoneId.systemDefault();
+//
+//        // Generate local time options within business hours
+//        LocalTime currentTime = businessStartTime;
+//        while (currentTime.isBefore(businessEndTime)) {
+//            ZonedDateTime userZonedDateTime = ZonedDateTime.of(1970, 1, 1, currentTime.getHour(), currentTime.getMinute(), currentTime.getSecond(), 0, ZoneId.of("UTC"))
+//                    .withZoneSameInstant(userTimeZone);
+//            LocalTime userLocalTime = userZonedDateTime.toLocalTime();
+//
+//            localTimeOptions.add(userLocalTime);
+//            currentTime = currentTime.plusHours(1); // Move to the next hour
+//        }
+//
+//        return localTimeOptions;
     }
 
     /**
@@ -200,7 +223,8 @@ public class TimeProcessing {
         List<String> localTimeOptions  = new ArrayList<>();
 
         for (LocalTime time : timeOptions) {
-            localTimeOptions.add(getCorrectTimeSeconds(convertETToLocalTime(time)));
+//            localTimeOptions.add(getCorrectTimeSeconds(convertETToLocalTime(time)));
+            localTimeOptions.add(getCorrectTimeSeconds(time));
         }
 
         return localTimeOptions;
