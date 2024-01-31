@@ -58,15 +58,6 @@ public class Countries {
     }
 
     /**
-     * Constructor for the Countries class without countryID.
-     *
-     * @param country The name of the country.
-     */
-    public Countries(String country) {
-        this.country = country;
-    }
-
-    /**
      * Getter of countryID of country
      *
      * @return countryID of country
