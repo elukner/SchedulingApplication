@@ -405,33 +405,36 @@ public class SchedulingController extends Application implements Initializable {
      *
      */
     private boolean isValidAppointment() throws SQLException {
-        boolean isValidAppointment = false;
+        //boolean isValidAppointment = false;
         if (DateTimeProcessing.isOutsideBusinessHours(DateProcessing.getDateFromDateTime(appointmentsModel.getStart()).toString(),
                 TimeProcessing.getTimeFromDateTime(appointmentsModel.getStart())) == true ||
                 DateTimeProcessing.isOutsideBusinessHours(DateProcessing.getDateFromDateTime(appointmentsModel.getEnd()).toString(),
                         TimeProcessing.getTimeFromDateTime(appointmentsModel.getEnd())) == true) {
             //scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
-            isValidAppointment = true;
+           // isValidAppointment = true;
             //display a custom message specific for each error check in the user interface
             setCustomMessage(Alert.AlertType.ERROR, "Appointment outside of business hours",
                     "Please schedule an appointment inside of business hours defined as 8:00 a.m. to 10:00 p.m. ET" +
                             "and Monday through Friday");
+            return true;
         }
         if (AppointmentsDaoImpl.hasOverlappingAppointments(appointmentsModel.getCustomerID(),
                 TimeProcessing.getTimeFromDateTime(appointmentsModel.getStart()),
                 TimeProcessing.getTimeFromDateTime(appointmentsModel.getEnd()))) {
             // -scheduling overlapping appointments for customers
-            isValidAppointment = true;
+           // isValidAppointment = true;
             //display a custom message specific for each error check in the user interface
             setCustomMessage(Alert.AlertType.ERROR, "Scheduling Overlap", "Please schedule a non-overlapping " +
                     "appointment for customer");
+            return true;
         }
         if(TimeProcessing.isValidAppointmentEndTime(appointmentsModel.getStart(),
-               appointmentsModel.getEnd())==false){
+               appointmentsModel.getEnd())){
+            //The application does not allow entering appointments with a start time after the end time.
             return false;
 
         }
-        return isValidAppointment;
+        return false;
     }
 
     /**
