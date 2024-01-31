@@ -422,8 +422,12 @@ public class CustomerRecordController extends Application implements Initializab
     @FXML
     public void onSelectDivision(ActionEvent actionEvent) {
         // Check if the selected first-level division has associated data in the database
-        if (!FirstLevelDivisionsDaoImpl.getFirstLevelDivision(firstLevelDivisionBox.getValue()).isEmpty())
+        if (!FirstLevelDivisionsDaoImpl.getFirstLevelDivision(firstLevelDivisionBox.getValue()).isEmpty()){
+            System.out.println();
             divisionModel = FirstLevelDivisionsDaoImpl.getFirstLevelDivision(firstLevelDivisionBox.getValue()).get(0);
+            System.out.println("On Select Division: "+firstLevelDivisionBox.getValue() + " " + divisionModel.getDivisionID());
+        }
+
 
 
     }
@@ -600,10 +604,14 @@ public class CustomerRecordController extends Application implements Initializab
      */
     private void addCustomer() throws FileNotFoundException {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        customerModel = new Customers(CustomersDaoImpl.getAllCustomers().size() + 1, customerNameTxt.getText(),
-                addressTxt.getText(), postalCodeTxt.getText(), phoneNumberTxt.getText(), dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(),
-                dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(), divisionModel.getDivisionID());
+//        customerModel = new Customers(CustomersDaoImpl.getAllCustomers().size() + 1, customerNameTxt.getText(),
+//                addressTxt.getText(), postalCodeTxt.getText(), phoneNumberTxt.getText(), dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(),
+//                dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(), divisionModel.getDivisionID());
 
+        setCustomerModel(customerNameTxt.getText(),addressTxt.getText(),postalCodeTxt.getText(),
+                phoneNumberTxt.getText(),dateTimeFormatter.format(LocalDateTime.now()),
+                FileIOManager.readFile(),dateTimeFormatter.format(LocalDateTime.now()),
+                FileIOManager.readFile(),divisionModel.getDivisionID(),countryBox.getValue());
 
     }
 
@@ -619,17 +627,17 @@ public class CustomerRecordController extends Application implements Initializab
         //TODO make this into a helper method
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
-        customerModel.setCustomerName(customerNameTxt.getText());
-        customerModel.setAddress(addressTxt.getText());
-        customerModel.setPostalCode(postalCodeTxt.getText());
-        customerModel.setPhone(phoneNumberTxt.getText());
-        customerModel.setLastUpdate(dateTimeFormatter.format(LocalDateTime.now()));
-        customerModel.setLastUpdatedBy(FileIOManager.readFile());
-        customerModel.setDivisionID(divisionModel.getDivisionID());
+//        customerModel.setCustomerName(customerNameTxt.getText());
+//        customerModel.setAddress(addressTxt.getText());
+//        customerModel.setPostalCode(postalCodeTxt.getText());
+//        customerModel.setPhone(phoneNumberTxt.getText());
+//        customerModel.setLastUpdate(dateTimeFormatter.format(LocalDateTime.now()));
+//        customerModel.setLastUpdatedBy(FileIOManager.readFile());
+//        customerModel.setDivisionID(divisionModel.getDivisionID());
 
-//        setCustomerModel(customerNameTxt.getText(),addressTxt.getText(),postalCodeTxt.getText(),
-//                phoneNumberTxt.getText(),null,null,dateTimeFormatter.format(LocalDateTime.now()),
-//                FileIOManager.readFile(),divisionModel.getDivisionID(),countryBox.getValue());
+        setCustomerModel(customerNameTxt.getText(),addressTxt.getText(),postalCodeTxt.getText(),
+                phoneNumberTxt.getText(),null,null,dateTimeFormatter.format(LocalDateTime.now()),
+                FileIOManager.readFile(),divisionModel.getDivisionID(),countryBox.getValue());
 
 
     }
