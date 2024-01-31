@@ -29,6 +29,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -676,10 +677,10 @@ public class SchedulingController extends Application implements Initializable {
      * Displays the scheduling table view with appointments and necessary columns.
      */
     @FXML
-    void showSchedulingTableView() {
+    void showSchedulingTableView() throws FileNotFoundException {
 
         // Check for upcoming appointments
-        checkUpcomingAppointments(LocalDateTime.now());
+        checkUpcomingAppointments(FileIOManager.readFileCurrentUserDateTime());
 
         // Initialize ObservableList for appointments
         appointmentsList = FXCollections.observableArrayList();
@@ -1028,9 +1029,9 @@ public class SchedulingController extends Application implements Initializable {
      */
     public static void checkUpcomingAppointments(LocalDateTime userLoginTime) {
 
-        if (!AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min().isEmpty()) {
+        if (!AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min(userLoginTime.toString()).isEmpty()) {
             // Display an alert with appointment details
-            showAppointmentAlert();
+            showAppointmentAlert(userLoginTime);
 
         } else {
             showNoAppointmentsMessage();
@@ -1042,12 +1043,12 @@ public class SchedulingController extends Application implements Initializable {
     /**
      * Displays an alert for upcoming appointments within 15 minutes.
      */
-    private static void showAppointmentAlert() {
-        if (!AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min().isEmpty()) {
+    private static void showAppointmentAlert(LocalDateTime userLoginTime) {
+        if (!AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min(userLoginTime.toString()).isEmpty()) {
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             a.setTitle("Upcoming Appointments");
             a.setHeaderText("You have an upcoming appointment!");
-            Appointments appointments = AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min().get(0);
+            Appointments appointments = AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min(userLoginTime.toString()).get(0);
             a.setContentText("Appointment ID: " + appointments.getAppointmentID() +
                     "\nDate and Time: " + appointments.getStart());
 
@@ -1074,7 +1075,11 @@ public class SchedulingController extends Application implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        showSchedulingTableView();
+        try {
+            showSchedulingTableView();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         tbleViewSelectionListener();
     }
 

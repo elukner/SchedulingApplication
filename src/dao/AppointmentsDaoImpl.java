@@ -36,14 +36,19 @@ public class AppointmentsDaoImpl {
      *
      * @return appointmentsList An ObservableList of Appointments representing the upcoming appointments.
      */
-    public static ObservableList<Appointments> getUpcomingAppointmentWithin15Min() {
+    public static ObservableList<Appointments> getUpcomingAppointmentWithin15Min(String dateTime) {
 
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
         try {
+//            String sqlStatement = "SELECT *\n" +
+//                    "FROM client_schedule.appointments\n" +
+//                    "WHERE Start BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 15 MINUTE)";
             String sqlStatement = "SELECT *\n" +
                     "FROM client_schedule.appointments\n" +
-                    "WHERE Start BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 15 MINUTE)";
+                    "WHERE Start BETWEEN ? AND DATE_ADD(?, INTERVAL 15 MINUTE)";
             PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+            preparedStatement.setString(1,dateTime);
+            preparedStatement.setString(2,dateTime);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 

@@ -12,6 +12,10 @@ package helper;
 
 import java.io.*;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -171,6 +175,19 @@ public class FileIOManager {
         String[] lastLine = readFileCurrentUserAsArray();
         // Combine date and timestamp components into a formatted string
         return lastLine[2]+" "+lastLine[3] + " " + lastLine[4];
+
+    }
+
+    public static LocalDateTime readFileCurrentUserDateTime() throws FileNotFoundException {
+        // Retrieve the last line from the "login_activity.txt" file as an array
+        String[] lastLine = readFileCurrentUserAsArray();
+
+        // Parse date and timestamp components into LocalDate and LocalTime
+        LocalDate date = LocalDate.parse(lastLine[3], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalTime time = LocalTime.parse(lastLine[4].substring(0,8),DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+        // Combine LocalDate and LocalTime into LocalDateTime
+        return LocalDateTime.of(date, time);
 
     }
 
