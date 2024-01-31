@@ -134,6 +134,8 @@ public class Customers {
     }
 
 
+
+
     /**
      * Class Constructor for Customers with country information and without createDate, createdBy,
      * lastUpdate, and lastUpdatedBy details.
@@ -156,6 +158,34 @@ public class Customers {
         this.phone = phone;
         this.divisionID = divisionID;
         //Added due to requirement that customer record table view has country column
+        this.country = country;
+    }
+
+    /**
+     * Constructs a new Customers object with the provided information.
+     *
+     * @param customerName   The name of the customer.
+     * @param address        The address of the customer.
+     * @param postalCode     The postal code of the customer.
+     * @param phone          The phone number of the customer.
+     * @param createDate     The date when the customer record is created.
+     * @param createdBy      The user who created the customer record.
+     * @param lastUpdate     The date of the last update to the customer record.
+     * @param lastUpdatedBy  The user who last updated the customer record.
+     * @param divisionID     The ID of the first-level division associated with the customer.
+     * @param country        The country of the customer.
+     */
+    public Customers(String customerName, String address, String postalCode, String phone, String createDate,
+                     String createdBy, String lastUpdate, String lastUpdatedBy, int divisionID, String country) {
+        this.customerName = customerName;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.phone = phone;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.divisionID = divisionID;
         this.country = country;
     }
 
