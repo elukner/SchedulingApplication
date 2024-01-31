@@ -17,6 +17,7 @@ import model.Customers;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * This utility class CustomersDaoImpl interacts with the client_schedule database to
@@ -241,6 +242,37 @@ public class CustomersDaoImpl {
     }
 
     /**
+     * Resets the auto-increment value for the "Customer_ID" column in the "customers" table.
+     * This method performs the following SQL operations as a batch:
+     * 1. Sets the maximum value of "Customer_ID" as @max_value.
+     * 2. Constructs a SQL statement to set the auto-increment value based on @max_value.
+     * 3. Prepares and executes the constructed SQL statement.
+     * 4. Deallocates the prepared statement.
+     *
+     * @return An array containing the update counts for the executed statements.
+     * @throws SQLException If a database access error occurs or the SQL statements have errors.
+     */
+    public static int[] resetAutoIncrement() throws SQLException {
+        Statement statement = JDBC.getConnection().createStatement();
+
+        String sqlStatement1 = "SET @max_value = (SELECT MAX(Customer_ID) FROM client_schedule.customers)";
+        String sqlStatement2 = "SET @sql = CONCAT('ALTER TABLE client_schedule.customers AUTO_INCREMENT = ', IFNULL(@max_value + 1, 1))";
+        String sqlStatement3 = "PREPARE stmt FROM @sql";
+        String sqlStatement4 = "EXECUTE stmt";
+        String sqlStatement5 = "DEALLOCATE PREPARE stmt";
+        statement.addBatch(sqlStatement1);
+        statement.addBatch(sqlStatement2);
+        statement.addBatch(sqlStatement3);
+        statement.addBatch(sqlStatement4);
+        statement.addBatch(sqlStatement5);
+        statement.executeBatch();
+
+
+
+        return statement.executeBatch();
+    }
+
+    /**
      * This method retrieves a list of customers from the customers table in the client_schedule database.
      *
      * @return customersList a list of customers
@@ -255,6 +287,44 @@ public class CustomersDaoImpl {
 
             while (resultSet.next()) {
                 int customerID = resultSet.getInt("Customer_ID");
+                String customerName = resultSet.getString("Customer_Name");
+                String address = resultSet.getString("Address");
+                String postalCode = resultSet.getString("Postal_Code");
+                String phone = resultSet.getString("Phone");
+                String createDate = resultSet.getString("Create_Date");
+                String createdBy = resultSet.getString("Created_By");
+                String lastUpdate = resultSet.getString("Last_Update");
+                String lastUpdatedBy = resultSet.getString("Last_Updated_By");
+                int divisionID = resultSet.getInt("Division_ID");
+                Customers customer = new Customers(customerID, customerName,
+                        address, postalCode, phone,
+                        createDate, createdBy,
+                        lastUpdate, lastUpdatedBy,
+                        divisionID);
+                customersList.add(customer);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return customersList;
+    }
+
+    /**
+     * Retrieves a list of customers based on the provided customer ID.
+     *
+     * @param customerID The ID of the customer to retrieve.
+     * @return An observable list of customers matching the specified ID.
+     */
+    public static ObservableList<Customers> getCustomer(int customerID) {
+        ObservableList<Customers> customersList = FXCollections.observableArrayList();
+        try {
+            String sqlStatement = "SELECT * FROM client_schedule.customers WHERE Customer_ID = ?";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+            preparedStatement.setInt(1, customerID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                customerID = resultSet.getInt("Customer_ID");
                 String customerName = resultSet.getString("Customer_Name");
                 String address = resultSet.getString("Address");
                 String postalCode = resultSet.getString("Postal_Code");

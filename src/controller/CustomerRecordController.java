@@ -706,7 +706,7 @@ public class CustomerRecordController extends Application implements Initializab
     private void deleteCustomer() throws FileNotFoundException, SQLException {
         if (!customerIDTxt.getText().trim().isEmpty()) {
             if (!CustomersDaoImpl.getAllCustomers().isEmpty()) {
-                customerModel = CustomersDaoImpl.getAllCustomers().get(Integer.parseInt(customerIDTxt.getText()) - 1);
+                customerModel = CustomersDaoImpl.getCustomer(Integer.parseInt(customerIDTxt.getText())).get(0);
             }
 
             // When deleting a customer record, all of the customer’s appointments must be deleted first, due to foreign key constraints.
@@ -770,6 +770,7 @@ public class CustomerRecordController extends Application implements Initializab
     private void deleteCustomerDatabase() throws SQLException {
 
         CustomersDaoImpl.deleteCustomers(Integer.parseInt(customerIDTxt.getText()));
+        CustomersDaoImpl.resetAutoIncrement();
         showCustomerRecordTableView();
 
     }
