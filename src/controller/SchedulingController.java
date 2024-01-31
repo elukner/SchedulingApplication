@@ -714,6 +714,16 @@ public class SchedulingController extends Application implements Initializable {
         // Disable Appointment_ID field throughout the application
         appointmentIDTxt.setDisable(true);
 
+        populateContactNameComboBox();
+        populateStartAndEndDateTime(null,
+                null,
+                null,
+                null);
+
+        // Populate Customer ID and User ID ComboBoxes
+        populateCustomerIDComboBox();
+        populateUserIDComboBox();
+
 
     }
 
