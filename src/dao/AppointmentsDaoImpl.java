@@ -201,7 +201,7 @@ public class AppointmentsDaoImpl {
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
         try {
             // SQL query to select appointments for the current week
-            String sqlStatement = "SELECT * FROM client_schedule.appointments WHERE WEEK(`Start`) = 2;";
+            String sqlStatement = "SELECT * FROM client_schedule.appointments WHERE WEEK(DATE(`Start`))=WEEK(CURDATE())";
             PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
             ResultSet resultSet = preparedStatement.executeQuery();

@@ -464,6 +464,7 @@ public class SchedulingController extends Application implements Initializable {
      * @throws SQLException If a SQL exception occurs during the database insertion.
      */
     private void addCustomerDatabase() throws SQLException {
+        AppointmentsDaoImpl.resetAutoIncrement();
         AppointmentsDaoImpl.insertAppointments(appointmentsModel.getTitle(),
                 appointmentsModel.getDescription(), appointmentsModel.getLocation(),
                 appointmentsModel.getType(), appointmentsModel.getStart(), appointmentsModel.getEnd(),

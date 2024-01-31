@@ -733,7 +733,7 @@ public class CustomerRecordController extends Application implements Initializab
      * @throws SQLException If a database access error occurs.
      */
     private void addCustomerDatabase() throws SQLException {
-
+        CustomersDaoImpl.resetAutoIncrement();
         CustomersDaoImpl.insertCustomers(customerModel.getCustomerID(), customerModel.getCustomerName(),
                 customerModel.getAddress(), customerModel.getPostalCode(), customerModel.getPhone(),
                 customerModel.getCreateDate(), customerModel.getCreatedBy(),
