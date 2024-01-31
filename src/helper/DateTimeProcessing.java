@@ -22,6 +22,21 @@ public class DateTimeProcessing {
         return Timestamp.valueOf(utcLocalDateTime);
     }
 
+    /**
+     *
+     */
+    public static LocalDateTime createLocalDateTime(String dateTime){
+        // Sample appointment time in UTC
+        LocalDateTime utcAppointmentTime = LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        // User's timezone (replace with the actual user's timezone)
+        ZoneId userTimeZone = ZoneId.systemDefault();
+
+        // Adjust the appointment time to the user's timezone
+        ZonedDateTime userZonedDateTime = utcAppointmentTime.atZone(ZoneId.of("UTC")).withZoneSameInstant(userTimeZone);
+        LocalDateTime userAppointmentTime = userZonedDateTime.toLocalDateTime();
+        return userAppointmentTime;
+    }
 
     /**
      * Retrieves the current date-time in the format "yyyy-MM-dd HH:mm:ss".
