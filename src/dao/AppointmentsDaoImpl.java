@@ -315,8 +315,8 @@ public class AppointmentsDaoImpl {
                 int userID = resultSet.getInt("User_ID");
                 int contactID = resultSet.getInt("Contact_ID");
                 Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title),
-                        description, location, type, DateTimeProcessing.createLocalDateTime(start).toString(),
-                        DateTimeProcessing.createLocalDateTime(end).toString(), createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+                        description, location, type,DateTimeProcessing.getFormatedDateTime(DateTimeProcessing.createLocalDateTime(start)) ,
+                       DateTimeProcessing.getFormatedDateTime(DateTimeProcessing.createLocalDateTime(end)) , createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
                 appointmentsList.add(appointment);
             }
         } catch (SQLException throwables) {

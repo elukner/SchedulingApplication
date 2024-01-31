@@ -38,6 +38,9 @@ public class DateTimeProcessing {
         return userAppointmentTime;
     }
 
+    public static String getFormatedDateTime(LocalDateTime dateTime){
+        return  dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
     /**
      * Retrieves the current date-time in the format "yyyy-MM-dd HH:mm:ss".
      *
