@@ -199,15 +199,6 @@ public class CustomerRecordController extends Application implements Initializab
     @FXML
     private Button cancelBtn;
 
-    /**
-     * Represents the primary stage of the application.
-     */
-    private Stage stage;
-
-    /**
-     * Represents the root scene of the application.
-     */
-    private Parent scene;
 
     /**
      * Represents the model class for managing data related to customers in the application.
@@ -245,8 +236,8 @@ public class CustomerRecordController extends Application implements Initializab
      */
     @FXML
     void onActionBack(ActionEvent event) throws IOException {
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        Parent scene = FXMLLoader.load(getClass().getResource("../view/mainMenu.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
 
