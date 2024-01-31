@@ -396,8 +396,8 @@ public class CustomerRecordController extends Application implements Initializab
     public void onSelectCountry(ActionEvent actionEvent) {
 
         // Check if the selected country has associated data in the database
-        if (!CountriesDaoImpl.getAllCountries(countryBox.getValue()).isEmpty()) {
-            countriesModel = CountriesDaoImpl.getAllCountries(countryBox.getValue()).get(0);
+        if (!CountriesDaoImpl.getCountry(countryBox.getValue()).isEmpty()) {
+            countriesModel = CountriesDaoImpl.getCountry(countryBox.getValue()).get(0);
 
             // Clear existing items in the first-level division combo box
             firstLevelDivisionBox.getItems().clear();
@@ -516,7 +516,7 @@ public class CustomerRecordController extends Application implements Initializab
             firstLevelDivisionBox.setVisible(true);
 
             // Retrieve country and division data for the selected customer
-            countriesModel = CountriesDaoImpl.getAllCountries(selectedCustomer.getCountry()).get(0);
+            countriesModel = CountriesDaoImpl.getCountry(selectedCustomer.getCountry()).get(0);
             divisionModel = FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()).get(0);
 
             // Clear and set values for country and division combo boxes
@@ -576,7 +576,7 @@ public class CustomerRecordController extends Application implements Initializab
                 firstLevelDivisionBox.setVisible(true);
 
                 // Retrieve country and division data for the selected customer
-                countriesModel = CountriesDaoImpl.getAllCountries(selectedCustomer.getCountry()).get(0);
+                countriesModel = CountriesDaoImpl.getCountry(selectedCustomer.getCountry()).get(0);
                 divisionModel = FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()).get(0);
 
                 // Clear and set values for country and division combo boxes

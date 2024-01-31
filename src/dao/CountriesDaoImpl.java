@@ -176,12 +176,55 @@ public class CountriesDaoImpl {
     }
 
     /**
+     * Retrieves a list of country names from the "countries" table in the "client_schedule" database.
+     *
+     * @return An ObservableList of Countries containing the names of all countries.
+     */
+    public static ObservableList<Countries> getAllCountriesNames() {
+        ObservableList<Countries> countriesList = FXCollections.observableArrayList();
+        try {
+            String sqlStatement = "SELECT Country FROM client_schedule.countries";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String countryName = resultSet.getString("Country");
+                Countries country = new Countries(countryName);
+                countriesList.add(country);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return countriesList;
+    }
+
+    public static ObservableList<Countries> getCountryName(String countryNameWanted) {
+        ObservableList<Countries> countriesList = FXCollections.observableArrayList();
+        try {
+            String sqlStatement = "SELECT Country FROM client_schedule.countries WHERE Country = ?";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+            preparedStatement.setString(1, countryNameWanted);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String countryName = resultSet.getString("Country");
+                Countries country = new Countries(countryName);
+                countriesList.add(country);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return countriesList;
+    }
+
+    /**
      * Retrieves a list of countries based on the specified country name.
      *
      * @param countryWanted The name of the country to retrieve.
      * @return An ObservableList of Countries that match the specified country name.
      */
-    public static ObservableList<Countries> getAllCountries(String countryWanted) {
+    public static ObservableList<Countries> getCountry(String countryWanted) {
         ObservableList<Countries> countriesList = FXCollections.observableArrayList();
         try {
             String sqlStatement = "SELECT * FROM client_schedule.countries WHERE Country = ?";
