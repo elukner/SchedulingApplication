@@ -61,6 +61,41 @@ public class CustomersDaoImpl {
         return preparedStatement.executeUpdate();
     }
 
+    /**
+     * Inserts a new customer record into the customers table in the client_schedule database.
+     *
+     * @param customerName   The name of the customer.
+     * @param address        The address of the customer.
+     * @param postalCode     The postal code of the customer.
+     * @param phone          The phone number of the customer.
+     * @param createdDate    The date when the customer record was created.
+     * @param createdBy      The user who created the customer record.
+     * @param lastUpdated    The date when the customer record was last updated.
+     * @param lastUpdatedBy  The user who last updated the customer record.
+     * @param divisionID     The ID of the first-level division associated with the customer.
+     * @return The row count for SQL Data Manipulation Language (DML) statements, or 0 for SQL statements that return nothing.
+     * @throws SQLException             If a database access error occurs, this method is called on a closed PreparedStatement,
+     *                                  or the SQL statement returns a ResultSet object.
+     */
+    public static int insertCustomers(String customerName, String address,
+                                      String postalCode, String phone, String createdDate, String createdBy, String lastUpdated,
+                                      String lastUpdatedBy, int divisionID) throws SQLException {
+        String sqlStatement = "INSERT INTO `client_schedule`.`customers` (`Customer_Name`, `Address`, `Postal_Code`, `Phone`, `Create_Date`, `Created_By`, `Last_Update`, `Last_Updated_By`, `Division_ID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
+        preparedStatement.setString(1, customerName);
+        preparedStatement.setString(2, address);
+        preparedStatement.setString(3, postalCode);
+        preparedStatement.setString(4, phone);
+        preparedStatement.setString(5, createdDate);
+        preparedStatement.setString(6, createdBy);
+        preparedStatement.setString(7, lastUpdated);
+        preparedStatement.setString(8, lastUpdatedBy);
+        preparedStatement.setInt(9, divisionID);
+
+        return preparedStatement.executeUpdate();
+    }
+
 
     /**
      * This method selects customers from the customers table in the client_schedule database.

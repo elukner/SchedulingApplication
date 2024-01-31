@@ -604,6 +604,7 @@ public class CustomerRecordController extends Application implements Initializab
                 addressTxt.getText(), postalCodeTxt.getText(), phoneNumberTxt.getText(), dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(),
                 dateTimeFormatter.format(LocalDateTime.now()), FileIOManager.readFile(), divisionModel.getDivisionID());
 
+
     }
 
     /**
@@ -615,7 +616,9 @@ public class CustomerRecordController extends Application implements Initializab
      * @throws FileNotFoundException If the required file is not found.
      */
     private void updateCustomer() throws FileNotFoundException {
+        //TODO make this into a helper method
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+
         customerModel.setCustomerName(customerNameTxt.getText());
         customerModel.setAddress(addressTxt.getText());
         customerModel.setPostalCode(postalCodeTxt.getText());
@@ -624,8 +627,26 @@ public class CustomerRecordController extends Application implements Initializab
         customerModel.setLastUpdatedBy(FileIOManager.readFile());
         customerModel.setDivisionID(divisionModel.getDivisionID());
 
+//        setCustomerModel(customerNameTxt.getText(),addressTxt.getText(),postalCodeTxt.getText(),
+//                phoneNumberTxt.getText(),null,null,dateTimeFormatter.format(LocalDateTime.now()),
+//                FileIOManager.readFile(),divisionModel.getDivisionID(),countryBox.getValue());
+
 
     }
+
+    private void setCustomerModel(String customerName, String address, String postalCode, String phone, String createDate,
+                                  String createdBy, String lastUpdate, String lastUpdatedBy, int divisionID, String country){
+        customerModel = new Customers(customerName, address, postalCode, phone, createDate,
+                createdBy, lastUpdate, lastUpdatedBy, divisionID, country);
+
+    }
+
+    private Customers getCustomerModel(){
+        return customerModel;
+
+    }
+
+
 
     /**
      * Deletes a customer record from the system and database based on the entered customer ID.
