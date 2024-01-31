@@ -34,4 +34,11 @@ public class DaoTest {
 
         JDBC.closeConnection();
     }
+
+    @Test
+    public void testAppointmentsDaoImpl() throws SQLException {
+        JDBC.openConnection();
+        System.out.println(AppointmentsDaoImpl.hasOverlappingAppointments(2,"2020-05-29 12:00:00","2020-05-29 13:00:00"));
+        JDBC.closeConnection();
+    }
 }

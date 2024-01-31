@@ -417,8 +417,8 @@ public class SchedulingController extends Application implements Initializable {
             return false;
         }
         if (AppointmentsDaoImpl.hasOverlappingAppointments(appointmentsModel.getCustomerID(),
-                TimeProcessing.getTimeFromDateTime(appointmentsModel.getStart()),
-                TimeProcessing.getTimeFromDateTime(appointmentsModel.getEnd()))) {
+                appointmentsModel.getStart(),
+                appointmentsModel.getEnd())) {
             //display a custom message specific for each error check in the user interface
             setCustomMessage(Alert.AlertType.ERROR, "Scheduling Overlap", "Please schedule a non-overlapping " +
                     "appointment for customer");

@@ -9,7 +9,9 @@ package dao;
  * Time: 1:27 PM
  */
 
+import helper.DateProcessing;
 import helper.JDBC;
+import helper.TimeProcessing;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -84,15 +86,22 @@ public class AppointmentsDaoImpl {
 
         try{
             // Query to check for overlapping appointments
+//            String sqlStatement = "SELECT COUNT(*) \n" +
+//                    "FROM client_schedule.appointments \n" +
+//                    "WHERE Customer_ID = ? AND ('12:00:00' < TIME(?) AND '13:00:00' > TIME(?))";
             String sqlStatement = "SELECT COUNT(*) \n" +
                     "FROM client_schedule.appointments \n" +
-                    "WHERE Customer_ID = ? AND ('12:00:00' < TIME(?) AND '13:00:00' > TIME(?))";
+                    "WHERE Customer_ID = ? AND (? <= TIME(Start) AND ? >= TIME(End))\n" +
+                    "AND DATE(?) <= DATE(Start) \n" +
+                    "AND DATE(?) >= DATE(End);";
 
 
             PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
             preparedStatement.setInt(1, customerId);
-            preparedStatement.setString(2, endDateTime);
-            preparedStatement.setString(3, startDateTime);
+            preparedStatement.setString(2, TimeProcessing.getTimeFromDateTime(startDateTime));
+            preparedStatement.setString(3, TimeProcessing.getTimeFromDateTime(endDateTime));
+            preparedStatement.setString(4, DateProcessing.getDateFromDateTime(startDateTime).toString() );
+            preparedStatement.setString(5,DateProcessing.getDateFromDateTime(endDateTime).toString());
 
 
 
