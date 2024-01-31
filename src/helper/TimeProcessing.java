@@ -210,6 +210,7 @@ public class TimeProcessing {
         if (startTime.isBefore(endTime)) {
             return true;
         } else {
+            System.out.println("Error: Start time must be before the end time.");
             return false;
         }
     }

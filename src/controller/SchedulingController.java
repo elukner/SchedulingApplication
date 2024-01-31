@@ -385,12 +385,11 @@ public class SchedulingController extends Application implements Initializable {
                 Integer.parseInt(userIDSelected), contactsModel.getContactID());
 
 
-        if (!isValidAppointment()) {
+        if (isValidAppointment()) {
 
             addCustomerDatabase();
             clearSelectionAndFormFields();
         }
-
 
         showSchedulingTableView();
 
@@ -405,36 +404,37 @@ public class SchedulingController extends Application implements Initializable {
      *
      */
     private boolean isValidAppointment() throws SQLException {
-        //boolean isValidAppointment = false;
         if (DateTimeProcessing.isOutsideBusinessHours(DateProcessing.getDateFromDateTime(appointmentsModel.getStart()).toString(),
-                TimeProcessing.getTimeFromDateTime(appointmentsModel.getStart())) == true ||
+                TimeProcessing.getTimeFromDateTime(appointmentsModel.getStart())) ||
                 DateTimeProcessing.isOutsideBusinessHours(DateProcessing.getDateFromDateTime(appointmentsModel.getEnd()).toString(),
-                        TimeProcessing.getTimeFromDateTime(appointmentsModel.getEnd())) == true) {
-            //scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
-           // isValidAppointment = true;
+                        TimeProcessing.getTimeFromDateTime(appointmentsModel.getEnd()))) {
+
             //display a custom message specific for each error check in the user interface
             setCustomMessage(Alert.AlertType.ERROR, "Appointment outside of business hours",
                     "Please schedule an appointment inside of business hours defined as 8:00 a.m. to 10:00 p.m. ET" +
                             "and Monday through Friday");
-            return true;
+            //scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
+            return false;
         }
         if (AppointmentsDaoImpl.hasOverlappingAppointments(appointmentsModel.getCustomerID(),
                 TimeProcessing.getTimeFromDateTime(appointmentsModel.getStart()),
                 TimeProcessing.getTimeFromDateTime(appointmentsModel.getEnd()))) {
-            // -scheduling overlapping appointments for customers
-           // isValidAppointment = true;
             //display a custom message specific for each error check in the user interface
             setCustomMessage(Alert.AlertType.ERROR, "Scheduling Overlap", "Please schedule a non-overlapping " +
                     "appointment for customer");
-            return true;
+            //scheduling overlapping appointments for customers
+            return false;
         }
-        if(TimeProcessing.isValidAppointmentEndTime(appointmentsModel.getStart(),
-               appointmentsModel.getEnd())){
+        if(!TimeProcessing.isValidAppointmentEndTime(appointmentsModel.getStart(),
+                appointmentsModel.getEnd())){
             //The application does not allow entering appointments with a start time after the end time.
+            setCustomMessage(Alert.AlertType.ERROR, "Start Time After The End Time", "The application " +
+                    "does not allow entering appointments with a start time after the end time.");
             return false;
 
         }
-        return false;
+
+        return true;
     }
 
     /**
@@ -513,10 +513,11 @@ public class SchedulingController extends Application implements Initializable {
         appointmentsModel.setUserID(Integer.parseInt(userIDSelected));
         appointmentsModel.setContactID(contactsModel.getContactID());
 
-        if (!isValidAppointment()) {
+        if (isValidAppointment()) {
             updateCustomerDatabase();
             clearSelectionAndFormFields();
         }
+
 
         showSchedulingTableView();
 
