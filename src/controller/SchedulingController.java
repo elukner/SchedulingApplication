@@ -1077,7 +1077,9 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * Displays an alert for upcoming appointments within 15 minutes.
+     * Displays an alert for upcoming appointments within 15 minutes based on the user's login time.
+     *
+     * @param userLoginTime The user's login time to check for upcoming appointments.
      */
     private static void showAppointmentAlert(LocalDateTime userLoginTime) {
         if (!AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min(userLoginTime.toString()).isEmpty()) {

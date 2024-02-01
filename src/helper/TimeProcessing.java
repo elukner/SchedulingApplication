@@ -23,12 +23,17 @@ import java.util.List;
  */
 public class TimeProcessing {
 
-
+    /**
+     * Converts a time string in UTC to the user's local time.
+     *
+     * @param time The time string in UTC format.
+     * @return LocalTime The converted local time.
+     */
     private static LocalTime createLocalTime(String time) {
-        // Sample appointment time in UTC
+        // Appointment time in UTC
         LocalTime utcAppointmentTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-        // User's timezone (replace with the actual user's timezone)
+        // User's timezone
         ZoneId userTimeZone = ZoneId.systemDefault();
 
         // Adjust the appointment time to the user's timezone
@@ -39,6 +44,12 @@ public class TimeProcessing {
         return userAppointmentTime;
     }
 
+    /**
+     * Converts a list of time strings in UTC to a list of local times in the user's timezone.
+     *
+     * @param times The list of time strings in UTC format.
+     * @return ObservableList&lt;LocalTime&gt; The converted list of local times.
+     */
     public static ObservableList<LocalTime> createLocalTimeList(ObservableList<String> times) {
         ObservableList<LocalTime> adjustedDateTimes = FXCollections.observableArrayList();
 
