@@ -21,6 +21,7 @@ import model.Appointments;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 
@@ -58,8 +59,8 @@ public class AppointmentsDaoImpl {
                 String description = resultSet.getString("Description");
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
-                String start = resultSet.getString("Start");
-                String end = resultSet.getString("End");
+                Timestamp start = resultSet.getTimestamp("Start");
+                Timestamp end = resultSet.getTimestamp("End");
                 String createDate = resultSet.getString("Create_Date");
                 String createdBy = resultSet.getString("Created_By");
                 String lastUpdate = resultSet.getString("Last_Update");
@@ -67,8 +68,9 @@ public class AppointmentsDaoImpl {
                 int customerID = resultSet.getInt("Customer_ID");
                 int userID = resultSet.getInt("User_ID");
                 int contactID = resultSet.getInt("Contact_ID");
-                Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title), description, location, type, start,
-                        end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+                Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title), description,
+                        location, type, start.toLocalDateTime(),
+                        end.toLocalDateTime(), createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
                 appointmentsList.add(appointment);
             }
         } catch (SQLException throwables) {
@@ -146,8 +148,8 @@ public class AppointmentsDaoImpl {
                 String description = resultSet.getString("Description");
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
-                String start = resultSet.getString("Start");
-                String end = resultSet.getString("End");
+                Timestamp start = resultSet.getTimestamp("Start");
+                Timestamp end = resultSet.getTimestamp("End");
                 String createDate = resultSet.getString("Create_Date");
                 String createdBy = resultSet.getString("Created_By");
                 String lastUpdate = resultSet.getString("Last_Update");
@@ -155,8 +157,9 @@ public class AppointmentsDaoImpl {
                 customerID = resultSet.getInt("Customer_ID");
                 int userID = resultSet.getInt("User_ID");
                 int contactID = resultSet.getInt("Contact_ID");
-                Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title), description, location, type, start,
-                        end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+                Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title),
+                        description, location, type, start.toLocalDateTime(),
+                        end.toLocalDateTime(), createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
                 appointmentsList.add(appointment);
             }
         } catch (SQLException throwables) {
@@ -186,8 +189,8 @@ public class AppointmentsDaoImpl {
                 String description = resultSet.getString("Description");
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
-                String start = resultSet.getString("Start");
-                String end = resultSet.getString("End");
+                Timestamp start = resultSet.getTimestamp("Start");
+                Timestamp end = resultSet.getTimestamp("End");
                 String createDate = resultSet.getString("Create_Date");
                 String createdBy = resultSet.getString("Created_By");
                 String lastUpdate = resultSet.getString("Last_Update");
@@ -195,8 +198,9 @@ public class AppointmentsDaoImpl {
                 int customerID = resultSet.getInt("Customer_ID");
                 int userID = resultSet.getInt("User_ID");
                 int contactID = resultSet.getInt("Contact_ID");
-                Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title), description, location, type, start,
-                        end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+                Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title),
+                        description, location, type, start.toLocalDateTime(),
+                        end.toLocalDateTime(), createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
                 appointmentsList.add(appointment);
             }
         } catch (SQLException throwables) {
@@ -225,8 +229,8 @@ public class AppointmentsDaoImpl {
                 String description = resultSet.getString("Description");
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
-                String start = resultSet.getString("Start");
-                String end = resultSet.getString("End");
+                Timestamp start = resultSet.getTimestamp("Start");
+                Timestamp end = resultSet.getTimestamp("End");
                 String createDate = resultSet.getString("Create_Date");
                 String createdBy = resultSet.getString("Created_By");
                 String lastUpdate = resultSet.getString("Last_Update");
@@ -234,8 +238,9 @@ public class AppointmentsDaoImpl {
                 int customerID = resultSet.getInt("Customer_ID");
                 int userID = resultSet.getInt("User_ID");
                 int contactID = resultSet.getInt("Contact_ID");
-                Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title), description, location, type, start,
-                        end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+                Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title),
+                        description, location, type, start.toLocalDateTime(),
+                        end.toLocalDateTime(), createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
                 appointmentsList.add(appointment);
             }
         } catch (SQLException throwables) {
@@ -264,8 +269,8 @@ public class AppointmentsDaoImpl {
                 String description = resultSet.getString("Description");
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
-                String start = resultSet.getString("Start");
-                String end = resultSet.getString("End");
+                Timestamp start = resultSet.getTimestamp("Start");
+                Timestamp end = resultSet.getTimestamp("End");
                 String createDate = resultSet.getString("Create_Date");
                 String createdBy = resultSet.getString("Created_By");
                 String lastUpdate = resultSet.getString("Last_Update");
@@ -273,8 +278,9 @@ public class AppointmentsDaoImpl {
                 int customerID = resultSet.getInt("Customer_ID");
                 int userID = resultSet.getInt("User_ID");
                 int contactID = resultSet.getInt("Contact_ID");
-                Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title), description, location, type, start,
-                        end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+                Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title),
+                        description, location, type, start.toLocalDateTime(),
+                        end.toLocalDateTime(), createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
                 appointmentsList.add(appointment);
             }
         } catch (SQLException throwables) {
@@ -302,8 +308,8 @@ public class AppointmentsDaoImpl {
                 String description = resultSet.getString("Description");
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
-                String start = resultSet.getString("Start");
-                String end = resultSet.getString("End");
+                Timestamp start = resultSet.getTimestamp("Start");
+                Timestamp end = resultSet.getTimestamp("End");
                 String createDate = resultSet.getString("Create_Date");
                 String createdBy = resultSet.getString("Created_By");
                 String lastUpdate = resultSet.getString("Last_Update");
@@ -312,8 +318,8 @@ public class AppointmentsDaoImpl {
                 int userID = resultSet.getInt("User_ID");
                 int contactID = resultSet.getInt("Contact_ID");
                 Appointments appointment = new Appointments(appointmentID, new ReadOnlyStringWrapper(title),
-                        description, location, type,DateTimeProcessing.getFormatedDateTime(DateTimeProcessing.createLocalDateTime(start)) ,
-                       DateTimeProcessing.getFormatedDateTime(DateTimeProcessing.createLocalDateTime(end)) , createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
+                        description, location, type,start.toLocalDateTime() ,
+                       end.toLocalDateTime()  , createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID);
                 appointmentsList.add(appointment);
             }
         } catch (SQLException throwables) {
@@ -346,58 +352,9 @@ public class AppointmentsDaoImpl {
      *                      method has been exceeded and has at least attempted to cancel
      *                      the currently running Statement.
      */
-    public static int insertAppointments(StringProperty title, String description, String location, String type, String start,
-                                         String end, String createdBy, String lastUpdatedBy,
-                                         int customerID, int userID, int contactID) throws SQLException {
-        String sqlStatement = "INSERT INTO `client_schedule`.`appointments` " +
-                "(`Title`, `Description`, `Location`, `Type`, " +
-                "`Start`, `End`, `Create_Date`, `Created_By`, `Last_Update`, " +
-                "`Last_Updated_By`, `Customer_ID`, `User_ID`, `Contact_ID`) " +
-                "VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?, ?, ?);";
-
-        PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
-
-        preparedStatement.setString(1, title.getValue());
-        preparedStatement.setString(2, description);
-        preparedStatement.setString(3, location);
-        preparedStatement.setString(4, type);
-        preparedStatement.setString(5, start);
-        preparedStatement.setString(6, end);
-        preparedStatement.setString(7, createdBy);
-        preparedStatement.setString(8, lastUpdatedBy);
-        preparedStatement.setInt(9, customerID);
-        preparedStatement.setInt(10, userID);
-        preparedStatement.setInt(11, contactID);
-
-
-        return preparedStatement.executeUpdate();
-    }
-    /**
-     * This method inserts an appointment into the appointments table in the client_schedule database.
-     *
-     * @param title           The title of the appointment.
-     * @param description     The description of the appointment.
-     * @param location        The location of the appointment.
-     * @param type            The type of the appointment.
-     * @param start           The start time of the appointment.
-     * @param end             The end time of the appointment.
-     * @param createdBy       The user who created the appointment.
-     * @param lastUpdatedBy   The user who last updated the appointment.
-     * @param customerID      The ID of the associated customer.
-     * @param userID          The ID of the associated user.
-     * @param contactID       The ID of the associated contact.
-     * @return Either (1) the row count for SQL Data Manipulation Language (DML) statements or (2) 0
-     *         for SQL statements that return nothing.
-     * @throws SQLException  java.sql.SQLException – if a database access error occurs;
-     *                      this method is called on a closed PreparedStatement or
-     *                      the SQL statement returns a ResultSet object.
-     *                      java.sql.SQLTimeoutException – when the driver has determined
-     *                      that the timeout value that was specified by the setQueryTimeout
-     *                      method has been exceeded and has at least attempted to cancel
-     *                      the currently running Statement.
-     */
-    public static int insertAppointmentsTemp(StringProperty title, String description, String location, String type, String start,
-                                         String end, String createdBy, String lastUpdatedBy,
+    public static int insertAppointments(StringProperty title, String description, String location, String type,
+                                         LocalDateTime start,
+                                         LocalDateTime end, String createdBy, String lastUpdatedBy,
                                          int customerID, int userID, int contactID) throws SQLException {
         String sqlStatement = "INSERT INTO `client_schedule`.`appointments` " +
                 "(`Title`, `Description`, `Location`, `Type`, " +
@@ -422,6 +379,7 @@ public class AppointmentsDaoImpl {
 
         return preparedStatement.executeUpdate();
     }
+
 
 
     /**
