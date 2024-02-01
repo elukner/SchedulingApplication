@@ -325,7 +325,6 @@ public class SchedulingController extends Application implements Initializable {
      *
      */
     private void populateContactNameComboBox() {
-        contactNameComboBox.getItems().clear();
         if (!ContactsDaoImpl.getAllContacts().isEmpty()) {
             for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
 
@@ -437,30 +436,30 @@ public class SchedulingController extends Application implements Initializable {
             //scheduling overlapping appointments for customers
             return false;
         }
-//        if(!DateTimeProcessing.isValidAppointmentEndDateTime(appointmentsModel.getStart(),
-//                appointmentsModel.getEnd())){
+        if(!DateTimeProcessing.isValidAppointmentEndDateTime(appointmentsModel.getStart(),
+                appointmentsModel.getEnd())){
+            //The application does not allow entering appointments with a start time after the end time.
+            setCustomMessage(Alert.AlertType.ERROR, "Start Date and Time After The Date and Time Date", "The application " +
+                    "does not allow entering appointments with a start date and time after the end date and time.");
+            return false;
+
+        }
+//        if(!TimeProcessing.isValidAppointmentEndTime(appointmentsModel.getStart().toLocalTime(),
+//                appointmentsModel.getEnd().toLocalTime())){
 //            //The application does not allow entering appointments with a start time after the end time.
-//            setCustomMessage(Alert.AlertType.ERROR, "Start Date and Time After The Date and Time Date", "The application " +
-//                    "does not allow entering appointments with a start date and time after the end date and time.");
+//            setCustomMessage(Alert.AlertType.ERROR, "Start Time After The End Time", "The application " +
+//                    "does not allow entering appointments with a start time after the end time.");
 //            return false;
 //
 //        }
-        if(!TimeProcessing.isValidAppointmentEndTime(appointmentsModel.getStart().toLocalTime(),
-                appointmentsModel.getEnd().toLocalTime())){
-            //The application does not allow entering appointments with a start time after the end time.
-            setCustomMessage(Alert.AlertType.ERROR, "Start Time After The End Time", "The application " +
-                    "does not allow entering appointments with a start time after the end time.");
-            return false;
-
-        }
-        if(!DateProcessing.isValidAppointmentEndDate(appointmentsModel.getStart().toLocalDate(),
-                appointmentsModel.getEnd().toLocalDate())){
-            //The application does not allow entering appointments with a start time after the end time.
-            setCustomMessage(Alert.AlertType.ERROR, "Start Date After The End Date", "The application " +
-                    "does not allow entering appointments with a start date after the end date.");
-            return false;
-
-        }
+//        if(!DateProcessing.isValidAppointmentEndDate(appointmentsModel.getStart().toLocalDate(),
+//                appointmentsModel.getEnd().toLocalDate())){
+//            //The application does not allow entering appointments with a start time after the end time.
+//            setCustomMessage(Alert.AlertType.ERROR, "Start Date After The End Date", "The application " +
+//                    "does not allow entering appointments with a start date after the end date.");
+//            return false;
+//
+//        }
 
 
         return true;
@@ -542,12 +541,12 @@ public class SchedulingController extends Application implements Initializable {
         appointmentsModel.setContactID(contactsModel.getContactID());
 
 
-        if(startDatePickerChanged ||endDatePickerChanged || startTimeChanged || endTimeChanged){
+        //if(startDatePickerChanged ||endDatePickerChanged || startTimeChanged || endTimeChanged){
             if (isValidAppointment()) {
                 updateCustomerDatabase();
                 clearSelectionAndFormFields();
             }
-        }
+      //  }
 
 
 
@@ -749,15 +748,20 @@ public class SchedulingController extends Application implements Initializable {
         // Disable Appointment_ID field throughout the application
         appointmentIDTxt.setDisable(true);
 
-        populateContactNameComboBox();
-        populateStartAndEndDateTime(null,
-                null,
-                null,
-                null);
+        if(contactNameComboBox.getItems().isEmpty()||startTimeComboBox.getItems().isEmpty()
+        ||endTimeComboBox.getItems().isEmpty()||customerIDComboBox.getItems().isEmpty()
+        ||userIDComboBox.getItems().isEmpty()){
+            populateContactNameComboBox();
+            populateStartAndEndDateTime(null,
+                    null,
+                    null,
+                    null);
 
-        // Populate Customer ID and User ID ComboBoxes
-        populateCustomerIDComboBox();
-        populateUserIDComboBox();
+            // Populate Customer ID and User ID ComboBoxes
+            populateCustomerIDComboBox();
+            populateUserIDComboBox();
+        }
+
 
 
     }
