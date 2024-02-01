@@ -1065,7 +1065,8 @@ public class SchedulingController extends Application implements Initializable {
             a.setHeaderText("You have an upcoming appointment!");
             Appointments appointments = AppointmentsDaoImpl.getUpcomingAppointmentWithin15Min(userLoginTime.toString()).get(0);
             a.setContentText("Appointment ID: " + appointments.getAppointmentID() +
-                    "\nDate and Time: " + appointments.getStart());
+                    "\nDate: " + appointments.getStart().toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))+
+                    "\nTime: " + appointments.getStart().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 
             a.show();
         }
