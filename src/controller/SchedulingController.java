@@ -13,7 +13,9 @@ import helper.DateProcessing;
 import helper.DateTimeProcessing;
 import helper.FileIOManager;
 import helper.TimeProcessing;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -136,7 +138,7 @@ public class SchedulingController extends Application implements Initializable {
      * Represents a JavaFX TableColumn for displaying end date and time in the user interface.
      */
     @FXML // fx:id="endDateTimeCol"
-    private TableColumn<?, ?> endDateTimeCol; // Value injected by FXMLLoader
+    private TableColumn<Appointments, String> endDateTimeCol; // Value injected by FXMLLoader
 
     /**
      * Represents a JavaFX RadioButton for filtering appointments by month in the user interface.
@@ -172,7 +174,7 @@ public class SchedulingController extends Application implements Initializable {
      * Represents a JavaFX TableColumn for displaying start date and time in the user interface.
      */
     @FXML // fx:id="startDateTimeCol"
-    private TableColumn<?, ?> startDateTimeCol; // Value injected by FXMLLoader
+    private TableColumn<Appointments, String> startDateTimeCol; // Value injected by FXMLLoader
 
     /**
      * Represents a JavaFX TableColumn for displaying titles in the user interface.
@@ -693,8 +695,8 @@ public class SchedulingController extends Application implements Initializable {
 
         contactCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
-        startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("start"));
-        endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("end"));
+        startDateTimeCol.setCellValueFactory(cellDataFeatures -> new SimpleStringProperty(cellDataFeatures.getValue().getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        endDateTimeCol.setCellValueFactory(cellDataFeatures -> new SimpleStringProperty(cellDataFeatures.getValue().getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
         customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         userIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
 
