@@ -427,15 +427,30 @@ public class SchedulingController extends Application implements Initializable {
             //scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends
             return false;
         }
-        if (AppointmentsDaoImpl.hasOverlappingAppointments(appointmentsModel.getCustomerID(),
-                DateTimeProcessing.convertLocalToUTC(appointmentsModel.getStart(), ZoneId.systemDefault()) ,
-                DateTimeProcessing.convertLocalToUTC(appointmentsModel.getEnd(),ZoneId.systemDefault()))) {
-            //display a custom message specific for each error check in the user interface
-            setCustomMessage(Alert.AlertType.ERROR, "Scheduling Overlap", "Please schedule a non-overlapping " +
-                    "appointment for customer");
-            //scheduling overlapping appointments for customers
-            return false;
+        if(startDatePickerChanged ||endDatePickerChanged || startTimeChanged || endTimeChanged) {
+            if (AppointmentsDaoImpl.hasOverlappingAppointments(appointmentsModel.getCustomerID(),
+                    DateTimeProcessing.convertLocalToUTC(appointmentsModel.getStart(), ZoneId.systemDefault()) ,
+                    DateTimeProcessing.convertLocalToUTC(appointmentsModel.getEnd(),ZoneId.systemDefault()),appointmentsModel.getAppointmentID())) {
+                //display a custom message specific for each error check in the user interface
+                setCustomMessage(Alert.AlertType.ERROR, "Scheduling Overlap", "Please schedule a non-overlapping " +
+                        "appointment for customer");
+                //scheduling overlapping appointments for customers
+                return false;
+            }
+        }else{
+            if (AppointmentsDaoImpl.hasOverlappingAppointments(appointmentsModel.getCustomerID(),
+                    DateTimeProcessing.convertLocalToUTC(appointmentsModel.getStart(), ZoneId.systemDefault()) ,
+                    DateTimeProcessing.convertLocalToUTC(appointmentsModel.getEnd(),ZoneId.systemDefault()))) {
+                //display a custom message specific for each error check in the user interface
+                setCustomMessage(Alert.AlertType.ERROR, "Scheduling Overlap", "Please schedule a non-overlapping " +
+                        "appointment for customer");
+                //scheduling overlapping appointments for customers
+                return false;
+            }
         }
+
+
+
         if(!DateTimeProcessing.isValidAppointmentEndDateTime(appointmentsModel.getStart(),
                 appointmentsModel.getEnd())){
             //The application does not allow entering appointments with a start time after the end time.
@@ -541,12 +556,15 @@ public class SchedulingController extends Application implements Initializable {
         appointmentsModel.setContactID(contactsModel.getContactID());
 
 
-        //if(startDatePickerChanged ||endDatePickerChanged || startTimeChanged || endTimeChanged){
+        if(startDatePickerChanged ||endDatePickerChanged || startTimeChanged || endTimeChanged){
             if (isValidAppointment()) {
                 updateCustomerDatabase();
                 clearSelectionAndFormFields();
             }
-      //  }
+        }else{
+            updateCustomerDatabase();
+            clearSelectionAndFormFields();
+        }
 
 
 

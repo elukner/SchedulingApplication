@@ -112,6 +112,44 @@ public class AppointmentsDaoImpl {
         return false;
     }
 
+    /**
+     * Checks whether there are overlapping appointments for a specific customer within a given time range,
+     * excluding the specified appointment ID.
+     *
+     * @param customerId     The ID of the customer.
+     * @param startDateTime  The start date and time of the appointment.
+     * @param endDateTime    The end date and time of the appointment.
+     * @param appointmentID  The ID of the appointment to exclude from the check.
+     * @return true if there are overlapping appointments, {@code false} otherwise.
+     * @throws SQLException If a database access error occurs.
+     */
+    public static boolean hasOverlappingAppointments(int customerId, LocalDateTime startDateTime, LocalDateTime endDateTime, int appointmentID) throws SQLException {
+        // Query to check for overlapping appointments, excluding the specified appointment ID
+        String sql = "SELECT COUNT(*) FROM client_schedule.appointments " +
+                "WHERE Customer_ID = ? " +
+                "AND Appointment_ID <> ? " +
+                "AND ? <= End AND ? >= Start";
+
+        try {
+            PreparedStatement statement = JDBC.getConnection().prepareStatement(sql);
+            statement.setInt(1, customerId);
+            statement.setInt(2, appointmentID);
+            statement.setString(3, startDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            statement.setString(4, endDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int overlappingAppointmentsCount = resultSet.getInt(1);
+                    return overlappingAppointmentsCount > 0;
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return false;
+    }
+
 
     /**
      * Retrieves a list of appointments associated with the specified customer ID from the appointments table
