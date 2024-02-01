@@ -499,8 +499,8 @@ public class AppointmentsDaoImpl {
      *                      has at least attempted to cancel the currently running Statement
      */
     public static int updateAppointment(int appointmentID, StringProperty title, String description, String location, String type,
-                                        String start,
-                                        String end, String lastUpdate, String lastUpdatedBy,
+                                        LocalDateTime start,
+                                        LocalDateTime end, String lastUpdate, String lastUpdatedBy,
                                         int customerID, int userID, int contactID) throws SQLException {
 //        String sqlStatement = "UPDATE `client_schedule`.`appointments` SET `Title` = ? WHERE (`Appointment_ID` = ?)";
 
@@ -513,8 +513,8 @@ public class AppointmentsDaoImpl {
         preparedStatement.setString(2, description);
         preparedStatement.setString(3, location);
         preparedStatement.setString(4, type);
-        preparedStatement.setString(5, start);
-        preparedStatement.setString(6, end);
+        preparedStatement.setTimestamp(5, Timestamp.valueOf(start));
+        preparedStatement.setTimestamp(6, Timestamp.valueOf(end));
         preparedStatement.setString(7, lastUpdate);
         preparedStatement.setString(8, lastUpdatedBy);
         preparedStatement.setInt(9, customerID);

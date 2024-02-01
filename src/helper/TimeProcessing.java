@@ -181,11 +181,10 @@ public class TimeProcessing {
         // Generate time options within business hours
         LocalTime currentTime = businessStartTime;
         while (currentTime.isBefore(businessEndTime)) {
-            System.out.println(currentTime);
             timeOptions.add(currentTime);
             currentTime = currentTime.plusHours(1); // Move to the next hour
         }
-        timeOptions.add(LocalTime.of(23, 0,0));
+
         return timeOptions;
 
 //        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");

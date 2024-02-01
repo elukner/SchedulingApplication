@@ -475,8 +475,8 @@ public class SchedulingController extends Application implements Initializable {
         AppointmentsDaoImpl.resetAutoIncrement();
         AppointmentsDaoImpl.insertAppointments(appointmentsModel.getTitle(),
                 appointmentsModel.getDescription(), appointmentsModel.getLocation(),
-                appointmentsModel.getType(), LocalDateTime.parse(appointmentsModel.getStart()) ,
-                LocalDateTime.parse(appointmentsModel.getEnd()),
+                appointmentsModel.getType(), appointmentsModel.getStart() ,
+                appointmentsModel.getEnd(),
                 appointmentsModel.getCreatedBy(), appointmentsModel.getLastUpdatedBy(),
                 appointmentsModel.getCustomerID(), appointmentsModel.getUserID(), appointmentsModel.getContactID());
     }
@@ -933,10 +933,10 @@ public class SchedulingController extends Application implements Initializable {
 
 
                 // Populate and update start and end date/time ComboBoxes
-                populateStartAndEndDateTime(TimeProcessing.getCorrectTimeSeconds(TimeProcessing.getTime(selectedAppointments.getStart())),
-                        DateProcessing.getDate(selectedAppointments.getStart()),
-                        TimeProcessing.getCorrectTimeSeconds(TimeProcessing.getTime(selectedAppointments.getEnd())),
-                        DateProcessing.getDate(selectedAppointments.getEnd()));
+                populateStartAndEndDateTime(TimeProcessing.getCorrectTimeSeconds(selectedAppointments.getStart().toLocalTime()),
+                        selectedAppointments.getStart().toLocalDate(),
+                        TimeProcessing.getCorrectTimeSeconds(selectedAppointments.getEnd().toLocalTime()),
+                        selectedAppointments.getEnd().toLocalDate());
 
                 // Populate Customer ID and User ID ComboBoxes
                 populateCustomerIDComboBoxWithValue();
