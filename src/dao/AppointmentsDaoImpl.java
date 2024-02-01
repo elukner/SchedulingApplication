@@ -89,7 +89,7 @@ public class AppointmentsDaoImpl {
      * @return true if there are overlapping appointments, {@code false} otherwise.
      * @throws SQLException If a database access error occurs.
      */
-    public static boolean hasOverlappingAppointments(int customerId, LocalDateTime startDateTime, LocalDateTime endDateTime) throws SQLException {
+    public static boolean hasOverlappingAppointmentsTemp(int customerId, LocalDateTime startDateTime, LocalDateTime endDateTime) throws SQLException {
 
         try{
             // Query to check for overlapping appointments
@@ -127,8 +127,21 @@ public class AppointmentsDaoImpl {
     }
 
 
-    public static boolean hasOverlappingAppointmentsTemp(int customerId, LocalDateTime startDateTime, LocalDateTime endDateTime) throws SQLException {
+    public static boolean hasOverlappingAppointments(int customerId, LocalDateTime startDateTime, LocalDateTime endDateTime) throws SQLException {
         // Query to check for overlapping appointments
+
+        //customer start and end time window
+
+        //check when the start is in the window
+            //MStart >= JStart && MStart < JEnd
+            //edge case: MStart == JStart
+
+
+        //check when the end is in the window
+
+        //check when start and end are both outside of the window
+
+
         String sql = "SELECT COUNT(*) FROM client_schedule.appointments " +
                 "WHERE Customer_ID = ? " +
                 "AND ? <= End AND ? >= Start";

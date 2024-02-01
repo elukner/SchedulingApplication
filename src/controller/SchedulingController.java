@@ -28,9 +28,11 @@ import javafx.scene.control.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -419,9 +421,8 @@ public class SchedulingController extends Application implements Initializable {
             return false;
         }
         if (AppointmentsDaoImpl.hasOverlappingAppointments(appointmentsModel.getCustomerID(),
-                appointmentsModel.getStart(),
-                appointmentsModel.getEnd())) {
-            System.out.println("Made it here");
+                DateTimeProcessing.convertLocalToUTC(appointmentsModel.getStart(), ZoneId.systemDefault()) ,
+                DateTimeProcessing.convertLocalToUTC(appointmentsModel.getEnd(),ZoneId.systemDefault()))) {
             //display a custom message specific for each error check in the user interface
             setCustomMessage(Alert.AlertType.ERROR, "Scheduling Overlap", "Please schedule a non-overlapping " +
                     "appointment for customer");
