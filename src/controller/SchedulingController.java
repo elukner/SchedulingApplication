@@ -274,6 +274,13 @@ public class SchedulingController extends Application implements Initializable {
     private String userIDSelected;
 
 
+    boolean startDatePickerChanged = false;
+    boolean endDatePickerChanged = false;
+    boolean startTimeChanged = false;
+    boolean endTimeChanged = false;
+
+
+
     /**
      * Resets the user interface by performing the following actions:
      * 1. Clears the selection and form fields.
@@ -318,6 +325,7 @@ public class SchedulingController extends Application implements Initializable {
      *
      */
     private void populateContactNameComboBox() {
+        contactNameComboBox.getItems().clear();
         if (!ContactsDaoImpl.getAllContacts().isEmpty()) {
             for (Contacts contact : ContactsDaoImpl.getAllContacts()) {
 
@@ -525,20 +533,22 @@ public class SchedulingController extends Application implements Initializable {
         appointmentsModel.setDescription(descriptionTxt.getText());
         appointmentsModel.setLocation(locationTxt.getText());
         appointmentsModel.setType(typeTxt.getText());
-        appointmentsModel.setStart(LocalDateTime.parse(getStartDateTimeSelected()));
-        appointmentsModel.setEnd(LocalDateTime.parse(getEndDateTimeSelected()));
-//        appointmentsModel.setStart("2020-05-29 06:00:00");
-//        appointmentsModel.setEnd("2020-05-29 07:00:00");
+        appointmentsModel.setStart(LocalDateTime.parse(getStartDateTimeSelected(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        appointmentsModel.setEnd(LocalDateTime.parse(getEndDateTimeSelected(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         appointmentsModel.setLastUpdate(DateTimeProcessing.getCurrentLocalDateTimeString());
         appointmentsModel.setLastUpdatedBy(user.getUserName());
         appointmentsModel.setCustomerID(Integer.parseInt(customerIDSelected));
         appointmentsModel.setUserID(Integer.parseInt(userIDSelected));
         appointmentsModel.setContactID(contactsModel.getContactID());
 
-        if (isValidAppointment()) {
-            updateCustomerDatabase();
-            clearSelectionAndFormFields();
+
+        if(startDatePickerChanged ||endDatePickerChanged || startTimeChanged || endTimeChanged){
+            if (isValidAppointment()) {
+                updateCustomerDatabase();
+                clearSelectionAndFormFields();
+            }
         }
+
 
 
         showSchedulingTableView();
@@ -924,6 +934,12 @@ public class SchedulingController extends Application implements Initializable {
         endTimeComboBox.getItems().clear();
         customerIDComboBox.getItems().clear();
         userIDComboBox.getItems().clear();
+
+        startDatePickerChanged = false;
+        endDatePickerChanged = false;
+        startTimeChanged =false;
+        endTimeChanged=false;
+
     }
 
     /**
@@ -1120,6 +1136,18 @@ public class SchedulingController extends Application implements Initializable {
             e.printStackTrace();
         }
         tbleViewSelectionListener();
+        startDatePicker.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+            startDatePickerChanged = true;
+        });
+        endDatePicker.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+            endDatePickerChanged = true;
+        });
+        startTimeComboBox.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            startTimeChanged = false;
+        });
+        endTimeComboBox.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            endTimeChanged = false;
+        });
     }
 
     /**
