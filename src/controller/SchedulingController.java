@@ -273,10 +273,28 @@ public class SchedulingController extends Application implements Initializable {
      */
     private String userIDSelected;
 
-
+    /**
+     * Flag indicating whether there has been a change to the start date picker.
+     * This boolean is used to track modifications in the user interface.
+     */
     boolean startDatePickerChanged = false;
+
+    /**
+     * Flag indicating whether there has been a change to the end date picker.
+     * This boolean is used to track modifications in the user interface.
+     */
     boolean endDatePickerChanged = false;
+
+    /**
+     * Flag indicating whether there has been a change to the start time.
+     * This boolean is used to track modifications in the user interface.
+     */
     boolean startTimeChanged = false;
+
+    /**
+     * Flag indicating whether there has been a change to the end time.
+     * This boolean is used to track modifications in the user interface.
+     */
     boolean endTimeChanged = false;
 
 
