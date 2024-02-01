@@ -376,9 +376,19 @@ public class CustomerRecordController extends Application implements Initializab
 
     }
 
+    /**
+     * Populates the first-level division combo box with values from the provided list and sets the selected value.
+     *
+     * @param firstLevelDivisionsValue The value to set as the selected value in the first-level division combo box.
+     * @param firstLevelDivisionsList The list of first-level divisions to populate the combo box.
+     */
     private void populateFirstLevelDivisionsComboBox(String firstLevelDivisionsValue,
                                                      ObservableList<FirstLevelDivisions> firstLevelDivisionsList) {
+
+        // Clear existing items in the combo box
         firstLevelDivisionBox.getItems().clear();
+
+        // Set the selected value if provided
         if(firstLevelDivisionsValue!=null){
 
             firstLevelDivisionBox.setValue(firstLevelDivisionsValue);
@@ -391,6 +401,12 @@ public class CustomerRecordController extends Application implements Initializab
         }
     }
 
+    /**
+     * Populates the country combo box with values from the provided list and sets the selected value.
+     *
+     * @param countryValue The value to set as the selected value in the country combo box.
+     * @param countriesList The list of countries to populate the country combo box.
+     */
     private void populateCountryComboBox(String countryValue,ObservableList<Countries> countriesList) {
 
         countryBox.getItems().clear();

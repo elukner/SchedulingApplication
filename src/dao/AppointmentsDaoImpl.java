@@ -35,15 +35,13 @@ public class AppointmentsDaoImpl {
     /**
      * Retrieves a list of upcoming appointments scheduled to start within the next 15 minutes.
      *
+     * @param dateTime The current date and time for reference.
      * @return appointmentsList An ObservableList of Appointments representing the upcoming appointments.
      */
     public static ObservableList<Appointments> getUpcomingAppointmentWithin15Min(String dateTime) {
 
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
         try {
-//            String sqlStatement = "SELECT *\n" +
-//                    "FROM client_schedule.appointments\n" +
-//                    "WHERE Start BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 15 MINUTE)";
             String sqlStatement = "SELECT *\n" +
                     "FROM client_schedule.appointments\n" +
                     "WHERE Start BETWEEN ? AND DATE_ADD(?, INTERVAL 15 MINUTE)";
@@ -89,59 +87,8 @@ public class AppointmentsDaoImpl {
      * @return true if there are overlapping appointments, {@code false} otherwise.
      * @throws SQLException If a database access error occurs.
      */
-    public static boolean hasOverlappingAppointmentsTemp(int customerId, LocalDateTime startDateTime, LocalDateTime endDateTime) throws SQLException {
-
-        try{
-            // Query to check for overlapping appointments
-//            String sqlStatement = "SELECT COUNT(*) \n" +
-//                    "FROM client_schedule.appointments \n" +
-//                    "WHERE Customer_ID = ? AND ('12:00:00' < TIME(?) AND '13:00:00' > TIME(?))";
-            String sqlStatement = "SELECT COUNT(*) \n" +
-                    "FROM client_schedule.appointments \n" +
-                    "WHERE Customer_ID = ? AND (? <= TIME(Start) AND ? >= TIME(End))\n" +
-                    "AND DATE(?) <= DATE(Start) \n" +
-                    "AND DATE(?) >= DATE(End);";
-
-
-            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
-            preparedStatement.setInt(1, customerId);
-            preparedStatement.setString(2, startDateTime.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-            preparedStatement.setString(3, endDateTime.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-            preparedStatement.setString(4, startDateTime.toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            preparedStatement.setString(5,endDateTime.toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
-
-
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                int overlappingAppointmentsCount = resultSet.getInt(1);
-                return overlappingAppointmentsCount > 0;
-            }
-
-        }catch (SQLException throwables) {
-        throwables.printStackTrace();
-        }
-
-        return false;
-    }
-
-
     public static boolean hasOverlappingAppointments(int customerId, LocalDateTime startDateTime, LocalDateTime endDateTime) throws SQLException {
         // Query to check for overlapping appointments
-
-        //customer start and end time window
-
-        //check when the start is in the window
-            //MStart >= JStart && MStart < JEnd
-            //edge case: MStart == JStart
-
-
-        //check when the end is in the window
-
-        //check when start and end are both outside of the window
-
-
         String sql = "SELECT COUNT(*) FROM client_schedule.appointments " +
                 "WHERE Customer_ID = ? " +
                 "AND ? <= End AND ? >= Start";
@@ -149,8 +96,6 @@ public class AppointmentsDaoImpl {
         try  {
             PreparedStatement statement = JDBC.getConnection().prepareStatement(sql);
             statement.setInt(1, customerId);
-//            statement.setTimestamp(2, Timestamp.valueOf(endDateTime));
-//            statement.setTimestamp(3, Timestamp.valueOf(startDateTime));
             statement.setString(2, startDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             statement.setString(3, endDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
