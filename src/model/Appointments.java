@@ -9,6 +9,8 @@ package model;
  */
 import javafx.beans.property.StringProperty;
 
+import java.time.LocalDateTime;
+
 /**
  * This class represents a POJO (Plain Old Java Object) for Appointments retrieved from the client_schedule
  * database Appointments table. This class is utilized for mapping rows obtained from the client_schedule
@@ -44,12 +46,12 @@ public class Appointments {
     /**
      * The start time of the appointment.
      */
-    private String start;
+    private LocalDateTime start;
 
     /**
      * The end time of the appointment.
      */
-    private String end;
+    private LocalDateTime end;
 
     /**
      * The date when the appointment was created.
@@ -104,8 +106,9 @@ public class Appointments {
      * @param userID          The unique identifier of the associated user.
      * @param contactID       The unique identifier of the associated contact.
      */
-    public Appointments(int appointmentID, StringProperty title, String description, String location, String type, String start,
-                        String end, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy,
+    public Appointments(int appointmentID, StringProperty title, String description, String location, String type,
+                        LocalDateTime start,
+                        LocalDateTime end, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy,
                         int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
         this.title = title;
@@ -140,8 +143,8 @@ public class Appointments {
      * @param userID          The unique identifier of the associated user.
      * @param contactID       The unique identifier of the associated contact.
      */
-    public Appointments(StringProperty title, String description, String location, String type, String start,
-                        String end, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy,
+    public Appointments(StringProperty title, String description, String location, String type, LocalDateTime start,
+                        LocalDateTime end, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy,
                         int customerID, int userID, int contactID) {
         this.title = title;
         this.description = description;
@@ -253,7 +256,7 @@ public class Appointments {
      *
      * @return start of appointment
      */
-    public String getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
@@ -262,7 +265,7 @@ public class Appointments {
      *
      * @param start of appointment
      */
-    public void setStart(String start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
@@ -271,7 +274,7 @@ public class Appointments {
      *
      * @return end of appointment
      */
-    public String getEnd() {
+    public LocalDateTime getEnd() {
         return end;
     }
 
@@ -280,7 +283,7 @@ public class Appointments {
      *
      * @param end of appointment
      */
-    public void setEnd(String end) {
+    public void setEnd(LocalDateTime end) {
         this.end = end;
     }
 
