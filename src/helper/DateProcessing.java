@@ -53,6 +53,13 @@ public class DateProcessing {
         return localDate;
     }
 
+    /**
+     * Checks if the specified end date is after or equal to the given start date.
+     *
+     * @param startDate The starting date of the appointment.
+     * @param endDate   The ending date of the appointment.
+     * @return true if the end date is after or equal to the start date, false otherwise.
+     */
     public static boolean isValidAppointmentEndDate(LocalDate startDate, LocalDate endDate) {
         // Check if the start date is before or equal to the end date
         return !endDate.isBefore(startDate);

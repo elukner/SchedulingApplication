@@ -178,6 +178,12 @@ public class FileIOManager {
 
     }
 
+    /**
+     * Reads the last login activity from the "login_activity.txt" file and returns it as a LocalDateTime.
+     *
+     * @return The LocalDateTime representing the last login activity.
+     * @throws FileNotFoundException If the "login_activity.txt" file is not found.
+     */
     public static LocalDateTime readFileCurrentUserDateTime() throws FileNotFoundException {
         // Retrieve the last line from the "login_activity.txt" file as an array
         String[] lastLine = readFileCurrentUserAsArray();

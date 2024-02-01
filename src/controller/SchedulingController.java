@@ -696,6 +696,9 @@ public class SchedulingController extends Application implements Initializable {
 
     /**
      * Displays the scheduling table view with appointments and necessary columns.
+     * Also, it checks for upcoming appointments based on the current user's local time.
+     *
+     * @throws FileNotFoundException If an error occurs while reading user data.
      */
     @FXML
     void showSchedulingTableView() throws FileNotFoundException {

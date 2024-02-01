@@ -11,10 +11,11 @@ public class DateTimeProcessing {
 
 
     /**
-     * Method to convert UTC to local time
-     * @param utcDateTime
-     * @param userTimeZone
-     * @return
+     * Converts the specified UTC date and time to the local time of the provided time zone.
+     *
+     * @param utcDateTime   The UTC date and time to be converted.
+     * @param userTimeZone  The target time zone for the conversion.
+     * @return The LocalDateTime representation of the converted date and time.
      */
     public static LocalDateTime convertUTCToLocal(LocalDateTime utcDateTime, ZoneId userTimeZone) {
         ZonedDateTime utcZonedDateTime = utcDateTime.atZone(ZoneId.of("UTC"));
@@ -23,10 +24,11 @@ public class DateTimeProcessing {
 
 
     /**
-     * Method to convert local time to UTC
-     * @param localDateTime
-     * @param userTimeZone
-     * @return
+     * Converts the specified local date and time to UTC based on the provided time zone.
+     *
+     * @param localDateTime The local date and time to be converted.
+     * @param userTimeZone  The time zone of the local date and time.
+     * @return The LocalDateTime representation of the converted UTC date and time.
      */
     public static LocalDateTime convertLocalToUTC(LocalDateTime localDateTime, ZoneId userTimeZone) {
         ZonedDateTime localZonedDateTime = localDateTime.atZone(userTimeZone);
@@ -47,7 +49,10 @@ public class DateTimeProcessing {
     }
 
     /**
+     * Creates a LocalDateTime object from the specified date and time string in UTC format.
      *
+     * @param dateTime The date and time string in UTC format ("yyyy-MM-dd HH:mm:ss").
+     * @return The LocalDateTime representation of the specified date and time in the user's timezone.
      */
     public static LocalDateTime createLocalDateTime(String dateTime){
         // Sample appointment time in UTC
@@ -62,9 +67,17 @@ public class DateTimeProcessing {
         return userAppointmentTime;
     }
 
+    /**
+     * Formats the specified LocalDateTime object to a string using the pattern "yyyy-MM-dd HH:mm:ss".
+     *
+     * @param dateTime The LocalDateTime object to be formatted.
+     * @return The formatted date and time string.
+     */
     public static String getFormatedDateTime(LocalDateTime dateTime){
         return  dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
+
+
     /**
      * Retrieves the current date-time in the format "yyyy-MM-dd HH:mm:ss".
      *
@@ -105,6 +118,13 @@ public class DateTimeProcessing {
                 || etDateTime.toLocalTime().isAfter(businessEndTime);
     }
 
+    /**
+     * Checks if the specified end time is after the specified start time.
+     *
+     * @param startTime The start time.
+     * @param endTime   The end time.
+     * @return True if the end time is after the start time, false otherwise.
+     */
     public static boolean isValidAppointmentEndDateTime(LocalDateTime startTime, LocalDateTime endTime) {
         // Check if the start time is before the end time
         if (startTime.isBefore(endTime)) {

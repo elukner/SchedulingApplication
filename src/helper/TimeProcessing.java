@@ -252,7 +252,13 @@ public class TimeProcessing {
         // Extract the local time
         return localDateTime.toLocalTime();
     }
-
+    /**
+     * Checks if the specified end time is after or equal to the given start time.
+     *
+     * @param startTime The starting time of the appointment.
+     * @param endTime   The ending time of the appointment.
+     * @return true if the end time is after or equal to the start time, false otherwise.
+     */
     public static boolean isValidAppointmentEndTime(LocalTime startTime, LocalTime endTime) {
         // Check if the start date is before or equal to the end date
         return !endTime.isBefore(startTime);
