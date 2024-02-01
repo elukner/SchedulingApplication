@@ -80,8 +80,8 @@ public class DateTimeProcessing {
     /**
      * Checks if a given date and time are outside of business hours defined as 8:00 a.m. to 10:00 p.m. ET, including weekends.
      *
-     * @param localDateString The date in the format "yyyy-MM-dd".
-     * @param localTimeString The time in the format "HH:mm:ss".
+     * @param localDate The date in the format "yyyy-MM-dd".
+     * @param localTime The time in the format "HH:mm:ss".
      * @return True if the date-time is outside business hours; otherwise, false.
      */
     public static boolean isOutsideBusinessHours(LocalDate localDate, LocalTime localTime) {

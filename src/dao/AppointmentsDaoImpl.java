@@ -105,10 +105,10 @@ public class AppointmentsDaoImpl {
 
             PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
             preparedStatement.setInt(1, customerId);
-            preparedStatement.setString(2, startDateTime.toLocalTime().toString());
-            preparedStatement.setString(3, endDateTime.toLocalTime().toString());
-            preparedStatement.setString(4, startDateTime.toLocalDate().toString());
-            preparedStatement.setString(5,endDateTime.toLocalDate().toString());
+            preparedStatement.setString(2, startDateTime.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+            preparedStatement.setString(3, endDateTime.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+            preparedStatement.setString(4, startDateTime.toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            preparedStatement.setString(5,endDateTime.toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
 
 

@@ -1,6 +1,12 @@
 package test;
 
+import dao.AppointmentsDaoImpl;
+import helper.JDBC;
 import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class DaoTest {
     @Test
@@ -8,7 +14,14 @@ public class DaoTest {
     }
 
     @Test
-    void hasOverlappingAppointments() {
+    void testHasOverlappingAppointments() throws SQLException {
+        JDBC.openConnection();
+      boolean hasOverlapped = AppointmentsDaoImpl.hasOverlappingAppointments(2,
+               LocalDateTime.parse("2024-02-01 16:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+               LocalDateTime.parse("2024-02-01 17:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+       System.out.println(hasOverlapped);
+        JDBC.closeConnection();
     }
 
     @Test
