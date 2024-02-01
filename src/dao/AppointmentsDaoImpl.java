@@ -126,6 +126,35 @@ public class AppointmentsDaoImpl {
         return false;
     }
 
+
+    public static boolean hasOverlappingAppointmentsTemp(int customerId, LocalDateTime startDateTime, LocalDateTime endDateTime) throws SQLException {
+        // Query to check for overlapping appointments
+        String sql = "SELECT COUNT(*) FROM client_schedule.appointments " +
+                "WHERE Customer_ID = ? " +
+                "AND ? <= End AND ? >= Start";
+
+        try  {
+            PreparedStatement statement = JDBC.getConnection().prepareStatement(sql);
+            statement.setInt(1, customerId);
+//            statement.setTimestamp(2, Timestamp.valueOf(endDateTime));
+//            statement.setTimestamp(3, Timestamp.valueOf(startDateTime));
+            statement.setString(2, startDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            statement.setString(3, endDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int overlappingAppointmentsCount = resultSet.getInt(1);
+                    return overlappingAppointmentsCount > 0;
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return false;
+    }
+
+
     /**
      * Retrieves a list of appointments associated with the specified customer ID from the appointments table
      * in the client_schedule database.
