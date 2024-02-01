@@ -253,19 +253,9 @@ public class TimeProcessing {
         return localDateTime.toLocalTime();
     }
 
-    public static boolean isValidAppointmentEndTime(LocalDateTime startTime, LocalDateTime endTime) {
-//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        LocalDateTime startTime = LocalDateTime.parse(startDateTimeString, dateTimeFormatter);
-//        LocalDateTime endTime = LocalDateTime.parse(endDateTimeString, dateTimeFormatter);
-
-        // Check if the start time is before the end time
-        if (startTime.isBefore(endTime)) {
-            return true;
-        } else {
-            System.out.println("Error: Start time must be before the end time.");
-            return false;
-        }
+    public static boolean isValidAppointmentEndTime(LocalTime startTime, LocalTime endTime) {
+        // Check if the start date is before or equal to the end date
+        return !endTime.isBefore(startTime);
     }
-
 
 }

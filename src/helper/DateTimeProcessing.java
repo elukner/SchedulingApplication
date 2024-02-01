@@ -89,11 +89,6 @@ public class DateTimeProcessing {
         LocalTime businessStartTime = LocalTime.of(8, 0); // 8:00 AM ET
         LocalTime businessEndTime = LocalTime.of(22, 0); // 10:00 PM ET
 
-
-//        // Parse the input string to LocalTime
-//        LocalTime localTime = LocalTime.parse(localTimeString, DateTimeFormatter.ofPattern("HH:mm:ss"));
-//        LocalDate localDate = LocalDate.parse(localDateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
         // Combine the LocalDate and LocalTime to create ZonedDateTime
         ZonedDateTime etDateTime = ZonedDateTime.of(
                 localDate,
@@ -108,6 +103,15 @@ public class DateTimeProcessing {
         // Check if the time is outside of business hours
         return isWeekend || etDateTime.toLocalTime().isBefore(businessStartTime)
                 || etDateTime.toLocalTime().isAfter(businessEndTime);
+    }
+
+    public static boolean isValidAppointmentEndDateTime(LocalDateTime startTime, LocalDateTime endTime) {
+        // Check if the start time is before the end time
+        if (startTime.isBefore(endTime)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

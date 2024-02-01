@@ -52,4 +52,10 @@ public class DateProcessing {
         LocalDate localDate = LocalDate.parse(dateTime, dateTimeFormatter);
         return localDate;
     }
+
+    public static boolean isValidAppointmentEndDate(LocalDate startDate, LocalDate endDate) {
+        // Check if the start date is before or equal to the end date
+        return !endDate.isBefore(startDate);
+    }
+
 }
