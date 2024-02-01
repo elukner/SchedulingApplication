@@ -253,10 +253,10 @@ public class TimeProcessing {
         return localDateTime.toLocalTime();
     }
 
-    public static boolean isValidAppointmentEndTime(String startDateTimeString, String endDateTimeString) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime startTime = LocalDateTime.parse(startDateTimeString, dateTimeFormatter);
-        LocalDateTime endTime = LocalDateTime.parse(endDateTimeString, dateTimeFormatter);
+    public static boolean isValidAppointmentEndTime(LocalDateTime startTime, LocalDateTime endTime) {
+//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        LocalDateTime startTime = LocalDateTime.parse(startDateTimeString, dateTimeFormatter);
+//        LocalDateTime endTime = LocalDateTime.parse(endDateTimeString, dateTimeFormatter);
 
         // Check if the start time is before the end time
         if (startTime.isBefore(endTime)) {

@@ -22,6 +22,7 @@ import model.Appointments;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 
@@ -88,7 +89,7 @@ public class AppointmentsDaoImpl {
      * @return true if there are overlapping appointments, {@code false} otherwise.
      * @throws SQLException If a database access error occurs.
      */
-    public static boolean hasOverlappingAppointments(int customerId, String startDateTime, String endDateTime) throws SQLException {
+    public static boolean hasOverlappingAppointments(int customerId, LocalDateTime startDateTime, LocalDateTime endDateTime) throws SQLException {
 
         try{
             // Query to check for overlapping appointments
@@ -104,10 +105,10 @@ public class AppointmentsDaoImpl {
 
             PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
             preparedStatement.setInt(1, customerId);
-            preparedStatement.setString(2, TimeProcessing.getTimeFromDateTime(startDateTime));
-            preparedStatement.setString(3, TimeProcessing.getTimeFromDateTime(endDateTime));
-            preparedStatement.setString(4, DateProcessing.getDateFromDateTime(startDateTime).toString() );
-            preparedStatement.setString(5,DateProcessing.getDateFromDateTime(endDateTime).toString());
+            preparedStatement.setString(2, startDateTime.toLocalTime().toString());
+            preparedStatement.setString(3, endDateTime.toLocalTime().toString());
+            preparedStatement.setString(4, startDateTime.toLocalDate().toString());
+            preparedStatement.setString(5,endDateTime.toLocalDate().toString());
 
 
 
@@ -308,8 +309,8 @@ public class AppointmentsDaoImpl {
                 String description = resultSet.getString("Description");
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
-                Timestamp start = resultSet.getTimestamp("Start");
-                Timestamp end = resultSet.getTimestamp("End");
+                Timestamp start = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "Start").toLocalDateTime(),ZoneId.systemDefault()));
+                Timestamp end = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "End").toLocalDateTime(),ZoneId.systemDefault()));
                 String createDate = resultSet.getString("Create_Date");
                 String createdBy = resultSet.getString("Created_By");
                 String lastUpdate = resultSet.getString("Last_Update");
@@ -368,8 +369,8 @@ public class AppointmentsDaoImpl {
         preparedStatement.setString(2, description);
         preparedStatement.setString(3, location);
         preparedStatement.setString(4, type);
-        preparedStatement.setTimestamp(5, Timestamp.valueOf(start));
-        preparedStatement.setTimestamp(6, Timestamp.valueOf(end));
+        preparedStatement.setTimestamp(5, Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(start, ZoneId.systemDefault())));
+        preparedStatement.setTimestamp(6, Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(end,ZoneId.systemDefault())));
         preparedStatement.setString(7, createdBy);
         preparedStatement.setString(8, lastUpdatedBy);
         preparedStatement.setInt(9, customerID);
@@ -513,8 +514,8 @@ public class AppointmentsDaoImpl {
         preparedStatement.setString(2, description);
         preparedStatement.setString(3, location);
         preparedStatement.setString(4, type);
-        preparedStatement.setTimestamp(5, Timestamp.valueOf(start));
-        preparedStatement.setTimestamp(6, Timestamp.valueOf(end));
+        preparedStatement.setTimestamp(5, Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(start, ZoneId.systemDefault())));
+        preparedStatement.setTimestamp(6, Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(end,ZoneId.systemDefault())));
         preparedStatement.setString(7, lastUpdate);
         preparedStatement.setString(8, lastUpdatedBy);
         preparedStatement.setInt(9, customerID);

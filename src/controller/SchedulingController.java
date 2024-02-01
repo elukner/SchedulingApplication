@@ -379,8 +379,8 @@ public class SchedulingController extends Application implements Initializable {
 
 
         appointmentsModel = new Appointments((new ReadOnlyStringWrapper(titleTxt.getText())),
-                descriptionTxt.getText(), locationTxt.getText(), typeTxt.getText(), LocalDateTime.parse(getStartDateTimeSelected()),
-                LocalDateTime.parse(getEndDateTimeSelected()), dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(),
+                descriptionTxt.getText(), locationTxt.getText(), typeTxt.getText(), LocalDateTime.parse(getStartDateTimeSelected(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                LocalDateTime.parse(getEndDateTimeSelected(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(),
                 dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(), Integer.parseInt(customerIDSelected),
                 Integer.parseInt(userIDSelected), contactsModel.getContactID());
 
@@ -404,10 +404,10 @@ public class SchedulingController extends Application implements Initializable {
      *
      */
     private boolean isValidAppointment() throws SQLException {
-        if (DateTimeProcessing.isOutsideBusinessHours(appointmentsModel.getStart().toLocalDate().toString(),
-                appointmentsModel.getStart().toLocalTime().toString()) ||
-                DateTimeProcessing.isOutsideBusinessHours(appointmentsModel.getEnd().toLocalDate().toString(),
-                       appointmentsModel.getEnd().toLocalTime().toString())) {
+        if (DateTimeProcessing.isOutsideBusinessHours(appointmentsModel.getStart().toLocalDate(),
+                appointmentsModel.getStart().toLocalTime()) ||
+                DateTimeProcessing.isOutsideBusinessHours(appointmentsModel.getEnd().toLocalDate(),
+                       appointmentsModel.getEnd().toLocalTime())) {
 
             //display a custom message specific for each error check in the user interface
             setCustomMessage(Alert.AlertType.ERROR, "Appointment outside of business hours",
@@ -417,16 +417,16 @@ public class SchedulingController extends Application implements Initializable {
             return false;
         }
         if (AppointmentsDaoImpl.hasOverlappingAppointments(appointmentsModel.getCustomerID(),
-                appointmentsModel.getStart().toString(),
-                appointmentsModel.getEnd().toString())) {
+                appointmentsModel.getStart(),
+                appointmentsModel.getEnd())) {
             //display a custom message specific for each error check in the user interface
             setCustomMessage(Alert.AlertType.ERROR, "Scheduling Overlap", "Please schedule a non-overlapping " +
                     "appointment for customer");
             //scheduling overlapping appointments for customers
             return false;
         }
-        if(!TimeProcessing.isValidAppointmentEndTime(appointmentsModel.getStart().toString(),
-                appointmentsModel.getEnd().toString())){
+        if(!TimeProcessing.isValidAppointmentEndTime(appointmentsModel.getStart(),
+                appointmentsModel.getEnd())){
             //The application does not allow entering appointments with a start time after the end time.
             setCustomMessage(Alert.AlertType.ERROR, "Start Time After The End Time", "The application " +
                     "does not allow entering appointments with a start time after the end time.");
