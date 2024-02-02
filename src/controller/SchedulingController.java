@@ -1163,19 +1163,13 @@ public class SchedulingController extends Application implements Initializable {
     }
 
     /**
-     * Initializes the controller after its root element has been completely processed.
-     *
-     * @param url The location used to resolve relative paths for the root object.
-     * @param resourceBundle The resources used to localize the root object.
+     * Sets up listeners for start and end date pickers, as well as start and end time combo boxes.
+     * When the start date picker value changes, the corresponding flag (startDatePickerChanged) is set to true.
+     * When the end date picker value changes, the corresponding flag (endDatePickerChanged) is set to true.
+     * When the start time combo box selection changes, the corresponding flag (startTimeChanged) is set to false.
+     * When the end time combo box selection changes, the corresponding flag (endTimeChanged) is set to false.
      */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            showSchedulingTableView();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        tbleViewSelectionListener();
+    private void startEndDateTimeListiners() {
         startDatePicker.valueProperty().addListener((observableValue, oldValue, newValue) -> {
             startDatePickerChanged = true;
         });
@@ -1189,6 +1183,24 @@ public class SchedulingController extends Application implements Initializable {
             endTimeChanged = false;
         });
     }
+    /**
+     * Initializes the controller after its root element has been completely processed.
+     *
+     * @param url The location used to resolve relative paths for the root object.
+     * @param resourceBundle The resources used to localize the root object.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            showSchedulingTableView();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        tbleViewSelectionListener();
+        startEndDateTimeListiners();
+    }
+
+
 
     /**
      * Starts the JavaFX application by loading the scheduling.fxml file and displaying the stage.
