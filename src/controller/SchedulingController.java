@@ -559,34 +559,33 @@ public class SchedulingController extends Application implements Initializable {
 
         //When adding and updating an appointment, record the following data: Appointment_ID, title, description, location,
         //  contact, type, start date and time, end date and time, Customer_ID, and User_ID.
-        appointmentsModel = appointmentTblView.getSelectionModel().getSelectedItem();
-        appointmentsModel.setAppointmentID(Integer.parseInt(appointmentIDTxt.getText()));
-        appointmentsModel.setTitle(new ReadOnlyStringWrapper(titleTxt.getText()));
-        appointmentsModel.setDescription(descriptionTxt.getText());
-        appointmentsModel.setLocation(locationTxt.getText());
-        appointmentsModel.setType(typeTxt.getText());
-        appointmentsModel.setStart(LocalDateTime.parse(getStartDateTimeSelected(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        appointmentsModel.setEnd(LocalDateTime.parse(getEndDateTimeSelected(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        appointmentsModel.setLastUpdate(DateTimeProcessing.getCurrentLocalDateTimeString());
-        appointmentsModel.setLastUpdatedBy(user.getUserName());
-        appointmentsModel.setCustomerID(Integer.parseInt(customerIDSelected));
-        appointmentsModel.setUserID(Integer.parseInt(userIDSelected));
-        appointmentsModel.setContactID(contactsModel.getContactID());
 
+            appointmentsModel = appointmentTblView.getSelectionModel().getSelectedItem();
+            appointmentsModel.setAppointmentID(Integer.parseInt(appointmentIDTxt.getText()));
+            appointmentsModel.setTitle(new ReadOnlyStringWrapper(titleTxt.getText()));
+            appointmentsModel.setDescription(descriptionTxt.getText());
+            appointmentsModel.setLocation(locationTxt.getText());
+            appointmentsModel.setType(typeTxt.getText());
+            appointmentsModel.setStart(LocalDateTime.parse(getStartDateTimeSelected(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            appointmentsModel.setEnd(LocalDateTime.parse(getEndDateTimeSelected(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            appointmentsModel.setLastUpdate(DateTimeProcessing.getCurrentLocalDateTimeString());
+            appointmentsModel.setLastUpdatedBy(user.getUserName());
+            appointmentsModel.setCustomerID(Integer.parseInt(customerIDSelected));
+            appointmentsModel.setUserID(Integer.parseInt(userIDSelected));
+            appointmentsModel.setContactID(contactsModel.getContactID());
 
         if(startDatePickerChanged ||endDatePickerChanged || startTimeChanged || endTimeChanged){
             if (isValidAppointment()) {
                 updateCustomerDatabase();
                 clearSelectionAndFormFields();
+                showSchedulingTableView();
             }
         }else{
             updateCustomerDatabase();
             clearSelectionAndFormFields();
+            showSchedulingTableView();
+
         }
-
-
-
-        showSchedulingTableView();
 
     }
 
