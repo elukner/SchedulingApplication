@@ -467,32 +467,30 @@ public class SchedulingController extends Application implements Initializable {
             }
         }
 
-
-
-        if(!DateTimeProcessing.isValidAppointmentEndDateTime(appointmentsModel.getStart(),
-                appointmentsModel.getEnd())){
+//        if(!DateTimeProcessing.isValidAppointmentEndDateTime(appointmentsModel.getStart(),
+//                appointmentsModel.getEnd())){
+//            //The application does not allow entering appointments with a start time after the end time.
+//            setCustomMessage(Alert.AlertType.ERROR, "Start Date and Time After The Date and Time Date", "The application " +
+//                    "does not allow entering appointments with a start date and time after the end date and time.");
+//            return false;
+//
+//        }
+        if(!TimeProcessing.isValidAppointmentEndTime(appointmentsModel.getStart().toLocalTime(),
+                appointmentsModel.getEnd().toLocalTime())){
             //The application does not allow entering appointments with a start time after the end time.
-            setCustomMessage(Alert.AlertType.ERROR, "Start Date and Time After The Date and Time Date", "The application " +
-                    "does not allow entering appointments with a start date and time after the end date and time.");
+            setCustomMessage(Alert.AlertType.ERROR, "Start Time After The End Time", "The application " +
+                    "does not allow entering appointments with a start time after the end time.");
             return false;
 
         }
-//        if(!TimeProcessing.isValidAppointmentEndTime(appointmentsModel.getStart().toLocalTime(),
-//                appointmentsModel.getEnd().toLocalTime())){
-//            //The application does not allow entering appointments with a start time after the end time.
-//            setCustomMessage(Alert.AlertType.ERROR, "Start Time After The End Time", "The application " +
-//                    "does not allow entering appointments with a start time after the end time.");
-//            return false;
-//
-//        }
-//        if(!DateProcessing.isValidAppointmentEndDate(appointmentsModel.getStart().toLocalDate(),
-//                appointmentsModel.getEnd().toLocalDate())){
-//            //The application does not allow entering appointments with a start time after the end time.
-//            setCustomMessage(Alert.AlertType.ERROR, "Start Date After The End Date", "The application " +
-//                    "does not allow entering appointments with a start date after the end date.");
-//            return false;
-//
-//        }
+        if(!DateProcessing.isValidAppointmentEndDate(appointmentsModel.getStart().toLocalDate(),
+                appointmentsModel.getEnd().toLocalDate())){
+            //The application does not allow entering appointments with a start time after the end time.
+            setCustomMessage(Alert.AlertType.ERROR, "Start Date After The End Date", "The application " +
+                    "does not allow entering appointments with a start date after the end date.");
+            return false;
+
+        }
 
 
         return true;
