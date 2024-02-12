@@ -565,6 +565,12 @@ public class CustomerRecordController extends Application implements Initializab
 
     }
 
+    /**
+     * Fills the country and division combo boxes with data based on the selected customer from the customer record table.
+     * If a customer is selected, retrieves the corresponding country and division data, and populates the country and division combo boxes.
+     * If no customer is selected, selects an ambiguous customer to trigger the combo boxes' population.
+     * Clears all fields to prevent unintended data display, as the listener will fill them accordingly.
+     */
     private void fillComboBoxes() {
         if (!customerRecordTbl.getSelectionModel().isEmpty()) {
             // Store the selected customer
@@ -579,9 +585,9 @@ public class CustomerRecordController extends Application implements Initializab
             populateFirstLevelDivisionsComboBox(null,FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()));
 
         }else{
-            // select ambiguous customer so that comboboxes will populate
+            // Select an ambiguous customer so that combo boxes will populate
             customerRecordTbl.getSelectionModel().select(0);
-            //clear fields because the listener will fill them otherwise
+            // Clear fields because the listener will fill them otherwise
             clearAllFields();
 
             // Store the selected customer
