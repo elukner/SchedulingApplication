@@ -578,6 +578,23 @@ public class CustomerRecordController extends Application implements Initializab
             populateCountryComboBox(null,CountriesDaoImpl.getAllCountries());
             populateFirstLevelDivisionsComboBox(null,FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()));
 
+        }else{
+            // select ambiguous customer so that comboboxes will populate
+            customerRecordTbl.getSelectionModel().select(0);
+            //clear fields because the listener will fill them otherwise
+            clearAllFields();
+
+            // Store the selected customer
+            selectedCustomer = customerRecordTbl.getSelectionModel().getSelectedItem();
+
+            // Retrieve country and division data for the selected customer
+            countriesModel = CountriesDaoImpl.getCountry(selectedCustomer.getCountry()).get(0);
+            divisionModel = FirstLevelDivisionsDaoImpl.getFirstLevelDivisionByID(selectedCustomer.getDivisionID()).get(0);
+
+
+            populateCountryComboBox(null,CountriesDaoImpl.getAllCountries());
+            populateFirstLevelDivisionsComboBox(null,FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()));
+
         }
     }
 
