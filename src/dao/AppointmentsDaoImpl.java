@@ -255,8 +255,8 @@ public class AppointmentsDaoImpl {
                 String description = resultSet.getString("Description");
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
-                Timestamp start = resultSet.getTimestamp("Start");
-                Timestamp end = resultSet.getTimestamp("End");
+                Timestamp start = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "Start").toLocalDateTime(),ZoneId.systemDefault()));
+                Timestamp end = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "End").toLocalDateTime(),ZoneId.systemDefault()));
                 String createDate = resultSet.getString("Create_Date");
                 String createdBy = resultSet.getString("Created_By");
                 String lastUpdate = resultSet.getString("Last_Update");
