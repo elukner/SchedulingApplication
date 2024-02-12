@@ -288,6 +288,8 @@ public class CustomerRecordController extends Application implements Initializab
 
         clearAllFields();
         showModify("Add");
+        fillComboBoxes();
+
     }
 
     /**
@@ -347,7 +349,6 @@ public class CustomerRecordController extends Application implements Initializab
                 modifyBtn.setText("Add");
                 customerIDLbl.setVisible(false);
                 customerIDTxt.setVisible(false);
-                populateComboBoxes();
                 break;
             case "Update":
                 modifyBtn.setText("Update");
@@ -562,6 +563,22 @@ public class CustomerRecordController extends Application implements Initializab
         }
 
 
+    }
+
+    private void fillComboBoxes() {
+        if (!customerRecordTbl.getSelectionModel().isEmpty()) {
+            // Store the selected customer
+            selectedCustomer = customerRecordTbl.getSelectionModel().getSelectedItem();
+
+            // Retrieve country and division data for the selected customer
+            countriesModel = CountriesDaoImpl.getCountry(selectedCustomer.getCountry()).get(0);
+            divisionModel = FirstLevelDivisionsDaoImpl.getFirstLevelDivisionByID(selectedCustomer.getDivisionID()).get(0);
+
+
+            populateCountryComboBox(null,CountriesDaoImpl.getAllCountries());
+            populateFirstLevelDivisionsComboBox(null,FirstLevelDivisionsDaoImpl.getAllFirstLevelDivisionsFilteredCountry(countriesModel.getCountryID()));
+
+        }
     }
 
     /**
