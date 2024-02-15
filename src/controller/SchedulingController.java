@@ -759,6 +759,7 @@ public class SchedulingController extends Application implements Initializable {
         locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
         contactCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        //here is an update
         startDateTimeCol.setCellValueFactory(cellDataFeatures -> new SimpleStringProperty(cellDataFeatures.getValue().getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
         endDateTimeCol.setCellValueFactory(cellDataFeatures -> new SimpleStringProperty(cellDataFeatures.getValue().getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
         customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
