@@ -18,6 +18,7 @@ public class DateTimeProcessing {
      * @return The LocalDateTime representation of the converted date and time.
      */
     public static LocalDateTime convertUTCToLocal(LocalDateTime utcDateTime, ZoneId userTimeZone) {
+        System.out.println(userTimeZone.getId());
         ZonedDateTime utcZonedDateTime = utcDateTime.atZone(ZoneId.of("UTC"));
         return utcZonedDateTime.withZoneSameInstant(userTimeZone).toLocalDateTime();
     }

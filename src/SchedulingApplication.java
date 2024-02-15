@@ -15,6 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.time.ZoneId;
+
 /**
  * The main class for the Scheduling Application, extending JavaFX's Application class.
  * This class manages the initialization and termination of the application, including the UI setup.
@@ -55,6 +57,8 @@ public class SchedulingApplication extends Application {
      * @param args Command line arguments.
      */
     public static void main(String[] args) {
+        //ZoneId.getAvailableZoneIds().stream().forEach(System.out::println);
+        //ZoneId.getAvailableZoneIds().stream().filter(c->c.contains("America")).forEach(System.out::println);
         JDBC.openConnection();
         launch(args);
         JDBC.closeConnection();
