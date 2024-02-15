@@ -57,8 +57,6 @@ public class SchedulingApplication extends Application {
      * @param args Command line arguments.
      */
     public static void main(String[] args) {
-        //ZoneId.getAvailableZoneIds().stream().forEach(System.out::println);
-        //ZoneId.getAvailableZoneIds().stream().filter(c->c.contains("America")).forEach(System.out::println);
         JDBC.openConnection();
         launch(args);
         JDBC.closeConnection();
