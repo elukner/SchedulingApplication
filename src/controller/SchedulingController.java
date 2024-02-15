@@ -769,7 +769,6 @@ public class SchedulingController extends Application implements Initializable {
         try {
             // Fetch and add all appointments to appointmentsList
             appointmentsList.addAll(AppointmentsDaoImpl.getAllAppointmentsByLocalTimeZones());
-           // appointmentsList.addAll(AppointmentsDaoImpl.getAllAppointments());
 
         } catch (Exception ex) {
             Logger.getLogger(SchedulingController.class.getName()).log(Level.SEVERE, null, ex);
