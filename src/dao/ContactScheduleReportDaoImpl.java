@@ -9,6 +9,7 @@ package dao;
  * Time: 1:27 PM
  */
 
+import helper.DateTimeProcessing;
 import helper.JDBC;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -20,6 +21,8 @@ import model.ContactScheduleReport;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.ZoneId;
 
 /**
  * This class provides data access methods for retrieving contact schedules.
@@ -59,13 +62,14 @@ public class ContactScheduleReportDaoImpl {
                 String title = resultSet.getString("Title");
                 String type = resultSet.getString("Type");
                 String description = resultSet.getString("Description");
-                String start = resultSet.getString("Start");
-                String end = resultSet.getString("End");
+                Timestamp start = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "Start").toLocalDateTime(), ZoneId.systemDefault()));
+                Timestamp end = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "End").toLocalDateTime(),ZoneId.systemDefault()));
                 int customerID = resultSet.getInt("Customer_ID");
 
                 ContactScheduleReport contactScheduleReport = new ContactScheduleReport(new ReadOnlyIntegerWrapper(contactID),
                         new ReadOnlyStringWrapper(contactName),
-                        new ReadOnlyIntegerWrapper(appointmentID),title,type,description,start,end,new ReadOnlyIntegerWrapper(customerID) );
+                        new ReadOnlyIntegerWrapper(appointmentID),title,type,description,start.toLocalDateTime(),
+                        end.toLocalDateTime(),new ReadOnlyIntegerWrapper(customerID) );
                 contactSchedulesList.add(contactScheduleReport);
             }
         } catch (SQLException throwables) {
