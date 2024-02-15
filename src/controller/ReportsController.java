@@ -10,6 +10,7 @@ package controller;
 import dao.*;
 import helper.FileIOManager;
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -285,8 +287,8 @@ public class ReportsController extends Application implements Initializable {
             titleCol.setCellValueFactory(new PropertyValueFactory<>("Title"));
             typeContactAppointmentCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
             descriptionCol.setCellValueFactory(new PropertyValueFactory<>("Description"));
-            startCol.setCellValueFactory(new PropertyValueFactory<>("Start"));
-            endCol.setCellValueFactory(new PropertyValueFactory<>("End"));
+            startCol.setCellValueFactory(cellDataFeatures -> new SimpleStringProperty(cellDataFeatures.getValue().getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+            endCol.setCellValueFactory(cellDataFeatures -> new SimpleStringProperty(cellDataFeatures.getValue().getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
             customerIDCol.setCellValueFactory(cellDataFeatures -> cellDataFeatures.getValue().getCustomerID().asObject());
 
         }
