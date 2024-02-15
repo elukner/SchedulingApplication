@@ -12,6 +12,8 @@ package model;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 
+import java.time.LocalDateTime;
+
 /**
  * Represents a Contact Schedule Report containing information about appointments scheduled for a specific contact.
  */
@@ -50,12 +52,12 @@ public class ContactScheduleReport {
     /**
      * The start date and time of the appointment.
      */
-    private String start;
+    private LocalDateTime start;
 
     /**
      * The end date and time of the appointment.
      */
-    private String end;
+    private LocalDateTime end;
 
     /**
      * The unique identifier for the customer associated with the appointment.
@@ -76,7 +78,7 @@ public class ContactScheduleReport {
      * @param customerID The ID of the customer associated with the appointment.
      */
     public ContactScheduleReport(IntegerProperty contactID, StringProperty contactName, IntegerProperty appointmentID, String title,
-                                 String type, String description, String start, String end, IntegerProperty customerID) {
+                                 String type, String description, LocalDateTime start, LocalDateTime end, IntegerProperty customerID) {
         this.contactID = contactID;
         this.contactName = contactName;
         this.appointmentID = appointmentID;
@@ -201,7 +203,7 @@ public class ContactScheduleReport {
      *
      * @return The start date and time.
      */
-    public String getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
@@ -210,7 +212,7 @@ public class ContactScheduleReport {
      *
      * @param start The new start date and time to be set.
      */
-    public void setStart(String start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
@@ -219,7 +221,7 @@ public class ContactScheduleReport {
      *
      * @return The end date and time.
      */
-    public String getEnd() {
+    public LocalDateTime getEnd() {
         return end;
     }
 
@@ -228,7 +230,7 @@ public class ContactScheduleReport {
      *
      * @param end The new end date and time to be set.
      */
-    public void setEnd(String end) {
+    public void setEnd(LocalDateTime end) {
         this.end = end;
     }
 
