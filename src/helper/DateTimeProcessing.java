@@ -18,8 +18,14 @@ public class DateTimeProcessing {
      * @return The LocalDateTime representation of the converted date and time.
      */
     public static LocalDateTime convertUTCToLocal(LocalDateTime utcDateTime, ZoneId userTimeZone) {
-        System.out.println(userTimeZone.getId());
+        System.out.println("userTimeZone.getId(): " + userTimeZone.getId());
+//        ZonedDateTime utcZonedDateTime = utcDateTime.atZone(ZoneId.of("UTC"));//this is the bug it is not converting correctly
+        System.out.println("utcDateTime "+ utcDateTime);
         ZonedDateTime utcZonedDateTime = utcDateTime.atZone(ZoneId.of("UTC"));
+        System.out.println("utcDateTime.atZone(ZoneId.of(\"UTC\")): " +utcZonedDateTime);
+        System.out.println("utcZonedDateTime.withZoneSameInstant(userTimeZone): "+utcZonedDateTime.withZoneSameInstant(userTimeZone));
+        System.out.println("utcZonedDateTime.withZoneSameInstant(userTimeZone).toLocalDateTime(): "+utcZonedDateTime.withZoneSameInstant(userTimeZone).toLocalDateTime());
+        System.out.println(" ");
         return utcZonedDateTime.withZoneSameInstant(userTimeZone).toLocalDateTime();
     }
 
