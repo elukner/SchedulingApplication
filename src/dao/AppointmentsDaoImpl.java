@@ -336,8 +336,15 @@ public class AppointmentsDaoImpl {
                 String description = resultSet.getString("Description");
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
+
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
+                System.out.println("resultSet.getString(\"Start\"): "+resultSet.getString("Start")); //this is correct
+                System.out.println("resultSet.getTimestamp(\"Start\"): "+resultSet.getTimestamp( "Start", cal)); //this is incorrect by an 1hr
+                System.out.println("resultSet.getString(\"End\"): "+resultSet.getString("End"));
+                System.out.println("resultSet.getTimestamp(\"End\"): "+resultSet.getTimestamp( "End", cal));
+
+
                 Timestamp start = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "Start", cal).toLocalDateTime(),ZoneId.systemDefault()));
                 Timestamp end = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "End", cal).toLocalDateTime(),ZoneId.systemDefault()));
                 String createDate = resultSet.getString("Create_Date");

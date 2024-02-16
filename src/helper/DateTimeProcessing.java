@@ -3,6 +3,7 @@ package helper;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 
 /**
  * The DateTimeProcessing class provides utility methods for processing and formatting date-time information.
@@ -25,8 +26,13 @@ public class DateTimeProcessing {
         System.out.println("utcDateTime.atZone(ZoneId.of(\"UTC\")): " +utcZonedDateTime);
         System.out.println("utcZonedDateTime.withZoneSameInstant(userTimeZone): "+utcZonedDateTime.withZoneSameInstant(userTimeZone));
         System.out.println("utcZonedDateTime.withZoneSameInstant(userTimeZone).toLocalDateTime(): "+utcZonedDateTime.withZoneSameInstant(userTimeZone).toLocalDateTime());
+
+
+        Duration daylightSavingsDifference = ZoneId.systemDefault().getRules().getDaylightSavings(utcZonedDateTime.withZoneSameInstant(userTimeZone).toInstant());
+        System.out.println(" "+utcZonedDateTime.withZoneSameInstant(userTimeZone).toLocalDateTime().minus(daylightSavingsDifference));
         System.out.println(" ");
-        return utcZonedDateTime.withZoneSameInstant(userTimeZone).toLocalDateTime();
+
+        return utcZonedDateTime.withZoneSameInstant(userTimeZone).toLocalDateTime().minus(daylightSavingsDifference);
     }
 
 
