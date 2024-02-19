@@ -575,8 +575,8 @@ public class AppointmentsDaoImpl {
         preparedStatement.setString(2, description);
         preparedStatement.setString(3, location);
         preparedStatement.setString(4, type);
-        preparedStatement.setTimestamp(5, Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(start, ZoneId.systemDefault())));
-        preparedStatement.setTimestamp(6, Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(end,ZoneId.systemDefault())));
+        preparedStatement.setTimestamp(5, Timestamp.valueOf(start));
+        preparedStatement.setTimestamp(6, Timestamp.valueOf(end));
         preparedStatement.setString(7, lastUpdate);
         preparedStatement.setString(8, lastUpdatedBy);
         preparedStatement.setInt(9, customerID);
