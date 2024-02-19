@@ -113,6 +113,13 @@ public abstract class JDBC {
         }
     }
 
+    /**
+     * Sets the MySQL server's global time zone to Coordinated Universal Time (UTC).
+     * This method executes a SQL statement to update the server's time zone setting.
+     *
+     * @return An array of update counts indicating the number of affected rows for each executed batch.
+     * @throws SQLException If a database access error occurs or the SQL statement execution fails.
+     */
     private static int[] setUTCTimezone() throws SQLException {
         Statement statement = JDBC.getConnection().createStatement();
 
