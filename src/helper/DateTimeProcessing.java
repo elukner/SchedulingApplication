@@ -42,8 +42,8 @@ public class DateTimeProcessing {
      */
     public static LocalDateTime convertLocalToUTC(LocalDateTime localDateTime, ZoneId userTimeZone) {
         ZonedDateTime localZonedDateTime = localDateTime.atZone(userTimeZone);
-        System.out.println("localDateTime.atZone(userTimeZone) "+localDateTime.atZone(userTimeZone));
-        System.out.println("localZonedDateTime.withZoneSameInstant(ZoneId.of(\"UTC\")).toLocalDateTime() "+localZonedDateTime.withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime());
+//        System.out.println("localDateTime.atZone(userTimeZone) "+localDateTime.atZone(userTimeZone));
+//        System.out.println("localZonedDateTime.withZoneSameInstant(ZoneId.of(\"UTC\")).toLocalDateTime() "+localZonedDateTime.withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime());
 
         return localZonedDateTime.withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();
     }

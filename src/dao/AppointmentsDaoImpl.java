@@ -96,16 +96,13 @@ public class AppointmentsDaoImpl {
         // Query to check for overlapping appointments
         String sql = "SELECT COUNT(*) FROM client_schedule.appointments " +
                 "WHERE Customer_ID = ? " +
-                "AND ? <= End AND ? >= Start";
+                "AND ? < End AND ? > Start";
 
         try  {
             PreparedStatement statement = JDBC.getConnection().prepareStatement(sql);
             statement.setInt(1, customerId);
             statement.setString(2, startDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             statement.setString(3, endDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-
-
-
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -136,7 +133,7 @@ public class AppointmentsDaoImpl {
         String sql = "SELECT COUNT(*) FROM client_schedule.appointments " +
                 "WHERE Customer_ID = ? " +
                 "AND Appointment_ID <> ? " +
-                "AND ? <= End AND ? >= Start";
+                "AND ? < End AND ? > Start";
 
         try {
             PreparedStatement statement = JDBC.getConnection().prepareStatement(sql);
@@ -144,7 +141,6 @@ public class AppointmentsDaoImpl {
             statement.setInt(2, appointmentID);
             statement.setString(3, startDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             statement.setString(4, endDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -431,12 +427,12 @@ public class AppointmentsDaoImpl {
         preparedStatement.setString(2, description);
         preparedStatement.setString(3, location);
         preparedStatement.setString(4, type);
-        System.out.println("Insert appointments start "+start+ZoneId.systemDefault().toString());
-        System.out.println("Insert appointments end "+end+ZoneId.systemDefault().toString());
-        System.out.println("Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(start, ZoneId.systemDefault()) " +
-                Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(start, ZoneId.systemDefault())));
-        System.out.println("Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(end, ZoneId.systemDefault()) " +
-                Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(end, ZoneId.systemDefault())));
+//        System.out.println("Insert appointments start "+start+ZoneId.systemDefault().toString());
+//        System.out.println("Insert appointments end "+end+ZoneId.systemDefault().toString());
+//        System.out.println("Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(start, ZoneId.systemDefault()) " +
+//                Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(start, ZoneId.systemDefault())));
+//        System.out.println("Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(end, ZoneId.systemDefault()) " +
+//                Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(end, ZoneId.systemDefault())));
 
 //        preparedStatement.setTimestamp(5, Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(start, ZoneId.systemDefault())));
 //        preparedStatement.setTimestamp(6, Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(end,ZoneId.systemDefault())));
@@ -448,7 +444,7 @@ public class AppointmentsDaoImpl {
         preparedStatement.setInt(10, userID);
         preparedStatement.setInt(11, contactID);
 
-        System.out.println(preparedStatement);
+       // System.out.println(preparedStatement);
         return preparedStatement.executeUpdate();
     }
 
