@@ -413,7 +413,9 @@ public class SchedulingController extends Application implements Initializable {
                 dateTimeFormatter.format(LocalDateTime.now()), user.getUserName(), Integer.parseInt(customerIDSelected),
                 Integer.parseInt(userIDSelected), contactsModel.getContactID());
 
-
+        System.out.println(appointmentsModel.getTitle() +
+                appointmentsModel.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
+                appointmentsModel.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         if (isValidAppointment()) {
 
             addCustomerDatabase();
@@ -532,6 +534,10 @@ public class SchedulingController extends Application implements Initializable {
      */
     private void addCustomerDatabase() throws SQLException {
         AppointmentsDaoImpl.resetAutoIncrement();
+        System.out.println("addCustomerDatabase() "+appointmentsModel.getTitle() +
+                appointmentsModel.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + " "+
+                appointmentsModel.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
         AppointmentsDaoImpl.insertAppointments(appointmentsModel.getTitle(),
                 appointmentsModel.getDescription(), appointmentsModel.getLocation(),
                 appointmentsModel.getType(), appointmentsModel.getStart() ,
