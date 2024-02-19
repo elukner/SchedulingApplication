@@ -211,14 +211,17 @@ public class AppointmentsDaoImpl {
             preparedStatement.setInt(1, LocalDate.now().getMonthValue());
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
+
             while (resultSet.next()) {
                 int appointmentID = resultSet.getInt("Appointment_ID");
                 String title = resultSet.getString("Title");
                 String description = resultSet.getString("Description");
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
-                Timestamp start = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "Start").toLocalDateTime(),ZoneId.systemDefault()));
-                Timestamp end = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "End").toLocalDateTime(),ZoneId.systemDefault()));
+                Timestamp start = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "Start", cal).toLocalDateTime(),ZoneId.systemDefault()));
+                Timestamp end = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "End", cal).toLocalDateTime(),ZoneId.systemDefault()));
                 String createDate = resultSet.getString("Create_Date");
                 String createdBy = resultSet.getString("Created_By");
                 String lastUpdate = resultSet.getString("Last_Update");
@@ -251,14 +254,17 @@ public class AppointmentsDaoImpl {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
+
             while (resultSet.next()) {
                 int appointmentID = resultSet.getInt("Appointment_ID");
                 String title = resultSet.getString("Title");
                 String description = resultSet.getString("Description");
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
-                Timestamp start = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "Start").toLocalDateTime(),ZoneId.systemDefault()));
-                Timestamp end = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "End").toLocalDateTime(),ZoneId.systemDefault()));
+                Timestamp start = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "Start", cal).toLocalDateTime(),ZoneId.systemDefault()));
+                Timestamp end = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "End", cal).toLocalDateTime(),ZoneId.systemDefault()));
                 String createDate = resultSet.getString("Create_Date");
                 String createdBy = resultSet.getString("Created_By");
                 String lastUpdate = resultSet.getString("Last_Update");
@@ -330,6 +336,9 @@ public class AppointmentsDaoImpl {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
+
             while (resultSet.next()) {
                 int appointmentID = resultSet.getInt("Appointment_ID");
                 String title = resultSet.getString("Title");
@@ -337,8 +346,7 @@ public class AppointmentsDaoImpl {
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
 
-                Calendar cal = Calendar.getInstance();
-                cal.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
+
 //                System.out.println("resultSet.getString(\"Start\"): "+resultSet.getString("Start")); //this is correct
 //                System.out.println("resultSet.getTimestamp(\"Start\"): "+resultSet.getTimestamp( "Start", cal)); //this is incorrect by an 1hr
 //                System.out.println("resultSet.getString(\"End\"): "+resultSet.getString("End"));
@@ -403,6 +411,7 @@ public class AppointmentsDaoImpl {
                 "VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?, ?, ?);";
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
+
 
         preparedStatement.setString(1, title.getValue());
         preparedStatement.setString(2, description);
