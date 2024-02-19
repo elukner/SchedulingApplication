@@ -53,6 +53,9 @@ public class AppointmentsDaoImpl {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
+
             // Process the result set and create Appointments objects
             while (resultSet.next()) {
                 int appointmentID = resultSet.getInt("Appointment_ID");
@@ -60,8 +63,8 @@ public class AppointmentsDaoImpl {
                 String description = resultSet.getString("Description");
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
-                Timestamp start = resultSet.getTimestamp("Start");
-                Timestamp end = resultSet.getTimestamp("End");
+                Timestamp start = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "Start", cal).toLocalDateTime(),ZoneId.systemDefault()));
+                Timestamp end = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "End", cal).toLocalDateTime(),ZoneId.systemDefault()));
                 String createDate = resultSet.getString("Create_Date");
                 String createdBy = resultSet.getString("Created_By");
                 String lastUpdate = resultSet.getString("Last_Update");
@@ -101,6 +104,9 @@ public class AppointmentsDaoImpl {
             statement.setString(2, startDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             statement.setString(3, endDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
+
+
+
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     int overlappingAppointmentsCount = resultSet.getInt(1);
@@ -139,6 +145,7 @@ public class AppointmentsDaoImpl {
             statement.setString(3, startDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             statement.setString(4, endDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
+
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     int overlappingAppointmentsCount = resultSet.getInt(1);
@@ -170,14 +177,17 @@ public class AppointmentsDaoImpl {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
+
             while (resultSet.next()) {
                 int appointmentID = resultSet.getInt("Appointment_ID");
                 String title = resultSet.getString("Title");
                 String description = resultSet.getString("Description");
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
-                Timestamp start = resultSet.getTimestamp("Start");
-                Timestamp end = resultSet.getTimestamp("End");
+                Timestamp start = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "Start", cal).toLocalDateTime(),ZoneId.systemDefault()));
+                Timestamp end = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "End", cal).toLocalDateTime(),ZoneId.systemDefault()));
                 String createDate = resultSet.getString("Create_Date");
                 String createdBy = resultSet.getString("Created_By");
                 String lastUpdate = resultSet.getString("Last_Update");
