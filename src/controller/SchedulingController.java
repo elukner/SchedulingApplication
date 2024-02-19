@@ -534,6 +534,7 @@ public class SchedulingController extends Application implements Initializable {
      */
     private void addCustomerDatabase() throws SQLException {
         AppointmentsDaoImpl.resetAutoIncrement();
+
         System.out.println("addCustomerDatabase() "+appointmentsModel.getTitle() +
                 appointmentsModel.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + " "+
                 appointmentsModel.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));

@@ -9,8 +9,7 @@ package helper;
  * Time: 1:27 PM
  */
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
 
 
 /**
@@ -78,6 +77,7 @@ public abstract class JDBC {
         try {
             Class.forName(driver); // Locate Driver
             connection = DriverManager.getConnection(jdbcUrl, userName, password); // Reference Connection object
+            setUTCTimezone();
             System.out.println("This connection successful!");
 
         }
@@ -111,5 +111,15 @@ public abstract class JDBC {
         {
             System.out.println("Error:" + e.getMessage());
         }
+    }
+
+    private static int[] setUTCTimezone() throws SQLException {
+        Statement statement = JDBC.getConnection().createStatement();
+
+        String sqlStatement = "SET GLOBAL time_zone =  '+00:00'";
+        statement.addBatch(sqlStatement);
+        statement.executeBatch();
+
+        return statement.executeBatch();
     }
 }

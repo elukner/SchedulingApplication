@@ -26,7 +26,7 @@ public class DateTimeProcessing {
 //        System.out.println("utcDateTime.atZone(ZoneId.of(\"UTC\")): " +utcZonedDateTime);
 //        System.out.println("utcZonedDateTime.withZoneSameInstant(userTimeZone): "+utcZonedDateTime.withZoneSameInstant(userTimeZone));
 //        System.out.println("utcZonedDateTime.withZoneSameInstant(userTimeZone).toLocalDateTime(): "+utcZonedDateTime.withZoneSameInstant(userTimeZone).toLocalDateTime());
-//
+
         return utcZonedDateTime.withZoneSameInstant(userTimeZone).toLocalDateTime();
     }
 
@@ -42,6 +42,9 @@ public class DateTimeProcessing {
      */
     public static LocalDateTime convertLocalToUTC(LocalDateTime localDateTime, ZoneId userTimeZone) {
         ZonedDateTime localZonedDateTime = localDateTime.atZone(userTimeZone);
+        System.out.println("localDateTime.atZone(userTimeZone) "+localDateTime.atZone(userTimeZone));
+        System.out.println("localZonedDateTime.withZoneSameInstant(ZoneId.of(\"UTC\")).toLocalDateTime() "+localZonedDateTime.withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime());
+
         return localZonedDateTime.withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();
     }
 

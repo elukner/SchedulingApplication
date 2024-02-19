@@ -339,6 +339,7 @@ public class AppointmentsDaoImpl {
             Calendar cal = Calendar.getInstance();
             cal.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
 
+
             while (resultSet.next()) {
                 int appointmentID = resultSet.getInt("Appointment_ID");
                 String title = resultSet.getString("Title");
@@ -355,6 +356,7 @@ public class AppointmentsDaoImpl {
 
                 Timestamp start = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "Start", cal).toLocalDateTime(),ZoneId.systemDefault()));
                 Timestamp end = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "End", cal).toLocalDateTime(),ZoneId.systemDefault()));
+
                 String createDate = resultSet.getString("Create_Date");
                 String createdBy = resultSet.getString("Created_By");
                 String lastUpdate = resultSet.getString("Last_Update");
@@ -412,20 +414,31 @@ public class AppointmentsDaoImpl {
 
         PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sqlStatement);
 
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
 
         preparedStatement.setString(1, title.getValue());
         preparedStatement.setString(2, description);
         preparedStatement.setString(3, location);
         preparedStatement.setString(4, type);
-        preparedStatement.setTimestamp(5, Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(start, ZoneId.systemDefault())));
-        preparedStatement.setTimestamp(6, Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(end,ZoneId.systemDefault())));
+        System.out.println("Insert appointments start "+start+ZoneId.systemDefault().toString());
+        System.out.println("Insert appointments end "+end+ZoneId.systemDefault().toString());
+        System.out.println("Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(start, ZoneId.systemDefault()) " +
+                Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(start, ZoneId.systemDefault())));
+        System.out.println("Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(end, ZoneId.systemDefault()) " +
+                Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(end, ZoneId.systemDefault())));
+
+//        preparedStatement.setTimestamp(5, Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(start, ZoneId.systemDefault())));
+//        preparedStatement.setTimestamp(6, Timestamp.valueOf(DateTimeProcessing.convertLocalToUTC(end,ZoneId.systemDefault())));
+        preparedStatement.setTimestamp(5, Timestamp.valueOf(start));
+        preparedStatement.setTimestamp(6, Timestamp.valueOf(end));
         preparedStatement.setString(7, createdBy);
         preparedStatement.setString(8, lastUpdatedBy);
         preparedStatement.setInt(9, customerID);
         preparedStatement.setInt(10, userID);
         preparedStatement.setInt(11, contactID);
 
-
+        System.out.println(preparedStatement);
         return preparedStatement.executeUpdate();
     }
 
@@ -596,6 +609,7 @@ public class AppointmentsDaoImpl {
 
         return preparedStatement.executeUpdate();
     }
+
 
     /**
      * Resets the auto-increment value of the "Appointment_ID" column in the "client_schedule.appointments" table.
