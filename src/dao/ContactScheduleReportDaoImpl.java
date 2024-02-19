@@ -23,6 +23,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 /**
  * This class provides data access methods for retrieving contact schedules.
@@ -50,6 +52,8 @@ public class ContactScheduleReportDaoImpl {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
 
             while (resultSet.next()) {
                 contactID = resultSet.getInt("Contact_ID");
@@ -62,8 +66,8 @@ public class ContactScheduleReportDaoImpl {
                 String title = resultSet.getString("Title");
                 String type = resultSet.getString("Type");
                 String description = resultSet.getString("Description");
-                Timestamp start = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "Start").toLocalDateTime(), ZoneId.systemDefault()));
-                Timestamp end = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "End").toLocalDateTime(),ZoneId.systemDefault()));
+                Timestamp start = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "Start",cal).toLocalDateTime(), ZoneId.systemDefault()));
+                Timestamp end = Timestamp.valueOf(DateTimeProcessing.convertUTCToLocal(resultSet.getTimestamp( "End",cal).toLocalDateTime(),ZoneId.systemDefault()));
                 int customerID = resultSet.getInt("Customer_ID");
 
                 ContactScheduleReport contactScheduleReport = new ContactScheduleReport(new ReadOnlyIntegerWrapper(contactID),
