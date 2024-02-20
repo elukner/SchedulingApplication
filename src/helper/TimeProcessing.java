@@ -195,7 +195,7 @@ public class TimeProcessing {
             timeOptions.add(currentTime);
             currentTime = currentTime.plusHours(1); // Move to the next hour
         }
-
+        timeOptions.add(LocalTime.of(23,0,0));
         return timeOptions;
 
 //        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
