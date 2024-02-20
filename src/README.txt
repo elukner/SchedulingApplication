@@ -41,10 +41,10 @@ customer records and appointments.
 **Additional Report Description (A3f):**
 ------------------------------------------
 
-The additional report generated provides a summary of appointment summary by user.
-This report provides a summary of appointments grouped by the users who created or managed them.
-This report offers valuable insights into the appointment-related activities of different users
-within the system.
+The additional report generated provides an appointment summary by user currently logged in.
+This report provides a summary of appointments grouped by the user who created or managed them.
+This report offers valuable insights into the appointment-related activities of the user logged into
+the system.
 
 ------------------------------------------------------
 **MySQL Connector Driver Version Information:**
